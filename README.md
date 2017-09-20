@@ -72,6 +72,7 @@ Turn on your repo in [Travis CI][travis], replace the build status image in this
 
 ## Resources
 
+- [Angular Tour of Heroes tutorial][tour-of-heroes]
 - [What _is_ Angular 4 and Typescript?][angular-2-4]
 - [What _is_ Angular CLI?][angular-cli]
 - [What are environments in Angular CLI?][environments]
@@ -80,6 +81,7 @@ Turn on your repo in [Travis CI][travis], replace the build status image in this
 - [Angular CLI commands](https://github.com/angular/angular-cli/wiki)
 
 
+[tour-of-heroes]: https://angular.io/tutorial
 [angular-cli]: https://idyllic.co/blog/beginners-guide-angular-cli/
 [angular-2-4]: https://www.technicaldiary.com/angular-2-tutorial-for-beginners-angular-4-tutorial-for-beginners/
 [angular4-karma-jasmine]: https://codecraft.tv/courses/angular/unit-testing/jasmine-and-karma/
