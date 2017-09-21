@@ -78,7 +78,8 @@ Turn on your repo in [Travis CI][travis], replace the build status image in this
 - [What are environments in Angular CLI?][environments]
 - [Testing Angular 2 with Karma/Jasmine][angular4-karma-jasmine]
 - [End to end testing (e2e) with protactor and Angular CLI][e2e-testing]
-- [Angular CLI commands](https://github.com/angular/angular-cli/wiki)
+- [Angular CLI commands][angular-cli-commands]
+- [HTTP Status Codes][status-codes]
 
 
 [tour-of-heroes]: https://angular.io/tutorial
@@ -89,5 +90,7 @@ Turn on your repo in [Travis CI][travis], replace the build status image in this
 [environments]: http://tattoocoder.com/angular-cli-using-the-environment-option/
 [labtasks]: LABTASKS.md
 [travis]: https://travis-ci.org/
+[angular-cli-commands]: https://github.com/angular/angular-cli/wiki
+[status-codes]: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 
 
