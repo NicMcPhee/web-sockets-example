@@ -1,5 +1,4 @@
 // Server side build.gradle
-// Builds the server-side of the project
 
 repositories {
     mavenCentral()
@@ -11,31 +10,16 @@ apply plugin: 'application'
 mainClassName = 'umm3601.Server'
 
 dependencies {
-    compile 'com.sparkjava:spark-core:2.6.0'
+    compile 'com.sparkjava:spark-core:2.7.1'
     compile 'com.sparkjava:spark-debug-tools:0.5'
     compile 'org.slf4j:slf4j-simple:1.7.25'
-    compile 'com.google.code.gson:gson:2.8.1'
+    compile 'com.google.code.gson:gson:2.8.2'
     compile files('./src/libs/3601-lab3-todos.jar')
-
-    testCompile 'junit:junit:4.12'
-}
-
-//Only server tests
-task runServerTests {
-    group = "application"
-}
-runServerTests.dependsOn testClasses
-
-//Both karma and junit tests
-task runAllTests {
-    group = "application"
 }
 
 task buildExecutable {
     group = "application"
 }
 buildExecutable.dependsOn(build)
-
-runAllTests.dependsOn test
 
 test.dependsOn(":client:runClientTests")
