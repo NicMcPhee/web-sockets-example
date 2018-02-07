@@ -17,7 +17,7 @@ browser.driver.controlFlow().execute = function () {
     return origFn.apply(browser.driver.controlFlow(), args);
 };
 
-describe('angular-spark-lab', () => {
+describe('User list', () => {
     let page: UserPage;
 
     beforeEach(() => {
@@ -29,7 +29,7 @@ describe('angular-spark-lab', () => {
         expect(page.getUserTitle()).toEqual('User Name');
     });
 
-    it('should type something in filer name box and check that it returned correct element', () => {
+    it('should type something in filter name box and check that it returned correct element', () => {
         page.navigateTo();
         page.typeAName("Lynn");
         expect(page.getFirstUser()).toEqual("Lynn Ferguson is 25 years old");
