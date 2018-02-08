@@ -3,6 +3,9 @@ import {User} from "./user";
 import {UserListComponent} from "./user-list.component";
 import {UserListService} from "./user-list.service";
 import {Observable} from "rxjs";
+import {FormsModule} from "@angular/forms";
+import {CustomModule} from "../custom.module";
+import {MATERIAL_COMPATIBILITY_MODE} from "@angular/material";
 
 describe("User list", () => {
 
@@ -42,11 +45,13 @@ describe("User list", () => {
         };
 
         TestBed.configureTestingModule({
-            //imports: [PipeModule],
+            imports: [CustomModule],
             declarations: [UserListComponent],
             // providers:    [ UserListService ]  // NO! Don't provide the real service!
             // Provide a test-double instead
-            providers: [{provide: UserListService, useValue: userListServiceStub}]
+            providers: [{provide: UserListService, useValue: userListServiceStub},
+            {provide: MATERIAL_COMPATIBILITY_MODE, useValue: true}]
+
         })
     });
 
@@ -77,6 +82,39 @@ describe("User list", () => {
     it("has two users that are 37 years old", () => {
         expect(userList.users.filter((user: User) => user.age === 37).length).toBe(2);
     });
+    it("user list filters by name", () => {
+        expect(userList.filteredUsers.length).toBe(3);
+        userList.userName = "a";
+        let a : Observable<User[]> = userList.refreshUsers();
+        a.do(x => Observable.of(x))
+            .subscribe(x =>
+            {
+                expect(userList.filteredUsers.length).toBe(2);
+            });
+    });
+
+    it("user list filters by age", () => {
+        expect(userList.filteredUsers.length).toBe(3);
+        userList.userAge = 37;
+        let a : Observable<User[]> = userList.refreshUsers();
+        a.do(x => Observable.of(x))
+            .subscribe(x =>
+            {
+                expect(userList.filteredUsers.length).toBe(2);
+            });
+    });
+
+    it("user list filters by name and age", () => {
+        expect(userList.filteredUsers.length).toBe(3);
+        userList.userAge = 37;
+        userList.userName = "i";
+        let a : Observable<User[]> = userList.refreshUsers();
+        a.do(x => Observable.of(x))
+            .subscribe(x =>
+            {
+                expect(userList.filteredUsers.length).toBe(1);
+            });
+    });
 
 });
 
@@ -97,8 +135,10 @@ describe("Misbehaving User List", () => {
         };
 
         TestBed.configureTestingModule({
+            imports: [FormsModule, CustomModule],
             declarations: [UserListComponent],
-            providers: [{provide: UserListService, useValue: userListServiceStub}]
+            providers: [{provide: UserListService, useValue: userListServiceStub},
+                {provide: MATERIAL_COMPATIBILITY_MODE, useValue: true}]
         })
     });
 
