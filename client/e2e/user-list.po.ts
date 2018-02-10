@@ -43,8 +43,8 @@ export class UserPage {
     }
 
     getFirstUser() {
-        let user = element(by.id('users')).getText();
-        this.highlightElement(by.id('users'));
+        let user = element(by.className('user')).getText();
+        this.highlightElement(by.className('user'));
 
         return user;
     }

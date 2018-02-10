@@ -12,7 +12,7 @@
 </ul>
 
 <ul class="list-group" *ngIf="users; else usersError">
-    <li id="users" *ngFor="let user of this.filterUsers(userName, userAge)" class="list-group-item">
+    <li *ngFor="let user of this.filterUsers(userName, userAge)" class="list-group-item" class="user">
         {{ user.name }} is {{ user.age }} years old
     </li>
 </ul>
