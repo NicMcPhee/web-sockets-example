@@ -27,7 +27,7 @@ export class UserPage {
     }
 
     typeAName(name: string) {
-        let input = element(by.tagName('input'));
+        let input = element(by.className('name-input'));
         input.click();
         input.sendKeys(name);
     }
