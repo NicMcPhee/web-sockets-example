@@ -36,15 +36,15 @@ export class UserPage {
         browser.actions().sendKeys(Key.ARROW_UP).perform();
     }
 
-    getUserByAge() {
-        let input = element(by.tagName('input'));
+    getUserByAge(age: number) {
+        let input = element(by.className('age-input'));
         input.click();
-        input.sendKeys(Key.TAB);
+        input.sendKeys(age);
     }
 
     getFirstUser() {
-        let user = element(by.className('user')).getText();
-        this.highlightElement(by.className('user'));
+        let user = element(by.className('users')).getText();
+        this.highlightElement(by.className('users'));
 
         return user;
     }

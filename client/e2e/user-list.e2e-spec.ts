@@ -37,10 +37,10 @@ describe('angular-spark-lab', () => {
 
     it('should click on the age 27 times and return 3 elements then ', () => {
         page.navigateTo();
-        page.getUserByAge();
-        for (let i = 0; i < 27; i++) {
+        page.getUserByAge(27);
+        /*for (let i = 0; i < 27; i++) {
             page.selectUpKey();
-        }
+        }*/
 
         expect(page.getFirstUser()).toEqual("Stokes Clayton is 27 years old");
 
