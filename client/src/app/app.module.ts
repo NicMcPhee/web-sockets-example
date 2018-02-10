@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {HttpModule, JsonpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
 
 import {AppComponent} from './app.component';
 import {NavbarComponent} from './navbar/navbar.component';
@@ -15,8 +15,7 @@ import {APP_BASE_HREF} from "@angular/common";
 @NgModule({
     imports: [
         BrowserModule,
-        HttpModule,
-        JsonpModule,
+        HttpClientModule,
         Routing,
         FormsModule,
     ],
