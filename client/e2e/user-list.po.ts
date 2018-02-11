@@ -27,7 +27,7 @@ export class UserPage {
     }
 
     typeAName(name: string) {
-        let input = element(by.tagName('input'));
+        let input = element(by.className('name-input'));
         input.click();
         input.sendKeys(name);
     }
@@ -36,16 +36,14 @@ export class UserPage {
         browser.actions().sendKeys(Key.ARROW_UP).perform();
     }
 
-    getUserByAge() {
-        let input = element(by.tagName('input'));
+    getUserByAge(age: number) {
+        let input = element(by.className('age-input'));
         input.click();
-        input.sendKeys(Key.TAB);
+        input.sendKeys(age);
     }
 
     getFirstUser() {
-        let user = element(by.id('users')).getText();
-        this.highlightElement(by.id('users'));
-
+        let user = element.all(by.className('users')).first().getText();
         return user;
     }
 }

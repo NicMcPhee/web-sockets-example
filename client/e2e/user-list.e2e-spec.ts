@@ -35,12 +35,9 @@ describe('User list', () => {
         expect(page.getFirstUser()).toEqual("Lynn Ferguson is 25 years old");
     });
 
-    it('should click on the age 27 times and return 3 elements then ', () => {
+    it('should type 27 into the age field and return 3 elements ', () => {
         page.navigateTo();
-        page.getUserByAge();
-        for (let i = 0; i < 27; i++) {
-            page.selectUpKey();
-        }
+        page.getUserByAge(27);
 
         expect(page.getFirstUser()).toEqual("Stokes Clayton is 27 years old");
 
