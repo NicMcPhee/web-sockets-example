@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 
 import {Observable} from "rxjs";
-import "rxjs/add/operator/map";
 
 import {User} from './user';
 import {environment} from "../../environments/environment";
@@ -11,15 +10,20 @@ import {environment} from "../../environments/environment";
 export class UserListService {
     private userUrl: string = environment.API_URL + "users";
 
-    constructor(private http: Http) {
+    constructor(private httpClient: HttpClient) {
     }
 
     getUsers(): Observable<User[]> {
-        let observable: Observable<any> = this.http.request(this.userUrl);
+        // return null;
+        /*
+        let observable: Observable<any> = this.httpClient.get(this.userUrl);
         return observable.map(res => res.json());
+        */
+        return this.httpClient.get<User[]>(this.userUrl);
     }
 
     getUserById(id: string): Observable<User> {
-        return this.http.request(this.userUrl + "/" + id).map(res => res.json());
+        // return null;
+        return this.httpClient.get<User>(this.userUrl + "/" + id);
     }
 }

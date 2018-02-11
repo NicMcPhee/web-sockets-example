@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {HttpModule, JsonpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
 
 import { MATERIAL_COMPATIBILITY_MODE } from '@angular/material';
 
@@ -18,8 +18,7 @@ import {UserComponent} from "./users/user.component";
 @NgModule({
     imports: [
         BrowserModule,
-        HttpModule,
-        JsonpModule,
+        HttpClientModule,
         Routing,
         CustomModule,
     ],

@@ -24,9 +24,9 @@
     "@ngtools/json-schema" "^1.1.0"
     rxjs "^5.5.6"
 
-"@angular/animations@^4.4.3":
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-4.4.6.tgz#fa661899a8a4e38cb7c583c7a5c97ce65d592a35"
+"@angular/animations@^5.0.0":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-5.2.4.tgz#c5ec749d84a0434733a28a82c6cb6a4e15246201"
   dependencies:
     tslib "^1.7.1"
 
@@ -96,45 +96,48 @@
   optionalDependencies:
     node-sass "^4.3.0"
 
-"@angular/common@^4.4.3":
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/@angular/common/-/common-4.4.6.tgz#4b81420724e0828a0e839b95a55eb1a7e83918f2"
+"@angular/common@^5.0.0":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@angular/common/-/common-5.2.4.tgz#a0ee6ef65f731196d3037bce515f7bbec90740d2"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/compiler-cli@^4.4.3":
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-4.4.6.tgz#bafd3d1e260e99087eb9a8cf7532dbd603abb9b1"
+"@angular/compiler-cli@^5.0.0":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-5.2.4.tgz#6d236f8433abe6752441e20884e599e8aa13c567"
   dependencies:
-    "@angular/tsc-wrapped" "4.4.6"
+    chokidar "^1.4.2"
     minimist "^1.2.0"
     reflect-metadata "^0.1.2"
+    tsickle "^0.26.0"
 
-"@angular/compiler@^4.4.3":
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-4.4.6.tgz#2ee1faf25b757e1d128979074be7fae529b3bc20"
+"@angular/compiler@^5.0.0":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-5.2.4.tgz#f653176bf6c4e253b2c445a1e50941ffba009fb2"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/core@^4.4.3":
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/@angular/core/-/core-4.4.6.tgz#13031fd10dcfe438875419b38f21120958bc2354"
+"@angular/core@^5.0.0":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@angular/core/-/core-5.2.4.tgz#44a59bcea87b3aac9ce8ff2ff674fe9cb60e2041"
   dependencies:
     tslib "^1.7.1"
 
 "@angular/flex-layout@^2.0.0-beta.9":
-  version "2.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@angular/flex-layout/-/flex-layout-2.0.0-rc.1.tgz#96fa7f85b2c4bacf2784913a2d607e2ed23dc7f1"
-
-"@angular/forms@^4.4.3":
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-4.4.6.tgz#fe64ace42435c1b80f49034b7c41ce8caf14a44a"
+  version "2.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@angular/flex-layout/-/flex-layout-2.0.0-beta.12.tgz#80970dc1d60f27fa41537659926f3238f759f343"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/http@^4.4.3":
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/@angular/http/-/http-4.4.6.tgz#0af680c6710bdc026d940e225cfd0f6a5c005d0c"
+"@angular/forms@^5.0.0":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-5.2.4.tgz#a731087e147ca61f5051cbe22597a24d937c4852"
+  dependencies:
+    tslib "^1.7.1"
+
+"@angular/http@^5.0.0":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@angular/http/-/http-5.2.4.tgz#da2764875196c3a2c8412457714057e56a6545e2"
   dependencies:
     tslib "^1.7.1"
 
@@ -148,29 +151,31 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-browser-dynamic@^4.4.3":
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-4.4.6.tgz#4d3d9a6a7bf2cf3de4058a615ae059eff641fa36"
+"@angular/platform-browser-dynamic@^5.0.0":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-5.2.4.tgz#708457c9aafb1b812187c95d10365685521314d4"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-browser@^4.4.3":
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-4.4.6.tgz#a9839c547e1b654fa1d24a89780c8ba6ab8dcce0"
+"@angular/platform-browser@^5.0.0":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-5.2.4.tgz#dcb2dc6083774dcf2e17c9e9d0653d87057bf732"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/router@^4.4.3":
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/@angular/router/-/router-4.4.6.tgz#0f6ad29ae0ff8d2c9ea379bd320447217b7ec866"
+"@angular/platform-server@^5.0.0":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-5.2.4.tgz#9ee3313ba4a1c09528206d6de74be60be9bdd0ad"
+  dependencies:
+    domino "^1.0.29"
+    tslib "^1.7.1"
+    xhr2 "^0.1.4"
+
+"@angular/router@^5.0.0":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@angular/router/-/router-5.2.4.tgz#21b81958aaf8335454a55ba28ea37166edbcb042"
   dependencies:
     tslib "^1.7.1"
-
-"@angular/tsc-wrapped@4.4.6":
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/@angular/tsc-wrapped/-/tsc-wrapped-4.4.6.tgz#16787cbbf50bdc7e738123b19c32527f244e178d"
-  dependencies:
-    tsickle "^0.21.0"
 
 "@covalent/core@1.0.0-beta.8":
   version "1.0.0-beta.8"
@@ -178,13 +183,9 @@
   dependencies:
     tslib "^1.7.1"
 
-"@ngtools/json-schema@1.1.0":
+"@ngtools/json-schema@1.1.0", "@ngtools/json-schema@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@ngtools/json-schema/-/json-schema-1.1.0.tgz#c3a0c544d62392acc2813a42c8a0dc6f58f86922"
-
-"@ngtools/json-schema@^1.1.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@ngtools/json-schema/-/json-schema-1.2.0.tgz#06e5ecd29e9a37d260a447dd873ea2becd228c4f"
 
 "@ngtools/webpack@1.7.2":
   version "1.7.2"
@@ -200,6 +201,10 @@
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-0.0.49.tgz#c00ca573756d6a79ee518b05eab5fe6e7b73f341"
   dependencies:
     "@angular-devkit/core" "0.0.20"
+
+"@types/core-js@^0.9.46":
+  version "0.9.46"
+  resolved "https://registry.yarnpkg.com/@types/core-js/-/core-js-0.9.46.tgz#ea701ee34cbb6dfe6d100f1530319547c93c8d79"
 
 "@types/jasmine@*":
   version "2.6.0"
@@ -912,7 +917,7 @@ charenc@~0.0.1:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/charenc/-/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
 
-chokidar@^1.4.1, chokidar@^1.6.0, chokidar@^1.7.0:
+chokidar@^1.4.1, chokidar@^1.4.2, chokidar@^1.6.0, chokidar@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-1.7.0.tgz#798e689778151c8076b4b360e5edd28cda2bb468"
   dependencies:
@@ -1179,18 +1184,16 @@ copy-concurrently@^1.0.0:
     run-queue "^1.0.0"
 
 copy-webpack-plugin@^4.0.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/copy-webpack-plugin/-/copy-webpack-plugin-4.3.1.tgz#19ba6370bf6f8e263cbd66185a2b79f2321a9302"
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/copy-webpack-plugin/-/copy-webpack-plugin-4.4.1.tgz#1e8c366211db6dc2ddee40e5a3e4fc661dd149e8"
   dependencies:
     cacache "^10.0.1"
     find-cache-dir "^1.0.0"
     globby "^7.1.1"
     is-glob "^4.0.0"
     loader-utils "^0.2.15"
-    lodash "^4.3.0"
     minimatch "^3.0.4"
     p-limit "^1.0.0"
-    pify "^3.0.0"
     serialize-javascript "^1.4.0"
 
 core-js@^2.2.0, core-js@^2.4.0, core-js@^2.4.1:
@@ -1636,6 +1639,10 @@ domhandler@2.1:
   resolved "https://registry.yarnpkg.com/domhandler/-/domhandler-2.1.0.tgz#d2646f5e57f6c3bab11cf6cb05d3c0acf7412594"
   dependencies:
     domelementtype "1"
+
+domino@^1.0.29:
+  version "1.0.30"
+  resolved "https://registry.yarnpkg.com/domino/-/domino-1.0.30.tgz#54a4154ecae968616680f8feba3cedff355c71f4"
 
 domutils@1.1:
   version "1.1.6"
@@ -3411,7 +3418,7 @@ lodash@^3.8.0:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
-lodash@^4.0.0, lodash@^4.11.1, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.3.0, lodash@^4.5.0, lodash@~4.17.4:
+lodash@^4.0.0, lodash@^4.11.1, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.5.0, lodash@~4.17.4:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -4550,6 +4557,10 @@ process-nextick-args@~1.0.6:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-1.0.7.tgz#150e20b756590ad3f91093f25a4f2ad8bff30ba3"
 
+process-nextick-args@~2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.0.tgz#a37d732f4271b4ab1ad070d35508e8290788ffaa"
+
 process@^0.11.0:
   version "0.11.10"
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
@@ -4786,14 +4797,14 @@ read-pkg@^2.0.0:
     normalize-package-data "^2.3.2"
     path-type "^2.0.0"
 
-"readable-stream@1 || 2", readable-stream@^2.0.0, readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.4, readable-stream@^2.0.5, readable-stream@^2.0.6, readable-stream@^2.1.4, readable-stream@^2.1.5, readable-stream@^2.2.2, readable-stream@^2.2.6, readable-stream@^2.2.9:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.3.tgz#368f2512d79f9d46fdfc71349ae7878bbc1eb95c"
+"readable-stream@1 || 2", readable-stream@^2.0.0, readable-stream@^2.0.4, readable-stream@^2.1.5, readable-stream@^2.2.2:
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.4.tgz#c946c3f47fa7d8eabc0b6150f4a12f69a4574071"
   dependencies:
     core-util-is "~1.0.0"
     inherits "~2.0.3"
     isarray "~1.0.0"
-    process-nextick-args "~1.0.6"
+    process-nextick-args "~2.0.0"
     safe-buffer "~5.1.1"
     string_decoder "~1.0.3"
     util-deprecate "~1.0.1"
@@ -4806,6 +4817,18 @@ readable-stream@1.0, readable-stream@~1.0.2:
     inherits "~2.0.1"
     isarray "0.0.1"
     string_decoder "~0.10.x"
+
+readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.5, readable-stream@^2.0.6, readable-stream@^2.1.4, readable-stream@^2.2.6, readable-stream@^2.2.9:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.3.tgz#368f2512d79f9d46fdfc71349ae7878bbc1eb95c"
+  dependencies:
+    core-util-is "~1.0.0"
+    inherits "~2.0.3"
+    isarray "~1.0.0"
+    process-nextick-args "~1.0.6"
+    safe-buffer "~5.1.1"
+    string_decoder "~1.0.3"
+    util-deprecate "~1.0.1"
 
 readdirp@^2.0.0:
   version "2.1.0"
@@ -5008,7 +5031,7 @@ rxjs@^5.4.2:
   dependencies:
     symbol-observable "^1.0.1"
 
-rxjs@^5.5.6:
+rxjs@^5.5.2, rxjs@^5.5.6:
   version "5.5.6"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.6.tgz#e31fb96d6fd2ff1fd84bcea8ae9c02d007179c02"
   dependencies:
@@ -5722,9 +5745,9 @@ tsconfig@^6.0.0:
     strip-bom "^3.0.0"
     strip-json-comments "^2.0.0"
 
-tsickle@^0.21.0:
-  version "0.21.6"
-  resolved "https://registry.yarnpkg.com/tsickle/-/tsickle-0.21.6.tgz#53b01b979c5c13fdb13afb3fb958177e5991588d"
+tsickle@^0.26.0:
+  version "0.26.0"
+  resolved "https://registry.yarnpkg.com/tsickle/-/tsickle-0.26.0.tgz#40b30a2dd6abcb33b182e37596674bd1cfe4039c"
   dependencies:
     minimist "^1.2.0"
     mkdirp "^0.5.1"
@@ -5780,13 +5803,13 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
+typescript@2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.4.2.tgz#f8395f85d459276067c988aa41837a8f82870844"
+
 "typescript@>=2.0.0 <2.6.0":
   version "2.5.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.5.3.tgz#df3dcdc38f3beb800d4bc322646b04a3f6ca7f0d"
-
-typescript@~2.3.3:
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.3.4.tgz#3d38321828231e434f287514959c37a82b629f42"
 
 typescript@~2.6.2:
   version "2.6.2"
@@ -6221,6 +6244,10 @@ ws@^1.0.1:
 wtf-8@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/wtf-8/-/wtf-8-1.0.0.tgz#392d8ba2d0f1c34d1ee2d630f15d0efb68e1048a"
+
+xhr2@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/xhr2/-/xhr2-0.1.4.tgz#7f87658847716db5026323812f818cadab387a5f"
 
 xml-char-classes@^1.0.0:
   version "1.0.0"
