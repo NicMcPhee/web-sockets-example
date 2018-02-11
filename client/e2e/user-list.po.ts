@@ -44,7 +44,6 @@ export class UserPage {
 
     getFirstUser() {
         let user = element.all(by.className('users')).first().getText();
-        this.highlightElement(by.className('users'));
         return user;
     }
 }
