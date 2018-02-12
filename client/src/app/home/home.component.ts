@@ -7,6 +7,6 @@ export class HomeComponent {
     public text: string;
 
     constructor() {
-        this.text = "Angular Spark lab";
+        this.text = 'Angular Spark lab';
     }
 }
