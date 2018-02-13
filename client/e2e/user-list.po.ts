@@ -20,14 +20,14 @@ export class UserPage {
     }
 
     getUserTitle() {
-        let title = element(by.id('title')).getText();
-        this.highlightElement(by.id('title'));
+        let title = element(by.id('user-list-title')).getText();
+        this.highlightElement(by.id('user-list-title'));
 
         return title;
     }
 
     typeAName(name: string) {
-        let input = element(by.className('name-input'));
+        let input = element(by.id('userName'));
         input.click();
         input.sendKeys(name);
     }
@@ -36,14 +36,21 @@ export class UserPage {
         browser.actions().sendKeys(Key.ARROW_UP).perform();
     }
 
-    getUserByAge(age: number) {
-        let input = element(by.className('age-input'));
+    getUserByAge() {
+        let input = element(by.id('userName'));
         input.click();
-        input.sendKeys(age);
+        input.sendKeys(Key.TAB);
     }
 
-    getFirstUser() {
-        let user = element.all(by.className('users')).first().getText();
+    backspace(){
+        browser.actions().sendKeys(Key.BACK_SPACE).perform();
+    }
+
+
+    getUniqueUser(email:string) {
+        let user = element(by.id(email)).getText();
+        this.highlightElement(by.id(email));
+
         return user;
     }
 }

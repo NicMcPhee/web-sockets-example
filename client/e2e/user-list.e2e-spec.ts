@@ -26,24 +26,28 @@ describe('User list', () => {
 
     it('should get and highlight User Name attribute ', () => {
         page.navigateTo();
-        expect(page.getUserTitle()).toEqual('User Name');
+        expect(page.getUserTitle()).toEqual('Users');
     });
 
     it('should type something in filter name box and check that it returned correct element', () => {
         page.navigateTo();
-        page.typeAName("Lynn");
-        expect(page.getFirstUser()).toEqual("Lynn Ferguson is 25 years old");
+        page.typeAName("t");
+        expect(page.getUniqueUser("kittypage@surelogic.com")).toEqual("Kitty Page");
+        page.backspace();
+        page.typeAName("lynn")
+        expect(page.getUniqueUser("lynnferguson@niquent.com")).toEqual("Lynn Ferguson");
     });
 
-    it('should type 27 into the age field and return 3 elements ', () => {
+    it('should click on the age 27 times and return 3 elements', () => {
         page.navigateTo();
-        page.getUserByAge(27);
+        page.getUserByAge();
+        for (let i = 0; i < 27; i++) {
+            page.selectUpKey();
+        }
 
-        expect(page.getFirstUser()).toEqual("Stokes Clayton is 27 years old");
+        expect(page.getUniqueUser("stokesclayton@momentia.com")).toEqual("Stokes Clayton");
 
-        page.typeAName("Merrill");
-
-        expect(page.getFirstUser()).toEqual("Merrill Parker is 27 years old");
+        expect(page.getUniqueUser("merrillparker@escenta.com")).toEqual("Merrill Parker");
 
     });
 });

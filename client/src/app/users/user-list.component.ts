@@ -1,10 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {UserListService} from "./user-list.service";
 import {User} from "./user";
+import {Observable} from "rxjs";
 
 @Component({
     selector: 'user-list-component',
     templateUrl: 'user-list.component.html',
+    styleUrls: ['./user-list.component.css'],
     providers: []
 })
 
@@ -13,11 +15,16 @@ export class UserListComponent implements OnInit {
     public users: User[];
     public filteredUsers: User[];
 
+    public userName : string;
+    public userAge : number;
+
+
     //Inject the UserListService into this component.
     //That's what happens in the following constructor.
     //
     //We can call upon the service for interacting
     //with the server.
+
     constructor(private userListService: UserListService) {
 
     }
@@ -45,20 +52,31 @@ export class UserListComponent implements OnInit {
         return this.filteredUsers;
     }
 
-    ngOnInit(): void {
+    /**
+     * Starts an asynchronous operation to update the users list
+     *
+     */
+    refreshUsers(): Observable<User[]> {
         //Get Users returns an Observable, basically a "promise" that
         //we will get the data from the server.
         //
         //Subscribe waits until the data is fully downloaded, then
         //performs an action on it (the first lambda)
-        this.userListService.getUsers().subscribe(
+
+        let users : Observable<User[]> = this.userListService.getUsers();
+        users.subscribe(
             users => {
                 this.users = users;
-                this.filteredUsers = this.users;
+                this.filterUsers(this.userName, this.userAge);
             },
             err => {
                 console.log(err);
-            }
-        );
+            });
+        return users;
+    }
+
+
+    ngOnInit(): void {
+        this.refreshUsers();
     }
 }
