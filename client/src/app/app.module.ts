@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
 
-import { MATERIAL_COMPATIBILITY_MODE } from '@angular/material';
+import {MATERIAL_COMPATIBILITY_MODE} from '@angular/material';
 
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
@@ -16,25 +16,25 @@ import {UserComponent} from './users/user.component';
 
 
 @NgModule({
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        Routing,
-        CustomModule,
-    ],
-    declarations: [
-        AppComponent,
-        HomeComponent,
-        UserListComponent,
-        UserComponent,
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    Routing,
+    CustomModule,
+  ],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    UserListComponent,
+    UserComponent,
 
-    ],
-    providers: [
-        UserListService,
-        {provide: APP_BASE_HREF, useValue: '/'},
-        {provide: MATERIAL_COMPATIBILITY_MODE, useValue: true}
-    ],
-    bootstrap: [AppComponent]
+  ],
+  providers: [
+    UserListService,
+    {provide: APP_BASE_HREF, useValue: '/'},
+    {provide: MATERIAL_COMPATIBILITY_MODE, useValue: true}
+  ],
+  bootstrap: [AppComponent]
 })
 
 export class AppModule {

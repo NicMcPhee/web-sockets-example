@@ -1,4 +1,4 @@
-import {browser, element, by, Key} from 'protractor';
+import {browser, by, element, Key} from 'protractor';
 
 export class UserPage {
     navigateTo() {
