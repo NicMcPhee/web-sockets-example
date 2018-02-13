@@ -2,32 +2,32 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import {User} from "./user";
-import {UserListService} from "./user-list.service";
+import {User} from './user';
+import {UserListService} from './user-list.service';
 
-describe("User list service: ", () => {
+describe('User list service: ', () => {
     // A small collection of test users
     const testUsers: User[] = [
         {
-            id: "chris_id",
-            name: "Chris",
+            id: 'chris_id',
+            name: 'Chris',
             age: 25,
-            company: "UMM",
-            email: "chris@this.that"
+            company: 'UMM',
+            email: 'chris@this.that'
         },
         {
-            id: "pat_id",
-            name: "Pat",
+            id: 'pat_id',
+            name: 'Pat',
             age: 37,
-            company: "IBM",
-            email: "pat@something.com"
+            company: 'IBM',
+            email: 'pat@something.com'
         },
         {
-            id: "jamie_id",
-            name: "Jamie",
+            id: 'jamie_id',
+            name: 'Jamie',
             age: 37,
-            company: "Frogs, Inc.",
-            email: "jamie@frogs.com"
+            company: 'Frogs, Inc.',
+            email: 'jamie@frogs.com'
         }
     ];
     let userListService: UserListService;
@@ -54,7 +54,7 @@ describe("User list service: ", () => {
         httpTestingController.verify();
     });
 
-    it("getUsers() calls api/users", () => {
+    it('getUsers() calls api/users', () => {
         // Assert that the users we get from this call to getUsers()
         // should be our set of test users. Because we're subscribing
         // to the result of getUsers(), this won't actually get
@@ -75,14 +75,14 @@ describe("User list service: ", () => {
         req.flush(testUsers);
     });
 
-    it ("getUserById() calls api/users/id", () => {
+    it ('getUserById() calls api/users/id', () => {
         const targetUser: User = testUsers[1];
         const targetId: string = targetUser.id;
         userListService.getUserById(targetId).subscribe(
             user => expect(user).toBe(targetUser)
         );
 
-        const expectedUrl: string = userListService.userUrl + "/" + targetId;
+        const expectedUrl: string = userListService.userUrl + '/' + targetId;
         const req = httpTestingController.expectOne(expectedUrl);
         expect(req.request.method).toEqual('GET');
         req.flush(targetUser);

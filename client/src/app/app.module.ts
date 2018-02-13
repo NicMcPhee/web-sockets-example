@@ -9,10 +9,10 @@ import {HomeComponent} from './home/home.component';
 import {UserListComponent} from './users/user-list.component';
 import {UserListService} from './users/user-list.service';
 import {Routing} from './app.routes';
-import {APP_BASE_HREF} from "@angular/common";
+import {APP_BASE_HREF} from '@angular/common';
 
-import {CustomModule} from "./custom.module";
-import {UserComponent} from "./users/user.component";
+import {CustomModule} from './custom.module';
+import {UserComponent} from './users/user.component';
 
 
 @NgModule({

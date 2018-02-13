@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {UserListService} from "./user-list.service";
-import {User} from "./user";
+import {UserListService} from './user-list.service';
+import {User} from './user';
 
 @Component({
-    selector: 'user-component',
+    selector: 'app-user-component',
     styleUrls: ['./user.component.css'],
     templateUrl: 'user.component.html'
 })
