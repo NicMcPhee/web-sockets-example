@@ -23,7 +23,7 @@ group using GitHub classroom, you can clone your repository using IntelliJ:
 - Select **import project from existing model** and select **Gradle.**
   - Make sure **Use default Gradle wrapper** is selected.
 - Click **Finish.**
-- If IDEA asks you if you want to compile JavaScript to TypeScript :fire: DO NOT :fire:
+- If IDEA asks you if you want to compile TypeScript to JavaScript :fire: DO NOT :fire:
 it will break your project.
 
 :warning: IDEA will sometimes decide to "help" you by offering 
