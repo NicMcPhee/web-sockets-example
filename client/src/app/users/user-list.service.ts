@@ -8,16 +8,16 @@ import {environment} from '../../environments/environment';
 
 @Injectable()
 export class UserListService {
-    readonly userUrl: string = environment.API_URL + 'users';
+  readonly userUrl: string = environment.API_URL + 'users';
 
-    constructor(private httpClient: HttpClient) {
-    }
+  constructor(private httpClient: HttpClient) {
+  }
 
-    getUsers(): Observable<User[]> {
-        return this.httpClient.get<User[]>(this.userUrl);
-    }
+  getUsers(): Observable<User[]> {
+    return this.httpClient.get<User[]>(this.userUrl);
+  }
 
-    getUserById(id: string): Observable<User> {
-        return this.httpClient.get<User>(this.userUrl + '/' + id);
-    }
+  getUserById(id: string): Observable<User> {
+    return this.httpClient.get<User>(this.userUrl + '/' + id);
+  }
 }
