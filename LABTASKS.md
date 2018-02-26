@@ -83,7 +83,6 @@ multiple ``.gitignore`` files in this project. Where are they?
 Why might we have more than one, and how do they interact?
 1. :question: Note also that there are now multiple ``build.gradle`` files
 as well! Why is this?
-1. :question: How does the navbar work in this project? Is our SparkJava server
-the only thing doing routing?
+1. :question: How does the navigation menu (with Home and Users) work in this project? Compare `Server.java` and `app.routes.ts`. Both do a kind of routing; what does each accomplish and how?
 1. :question: What does the `user-list.service.ts` do? Why is it not just done in
 the `user-list.component.ts`?
