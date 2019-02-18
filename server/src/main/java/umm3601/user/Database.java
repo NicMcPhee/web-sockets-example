@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * A fake "database" of user info
- *
+ * <p>
  * Since we don't want to complicate this lab with a real database,
  * we're going to instead just read a bunch of user data from a
  * specified JSON file, and then provide various database-like
@@ -47,7 +47,7 @@ public class Database {
     User[] filteredUsers = allUsers;
 
     // Filter age if defined
-    if(queryParams.containsKey("age")) {
+    if (queryParams.containsKey("age")) {
       int targetAge = Integer.parseInt(queryParams.get("age")[0]);
       filteredUsers = filterUsersByAge(filteredUsers, targetAge);
     }
@@ -59,7 +59,7 @@ public class Database {
   /**
    * Get an array of all the users having the target age.
    *
-   * @param users the list of users to filter by age
+   * @param users     the list of users to filter by age
    * @param targetAge the target age to look for
    * @return an array of all the users from the given list that have
    * the target age
