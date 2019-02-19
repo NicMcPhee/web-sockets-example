@@ -416,9 +416,9 @@ anymatch@^2.0.0:
     micromatch "^3.1.4"
     normalize-path "^2.1.1"
 
-app-root-path@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/app-root-path/-/app-root-path-2.0.1.tgz#cd62dcf8e4fd5a417efc664d2e5b10653c651b46"
+app-root-path@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/app-root-path/-/app-root-path-2.1.0.tgz#98bf6599327ecea199309866e8140368fd2e646a"
 
 append-transform@^0.4.0:
   version "0.4.0"
@@ -1204,16 +1204,16 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
-codelyzer@~3.1.1:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/codelyzer/-/codelyzer-3.1.2.tgz#9ff1f041fb9b5ee5dbeb45ba866dfaf04983af04"
+codelyzer@~4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/codelyzer/-/codelyzer-4.5.0.tgz#a65ddeeeca2894653253a89bfa229118ff9f59b1"
   dependencies:
-    app-root-path "^2.0.1"
+    app-root-path "^2.1.0"
     css-selector-tokenizer "^0.7.0"
     cssauron "^1.4.0"
     semver-dsl "^1.0.1"
-    source-map "^0.5.6"
-    sprintf-js "^1.0.3"
+    source-map "^0.5.7"
+    sprintf-js "^1.1.1"
 
 collection-visit@^1.0.0:
   version "1.0.0"
@@ -5435,9 +5435,9 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-rxjs@^5.5.2, rxjs@^5.5.6:
-  version "5.5.6"
-  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.6.tgz#e31fb96d6fd2ff1fd84bcea8ae9c02d007179c02"
+rxjs@^5.5.12, rxjs@^5.5.6:
+  version "5.5.12"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.12.tgz#6fa61b8a77c3d793dbaf270bee2f43f652d741cc"
   dependencies:
     symbol-observable "1.0.1"
 
@@ -5882,9 +5882,9 @@ split-string@^3.0.1, split-string@^3.0.2:
   dependencies:
     extend-shallow "^3.0.0"
 
-sprintf-js@^1.0.3:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.1.1.tgz#36be78320afe5801f6cea3ee78b6e5aab940ea0c"
+sprintf-js@^1.1.1:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.1.2.tgz#da1765262bf8c0f571749f2ad6c26300207ae673"
 
 sprintf-js@~1.0.2:
   version "1.0.3"
