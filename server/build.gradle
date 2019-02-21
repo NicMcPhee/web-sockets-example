@@ -12,7 +12,7 @@ mainClassName = 'umm3601.Server'
 dependencies {
   compile 'com.sparkjava:spark-core:2.7.1'
   compile 'com.sparkjava:spark-debug-tools:0.5'
-  compile 'org.slf4j:slf4j-simple:1.7.25'
+  compile 'org.slf4j:slf4j-simple:1.7.26'
   compile 'com.google.code.gson:gson:2.8.5'
   compile files('./src/libs/3601-lab3-todos.jar')
 }
