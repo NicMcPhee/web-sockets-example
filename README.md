@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/UMM-CSci-3601/3601-lab3_angular-spark.svg?branch=master)](https://travis-ci.org/UMM-CSci-3601/3601-lab3_angular-spark)
 
 During this lab, you will expand on the ToDo API you created in the previous lab
-by building a basic client-side application using Angular 4 which will enable you
+by building a basic client-side application using Angular  which will enable you
 to better handle user input, display data returned from the server, and all manner
 of other insane things.
 
@@ -13,6 +13,13 @@ write good commit messages, test things, document issues, etc.
 
 Your specific tasks for this lab can be found in the [LABTASKS.md][labtasks]
 file in this repository.
+
+:warning: One thing to keep in mind is that the Angular provide two
+major updates to Angular each year. This lab is built using Angular 5, when the most recent version is Angular 7. That shouldn't matter 98% of the time, but it's entirely 
+possible that there will be odd moments where, for example,
+on-line documentation doesn't match what we're doing. If
+things seem odd, have a look at the versions for the
+example or documentation you're looking at just in case there's a mismatch that matters.
 
 ## Setup
 
@@ -47,7 +54,7 @@ all in `angular-spark-lab / Tasks / application`.
 - The **build** task (or its' alias **buildExecutable**) will still _build_ the entire project, but not run it.
 
 The major difference here is that the _client_ side of your project is,
-effectively, an entirely separate project from your SparkJava server. We've included a full API
+effectively, an entirely separate project from your Java Spark server. We've included a full API
 for the ToDo's, which you implemented in lab 2, so no need to copy your old project over.
 
 In order to serve up the _client side_ of your project, you'll need to use the
@@ -60,21 +67,17 @@ application on their own little web-server, available by default at ``localhost:
 There are now more testing options! You can test the client, or the server or both.
 
 Testing client:
-* runAllTests runs both the server tests and the clients tests once. 
-* runClientTests runs the client tests once.
-* runClientTestsAndWatch runs the client tests every time that the code changes after a save.
-* runClientTestsWithCoverage runs the client tests (once?) and deposits code coverage statistics into a new directory within `client` called `coverage`. In there you will find an `index.html`. Right click on `index.html` and select `Open in Browser` with your browser of choice. For Chrome users, you can drag and drop index.html onto chrome and it will open it.  
-* runE2ETest runs end to end test for the client side. What are e2e tests? They are tests that run the real application and simulate user behavior. They assert that the app is running as expected. NOTE: The server (`run`) needs to be on for this test to work!
-* runServerTests runs the server tests.
 
+* `runClientTests` runs the client tests once.
+* `runClientTestsAndWatch` runs the client tests every time that the code changes after a save.
+* `runClientTestsWithCoverage` runs the client tests and deposits code coverage statistics into a new directory within `client` called `coverage`. In there you will find an `index.html`. Right click on `index.html` and select `Open in Browser` with your browser of choice. For Chrome users, you can drag and drop index.html onto chrome and it will open it.  
+* `runE2ETest` runs end to end test for the client side. What are e2e tests? They are tests that run the real application and simulate user behavior. They assert that the app is running as expected. NOTE: The server (`run`) needs to be on for this test to work!
 
 Turn on your repo in [Travis CI][travis], replace the build status image in this README, and push your changes. That will trigger a build with Travis.
 
 ## Resources
 
 - [Angular Tour of Heroes tutorial][tour-of-heroes]
-- [What _is_ Angular 4 and Typescript?][angular-2-4]
-- [What _is_ Angular CLI?][angular-cli]
 - [What are environments in Angular CLI?][environments]
 - [Testing Angular 2 with Karma/Jasmine][angular4-karma-jasmine]
 - [End to end testing (e2e) with protactor and Angular CLI][e2e-testing]
@@ -83,8 +86,6 @@ Turn on your repo in [Travis CI][travis], replace the build status image in this
 
 
 [tour-of-heroes]: https://angular.io/tutorial
-[angular-cli]: https://idyllic.co/blog/beginners-guide-angular-cli/
-[angular-2-4]: https://www.technicaldiary.com/angular-2-tutorial-for-beginners-angular-4-tutorial-for-beginners/
 [angular4-karma-jasmine]: https://codecraft.tv/courses/angular/unit-testing/jasmine-and-karma/
 [e2e-testing]: https://coryrylan.com/blog/introduction-to-e2e-testing-with-the-angular-cli-and-protractor
 [environments]: http://tattoocoder.com/angular-cli-using-the-environment-option/

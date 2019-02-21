@@ -6,7 +6,7 @@ mark symbols (:question:).
 
 Responses to questions should be submitted as specified by your instructor.
 
-If you're ever confused about what you need to do for a given task, ask.
+Definitely ask if you're ever confused about what you need to do for a given task, or what the answer to a question is, etc.
 
 ## Exploring the project
 
@@ -26,12 +26,12 @@ Answer questions 3 and 4 in [QUESTIONS](#questions).
 
 ### Exploring the server
 
-The server is mostly the same as in lab #2, aside from its move to a new
-directory.
+The server in this case is all tucked inside a `jar` file and moved to a new
+directory. In the next lab you'll get to revisit the server code.
 
 ## Todo API: Redux
 
-In lab #2, you worked with your partner to implement an API for requesting
+In Lab 2, you worked with your partner to implement an API for requesting
 'to-dos' from a server. In this lab, you'll be using a to-do API provided
 (as a jar file) with the lab. The API meets the specifications of lab 2 and
 can be found at `localhost:4567/api/todos`.
