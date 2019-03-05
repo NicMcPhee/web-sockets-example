@@ -3,29 +3,28 @@
 Because not all computers are running the same version of Node, 
 you might find yourself unable to build your project successfully
 from time to time. To remedy that situation, you can use 
-Node Version Manager (nvm). This document explains how to set up
-and use nvm.
+Node Version Manager (`nvm`). This document explains how to set up
+and use `nvm`.
 
-Start by searching for 'nvm' in a browser. The first one that comes
-up is usually the right one. It is a GitHub repository creationix/nvm.
-
+Go to [the `nvm` GitHub repository](https://github.com/creationix/nvm).
 There are directions there for installing nvm using `curl` or `wget`. 
 Either should work fine, but we used `curl` in the lab when we 
 walked through the setup.
 
-The command we used is:
- 
- `curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash`
-
-This script The script clones the nvm repository to `~/.nvm` and 
+This command clones the nvm repository to `~/.nvm` and 
 adds the source line to your 
 profile (`~/.bash_profile`, `~/.zshrc`, `~/.profile`, or `~/.bashrc`).
 
-`cd .nvm`
+You run `nvm` by typing
 
-`nvm`
+```{bash}
+nvm
+```
 
-If typing `nvm` does not find the command, you can use `source ~/.bash_profile` or
+on the command line (in a "regular" terminal or in the IntelliJ terminal).
+
+If typing `nvm` does not find the command, you can 
+use `source ~/.bash_profile` or
 follow the instructions on the GitHub repository for the nvm project for 
 more options.
 
