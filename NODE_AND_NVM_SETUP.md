@@ -35,3 +35,10 @@ version with long term support planned. When you install a new version, it autom
 default. If you want to switch to a different version of Node manually, use
 `nvm use 10.15.3` or whatever version number you want. To see what version of Node you are
 using, type `node --version` 
+
+Once you have set up `nvm`, you can still use Gradle to run your client if you start IntelliJ Idea
+from the command prompt
+
+```{bash}
+$ /usr/share/intellij-idea/bin/idea.sh
+```
