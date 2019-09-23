@@ -1,7 +1,5 @@
 import {NgModule,} from '@angular/core';
-import {CommonModule,} from '@angular/common';
-
-import {CovalentCommonModule, CovalentLayoutModule, CovalentStepsModule} from '@covalent/core';
+import {CommonModule} from '@angular/common';
 
 import {
   MatExpansionModule,
@@ -43,26 +41,17 @@ const MATERIAL_MODULES: any[] = [
   MatTooltipModule
 ];
 
-const COVALENT_MODULES: any[] = [
-  CovalentLayoutModule,
-  CovalentStepsModule,
-  CovalentCommonModule,
-];
-
-
 @NgModule({
   imports: [
     CommonModule,
     ANGULAR_MODULES,
     MATERIAL_MODULES,
-    COVALENT_MODULES,
     FLEX_LAYOUT_MODULES,
   ],
   declarations: [],
   exports: [
     ANGULAR_MODULES,
     MATERIAL_MODULES,
-    COVALENT_MODULES,
     FLEX_LAYOUT_MODULES,
   ]
 })

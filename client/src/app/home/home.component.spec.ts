@@ -23,13 +23,14 @@ describe('Home', () => {
 
     component = fixture.componentInstance; // BannerComponent test instance
 
-    // query for the title <h1> by CSS element selector
-    de = fixture.debugElement.query(By.css('#hello-world'));
+    // query for the link (<a> tag) by CSS element selector
+    de = fixture.debugElement.query(By.css('a'));
     el = de.nativeElement;
   });
 
-  it('displays a greeting', () => {
+  it('displays a link to users', () => {
     fixture.detectChanges();
-    expect(el.textContent).toContain(component.text);
+    expect(el.textContent).toContain("Users");
   });
+
 });
