@@ -87,31 +87,6 @@ describe('User list', () => {
   it('has two users that are 37 years old', () => {
     expect(userList.users.filter((user: User) => user.age === 37).length).toBe(2);
   });
-  it('user list filters by name', () => {
-    expect(userList.filteredUsers.length).toBe(3);
-    userList.userName = 'a';
-    const a: Observable<User[]> = userList.refreshUsers();
-    a.do(x => Observable.of(x))
-      .subscribe(x => expect(userList.filteredUsers.length).toBe(2));
-  });
-
-  it('user list filters by age', () => {
-    expect(userList.filteredUsers.length).toBe(3);
-    userList.userAge = 37;
-    const a: Observable<User[]> = userList.refreshUsers();
-    a.do(x => Observable.of(x))
-      .subscribe(x => expect(userList.filteredUsers.length).toBe(2));
-  });
-
-  it('user list filters by name and age', () => {
-    expect(userList.filteredUsers.length).toBe(3);
-    userList.userAge = 37;
-    userList.userName = 'i';
-    const a: Observable<User[]> = userList.refreshUsers();
-    a.do(x => Observable.of(x))
-      .subscribe(x => expect(userList.filteredUsers.length).toBe(1));
-  });
-
 });
 
 describe('Misbehaving User List', () => {
