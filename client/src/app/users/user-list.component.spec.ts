@@ -1,10 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
+import { of } from 'rxjs';
 import {FormsModule} from '@angular/forms';
-import {MATERIAL_COMPATIBILITY_MODE} from '@angular/material';
-
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/do';
 
 import {CustomModule} from '../custom.module';
 
@@ -24,7 +21,7 @@ describe('User list', () => {
   beforeEach(() => {
     // stub UserService for test purposes
     userListServiceStub = {
-      getUsers: () => Observable.of([
+      getUsers: () => of([
         {
           id: 'chris_id',
           name: 'Chris',
@@ -54,9 +51,7 @@ describe('User list', () => {
       declarations: [UserListComponent],
       // providers:    [ UserListService ]  // NO! Don't provide the real service!
       // Provide a test-double instead
-      providers: [{provide: UserListService, useValue: userListServiceStub},
-        {provide: MATERIAL_COMPATIBILITY_MODE, useValue: true}]
-
+      providers: [{provide: UserListService, useValue: userListServiceStub}]
     });
   });
 
@@ -108,8 +103,7 @@ describe('Misbehaving User List', () => {
     TestBed.configureTestingModule({
       imports: [FormsModule, CustomModule],
       declarations: [UserListComponent],
-      providers: [{provide: UserListService, useValue: userListServiceStub},
-        {provide: MATERIAL_COMPATIBILITY_MODE, useValue: true}]
+      providers: [{provide: UserListService, useValue: userListServiceStub}]
     });
   });
 

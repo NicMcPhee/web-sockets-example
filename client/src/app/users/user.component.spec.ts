@@ -2,8 +2,8 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {User} from './user';
 import {UserComponent} from './user.component';
 import {UserListService} from './user-list.service';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+import {Observable} from 'rxjs';
+import { of } from 'rxjs';
 
 describe('User component', () => {
 
@@ -17,7 +17,7 @@ describe('User component', () => {
   beforeEach(() => {
     // stub UserService for test purposes
     userListServiceStub = {
-      getUserById: (userId: string) => Observable.of([
+      getUserById: (userId: string) => of([
         {
           id: 'chris_id',
           name: 'Chris',
