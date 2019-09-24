@@ -3,6 +3,7 @@
 - Questions that you need to answer (as a team!) are indicated with question
 mark symbols (:question:)
 - Tasks that specify work to do without a written response will be bulleted
+- Remember to set up TravisCI and ZenHub
 
 Write up your answers to these questions in a Google Doc and turn that in via
 Canvas on the assignment for this lab.
