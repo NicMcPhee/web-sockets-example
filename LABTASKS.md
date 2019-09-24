@@ -76,8 +76,8 @@ and `app.routes.ts`. Both do a kind of routing; what does each accomplish and ho
 1. :question: What does the `user-list.service.ts` do? Why is it not just done in
 the `user-list.component.ts`?
 1. You need to use filtering in Angular and filtering on the server each at least one time.
-  1. :question: What is one thing you filtered in Angular and why did that approach make sense for that filter?
-  1. :question: What is one thing you filtered using the server and why did that approach make sense for that filter?
+   1. :question: What is one thing you filtered in Angular and why did that approach make sense for that filter?
+   1. :question: What is one thing you filtered using the server and why did that approach make sense for that filter?
 1. :question: What behaviors did you test via your E2E tests? For each behavior:
-  1. :question: Why did you test that particular behavior?
-  1. :question: What is the "describe" for that test? (You don't need to tell how the test works since your code will do that)
+   1. :question: Why did you test that particular behavior?
+   1. :question: What is the "describe" for that test? (You don't need to tell how the test works since your code will do that)
