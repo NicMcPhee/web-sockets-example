@@ -21,7 +21,7 @@ export class UserListService {
     return this.httpClient.get<User>(this.userUrl + '/' + id);
   }
 
-  filterUsers(users: User[], searchName: string, searchAge: number): User[] {
+  filterUsers(users: User[], searchName?: string, searchAge?: number): User[] {
 
     let filteredUsers = users;
 
