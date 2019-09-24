@@ -29,54 +29,36 @@ export class UserListComponent implements OnInit {
 
   }
 
-  public filterUsers(searchName: string, searchAge: number): User[] {
+  public updateName(newName: string): void {
+    this.userName = newName;
+    this.updateFilter();
+  }
 
-    this.filteredUsers = this.users;
+  public updateAge(newAge: number): void {
+    this.userAge = newAge;
+    this.updateFilter();
+  }
 
-    // Filter by name
-    if (searchName != null) {
-      searchName = searchName.toLocaleLowerCase();
-
-      this.filteredUsers = this.filteredUsers.filter(user => {
-        return !searchName || user.name.toLowerCase().indexOf(searchName) !== -1;
-      });
-    }
-
-    // Filter by age
-    if (searchAge != null) {
-      this.filteredUsers = this.filteredUsers.filter((user: User) => {
-        return !searchAge || (user.age === Number(searchAge));
-      });
-    }
-
-    return this.filteredUsers;
+  public updateFilter() {
+    this.filteredUsers =
+      this.userListService.filterUsers(
+        this.users,
+        this.userName,
+        this.userAge);
   }
 
   /**
    * Starts an asynchronous operation to update the users list
    *
    */
-  refreshUsers(): Observable<User[]> {
-    // Get Users returns an Observable, basically a "promise" that
-    // we will get the data from the server.
-    //
-    // Subscribe waits until the data is fully downloaded, then
-    // performs an action on it (the first lambda)
-
+  ngOnInit(): void {
     const users: Observable<User[]> = this.userListService.getUsers();
     users.subscribe(
       returnedUsers => {
         this.users = returnedUsers;
-        this.filterUsers(this.userName, this.userAge);
       },
       err => {
         console.log(err);
       });
-    return users;
-  }
-
-
-  ngOnInit(): void {
-    this.refreshUsers();
   }
 }
