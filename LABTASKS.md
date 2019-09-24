@@ -7,10 +7,9 @@ mark symbols (:question:)
 Write up your answers to these questions in a Google Doc and turn that in via
 Canvas on the assignment for this lab.
 
-:bangbang: 
-   * [ ] __Make sure that everyone in your group has edit privileges on the document.__
-   * [ ] __Make sure that the link you turn in gives us at least comment privileges.__
-   * [ ] __Include the URL of the GitHub repository for your group at the top of the
+   * __Make sure that everyone in your group has edit privileges on the document.__
+   * __Make sure that the link you turn in gives us at least comment privileges.__
+   * __Include the URL of the GitHub repository for your group at the top of the
        GDoc. This will make it easier for us to figure out which team is "Snoozing Llamas".__
 
 Definitely ask if you're ever confused about what you need to do for a given task, or 
