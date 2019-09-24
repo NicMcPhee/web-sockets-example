@@ -1,5 +1,4 @@
 @import '../node_modules/@angular/material/theming';
-@import '../node_modules/@covalent/core/theming/all-theme';
 
 @include mat-core();
 
@@ -19,4 +18,3 @@ $theme: mat-light-theme($primary, $accent, $warn);
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($theme);
-@include covalent-theme($theme);
