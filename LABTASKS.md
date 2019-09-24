@@ -1,33 +1,28 @@
 # Lab Tasks
 
-- Questions that you need to answer (as a group!) are indicated with question
-mark symbols (:question:).
-- Tasks that specify work to do without a written response will be bulleted.
+- Questions that you need to answer (as a team!) are indicated with question
+mark symbols (:question:)
+- Tasks that specify work to do without a written response will be bulleted
 
-Responses to questions should be submitted as specified by your instructor.
+Write up your answers to these questions in a Google Doc and turn that in via
+Canvas on the assignment for this lab.
 
-Definitely ask if you're ever confused about what you need to do for a given task, or what the answer to a question is, etc.
+:bangbang: 
+   * [ ] __Make sure that everyone in your group has edit privileges on the document.__
+   * [ ] __Make sure that the link you turn in gives us at least comment privileges.__
+   * [ ] __Include the URL of the GitHub repository for your group at the top of the
+       GDoc. This will make it easier for us to figure out which team is "Snoozing Llamas".__
 
-## Exploring the project
+Definitely ask if you're ever confused about what you need to do for a given task, or 
+what the answer to a question is, etc.
 
-Look over the directory structure of the project before you start making
-changes to it. Note that the structure has changed significantly since
-the previous lab!
+## Exploring the client
 
-Answer questions 1 and 2 in [QUESTIONS](#questions).
+The client side of our project has changed since lab #2. The testing is
+handled in two new places (Angular spec files for testing Angular and e2e tests) 
+with new tools (Jasmine/Karma and Protractor).
 
-### Exploring the client
-
-The client side of our project has moved since lab #2, the testing is
-now being handled in a different way, and we've introduced several new tools
-to help us with client-side development.
-
-Answer questions 3 and 4 in [QUESTIONS](#questions).
-
-### Exploring the server
-
-The server in this case is all tucked inside a `jar` file and moved to a new
-directory. In the next lab you'll get to revisit the server code.
+:question: Answer questions 1 and 2 in [QUESTIONS](#questions).
 
 ## Todo API: Redux
 
@@ -54,35 +49,35 @@ with a 'todo-list' component and probably a service.
 and when to simply use Angular's filtering tools to change how
 the data is displayed. 
 
-   - You have to use Angular's filtering at least once.
-   - You have to use the server's filtering at least once.
-   - Make note of why you choose to do things the way you did.
+   - You have to use Angular's filtering at least once
+   - You have to use the server's filtering at least once
+   - :question: Make note of why you choose to do each of those two things the way you did
+   
+:question: Answer question 3 about your filtering
 
 ## Remember to test!
 
 Your project should have tests, specifically Karma Angular (client-side) tests, 
 and should have working TravisCI integration. You should expand on these tests as
-appropriate.
+appropriate. 
 
 :bangbang: The bigger piece in this lab, however, are the end-to-end (E2E) tests 
 (also known as acceptance tests,
 or behavioral tests, or functional tests, or integration tests) which you should
 expand to cover all the
-key behaviors in your project.
+key behaviors in your project. 
 
-You should create a `TESTCOVERAGE.md` document where you outline:
-
-   * The key behaviors you tested via your E2E tests
-   * _Why_ and _where_ you tested those behaviors
-      * You don't need to go into the _how_ here – that info is in your code.
+:question: Answer question 4 about your E2E tests
 
 ## Questions
 
-1. :question: Notice anything new in our ``.gitignore``? There are actually
-multiple ``.gitignore`` files in this project. Where are they?
-Why might we have more than one, and how do they interact?
-1. :question: Note also that there are now multiple ``build.gradle`` files
-as well! Why is this?
-1. :question: How does the navigation menu (with Home and Users) work in this project? Compare `Server.java` and `app.routes.ts`. Both do a kind of routing; what does each accomplish and how?
+1. :question: How does the navigation menu (with Home and Users) work in this project? Compare `Server.java` 
+and `app.routes.ts`. Both do a kind of routing; what does each accomplish and how?
 1. :question: What does the `user-list.service.ts` do? Why is it not just done in
 the `user-list.component.ts`?
+1. You need to use filtering in Angular and filtering on the server each at least one time.
+  1. :question: What is one thing you filtered in Angular and why did that approach make sense for that filter?
+  1. :question: What is one thing you filtered using the server and why did that approach make sense for that filter?
+1. :question: What behaviors did you test via your E2E tests? For each behavior:
+  1. :question: Why did you test that particular behavior?
+  1. :question: What is the "describe" for that test? (You don't need to tell how the test works since your code will do that)
