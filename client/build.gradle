@@ -16,7 +16,7 @@ task runClient(type: Exec, dependsOn: yarn_install) {
   args = ["serve"]
 }
 
-task runClientTestsAndWatch(type: NpmTask) {
+task runClientTestsAndWatch(type: NpmTask, dependsOn: yarn_install) {
   group = 'application'
   description = "Start client side tests, watching and updating when there are changes"
   args = ['run', 'test-watch']
@@ -28,12 +28,14 @@ task runClientTestWithCoverage(type: Exec, dependsOn: yarn_install) {
   args = ["test", "--watch=false", "--code-coverage"]
 }
 
-task runE2ETest(type: Exec) {
+task runE2ETest(type: Exec, dependsOn: yarn_install) {
   group = 'application'
   executable "ng"
   args = ["e2e"]
 }
 
-task runClientTests(dependsOn: yarn_run_test) {
+task runClientTests(type: Exec, dependsOn: yarn_install) {
   group = 'application'
+  executable = "ng"
+  args = ["test", "--watch=false"]
 }
