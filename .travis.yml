@@ -17,6 +17,7 @@ before_script:
     - "sudo chmod 4755 /opt/google/chrome/chrome-sandbox"
     - "nvm install --lts"
     - "nvm use --lts"
+    - "cd client/ && ng version"
 
 jdk:
   - oraclejdk8
