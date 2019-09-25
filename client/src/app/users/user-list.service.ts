@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 import {User} from './user';
 import {environment} from '../../environments/environment';
@@ -21,7 +21,7 @@ export class UserListService {
     return this.httpClient.get<User>(this.userUrl + '/' + id);
   }
 
-  filterUsers(users: User[], searchName: string, searchAge: number): User[] {
+  filterUsers(users: User[], searchName?: string, searchAge?: number): User[] {
 
     let filteredUsers = users;
 

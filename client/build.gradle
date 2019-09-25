@@ -5,8 +5,6 @@ plugins {
 }
 
 node {
-  version = '6.11.2'
-  download = true
   workDir = file("${project.projectDir}/node")
   yarnWorkDir = file("${project.projectDir}/yarn")
   nodeModulesDir = file("${project.projectDir}/")

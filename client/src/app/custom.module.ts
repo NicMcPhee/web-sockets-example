@@ -5,13 +5,13 @@ import {
   MatExpansionModule,
   MatListModule,
   MatTooltipModule,
-  MdButtonModule,
-  MdCardModule,
-  MdIconModule,
-  MdInputModule,
-  MdMenuModule,
-  MdSidenavModule,
-  MdToolbarModule
+  MatButtonModule,
+  MatCardModule,
+  MatIconModule,
+  MatInputModule,
+  MatMenuModule,
+  MatSidenavModule,
+  MatToolbarModule
 } from '@angular/material';
 
 import {FlexLayoutModule,} from '@angular/flex-layout';
@@ -30,13 +30,13 @@ const ANGULAR_MODULES: any[] = [
 
 const MATERIAL_MODULES: any[] = [
   MatListModule,
-  MdButtonModule,
-  MdIconModule,
-  MdToolbarModule,
-  MdCardModule,
-  MdMenuModule,
-  MdSidenavModule,
-  MdInputModule,
+  MatButtonModule,
+  MatIconModule,
+  MatToolbarModule,
+  MatCardModule,
+  MatMenuModule,
+  MatSidenavModule,
+  MatInputModule,
   MatExpansionModule,
   MatTooltipModule
 ];

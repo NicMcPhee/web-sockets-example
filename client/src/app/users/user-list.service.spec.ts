@@ -87,4 +87,23 @@ describe('User list service: ', () => {
     expect(req.request.method).toEqual('GET');
     req.flush(targetUser);
   });
+
+  it('filterUsers() filters by name', () => {
+    expect(testUsers.length).toBe(3);
+    let userName = 'a';
+    expect(userListService.filterUsers(testUsers, userName).length).toBe(2);
+  });
+
+  it('filterUsers() filters by age', () => {
+    expect(testUsers.length).toBe(3);
+    let userAge = 37;
+    expect(userListService.filterUsers(testUsers, null, userAge).length).toBe(2);
+  });
+
+  it('filterUsers() filters by name and age', () => {
+    expect(testUsers.length).toBe(3);
+    let userAge = 37;
+    let userName = 'i';
+    expect(userListService.filterUsers(testUsers, userName, userAge).length).toBe(1);
+  });
 });
