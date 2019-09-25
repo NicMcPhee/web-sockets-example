@@ -13,11 +13,13 @@ cache:
 addons:
     chrome: stable
 before_script:
-    - "sudo chown root /opt/google/chrome/chrome-sandbox"
-    - "sudo chmod 4755 /opt/google/chrome/chrome-sandbox"
-    - "nvm install --lts"
-    - "nvm use --lts"
-    - "cd client/ && ng version"
+  - "sudo chown root /opt/google/chrome/chrome-sandbox"
+  - "sudo chmod 4755 /opt/google/chrome/chrome-sandbox"
+  - "nvm install --lts"
+  - "nvm use --lts"
+
+after_script:
+  - "cd client/ && ng version"
 
 jdk:
   - oraclejdk8
