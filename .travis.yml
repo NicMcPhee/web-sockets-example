@@ -18,8 +18,5 @@ before_script:
   - "nvm install --lts"
   - "npm install -g @angular/cli"
 
-after_script:
-  - "cd client/ && ng version"
-
 jdk:
-  - oraclejdk8
+  - openjdk8
