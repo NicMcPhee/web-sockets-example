@@ -2,23 +2,19 @@
 [![Build Status](https://travis-ci.org/UMM-CSci-3601/3601-lab3_angular-spark.svg?branch=master)](https://travis-ci.org/UMM-CSci-3601/3601-lab3_angular-spark)
 
 During this lab, you will expand on the ToDo API you created in the previous lab
-by building a basic client-side application using Angular  which will enable you
-to better handle user input, display data returned from the server, and all manner
-of other insane things.
-
-Some significant changes to the structure of the project come about in this lab,
-so be on the lookout for those. As always, you'll be expected to make good
-use of the version control and project management tools available to you:
-write good commit messages, test things, document issues, etc.
+by building a basic client-side application using Angular. This will enable you
+to better handle user input and display data returned from the server. As always, 
+you'll be expected to make good use of the version control and project management 
+tools available to you: write good commit messages, test things, document issues, etc.
 
 Your specific tasks for this lab can be found in the [LABTASKS.md][labtasks]
 file in this repository.
 
-:warning: One thing to keep in mind is that the Angular provide two
-major updates to Angular each year. This lab is built using Angular 5, when the most recent version is Angular 7. That shouldn't matter 98% of the time, but it's entirely 
-possible that there will be odd moments where, for example,
-on-line documentation doesn't match what we're doing. If
-things seem odd, have a look at the versions for the
+:warning: One thing to keep in mind is that the Angular developers provide two
+major updates to Angular each year. This lab is built using Angular 8. Pay attention to
+the version of Angular being used in examples and on-line documentation that you find. Most
+of the time, it won't matter very much, but there are times when something you find 
+doesn't match what we're doing. If things seem odd, have a look at the versions for the
 example or documentation you're looking at just in case there's a mismatch that matters.
 
 ## Setup

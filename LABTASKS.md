@@ -18,9 +18,11 @@ what the answer to a question is, etc.
 
 ## Exploring the client
 
-The client side of our project has changed since lab #2. The testing is
-handled in two new places (Angular spec files for testing Angular and e2e tests) 
-with new tools (Jasmine/Karma and Protractor).
+The client side of our project has changed since lab #2. The directory structure is 
+the same, but the client side interface uses Angular to handle some of the creation
+of the elements of the user interface. Angular's template syntax extends HTML and JavaScript.
+The testing is handled in two new places (Angular spec files for testing Angular 
+and e2e tests) with new tools (Jasmine/Karma and Protractor).
 
 :question: Answer questions 1 and 2 in [QUESTIONS](#questions).
 
