@@ -4,6 +4,7 @@
       <mat-card-title id="user-list-title">Users</mat-card-title>
       <mat-divider></mat-divider>
       <mat-card-content>
+        <label for="userName">Name:</label>
         <mat-form-field>
           <input
             matInput
@@ -11,12 +12,16 @@
             placeholder="Filter by name"
             (input)="updateName($event.target.value)">
         </mat-form-field>
+        <br>
+        <!--this has an annoying error about setSelctionRange that we should probably deal with-->
+        <label for="userAge">Age (filter in Angular):</label>
         <mat-form-field>
           <input
             matInput
             id="userAge"
             type="number"
             placeholder="Filter by age"
+            min="15" max="200"
             (input)="updateAge($event.target.value)">
         </mat-form-field>
         <!--<mat-form-field>-->
