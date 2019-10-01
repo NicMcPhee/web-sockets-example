@@ -17,6 +17,11 @@ export class UserListService {
     return this.httpClient.get<User[]>(this.userUrl);
   }
 
+  // This is an example of searching by age on the server using the server API
+  getUsersByAge(searchAge: string): Observable<User[]> {
+    return this.httpClient.get<User[]>(this.userUrl + '?age=' + searchAge);
+  }
+
   getUserById(id: string): Observable<User> {
     return this.httpClient.get<User>(this.userUrl + '/' + id);
   }

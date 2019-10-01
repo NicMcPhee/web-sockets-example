@@ -28,7 +28,19 @@
         <!--<input matInput id="userCompany" #input type="text" placeholder="Search for company" (input)="contentChange($event.target.value)">-->
         <!--</mat-form-field>-->
 
-        <mat-accordion *ngIf="users; else usersError">
+        <!--example of filtering on the server-->
+        <mat-form-field>
+          <mat-label>Age (filter on server):</mat-label>
+          <mat-select (selectionChange)="updateServerFilterAge($event.value)" [(ngModel)]="userAgeForServerFilter" id="userAgeForServerFilter">
+            <mat-option value="">no particular age</mat-option>
+            <mat-option value="23">23</mat-option>
+            <mat-option value="25">25</mat-option>
+            <mat-option value="27">27</mat-option>
+          </mat-select>
+          <mat-hint>Filter by age (on server)</mat-hint>
+        </mat-form-field>
+
+        <mat-accordion *ngIf="serverFilteredUsers; else usersError">
           <mat-expansion-panel #elem [id]="user.email" *ngFor="let user of this.filteredUsers">
             <mat-expansion-panel-header>
 

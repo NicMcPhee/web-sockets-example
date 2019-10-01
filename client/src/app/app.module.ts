@@ -11,6 +11,8 @@ import {APP_BASE_HREF} from '@angular/common';
 
 import {CustomModule} from './custom.module';
 import {UserComponent} from './users/user.component';
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MatSelectModule} from "@angular/material/select";
 
 
 @NgModule({
@@ -19,6 +21,8 @@ import {UserComponent} from './users/user.component';
     HttpClientModule,
     Routing,
     CustomModule,
+    MatButtonToggleModule,
+    MatSelectModule,
   ],
   declarations: [
     AppComponent,
