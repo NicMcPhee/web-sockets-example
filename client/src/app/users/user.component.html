@@ -1,11 +1,12 @@
-<mat-expansion-panel *ngIf="user" class="user-panel" matTooltip="email: {{user.email}}" #elem [id]="user.email">
+<mat-expansion-panel *ngIf="user" class="user-panel" #elem [id]="user.email">
 
-  <mat-expansion-panel-header>
+  <mat-expansion-panel-header  matTooltip="Expand {{user.name}}'s Profile">
     <mat-panel-title>{{ user.name }}</mat-panel-title>
   </mat-expansion-panel-header>
 
   <p>Name: {{ user.name }}</p>
   <p>Age: {{ user.age }}</p>
   <p>Company: {{ user.company }}</p>
+  <p>Email: {{user.email}}</p>
 
 </mat-expansion-panel>
