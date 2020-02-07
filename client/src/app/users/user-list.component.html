@@ -44,7 +44,7 @@
           <mat-accordion *ngFor="let user of this.filteredUsers">
 
             <!-- Example of using a child component -->
-            <app-user-component *ngIf="user" [user]="user"></app-user-component>
+            <app-user-component [user]="user"></app-user-component>
 
           </mat-accordion>
         </mat-accordion>
