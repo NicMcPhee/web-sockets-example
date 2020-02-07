@@ -10,7 +10,6 @@ import {Routing} from './app.routes';
 import {APP_BASE_HREF} from '@angular/common';
 
 import {CustomModule} from './custom.module';
-import {UserComponent} from './users/user.component';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatSelectModule} from "@angular/material/select";
 
@@ -28,7 +27,6 @@ import {MatSelectModule} from "@angular/material/select";
     AppComponent,
     HomeComponent,
     UserListComponent,
-    UserComponent,
 
   ],
   providers: [
