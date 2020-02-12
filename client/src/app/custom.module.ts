@@ -11,13 +11,16 @@ import {
   MatInputModule,
   MatMenuModule,
   MatSidenavModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatOptionModule,
+  MatSelectModule
 } from '@angular/material';
 
 import {FlexLayoutModule,} from '@angular/flex-layout';
 
 import {FormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {UserComponent} from './users/user.component';
 
 const FLEX_LAYOUT_MODULES: any[] = [
   FlexLayoutModule,
@@ -38,7 +41,9 @@ const MATERIAL_MODULES: any[] = [
   MatSidenavModule,
   MatInputModule,
   MatExpansionModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatSelectModule,
+  MatOptionModule,
 ];
 
 @NgModule({
@@ -48,8 +53,11 @@ const MATERIAL_MODULES: any[] = [
     MATERIAL_MODULES,
     FLEX_LAYOUT_MODULES,
   ],
-  declarations: [],
+  declarations: [
+    UserComponent,
+  ],
   exports: [
+    UserComponent,
     ANGULAR_MODULES,
     MATERIAL_MODULES,
     FLEX_LAYOUT_MODULES,

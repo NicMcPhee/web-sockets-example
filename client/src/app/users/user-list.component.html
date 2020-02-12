@@ -4,6 +4,7 @@
       <mat-card-title id="user-list-title">Users</mat-card-title>
       <mat-divider></mat-divider>
       <mat-card-content>
+        <label for="userName">Name:</label>
         <mat-form-field>
           <input
             matInput
@@ -11,29 +12,41 @@
             placeholder="Filter by name"
             (input)="updateName($event.target.value)">
         </mat-form-field>
+        <br>
+        <!--this has an annoying error about setSelctionRange that we should probably deal with-->
+        <label for="userAge">Age (filter in Angular):</label>
         <mat-form-field>
           <input
             matInput
             id="userAge"
             type="number"
             placeholder="Filter by age"
+            min="0" max="200"
             (input)="updateAge($event.target.value)">
         </mat-form-field>
         <!--<mat-form-field>-->
         <!--<input matInput id="userCompany" #input type="text" placeholder="Search for company" (input)="contentChange($event.target.value)">-->
         <!--</mat-form-field>-->
 
-        <mat-accordion *ngIf="users; else usersError">
-          <mat-expansion-panel #elem [id]="user.email" *ngFor="let user of this.filteredUsers">
-            <mat-expansion-panel-header>
+        <!--example of filtering on the server-->
+        <mat-form-field>
+          <mat-label>Age (filter on server):</mat-label>
+          <mat-select (selectionChange)="updateServerFilterAge($event.value)" [(ngModel)]="userAgeForServerFilter" id="userAgeForServerFilter">
+            <mat-option value="">no particular age</mat-option>
+            <mat-option value="23">23</mat-option>
+            <mat-option value="25">25</mat-option>
+            <mat-option value="27">27</mat-option>
+          </mat-select>
+          <mat-hint>Filter by age (on server)</mat-hint>
+        </mat-form-field>
 
-              <mat-panel-title matTooltip="email: {{user.email}}">{{user.name}}</mat-panel-title>
+        <mat-accordion *ngIf="serverFilteredUsers; else usersError">
+          <mat-accordion *ngFor="let user of this.filteredUsers">
 
-            </mat-expansion-panel-header>
-            <mat-panel-description>Works for {{user.company}}</mat-panel-description>
-            <mat-panel-description>Age: {{user.age}} years old</mat-panel-description>
+            <!-- Example of using a child component -->
+            <app-user-component [user]="user"></app-user-component>
 
-          </mat-expansion-panel>
+          </mat-accordion>
         </mat-accordion>
         <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
         <ng-template #usersError>

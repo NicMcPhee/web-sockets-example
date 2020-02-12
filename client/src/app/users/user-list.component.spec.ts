@@ -64,23 +64,23 @@ describe('User list', () => {
   }));
 
   it('contains all the users', () => {
-    expect(userList.users.length).toBe(3);
+    expect(userList.serverFilteredUsers.length).toBe(3);
   });
 
   it('contains a user named \'Chris\'', () => {
-    expect(userList.users.some((user: User) => user.name === 'Chris')).toBe(true);
+    expect(userList.serverFilteredUsers.some((user: User) => user.name === 'Chris')).toBe(true);
   });
 
   it('contain a user named \'Jamie\'', () => {
-    expect(userList.users.some((user: User) => user.name === 'Jamie')).toBe(true);
+    expect(userList.serverFilteredUsers.some((user: User) => user.name === 'Jamie')).toBe(true);
   });
 
   it('doesn\'t contain a user named \'Santa\'', () => {
-    expect(userList.users.some((user: User) => user.name === 'Santa')).toBe(false);
+    expect(userList.serverFilteredUsers.some((user: User) => user.name === 'Santa')).toBe(false);
   });
 
   it('has two users that are 37 years old', () => {
-    expect(userList.users.filter((user: User) => user.age === 37).length).toBe(2);
+    expect(userList.serverFilteredUsers.filter((user: User) => user.age === 37).length).toBe(2);
   });
 });
 
@@ -117,6 +117,6 @@ describe('Misbehaving User List', () => {
 
   it('generates an error if we don\'t set up a UserListService', () => {
     // Since the observer throws an error, we don't expect users to be defined.
-    expect(userList.users).toBeUndefined();
+    expect(userList.serverFilteredUsers).toBeUndefined();
   });
 });

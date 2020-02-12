@@ -12,11 +12,12 @@ import {Observable} from 'rxjs';
 
 export class UserListComponent implements OnInit {
   // These are public so that tests can reference them (.spec.ts)
-  public users: User[];
+  public serverFilteredUsers: User[];
   public filteredUsers: User[];
 
   public userName: string;
   public userAge: number;
+  public userAgeForServerFilter: string;
 
 
   // Inject the UserListService into this component.
@@ -27,6 +28,33 @@ export class UserListComponent implements OnInit {
 
   constructor(private userListService: UserListService) {
 
+  }
+
+  // This shows what happens when the server filter age is updated
+  public updateServerFilterAge(newAge: string): void{
+    let users: Observable<User[]>;
+    if (newAge != '') {
+      this.userAgeForServerFilter = newAge;
+      users = this.userListService.getUsersByAge(this.userAgeForServerFilter);
+      users.subscribe(
+        returnedUsers => {
+          this.serverFilteredUsers = returnedUsers;
+          this.updateFilter();
+        },
+        err => {
+          console.log(err);
+        });
+    } else {
+      users = this.userListService.getUsers();
+      users.subscribe(
+        returnedUsers => {
+          this.serverFilteredUsers = returnedUsers;
+          this.updateFilter();
+        },
+        err => {
+          console.log(err);
+        });
+    }
   }
 
   public updateName(newName: string): void {
@@ -42,7 +70,7 @@ export class UserListComponent implements OnInit {
   public updateFilter() {
     this.filteredUsers =
       this.userListService.filterUsers(
-        this.users,
+        this.serverFilteredUsers,
         this.userName,
         this.userAge);
   }
@@ -55,7 +83,8 @@ export class UserListComponent implements OnInit {
     const users: Observable<User[]> = this.userListService.getUsers();
     users.subscribe(
       returnedUsers => {
-        this.users = returnedUsers;
+        this.serverFilteredUsers = returnedUsers;
+        this.filteredUsers = returnedUsers;
       },
       err => {
         console.log(err);
