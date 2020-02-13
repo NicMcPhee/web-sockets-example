@@ -21,5 +21,3 @@ task buildExecutable {
   group = "application"
 }
 buildExecutable.dependsOn(build)
-
-test.dependsOn(":client:runClientTests")
