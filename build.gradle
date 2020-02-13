@@ -1,4 +1,0 @@
-evaluationDependsOn ":client"
-evaluationDependsOn ":server"
-
-
