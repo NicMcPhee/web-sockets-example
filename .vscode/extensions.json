@@ -8,6 +8,10 @@
     // https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack
     "vscjava.vscode-java-pack",
 
+    // Angular Language Service
+    // https://marketplace.visualstudio.com/items?itemName=Angular.ng-template
+    "Angular.ng-template",
+
     // EditorConfig for VS Code
     // https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig
     "EditorConfig.EditorConfig",
