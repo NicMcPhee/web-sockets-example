@@ -12,10 +12,6 @@
     // https://marketplace.visualstudio.com/items?itemName=Angular.ng-template
     "Angular.ng-template",
 
-    // Nx Console
-    // https://marketplace.visualstudio.com/items?itemName=nrwl.angular-console
-    "nrwl.angular-console",
-
     // EditorConfig for VS Code
     // https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig
     "EditorConfig.EditorConfig",
