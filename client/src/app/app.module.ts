@@ -19,6 +19,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import {MatDividerModule} from '@angular/material/divider';
 
 import { UserComponent } from './users/user.component';
 import { UserListComponent } from './users/user-list.component';
@@ -38,7 +40,9 @@ const MATERIAL_MODULES: any[] = [
   MatExpansionModule,
   MatTooltipModule,
   MatSelectModule,
-  MatFormFieldModule
+  MatOptionModule,
+  MatFormFieldModule,
+  MatDividerModule
 ];
 
 @NgModule({

@@ -3,11 +3,37 @@ import {Observable} from 'rxjs';
 import { of } from 'rxjs';
 import {FormsModule} from '@angular/forms';
 
-import {CustomModule} from '../custom.module';
 
 import {User} from './user';
 import {UserListComponent} from './user-list.component';
 import {UserListService} from './user-list.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { UserComponent } from './user.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatListModule } from '@angular/material/list';
+import { MatDividerModule } from '@angular/material/divider';
+
+const COMMON_IMPORTS: any[] = [
+  FormsModule,
+  MatCardModule,
+  MatFormFieldModule,
+  MatSelectModule,
+  MatOptionModule,
+  MatButtonModule,
+  MatInputModule,
+  MatExpansionModule,
+  MatTooltipModule,
+  MatListModule,
+  MatDividerModule,
+  BrowserAnimationsModule,
+];
 
 describe('User list', () => {
 
@@ -47,8 +73,8 @@ describe('User list', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [CustomModule],
-      declarations: [UserListComponent],
+      imports: [COMMON_IMPORTS],
+      declarations: [UserListComponent, UserComponent],
       // providers:    [ UserListService ]  // NO! Don't provide the real service!
       // Provide a test-double instead
       providers: [{provide: UserListService, useValue: userListServiceStub}]
@@ -101,8 +127,10 @@ describe('Misbehaving User List', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [FormsModule, CustomModule],
-      declarations: [UserListComponent],
+      imports: [COMMON_IMPORTS],
+      declarations: [UserListComponent, UserComponent],
+      // providers:    [ UserListService ]  // NO! Don't provide the real service!
+      // Provide a test-double instead
       providers: [{provide: UserListService, useValue: userListServiceStub}]
     });
   });
