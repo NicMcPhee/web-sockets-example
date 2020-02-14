@@ -23,6 +23,8 @@ jobs:
       with:
         node-version: 12.x
 
+    - name: CD into client/
+      run: cd client
     - name: Install dependencies (npm ci)
       run: npm ci
     - name: Test (npm run test)
