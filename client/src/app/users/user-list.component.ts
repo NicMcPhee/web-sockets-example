@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
 @Component({
   selector: 'app-user-list-component',
   templateUrl: 'user-list.component.html',
-  styleUrls: ['./user-list.component.css'],
+  styleUrls: ['./user-list.component.scss'],
   providers: []
 })
 

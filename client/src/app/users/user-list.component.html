@@ -1,7 +1,9 @@
 <div layout-gt-sm="row">
   <div flex-gt-sm="80" flex-offset-gt-sm="10">
     <mat-card>
-      <mat-card-title id="user-list-title">Users</mat-card-title>
+      <mat-card-header>
+        <mat-card-title>Users</mat-card-title>
+      </mat-card-header>
       <mat-divider></mat-divider>
       <mat-card-content>
         <label for="userName">Name:</label>
@@ -41,12 +43,8 @@
         </mat-form-field>
 
         <mat-accordion *ngIf="serverFilteredUsers; else usersError">
-          <mat-accordion *ngFor="let user of this.filteredUsers">
-
-            <!-- Example of using a child component -->
-            <app-user-component [user]="user"></app-user-component>
-
-          </mat-accordion>
+          <!-- Example of using a child component -->
+          <app-user-component *ngFor="let user of this.filteredUsers" [user]="user"></app-user-component>
         </mat-accordion>
         <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
         <ng-template #usersError>
