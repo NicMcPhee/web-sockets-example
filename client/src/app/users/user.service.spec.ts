@@ -13,21 +13,24 @@ describe('User list service: ', () => {
       name: 'Chris',
       age: 25,
       company: 'UMM',
-      email: 'chris@this.that'
+      email: 'chris@this.that',
+      avatar: 'https://gravatar.com/avatar/8c9616d6cc5de638ea6920fb5d65fc6c?d=identicon'
     },
     {
       id: 'pat_id',
       name: 'Pat',
       age: 37,
       company: 'IBM',
-      email: 'pat@something.com'
+      email: 'pat@something.com',
+      avatar: 'https://gravatar.com/avatar/b42a11826c3bde672bce7e06ad729d44?d=identicon'
     },
     {
       id: 'jamie_id',
       name: 'Jamie',
       age: 37,
       company: 'Frogs, Inc.',
-      email: 'jamie@frogs.com'
+      email: 'jamie@frogs.com',
+      avatar: 'https://gravatar.com/avatar/d4a6c71dd9470ad4cf58f78c100258bf?d=identicon'
     }
   ];
   let userService: UserService;

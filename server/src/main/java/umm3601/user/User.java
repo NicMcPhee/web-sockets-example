@@ -6,4 +6,5 @@ public class User {
   int age;
   String company;
   String email;
+  String avatar;
 }
