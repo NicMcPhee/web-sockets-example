@@ -14,7 +14,6 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { UserComponent } from './user.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatListModule } from '@angular/material/list';
@@ -77,7 +76,7 @@ describe('User list', () => {
 
     TestBed.configureTestingModule({
       imports: [COMMON_IMPORTS],
-      declarations: [UserListComponent, UserComponent],
+      declarations: [UserListComponent],
       // providers:    [ UserService ]  // NO! Don't provide the real service!
       // Provide a test-double instead
       providers: [{provide: UserService, useValue: userServiceStub}]
@@ -131,7 +130,7 @@ describe('Misbehaving User List', () => {
 
     TestBed.configureTestingModule({
       imports: [COMMON_IMPORTS],
-      declarations: [UserListComponent, UserComponent],
+      declarations: [UserListComponent],
       // providers:    [ UserService ]  // NO! Don't provide the real service!
       // Provide a test-double instead
       providers: [{provide: UserService, useValue: userServiceStub}]

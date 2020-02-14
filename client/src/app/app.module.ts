@@ -22,7 +22,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import {MatDividerModule} from '@angular/material/divider';
 
-import { UserComponent } from './users/user.component';
 import { UserListComponent } from './users/user-list.component';
 import { HomeComponent } from './home/home.component';
 import { UserService } from './users/user.service';
@@ -52,7 +51,6 @@ const MATERIAL_MODULES: any[] = [
   declarations: [
     AppComponent,
     HomeComponent,
-    UserComponent,
     UserListComponent,
     UserCardComponent,
     UserProfileComponent,
