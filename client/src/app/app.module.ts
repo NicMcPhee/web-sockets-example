@@ -1,40 +1,65 @@
-import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 
-import {AppComponent} from './app.component';
-import {HomeComponent} from './home/home.component';
-import {UserListComponent} from './users/user-list.component';
-import {UserListService} from './users/user-list.service';
-import {Routing} from './app.routes';
-import {APP_BASE_HREF} from '@angular/common';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
-import {CustomModule} from './custom.module';
-import {MatButtonToggleModule} from "@angular/material/button-toggle";
-import {MatSelectModule} from "@angular/material/select";
+import {MatButtonModule} from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
 
+import { UserComponent } from './users/user.component';
+import { UserListComponent } from './users/user-list.component';
+import { HomeComponent } from './home/home.component';
+import { UserListService } from './users/user-list.service';
+import { HttpClientModule } from '@angular/common/http';
+
+const MATERIAL_MODULES: any[] = [
+  MatListModule,
+  MatButtonModule,
+  MatIconModule,
+  MatToolbarModule,
+  MatCardModule,
+  MatMenuModule,
+  MatSidenavModule,
+  MatInputModule,
+  MatExpansionModule,
+  MatTooltipModule,
+  MatSelectModule,
+  MatFormFieldModule
+];
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    Routing,
-    CustomModule,
-    MatButtonToggleModule,
-    MatSelectModule,
-  ],
   declarations: [
     AppComponent,
     HomeComponent,
-    UserListComponent,
-
+    UserComponent,
+    UserListComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    FlexLayoutModule,
+    HttpClientModule,
+    MATERIAL_MODULES,
   ],
   providers: [
-    UserListService,
-    {provide: APP_BASE_HREF, useValue: '/'}
+    UserListService
   ],
   bootstrap: [AppComponent]
 })
-
-export class AppModule {
-}
+export class AppModule { }

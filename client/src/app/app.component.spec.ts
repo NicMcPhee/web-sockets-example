@@ -1,34 +1,35 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {DebugElement} from '@angular/core';
-
-import {AppModule} from './app.module';
-import {AppComponent} from './app.component';
-import {CustomModule} from './custom.module';
+import { TestBed, async } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
-  let appInstance: AppComponent;
-  let appFixture: ComponentFixture<AppComponent>;
-  let debugElement: DebugElement;
-
-  beforeEach(() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        CustomModule,
-        AppModule
-      ]
-    });
+        RouterTestingModule
+      ],
+      declarations: [
+        AppComponent
+      ],
+    }).compileComponents();
+  }));
 
-    appFixture = TestBed.createComponent(AppComponent);
-
-    appInstance = appFixture.componentInstance;
-
-    debugElement = appFixture.debugElement;
-  });
   it('should create the app', () => {
-    expect(appFixture).toBeTruthy();
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'app'`, () => {
-    expect(appInstance.title).toEqual('Angular Spark lab');
+  it(`should have as title 'client'`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app.title).toEqual('client');
+  });
+
+  it('should render title', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelector('.content span').textContent).toContain('client app is running!');
   });
 });
