@@ -49,7 +49,7 @@ describe('User list', () => {
     userServiceStub = {
       getUsers: () => of([
         {
-          id: 'chris_id',
+          _id: 'chris_id',
           name: 'Chris',
           age: 25,
           company: 'UMM',
@@ -57,7 +57,7 @@ describe('User list', () => {
           avatar: 'https://gravatar.com/avatar/8c9616d6cc5de638ea6920fb5d65fc6c?d=identicon'
         },
         {
-          id: 'pat_id',
+          _id: 'pat_id',
           name: 'Pat',
           age: 37,
           company: 'IBM',
@@ -65,7 +65,7 @@ describe('User list', () => {
           avatar: 'https://gravatar.com/avatar/b42a11826c3bde672bce7e06ad729d44?d=identicon'
         },
         {
-          id: 'jamie_id',
+          _id: 'jamie_id',
           name: 'Jamie',
           age: 37,
           company: 'Frogs, Inc.',
