@@ -19,7 +19,7 @@ describe('UserProfileComponent', () => {
 
     userServiceStub = {
       getUser: (id: string) => of({
-        id: 'chris_id',
+        _id: 'chris_id',
         name: 'Chris',
         age: 25,
         company: 'UMM',
