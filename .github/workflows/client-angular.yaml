@@ -23,10 +23,10 @@ jobs:
       with:
         node-version: 12.x
 
-    - name: CD into client/
-      run: cd client
     - name: Install dependencies (npm ci)
       run: npm ci
+      working-directory: ./client
     - name: Test (npm run test)
       run: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+      working-directory: ./client
 
