@@ -25,8 +25,9 @@ import {MatDividerModule} from '@angular/material/divider';
 import { UserComponent } from './users/user.component';
 import { UserListComponent } from './users/user-list.component';
 import { HomeComponent } from './home/home.component';
-import { UserListService } from './users/user-list.service';
+import { UserService } from './users/user.service';
 import { HttpClientModule } from '@angular/common/http';
+import { UserCardComponent } from './users/user-card/user-card.component';
 
 const MATERIAL_MODULES: any[] = [
   MatListModule,
@@ -50,7 +51,8 @@ const MATERIAL_MODULES: any[] = [
     AppComponent,
     HomeComponent,
     UserComponent,
-    UserListComponent
+    UserListComponent,
+    UserCardComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +64,7 @@ const MATERIAL_MODULES: any[] = [
     MATERIAL_MODULES,
   ],
   providers: [
-    UserListService
+    UserService
   ],
   bootstrap: [AppComponent]
 })

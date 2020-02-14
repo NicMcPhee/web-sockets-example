@@ -6,7 +6,7 @@ import {FormsModule} from '@angular/forms';
 
 import {User} from './user';
 import {UserListComponent} from './user-list.component';
-import {UserListService} from './user-list.service';
+import {UserService} from './user.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -40,13 +40,13 @@ describe('User list', () => {
   let userList: UserListComponent;
   let fixture: ComponentFixture<UserListComponent>;
 
-  let userListServiceStub: {
+  let userServiceStub: {
     getUsers: () => Observable<User[]>
   };
 
   beforeEach(() => {
     // stub UserService for test purposes
-    userListServiceStub = {
+    userServiceStub = {
       getUsers: () => of([
         {
           id: 'chris_id',
@@ -75,9 +75,9 @@ describe('User list', () => {
     TestBed.configureTestingModule({
       imports: [COMMON_IMPORTS],
       declarations: [UserListComponent, UserComponent],
-      // providers:    [ UserListService ]  // NO! Don't provide the real service!
+      // providers:    [ UserService ]  // NO! Don't provide the real service!
       // Provide a test-double instead
-      providers: [{provide: UserListService, useValue: userListServiceStub}]
+      providers: [{provide: UserService, useValue: userServiceStub}]
     });
   });
 
@@ -114,13 +114,13 @@ describe('Misbehaving User List', () => {
   let userList: UserListComponent;
   let fixture: ComponentFixture<UserListComponent>;
 
-  let userListServiceStub: {
+  let userServiceStub: {
     getUsers: () => Observable<User[]>
   };
 
   beforeEach(() => {
     // stub UserService for test purposes
-    userListServiceStub = {
+    userServiceStub = {
       getUsers: () => Observable.create(observer => {
         observer.error('Error-prone observable');
       })
@@ -129,9 +129,9 @@ describe('Misbehaving User List', () => {
     TestBed.configureTestingModule({
       imports: [COMMON_IMPORTS],
       declarations: [UserListComponent, UserComponent],
-      // providers:    [ UserListService ]  // NO! Don't provide the real service!
+      // providers:    [ UserService ]  // NO! Don't provide the real service!
       // Provide a test-double instead
-      providers: [{provide: UserListService, useValue: userListServiceStub}]
+      providers: [{provide: UserService, useValue: userServiceStub}]
     });
   });
 

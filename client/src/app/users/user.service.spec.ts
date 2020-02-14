@@ -3,7 +3,7 @@ import {TestBed} from '@angular/core/testing';
 import {HttpClient} from '@angular/common/http';
 
 import {User} from './user';
-import {UserListService} from './user-list.service';
+import {UserService} from './user.service';
 
 describe('User list service: ', () => {
   // A small collection of test users
@@ -30,7 +30,7 @@ describe('User list service: ', () => {
       email: 'jamie@frogs.com'
     }
   ];
-  let userListService: UserListService;
+  let userService: UserService;
   // These are used to mock the HTTP requests so that we (a) don't have to
   // have the server running and (b) we can check exactly which HTTP
   // requests were made to ensure that we're making the correct requests.
@@ -46,7 +46,7 @@ describe('User list service: ', () => {
     httpTestingController = TestBed.get(HttpTestingController);
     // Construct an instance of the service with the mock
     // HTTP client.
-    userListService = new UserListService(httpClient);
+    userService = new UserService(httpClient);
   });
 
   afterEach(() => {
@@ -61,12 +61,12 @@ describe('User list service: ', () => {
     // checked until the mocked HTTP request "returns" a response.
     // This happens when we call req.flush(testUsers) a few lines
     // down.
-    userListService.getUsers().subscribe(
+    userService.getUsers().subscribe(
       users => expect(users).toBe(testUsers)
     );
 
     // Specify that (exactly) one request will be made to the specified URL.
-    const req = httpTestingController.expectOne(userListService.userUrl);
+    const req = httpTestingController.expectOne(userService.userUrl);
     // Check that the request made to that URL was a GET request.
     expect(req.request.method).toEqual('GET');
     // Specify the content of the response to that request. This
@@ -78,11 +78,11 @@ describe('User list service: ', () => {
   it('getUserById() calls api/users/id', () => {
     const targetUser: User = testUsers[1];
     const targetId: string = targetUser.id;
-    userListService.getUserById(targetId).subscribe(
+    userService.getUserById(targetId).subscribe(
       user => expect(user).toBe(targetUser)
     );
 
-    const expectedUrl: string = userListService.userUrl + '/' + targetId;
+    const expectedUrl: string = userService.userUrl + '/' + targetId;
     const req = httpTestingController.expectOne(expectedUrl);
     expect(req.request.method).toEqual('GET');
     req.flush(targetUser);
@@ -91,19 +91,19 @@ describe('User list service: ', () => {
   it('filterUsers() filters by name', () => {
     expect(testUsers.length).toBe(3);
     let userName = 'a';
-    expect(userListService.filterUsers(testUsers, userName).length).toBe(2);
+    expect(userService.filterUsers(testUsers, userName).length).toBe(2);
   });
 
   it('filterUsers() filters by age', () => {
     expect(testUsers.length).toBe(3);
     let userAge = 37;
-    expect(userListService.filterUsers(testUsers, null, userAge).length).toBe(2);
+    expect(userService.filterUsers(testUsers, null, userAge).length).toBe(2);
   });
 
   it('filterUsers() filters by name and age', () => {
     expect(testUsers.length).toBe(3);
     let userAge = 37;
     let userName = 'i';
-    expect(userListService.filterUsers(testUsers, userName, userAge).length).toBe(1);
+    expect(userService.filterUsers(testUsers, userName, userAge).length).toBe(1);
   });
 });

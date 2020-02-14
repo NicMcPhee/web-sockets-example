@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {UserListService} from './user-list.service';
+import {UserService} from './user.service';
 import {User} from './user';
 import {Observable} from 'rxjs';
 
@@ -20,13 +20,13 @@ export class UserListComponent implements OnInit {
   public userAgeForServerFilter: string;
 
 
-  // Inject the UserListService into this component.
+  // Inject the UserService into this component.
   // That's what happens in the following constructor.
   //
   // We can call upon the service for interacting
   // with the server.
 
-  constructor(private userListService: UserListService) {
+  constructor(private userService: UserService) {
 
   }
 
@@ -35,7 +35,7 @@ export class UserListComponent implements OnInit {
     let users: Observable<User[]>;
     if (newAge != '') {
       this.userAgeForServerFilter = newAge;
-      users = this.userListService.getUsersByAge(this.userAgeForServerFilter);
+      users = this.userService.getUsersByAge(this.userAgeForServerFilter);
       users.subscribe(
         returnedUsers => {
           this.serverFilteredUsers = returnedUsers;
@@ -45,7 +45,7 @@ export class UserListComponent implements OnInit {
           console.log(err);
         });
     } else {
-      users = this.userListService.getUsers();
+      users = this.userService.getUsers();
       users.subscribe(
         returnedUsers => {
           this.serverFilteredUsers = returnedUsers;
@@ -69,7 +69,7 @@ export class UserListComponent implements OnInit {
 
   public updateFilter() {
     this.filteredUsers =
-      this.userListService.filterUsers(
+      this.userService.filterUsers(
         this.serverFilteredUsers,
         this.userName,
         this.userAge);
@@ -80,7 +80,7 @@ export class UserListComponent implements OnInit {
    *
    */
   ngOnInit(): void {
-    const users: Observable<User[]> = this.userListService.getUsers();
+    const users: Observable<User[]> = this.userService.getUsers();
     users.subscribe(
       returnedUsers => {
         this.serverFilteredUsers = returnedUsers;
