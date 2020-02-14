@@ -9,54 +9,59 @@
         <label for="userName">Name:</label>
         <mat-form-field>
           <input
-            matInput
-            id="userName"
-            placeholder="Filter by name"
-            (input)="updateName($event.target.value)">
+          matInput
+          id="userName"
+          placeholder="Filter by name"
+          (input)="updateName($event.target.value)">
         </mat-form-field>
         <br>
         <!--this has an annoying error about setSelctionRange that we should probably deal with-->
         <label for="userAge">Age (filter in Angular):</label>
         <mat-form-field>
           <input
-            matInput
-            id="userAge"
-            type="number"
-            placeholder="Filter by age"
-            min="0" max="200"
-            (input)="updateAge($event.target.value)">
+          matInput
+          id="userAge"
+          type="number"
+          placeholder="Filter by age"
+          min="0" max="200"
+          (input)="updateAge($event.target.value)">
         </mat-form-field>
         <!--<mat-form-field>-->
-        <!--<input matInput id="userCompany" #input type="text" placeholder="Search for company" (input)="contentChange($event.target.value)">-->
-        <!--</mat-form-field>-->
+          <!--<input matInput id="userCompany" #input type="text" placeholder="Search for company" (input)="contentChange($event.target.value)">-->
+          <!--</mat-form-field>-->
 
-        <!--example of filtering on the server-->
-        <mat-form-field>
-          <mat-label>Age (filter on server):</mat-label>
-          <mat-select (selectionChange)="updateServerFilterAge($event.value)" [(ngModel)]="userAgeForServerFilter" id="userAgeForServerFilter">
-            <mat-option value="">no particular age</mat-option>
-            <mat-option value="23">23</mat-option>
-            <mat-option value="25">25</mat-option>
-            <mat-option value="27">27</mat-option>
-          </mat-select>
-          <mat-hint>Filter by age (on server)</mat-hint>
-        </mat-form-field>
+          <!--example of filtering on the server-->
+          <mat-form-field>
+            <mat-label>Age (filter on server):</mat-label>
+            <mat-select (selectionChange)="updateServerFilterAge($event.value)" [(ngModel)]="userAgeForServerFilter" id="userAgeForServerFilter">
+              <mat-option value="">no particular age</mat-option>
+              <mat-option value="23">23</mat-option>
+              <mat-option value="25">25</mat-option>
+              <mat-option value="27">27</mat-option>
+            </mat-select>
+            <mat-hint>Filter by age (on server)</mat-hint>
+          </mat-form-field>
 
-        <mat-accordion *ngIf="serverFilteredUsers; else usersError">
-          <!-- Example of using a child component -->
-          <app-user-component *ngFor="let user of this.filteredUsers" [user]="user"></app-user-component>
-        </mat-accordion>
-        <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
-        <ng-template #usersError>
-          <mat-error>
-            There was a problem loading the users. Possibly the server is down or perhaps there are network
-            issues.
-          </mat-error>
-          <mat-error>
-            Please wait a bit and try again or start the server.
-          </mat-error>
-        </ng-template>
+
       </mat-card-content>
     </mat-card>
   </div>
 </div>
+  <div layout-gt-sm="row">
+    <div flex-gt-sm="80" flex-offset-gt-sm="10">
+      <mat-accordion *ngIf="serverFilteredUsers; else usersError">
+        <!-- Example of using a child component -->
+        <app-user-component *ngFor="let user of this.filteredUsers" [user]="user"></app-user-component>
+      </mat-accordion>
+      <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
+      <ng-template #usersError>
+        <mat-error>
+          There was a problem loading the users. Possibly the server is down or perhaps there are network
+          issues.
+        </mat-error>
+        <mat-error>
+          Please wait a bit and try again or start the server.
+        </mat-error>
+      </ng-template>
+    </div>
+  </div>

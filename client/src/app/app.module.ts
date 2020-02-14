@@ -27,7 +27,9 @@ import { UserListComponent } from './users/user-list.component';
 import { HomeComponent } from './home/home.component';
 import { UserService } from './users/user.service';
 import { HttpClientModule } from '@angular/common/http';
-import { UserCardComponent } from './users/user-card/user-card.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { UserCardComponent } from './users/user-card.component';
+import { UserProfileComponent } from './users/user-profile.component';
 
 const MATERIAL_MODULES: any[] = [
   MatListModule,
@@ -52,7 +54,8 @@ const MATERIAL_MODULES: any[] = [
     HomeComponent,
     UserComponent,
     UserListComponent,
-    UserCardComponent
+    UserCardComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +65,7 @@ const MATERIAL_MODULES: any[] = [
     FlexLayoutModule,
     HttpClientModule,
     MATERIAL_MODULES,
+    LayoutModule,
   ],
   providers: [
     UserService
