@@ -54,7 +54,7 @@ public class TodoDatabase {
 
     // Filter status if defined
     if (queryParams.containsKey("status")) {
-      boolean targetStatus = Boolean.parseBoolean(queryParams.get("status").get(0));
+      String targetStatus = queryParams.get("status").get(0);
       filteredTodos = filterTodosByStatus(filteredTodos, targetStatus);
     }
     // Filter body if defined
@@ -99,8 +99,15 @@ public class TodoDatabase {
    * @return an array of all the todos from the given list that have the target
    *         status
    */
-  public Todo[] filterTodosByStatus(Todo[] todos, Boolean targetStatus) {
-    return Arrays.stream(todos).filter(x -> x.status == targetStatus).toArray(Todo[]::new);
+  public Todo[] filterTodosByStatus(Todo[] todos, String targetStatus) {
+    switch(targetStatus.toLowerCase()) {
+      case "complete":
+        return Arrays.stream(todos).filter(x -> x.status).toArray(Todo[]::new);
+      case "incomplete":
+        return Arrays.stream(todos).filter(x -> !x.status).toArray(Todo[]::new);
+      default:
+        throw new BadRequestResponse("Specified status '" + targetStatus + "' is not a valid todo status");
+    }
   }
 
   /**
@@ -112,7 +119,7 @@ public class TodoDatabase {
    *         body
    */
   public Todo[] filterTodosByBody(Todo[] todos, String targetBody) {
-    return Arrays.stream(todos).filter(x -> x.body.equals(targetBody)).toArray(Todo[]::new);
+    return Arrays.stream(todos).filter(x -> x.body.toLowerCase().contains(targetBody.toLowerCase())).toArray(Todo[]::new);
   }
 
   /**
@@ -124,7 +131,7 @@ public class TodoDatabase {
    *         body
    */
   public Todo[] filterTodosByOwner(Todo[] todos, String targetOwner) {
-    return Arrays.stream(todos).filter(x -> x.owner.equals(targetOwner)).toArray(Todo[]::new);
+    return Arrays.stream(todos).filter(x -> x.owner.toLowerCase().equals(targetOwner.toLowerCase())).toArray(Todo[]::new);
   }
 
   /**
@@ -136,7 +143,7 @@ public class TodoDatabase {
    *         category
    */
   public Todo[] filterTodosByCategory(Todo[] todos, String targetCategory) {
-    return Arrays.stream(todos).filter(x -> x.category.equals(targetCategory)).toArray(Todo[]::new);
+    return Arrays.stream(todos).filter(x -> x.category.toLowerCase().equals(targetCategory.toLowerCase())).toArray(Todo[]::new);
   }
 
   /**
