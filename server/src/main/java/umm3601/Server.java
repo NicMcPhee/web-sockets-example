@@ -3,7 +3,6 @@ package umm3601;
 import java.io.IOException;
 
 import io.javalin.Javalin;
-import io.javalin.http.staticfiles.Location;
 import umm3601.user.Database;
 import umm3601.user.UserController;
 import umm3601.todo.TodoDatabase;
@@ -11,7 +10,6 @@ import umm3601.todo.TodoController;
 
 public class Server {
 
-  public static final String CLIENT_DIRECTORY = "../client";
   public static final String USER_DATA_FILE = "/users.json";
   public static final String TODO_DATA_FILE = "/todos.json";
   private static Database userDatabase;
@@ -23,12 +21,7 @@ public class Server {
     UserController userController = buildUserController();
     TodoController todoController = buildTodoController();
 
-    Javalin server = Javalin.create(config -> {
-      // This tells the server where to look for static files,
-      // like HTML and JavaScript.
-      config.addStaticFiles(CLIENT_DIRECTORY, Location.EXTERNAL);
-      // The next line starts the server listening on port 4567.
-    }).start(4567);
+    Javalin server = Javalin.create().start(4567);
 
     // Simple example route
     server.get("/hello", ctx -> ctx.result("Hello World"));
