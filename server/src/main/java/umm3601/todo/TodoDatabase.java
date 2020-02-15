@@ -72,7 +72,12 @@ public class TodoDatabase {
       String targetCategory = queryParams.get("category").get(0);
       filteredTodos = filterTodosByCategory(filteredTodos, targetCategory);
     }
-    // Filters number of todos if defined
+    // Sort todo with specific order if defined
+    if (queryParams.containsKey("orderBy")) {
+      String targetOrder = queryParams.get("orderBy").get(0);
+      filteredTodos = sortTodos(filteredTodos, targetOrder);
+    }
+    // Filter todos within specific limit if defined
     if (queryParams.containsKey("limit")) {
       String limitParam = queryParams.get("limit").get(0);
       try {
@@ -132,6 +137,28 @@ public class TodoDatabase {
    */
   public Todo[] filterTodosByCategory(Todo[] todos, String targetCategory) {
     return Arrays.stream(todos).filter(x -> x.category.equals(targetCategory)).toArray(Todo[]::new);
+  }
+
+  /**
+   * Get an array of all the todos sorted in the given order.
+   *
+   * @param todos        the list of todos to filter by category
+   * @param targetOrder  the target order to sort
+   * @return an array of all the todos from the given list sorted in the given order
+   */
+  public Todo[] sortTodos(Todo[] todos, String targetOrder) {
+    switch(targetOrder) {
+      case "owner":
+        return Arrays.stream(todos).sorted((x, y) -> x.owner.compareTo(y.owner)).toArray(Todo[]::new);
+      case "body":
+        return Arrays.stream(todos).sorted((x, y) -> x.body.compareTo(y.body)).toArray(Todo[]::new);
+      case "status":
+        return Arrays.stream(todos).sorted((x, y) -> Boolean.compare(x.status, y.status)).toArray(Todo[]::new);
+      case "category":
+        return Arrays.stream(todos).sorted((x, y) -> x.category.compareTo(y.category)).toArray(Todo[]::new);
+      default:
+        throw new BadRequestResponse("Specified order '" + targetOrder + "' is not an applicable todo attribute");
+    }
   }
 
   /**
