@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const COMMON_IMPORTS: any[] = [
   FormsModule,
@@ -32,6 +33,7 @@ const COMMON_IMPORTS: any[] = [
   MatListModule,
   MatDividerModule,
   BrowserAnimationsModule,
+  RouterTestingModule
 ];
 
 describe('User list', () => {

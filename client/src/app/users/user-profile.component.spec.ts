@@ -6,6 +6,7 @@ import { UserCardComponent } from './user-card.component';
 import { of, Observable } from 'rxjs';
 import { User } from './user';
 import { UserService } from './user.service';
+import { MatCardModule } from '@angular/material/card';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
@@ -30,7 +31,8 @@ describe('UserProfileComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        MatCardModule
       ],
       declarations: [ UserProfileComponent, UserCardComponent ],
       providers: [{provide: UserService, useValue: userServiceStub}]
