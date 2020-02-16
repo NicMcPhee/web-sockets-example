@@ -13,13 +13,13 @@ describe('UserProfileComponent', () => {
   let fixture: ComponentFixture<UserProfileComponent>;
 
   let userServiceStub: {
-    getUser: (id: string) => Observable<User>
+    getUserById: (id: string) => Observable<User>;
   };
 
   beforeEach(async(() => {
 
     userServiceStub = {
-      getUser: (id: string) => of({
+      getUserById: (id: string) => of({
         _id: 'chris_id',
         name: 'Chris',
         age: 25,
