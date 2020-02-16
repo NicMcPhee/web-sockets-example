@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 import {Observable} from 'rxjs';
 
@@ -15,6 +15,15 @@ export class UserService {
 
   getUsers(): Observable<User[]> {
     return this.httpClient.get<User[]>(this.userUrl);
+  }
+
+  getUsersFiltered(filterAge?: string, filterCompany?: string): Observable<User[]> {
+    let httpParams: HttpParams = new HttpParams();
+    if(filterAge) httpParams = httpParams.set("age", filterAge);
+    if(filterCompany) httpParams = httpParams.set("company", filterCompany);
+    return this.httpClient.get<User[]>(this.userUrl, {
+      params: httpParams,
+    });
   }
 
   // This is an example of searching by age on the server using the server API
