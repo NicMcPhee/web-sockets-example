@@ -18,11 +18,11 @@ import io.javalin.http.BadRequestResponse;
  * then provide various database-like methods that allow the `UserController` to
  * "query" the "database".
  */
-public class Database {
+public class UserDatabase {
 
   private User[] allUsers;
 
-  public Database(String userDataFile) throws IOException {
+  public UserDatabase(String userDataFile) throws IOException {
     Gson gson = new Gson();
     InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream(userDataFile));
     allUsers = gson.fromJson(reader, User[].class);

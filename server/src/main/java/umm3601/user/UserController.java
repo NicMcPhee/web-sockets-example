@@ -8,7 +8,7 @@ import io.javalin.http.NotFoundResponse;
  */
 public class UserController {
 
-  private Database database;
+  private UserDatabase userDatabase;
 
   /**
    * Construct a controller for users.
@@ -17,10 +17,10 @@ public class UserController {
    * internally so that (subsets of) users can be returned in response to
    * requests.
    *
-   * @param database the `Database` containing user data
+   * @param userDatabase the `UserDatabase` containing user data
    */
-  public UserController(Database database) {
-    this.database = database;
+  public UserController(UserDatabase userDatabase) {
+    this.userDatabase = userDatabase;
   }
 
   /**
@@ -30,7 +30,7 @@ public class UserController {
    */
   public void getUser(Context ctx) {
     String id = ctx.pathParam("id", String.class).get();
-    User user = database.getUser(id);
+    User user = userDatabase.getUser(id);
     if (user != null) {
       ctx.json(user);
       ctx.status(201);
@@ -45,7 +45,7 @@ public class UserController {
    * @param ctx a Javalin HTTP context
    */
   public void getUsers(Context ctx) {
-    User[] users = database.listUsers(ctx.queryParamMap());
+    User[] users = userDatabase.listUsers(ctx.queryParamMap());
     ctx.json(users);
   }
 

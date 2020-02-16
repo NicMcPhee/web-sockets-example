@@ -33,13 +33,13 @@ public class UserControllerSpec {
   private Context ctx = mock(Context.class);
 
   private UserController userController;
-  private static Database db;
+  private static UserDatabase db;
 
   @BeforeEach
   public void setUp() throws IOException {
     ctx.clearCookieStore();
 
-    db = new Database(Server.USER_DATA_FILE);
+    db = new UserDatabase(Server.USER_DATA_FILE);
     userController = new UserController(db);
   }
 

@@ -3,7 +3,7 @@ package umm3601;
 import java.io.IOException;
 
 import io.javalin.Javalin;
-import umm3601.user.Database;
+import umm3601.user.UserDatabase;
 import umm3601.user.UserController;
 import umm3601.todo.TodoDatabase;
 import umm3601.todo.TodoController;
@@ -12,7 +12,7 @@ public class Server {
 
   public static final String USER_DATA_FILE = "/users.json";
   public static final String TODO_DATA_FILE = "/todos.json";
-  private static Database userDatabase;
+  private static UserDatabase userDatabase;
   private static TodoDatabase todoDatabase;
 
   public static void main(String[] args) {
@@ -57,7 +57,7 @@ public class Server {
     UserController userController = null;
 
     try {
-      userDatabase = new Database(USER_DATA_FILE);
+      userDatabase = new UserDatabase(USER_DATA_FILE);
       userController = new UserController(userDatabase);
     } catch (IOException e) {
       System.err.println("The server failed to load the user data; shutting down.");

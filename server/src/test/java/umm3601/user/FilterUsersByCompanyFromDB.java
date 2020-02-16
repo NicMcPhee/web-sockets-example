@@ -18,7 +18,7 @@ public class FilterUsersByCompanyFromDB {
 
   @Test
   public void filterUsersByComapny() throws IOException {
-    Database db = new Database("/users.json");
+    UserDatabase db = new UserDatabase("/users.json");
     User[] allUsers = db.listUsers(new HashMap<>());
 
     User[] OHMNET_Users = db.filterUsersByCompany(allUsers, "OHMNET");
@@ -30,7 +30,7 @@ public class FilterUsersByCompanyFromDB {
 
   @Test
   public void listUsersWithCompanyFilter() throws IOException {
-    Database db = new Database("/users.json");
+    UserDatabase db = new UserDatabase("/users.json");
     Map<String, List<String>> queryParams = new HashMap<>();
 
     queryParams.put("company", Arrays.asList(new String[] { "OHMNET" }));
