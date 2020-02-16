@@ -11,12 +11,12 @@ import com.google.gson.Gson;
 import io.javalin.http.BadRequestResponse;
 
 /**
- * A fake "database" of user info
+ * A fake "userDatabase" of user info
  * <p>
  * Since we don't want to complicate this lab with a real database, we're going
  * to instead just read a bunch of user data from a specified JSON file, and
  * then provide various database-like methods that allow the `UserController` to
- * "query" the "database".
+ * "query" the "userDatabase".
  */
 public class UserDatabase {
 
