@@ -1,72 +1,52 @@
 package umm3601.user;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import spark.Request;
-import spark.Response;
-
-import java.io.IOException;
-
-import static umm3601.Util.*;
+import io.javalin.http.Context;
+import io.javalin.http.NotFoundResponse;
 
 /**
  * Controller that manages requests for info about users.
  */
 public class UserController {
 
-  private final Gson gson;
-  private Database database;
+  private UserDatabase userDatabase;
 
   /**
    * Construct a controller for users.
    * <p>
-   * This loads the "database" of user info from a JSON file and
-   * stores that internally so that (subsets of) users can be returned
-   * in response to requests.
+   * This loads the "database" of user info from a JSON file and stores that
+   * internally so that (subsets of) users can be returned in response to
+   * requests.
    *
-   * @param database the database containing user data
+   * @param userDatabase the `UserDatabase` containing user data
    */
-  public UserController(Database database) {
-    gson = new Gson();
-    this.database = database;
+  public UserController(UserDatabase userDatabase) {
+    this.userDatabase = userDatabase;
   }
 
   /**
    * Get the single user specified by the `id` parameter in the request.
    *
-   * @param req the HTTP request
-   * @param res the HTTP response
-   * @return a success JSON object if the user with that ID is found, a fail
-   * JSON object if no user with that ID is found
+   * @param ctx a Javalin HTTP context
    */
-  public JsonElement getUser(Request req, Response res) {
-    res.type("application/json");
-    String id = req.params("id");
-    User user = database.getUser(id);
+  public void getUser(Context ctx) {
+    String id = ctx.pathParam("id", String.class).get();
+    User user = userDatabase.getUser(id);
     if (user != null) {
-
-      //return buildSuccessJsonResponse("user", gson.toJsonTree(user));
-      return gson.toJsonTree(user);
+      ctx.json(user);
+      ctx.status(201);
     } else {
-      String message = "User with ID " + id + " wasn't found.";
-      return buildFailJsonResponse("id", message);
+      throw new NotFoundResponse("No user with id " + id + " was found.");
     }
   }
 
   /**
    * Get a JSON response with a list of all the users in the "database".
    *
-   * @param req the HTTP request
-   * @param res the HTTP response
-   * @return a success JSON object containing all the users
+   * @param ctx a Javalin HTTP context
    */
-  public JsonElement getUsers(Request req, Response res) {
-    res.type("application/json");
-    User[] users = database.listUsers(req.queryMap().toMap());
-
-    //return buildSuccessJsonResponse("users", gson.toJsonTree(users));
-    return gson.toJsonTree(users);
+  public void getUsers(Context ctx) {
+    User[] users = userDatabase.listUsers(ctx.queryParamMap());
+    ctx.json(users);
   }
 
 }
