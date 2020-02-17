@@ -13,15 +13,13 @@ export class UserService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getUsers(): Observable<User[]> {
-    return this.httpClient.get<User[]>(this.userUrl);
-  }
-
-  getUsersFiltered(filterRole?: UserRole, filterAge?: string, filterCompany?: string): Observable<User[]> {
+  getUsers(filters?: {role?: UserRole, age?: string, company?: string}): Observable<User[]> {
     let httpParams: HttpParams = new HttpParams();
-    if(filterRole) httpParams = httpParams.set("role", filterRole);
-    if(filterAge) httpParams = httpParams.set("age", filterAge);
-    if(filterCompany) httpParams = httpParams.set("company", filterCompany);
+    if(filters) {
+      if(filters.role) httpParams = httpParams.set("role", filters.role);
+      if(filters.age) httpParams = httpParams.set("age", filters.age);
+      if(filters.company) httpParams = httpParams.set("company", filters.company);
+    }
     return this.httpClient.get<User[]>(this.userUrl, {
       params: httpParams,
     });
@@ -44,7 +42,7 @@ export class UserService {
       });
     }
 
-    // Filter by age
+    // Filter by company
     if (searchCompany) {
       searchCompany = searchCompany.toLowerCase();
 

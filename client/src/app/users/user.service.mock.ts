@@ -39,12 +39,9 @@ export class MockUserService extends UserService {
     super(null);
   }
 
-  getUsers(): Observable<User[]> {
-    return of(this.testUsers);
-  }
 
-  getUsersFiltered(filterRole?: UserRole, filterAge?: string, filterCompany?: string): Observable<User[]> {
-    return of(this.testUsers);
+  getUsers(filters: {role?: UserRole, age?: string, company?: string}): Observable<User[]> {
+    return of(this.testUsers); // Just return the test users regardless of what filters are passed in
   }
 
   getUserById(id: string): Observable<User> {
