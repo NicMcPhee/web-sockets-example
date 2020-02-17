@@ -7,27 +7,13 @@ import { of, Observable } from 'rxjs';
 import { User } from './user';
 import { UserService } from './user.service';
 import { MatCardModule } from '@angular/material/card';
+import { MockUserService } from './user.service.mock';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
   let fixture: ComponentFixture<UserProfileComponent>;
 
-  let userServiceStub: {
-    getUserById: (id: string) => Observable<User>;
-  };
-
   beforeEach(async(() => {
-
-    userServiceStub = {
-      getUserById: (id: string) => of({
-        _id: 'chris_id',
-        name: 'Chris',
-        age: 25,
-        company: 'UMM',
-        email: 'chris@this.that',
-        avatar: 'https://gravatar.com/avatar/8c9616d6cc5de638ea6920fb5d65fc6c?d=identicon'
-      })
-    };
 
     TestBed.configureTestingModule({
       imports: [
@@ -35,7 +21,7 @@ describe('UserProfileComponent', () => {
         MatCardModule
       ],
       declarations: [ UserProfileComponent, UserCardComponent ],
-      providers: [{provide: UserService, useValue: userServiceStub}]
+      providers: [{provide: UserService, useValue: new MockUserService()}]
     })
     .compileComponents();
   }));

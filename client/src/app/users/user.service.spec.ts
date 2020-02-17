@@ -14,6 +14,7 @@ describe('User list service: ', () => {
       age: 25,
       company: 'UMM',
       email: 'chris@this.that',
+      role: "admin",
       avatar: 'https://gravatar.com/avatar/8c9616d6cc5de638ea6920fb5d65fc6c?d=identicon'
     },
     {
@@ -22,6 +23,7 @@ describe('User list service: ', () => {
       age: 37,
       company: 'IBM',
       email: 'pat@something.com',
+      role: "editor",
       avatar: 'https://gravatar.com/avatar/b42a11826c3bde672bce7e06ad729d44?d=identicon'
     },
     {
@@ -30,6 +32,7 @@ describe('User list service: ', () => {
       age: 37,
       company: 'Frogs, Inc.',
       email: 'jamie@frogs.com',
+      role: "viewer",
       avatar: 'https://gravatar.com/avatar/d4a6c71dd9470ad4cf58f78c100258bf?d=identicon'
     }
   ];
@@ -97,16 +100,16 @@ describe('User list service: ', () => {
     expect(userService.filterUsers(testUsers, userName).length).toBe(2);
   });
 
-  it('filterUsers() filters by age', () => {
+  it('filterUsers() filters by company', () => {
     expect(testUsers.length).toBe(3);
-    let userAge = 37;
-    expect(userService.filterUsers(testUsers, null, userAge).length).toBe(2);
+    let userCompany = 'UMM';
+    expect(userService.filterUsers(testUsers, null, userCompany).length).toBe(1);
   });
 
-  it('filterUsers() filters by name and age', () => {
+  it('filterUsers() filters by name and company', () => {
     expect(testUsers.length).toBe(3);
-    let userAge = 37;
-    let userName = 'i';
-    expect(userService.filterUsers(testUsers, userName, userAge).length).toBe(1);
+    let userCompany = 'UMM';
+    let userName = 'chris';
+    expect(userService.filterUsers(testUsers, userName, userCompany).length).toBe(1);
   });
 });

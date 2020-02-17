@@ -19,7 +19,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MatRadioButton } from '@angular/material/radio';
+import {MatRadioModule} from '@angular/material/radio';
+import { MockUserService } from './user.service.mock';
 
 const COMMON_IMPORTS: any[] = [
   FormsModule,
@@ -33,7 +34,7 @@ const COMMON_IMPORTS: any[] = [
   MatTooltipModule,
   MatListModule,
   MatDividerModule,
-  MatRadioButton,
+  MatRadioModule,
   BrowserAnimationsModule,
   RouterTestingModule,
 ];
@@ -43,50 +44,13 @@ describe('User list', () => {
   let userList: UserListComponent;
   let fixture: ComponentFixture<UserListComponent>;
 
-  let userServiceStub: {
-    getUsers: () => Observable<User[]>
-  };
-
   beforeEach(() => {
-    // stub UserService for test purposes
-    userServiceStub = {
-      getUsers: () => of([
-        {
-          _id: 'chris_id',
-          name: 'Chris',
-          age: 25,
-          company: 'UMM',
-          email: 'chris@this.that',
-          role: "admin",
-          avatar: 'https://gravatar.com/avatar/8c9616d6cc5de638ea6920fb5d65fc6c?d=identicon'
-        },
-        {
-          _id: 'pat_id',
-          name: 'Pat',
-          age: 37,
-          company: 'IBM',
-          email: 'pat@something.com',
-          role: "editor",
-          avatar: 'https://gravatar.com/avatar/b42a11826c3bde672bce7e06ad729d44?d=identicon'
-        },
-        {
-          _id: 'jamie_id',
-          name: 'Jamie',
-          age: 37,
-          company: 'Frogs, Inc.',
-          email: 'jamie@frogs.com',
-          role: "viewer",
-          avatar: 'https://gravatar.com/avatar/d4a6c71dd9470ad4cf58f78c100258bf?d=identicon'
-        }
-      ])
-    };
-
     TestBed.configureTestingModule({
       imports: [COMMON_IMPORTS],
       declarations: [UserListComponent],
       // providers:    [ UserService ]  // NO! Don't provide the real service!
       // Provide a test-double instead
-      providers: [{provide: UserService, useValue: userServiceStub}]
+      providers: [{provide: UserService, useValue: new MockUserService()}]
     });
   });
 
@@ -124,13 +88,17 @@ describe('Misbehaving User List', () => {
   let fixture: ComponentFixture<UserListComponent>;
 
   let userServiceStub: {
-    getUsers: () => Observable<User[]>
+    getUsers: () => Observable<User[]>;
+    getUsersFiltered: () => Observable<User[]>;
   };
 
   beforeEach(() => {
     // stub UserService for test purposes
     userServiceStub = {
       getUsers: () => Observable.create(observer => {
+        observer.error('Error-prone observable');
+      }),
+      getUsersFiltered: () => Observable.create(observer => {
         observer.error('Error-prone observable');
       })
     };
