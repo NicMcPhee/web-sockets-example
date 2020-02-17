@@ -44,7 +44,7 @@ public class TodoControllerSpec {
   }
 
   @Test
-  public void GET_to_request_all_todos() throws IOException {
+  public void GETRequestForAllTodos() throws IOException {
     // Call the method on the mock controller
     todoController.getTodos(ctx);
 
@@ -55,7 +55,7 @@ public class TodoControllerSpec {
   }
 
   @Test
-  public void GET_to_request_limit_20_todos() throws IOException {
+  public void GETRequestForTodosLimit20() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
     queryParams.put("limit", Arrays.asList(new String[] { "20" }));
 
@@ -74,7 +74,7 @@ public class TodoControllerSpec {
    * we get a reasonable error code back.
    */
   @Test
-  public void GET_to_request_todos_with_illegal_limit() {
+  public void GETRequestForTodosWithIllegalLimit() {
     // We'll set the requested "limit" to be a string ("abc")
     // that can't be parsed to a number.
     Map<String, List<String>> queryParams = new HashMap<>();
@@ -89,7 +89,7 @@ public class TodoControllerSpec {
   }
 
   @Test
-  public void GET_to_request_sorted_owner_todos() throws IOException {
+  public void GETRequestForTodosSortedWithOwner() throws IOException {
 
     Map<String, List<String>> queryParams = new HashMap<>();
     queryParams.put("orderBy", Arrays.asList(new String[] { "owner" }));
@@ -113,7 +113,7 @@ public class TodoControllerSpec {
    * we get a reasonable error code back.
    */
   @Test
-  public void GET_to_request_todos_with_illegal_order() {
+  public void GETRequestForTodosWithIllegalOrder() {
     // We'll set the requested "age" to be a string ("abc")
     // that can't be parsed to a number.
     Map<String, List<String>> queryParams = new HashMap<>();
@@ -128,14 +128,14 @@ public class TodoControllerSpec {
   }
 
   @Test
-  public void GET_to_request_user_with_existent_id() throws IOException {
+  public void GETRequestForTodoWithExistentId() throws IOException {
     when(ctx.pathParam("id", String.class)).thenReturn(new Validator<String>("58895985a22c04e761776d54", ""));
     todoController.getTodo(ctx);
     verify(ctx).status(201);
   }
 
   @Test
-  public void GET_to_request_user_with_nonexistent_id() throws IOException {
+  public void GETRequestForTodoWithNonexistentId() throws IOException {
     when(ctx.pathParam("id", String.class)).thenReturn(new Validator<String>("nonexistent", ""));
     Assertions.assertThrows(NotFoundResponse.class, () -> {
       todoController.getTodo(ctx);

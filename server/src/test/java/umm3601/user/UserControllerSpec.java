@@ -44,7 +44,7 @@ public class UserControllerSpec {
   }
 
   @Test
-  public void GET_to_request_all_users() throws IOException {
+  public void GETRequestForAllUsers() throws IOException {
     // Call the method on the mock controller
     userController.getUsers(ctx);
 
@@ -55,7 +55,7 @@ public class UserControllerSpec {
   }
 
   @Test
-  public void GET_to_request_age_25_users() throws IOException {
+  public void GETRequestForAge25Users() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
     queryParams.put("age", Arrays.asList(new String[] { "25" }));
 
@@ -76,7 +76,7 @@ public class UserControllerSpec {
    * we get a reasonable error code back.
    */
   @Test
-  public void GET_to_request_users_with_illegal_age() {
+  public void GETRequestForUsersWithIllegalAge() {
     // We'll set the requested "age" to be a string ("abc")
     // that can't be parsed to a number.
     Map<String, List<String>> queryParams = new HashMap<>();
@@ -91,7 +91,7 @@ public class UserControllerSpec {
   }
 
   @Test
-  public void GET_to_request_company_OHMNET_users() throws IOException {
+  public void GETRequestForCompanyOHMNETUsers() throws IOException {
 
     Map<String, List<String>> queryParams = new HashMap<>();
     queryParams.put("company", Arrays.asList(new String[] { "OHMNET" }));
@@ -108,7 +108,7 @@ public class UserControllerSpec {
   }
 
   @Test
-  public void GET_to_request_company_OHMNET_age_25_users() throws IOException {
+  public void GETRequestForCompanyOHMNETAge25Users() throws IOException {
 
     Map<String, List<String>> queryParams = new HashMap<>();
     queryParams.put("company", Arrays.asList(new String[] { "OHMNET" }));
@@ -129,14 +129,14 @@ public class UserControllerSpec {
   }
 
   @Test
-  public void GET_to_request_user_with_existent_id() throws IOException {
+  public void GETRequestForUserWithExistentId() throws IOException {
     when(ctx.pathParam("id", String.class)).thenReturn(new Validator<String>("588935f5c668650dc77df581", ""));
     userController.getUser(ctx);
     verify(ctx).status(201);
   }
 
   @Test
-  public void GET_to_request_user_with_nonexistent_id() throws IOException {
+  public void GETRequestForUserWithNonexistentId() throws IOException {
     when(ctx.pathParam("id", String.class)).thenReturn(new Validator<String>("nonexistent", ""));
     Assertions.assertThrows(NotFoundResponse.class, () -> {
       userController.getUser(ctx);
