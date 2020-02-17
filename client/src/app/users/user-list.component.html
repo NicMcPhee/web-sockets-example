@@ -8,47 +8,34 @@
       <mat-card-content fxLayout="column" >
 
         <div fxLayout="row wrap" fxLayoutGap="10px">
+
+          <!-- Examples of filtering in Angular -->
+
           <mat-form-field>
             <mat-label>Name</mat-label>
-            <input
-            matInput
-            id="userName"
-            placeholder="Filter by name"
-            [(ngModel)]="userName"
-            (input)="updateFilter()">
+            <input matInput id="userName" placeholder="Filter by name"
+            [(ngModel)]="userName" (input)="updateFilter()">
             <mat-hint>Filtered in Angular</mat-hint>
           </mat-form-field>
 
           <mat-form-field>
             <mat-label>Company</mat-label>
-            <input
-            matInput
-            id="userCompany"
-            placeholder="Filter by company"
-            [(ngModel)]="userCompany"
-            (input)="updateFilter()">
+            <input matInput id="userCompany" placeholder="Filter by company"
+            [(ngModel)]="userCompany" (input)="updateFilter()">
             <mat-hint>Filtered in Angular</mat-hint>
           </mat-form-field>
         </div>
         <div fxLayout="row wrap" fxLayoutGap="10px">
-          <!--this has an annoying error about setSelectionRange that we should probably deal with-->
+
+          <!-- Examples of filtering on the server -->
+
           <mat-form-field>
             <mat-label>Age</mat-label>
-            <input
-            matInput
-            id="userAge"
-            type="number"
-            placeholder="Filter by age"
-            min="0" max="200"
-            [(ngModel)]="userAge"
-            (input)="getUsersFromServer()">
+            <input matInput id="userAge" type="number" placeholder="Filter by age"
+            min="0" max="200" [(ngModel)]="userAge" (input)="getUsersFromServer()">
             <mat-hint>Filtered on Server</mat-hint>
           </mat-form-field>
-          <!--<mat-form-field>-->
-            <!--<input matInput id="userCompany" #input type="text" placeholder="Search for company" (input)="contentChange($event.target.value)">-->
-            <!--</mat-form-field>-->
 
-            <!--example of filtering on the server-->
             <mat-form-field>
               <mat-label>Role</mat-label>
               <mat-select (selectionChange)="getUsersFromServer()" [(ngModel)]="userRole" id="userAgeForServerFilter">
@@ -78,7 +65,12 @@
   <div fxLayout="row">
     <div fxFlex fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" *ngIf="serverFilteredUsers; else usersError" >
       <div [ngSwitch]="viewType">
-        <!-- Use the nav list for xs viewport (phones) -->
+
+        <div *ngSwitchCase="'card'" fxLayout="row wrap" fxLayoutGap="10px" class="user-cards-container">
+          <app-user-card simple="true" *ngFor="let user of filteredUsers" class="user-card" [user]="user" fxFlex="1 1 280px"></app-user-card>
+        </div>
+
+
         <mat-card *ngSwitchCase="'list'">
           <mat-card-content>
             <mat-nav-list >
@@ -92,11 +84,7 @@
           </mat-card-content>
         </mat-card>
 
-        <!-- Use the card grid for larger devices (tablet/desktop) -->
 
-        <div *ngSwitchCase="'card'" fxLayout="row wrap" fxLayoutGap="10px" class="user-cards-container">
-          <app-user-card simple="true" *ngFor="let user of filteredUsers" class="user-card" [user]="user" fxFlex="1 1 280px"></app-user-card>
-        </div>
 
       </div>
     </div>
