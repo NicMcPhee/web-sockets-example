@@ -19,6 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatRadioButton } from '@angular/material/radio';
 
 const COMMON_IMPORTS: any[] = [
   FormsModule,
@@ -32,8 +33,9 @@ const COMMON_IMPORTS: any[] = [
   MatTooltipModule,
   MatListModule,
   MatDividerModule,
+  MatRadioButton,
   BrowserAnimationsModule,
-  RouterTestingModule
+  RouterTestingModule,
 ];
 
 describe('User list', () => {
@@ -55,6 +57,7 @@ describe('User list', () => {
           age: 25,
           company: 'UMM',
           email: 'chris@this.that',
+          role: "admin",
           avatar: 'https://gravatar.com/avatar/8c9616d6cc5de638ea6920fb5d65fc6c?d=identicon'
         },
         {
@@ -63,6 +66,7 @@ describe('User list', () => {
           age: 37,
           company: 'IBM',
           email: 'pat@something.com',
+          role: "editor",
           avatar: 'https://gravatar.com/avatar/b42a11826c3bde672bce7e06ad729d44?d=identicon'
         },
         {
@@ -71,6 +75,7 @@ describe('User list', () => {
           age: 37,
           company: 'Frogs, Inc.',
           email: 'jamie@frogs.com',
+          role: "viewer",
           avatar: 'https://gravatar.com/avatar/d4a6c71dd9470ad4cf58f78c100258bf?d=identicon'
         }
       ])

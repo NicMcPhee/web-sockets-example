@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from './user.service';
-import {User} from './user';
+import {User, UserRole} from './user';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -17,7 +17,9 @@ export class UserListComponent implements OnInit {
 
   public userName: string;
   public userAge: number;
-  public userAgeForServerFilter: string;
+  public userRole: UserRole;
+  public userCompany: string;
+  public viewType: "card" | "list" = "card";
 
 
   // Inject the UserService into this component.
@@ -30,41 +32,14 @@ export class UserListComponent implements OnInit {
 
   }
 
-  // This shows what happens when the server filter age is updated
-  public updateServerFilterAge(newAge: string): void{
-    let users: Observable<User[]>;
-    if (newAge != '') {
-      this.userAgeForServerFilter = newAge;
-      users = this.userService.getUsersByAge(this.userAgeForServerFilter);
-      users.subscribe(
-        returnedUsers => {
-          this.serverFilteredUsers = returnedUsers;
-          this.updateFilter();
-        },
-        err => {
-          console.log(err);
-        });
-    } else {
-      users = this.userService.getUsers();
-      users.subscribe(
-        returnedUsers => {
-          this.serverFilteredUsers = returnedUsers;
-          this.updateFilter();
-        },
-        err => {
-          console.log(err);
-        });
-    }
-  }
-
-  public updateName(newName: string): void {
-    this.userName = newName;
-    this.updateFilter();
-  }
-
-  public updateAge(newAge: number): void {
-    this.userAge = newAge;
-    this.updateFilter();
+  getUsersFromServer() {
+    this.userService.getUsersFiltered(this.userRole, this.userAge ? this.userAge.toString() : null).subscribe(returnedUsers => {
+      this.serverFilteredUsers = returnedUsers;
+      this.updateFilter();
+    },
+    err => {
+      console.log(err);
+    });
   }
 
   public updateFilter() {
@@ -72,7 +47,7 @@ export class UserListComponent implements OnInit {
       this.userService.filterUsers(
         this.serverFilteredUsers,
         this.userName,
-        this.userAge);
+        this.userCompany);
   }
 
   /**
@@ -80,14 +55,6 @@ export class UserListComponent implements OnInit {
    *
    */
   ngOnInit(): void {
-    const users: Observable<User[]> = this.userService.getUsers();
-    users.subscribe(
-      returnedUsers => {
-        this.serverFilteredUsers = returnedUsers;
-        this.filteredUsers = returnedUsers;
-      },
-      err => {
-        console.log(err);
-      });
+    this.getUsersFromServer();
   }
 }

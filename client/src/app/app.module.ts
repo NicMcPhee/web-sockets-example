@@ -21,6 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatRadioModule} from '@angular/material/radio';
 
 import { UserListComponent } from './users/user-list.component';
 import { HomeComponent } from './home/home.component';
@@ -44,7 +45,8 @@ const MATERIAL_MODULES: any[] = [
   MatSelectModule,
   MatOptionModule,
   MatFormFieldModule,
-  MatDividerModule
+  MatDividerModule,
+  MatRadioModule
 ];
 
 @NgModule({
