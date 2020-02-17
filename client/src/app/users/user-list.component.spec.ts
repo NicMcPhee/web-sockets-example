@@ -21,6 +21,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { RouterTestingModule } from '@angular/router/testing';
 import {MatRadioModule} from '@angular/material/radio';
 import { MockUserService } from './user.service.mock';
+import { UserCardComponent } from './user-card.component';
 
 const COMMON_IMPORTS: any[] = [
   FormsModule,
@@ -47,7 +48,7 @@ describe('User list', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [COMMON_IMPORTS],
-      declarations: [UserListComponent],
+      declarations: [UserListComponent, UserCardComponent],
       // providers:    [ UserService ]  // NO! Don't provide the real service!
       // Provide a test-double instead
       providers: [{provide: UserService, useValue: new MockUserService()}]
