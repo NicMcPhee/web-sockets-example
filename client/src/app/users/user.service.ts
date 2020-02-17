@@ -29,25 +29,25 @@ export class UserService {
     return this.httpClient.get<User>(this.userUrl + '/' + id);
   }
 
-  filterUsers(users: User[], searchName?: string, searchCompany?: string): User[] {
+  filterUsers(users: User[], filters: {name?: string, company?: string}): User[] {
 
     let filteredUsers = users;
 
     // Filter by name
-    if (searchName) {
-      searchName = searchName.toLowerCase();
+    if (filters.name) {
+      filters.name = filters.name.toLowerCase();
 
       filteredUsers = filteredUsers.filter(user => {
-        return user.name.toLowerCase().indexOf(searchName) !== -1;
+        return user.name.toLowerCase().indexOf(filters.name) !== -1;
       });
     }
 
     // Filter by company
-    if (searchCompany) {
-      searchCompany = searchCompany.toLowerCase();
+    if (filters.company) {
+      filters.company = filters.company.toLowerCase();
 
       filteredUsers = filteredUsers.filter(user => {
-        return user.company.toLowerCase().indexOf(searchCompany) !== -1;
+        return user.company.toLowerCase().indexOf(filters.company) !== -1;
       });
     }
 

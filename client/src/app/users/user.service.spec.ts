@@ -5,7 +5,7 @@ import {HttpClient} from '@angular/common/http';
 import {User} from './user';
 import {UserService} from './user.service';
 
-describe('User list service: ', () => {
+describe('User service: ', () => {
   // A small collection of test users
   const testUsers: User[] = [
     {
@@ -140,19 +140,19 @@ describe('User list service: ', () => {
   it('filterUsers() filters by name', () => {
     expect(testUsers.length).toBe(3);
     let userName = 'a';
-    expect(userService.filterUsers(testUsers, userName).length).toBe(2);
+    expect(userService.filterUsers(testUsers, {name: userName}).length).toBe(2);
   });
 
   it('filterUsers() filters by company', () => {
     expect(testUsers.length).toBe(3);
     let userCompany = 'UMM';
-    expect(userService.filterUsers(testUsers, null, userCompany).length).toBe(1);
+    expect(userService.filterUsers(testUsers, {company: userCompany}).length).toBe(1);
   });
 
   it('filterUsers() filters by name and company', () => {
     expect(testUsers.length).toBe(3);
     let userCompany = 'UMM';
     let userName = 'chris';
-    expect(userService.filterUsers(testUsers, userName, userCompany).length).toBe(1);
+    expect(userService.filterUsers(testUsers, {name: userName, company: userCompany}).length).toBe(1);
   });
 });

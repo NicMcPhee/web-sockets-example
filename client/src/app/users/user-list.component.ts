@@ -49,8 +49,7 @@ export class UserListComponent implements OnInit {
     this.filteredUsers =
       this.userService.filterUsers(
         this.serverFilteredUsers,
-        this.userName,
-        this.userCompany);
+        {name: this.userName, company: this.userCompany});
   }
 
   /**
