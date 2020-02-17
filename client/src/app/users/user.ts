@@ -5,4 +5,7 @@ export interface User {
   company: string;
   email: string;
   avatar: string;
+  role: UserRole;
 }
+
+export type UserRole = "admin" | "editor" | "viewer";

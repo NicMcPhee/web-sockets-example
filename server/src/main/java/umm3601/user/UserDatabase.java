@@ -67,6 +67,11 @@ public class UserDatabase {
       String targetCompany = queryParams.get("company").get(0);
       filteredUsers = filterUsersByCompany(filteredUsers, targetCompany);
     }
+    // Filter by role
+    if (queryParams.containsKey("role")) {
+      String targetRole = queryParams.get("role").get(0);
+      filteredUsers = filterUsersByRole(filteredUsers, targetRole);
+    }
     // Process other query parameters here...
 
     return filteredUsers;
@@ -94,6 +99,18 @@ public class UserDatabase {
    */
   public User[] filterUsersByCompany(User[] users, String targetCompany) {
     return Arrays.stream(users).filter(x -> x.company.equals(targetCompany)).toArray(User[]::new);
+  }
+
+  /**
+   * Get an array of all the users having the target role.
+   *
+   * @param users         the list of users to filter by role
+   * @param targetRole the target role to look for
+   * @return an array of all the users from the given list that have the target
+   *         role
+   */
+  public User[] filterUsersByRole(User[] users, String targetRole) {
+    return Arrays.stream(users).filter(x -> x.role.equals(targetRole)).toArray(User[]::new);
   }
 
 }
