@@ -101,9 +101,7 @@ public class TodoControllerSpec {
     ArgumentCaptor<Todo[]> argument = ArgumentCaptor.forClass(Todo[].class);
     verify(ctx).json(argument.capture());
     for (int i = 0; i < argument.getValue().length - 1; ++i) {
-      if (argument.getValue()[i].owner.compareTo(argument.getValue()[i + 1].owner) > 0)  {
-        Assertions.fail();
-      }
+      Assertions.assertTrue(argument.getValue()[i].owner.compareTo(argument.getValue()[i + 1].owner) <= 0);
     }
   }
 
