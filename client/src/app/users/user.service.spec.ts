@@ -81,6 +81,49 @@ describe('User list service: ', () => {
     req.flush(testUsers);
   });
 
+  it('getUsers() calls api/users with filter parameter', () => {
+
+    userService.getUsers({role: "admin"}).subscribe(
+      users => expect(users).toBe(testUsers)
+    );
+
+    // Specify that (exactly) one request will be made to the specified URL with the role parameter.
+    const req = httpTestingController.expectOne(
+      (request) => request.url.startsWith(userService.userUrl) && request.params.has("role")
+    );
+
+    // Check that the request made to that URL was a GET request.
+    expect(req.request.method).toEqual('GET');
+
+    // Check that the role parameter was "admin"
+    expect(req.request.params.get("role")).toEqual("admin");
+
+    req.flush(testUsers);
+  });
+
+  it('getUsers() calls api/users with multiple filter parameters', () => {
+
+    userService.getUsers({role: "editor", company: "IBM", age:"37"}).subscribe(
+      users => expect(users).toBe(testUsers)
+    );
+
+    // Specify that (exactly) one request will be made to the specified URL with the role parameter.
+    const req = httpTestingController.expectOne(
+      (request) => request.url.startsWith(userService.userUrl)
+      && request.params.has("role") && request.params.has("company") && request.params.has("age")
+    );
+
+    // Check that the request made to that URL was a GET request.
+    expect(req.request.method).toEqual('GET');
+
+    // Check that the role parameters are correct
+    expect(req.request.params.get("role")).toEqual("editor");
+    expect(req.request.params.get("company")).toEqual("IBM");
+    expect(req.request.params.get("age")).toEqual("37");
+
+    req.flush(testUsers);
+  });
+
   it('getUserById() calls api/users/id', () => {
     const targetUser: User = testUsers[1];
     const targetId: string = targetUser._id;
