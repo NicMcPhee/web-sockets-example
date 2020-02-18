@@ -1,12 +1,13 @@
 import {Component} from '@angular/core';
 
 @Component({
-  templateUrl: 'home.component.html'
+  selector: 'app-home-component',
+  templateUrl: 'home.component.html',
+  styleUrls: ['./home.component.scss'],
+  providers: []
 })
 export class HomeComponent {
-  public text: string;
 
   constructor() {
-    this.text = 'Angular Spark lab';
   }
 }

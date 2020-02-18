@@ -15,5 +15,6 @@ trim_trailing_whitespace = true
 # the Markdown formatting, so we need to avoid these kinds of
 # changes.
 [*.md]
+max_line_length = off
 insert_final_newline = false
 trim_trailing_whitespace = false

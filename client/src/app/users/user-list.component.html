@@ -1,64 +1,106 @@
-<div layout-gt-sm="row">
-  <div flex-gt-sm="80" flex-offset-gt-sm="10">
-    <mat-card>
-      <mat-card-title id="user-list-title">Users</mat-card-title>
-      <mat-divider></mat-divider>
-      <mat-card-content>
-        <label for="userName">Name:</label>
-        <mat-form-field>
-          <input
-            matInput
-            id="userName"
-            placeholder="Filter by name"
-            (input)="updateName($event.target.value)">
-        </mat-form-field>
-        <br>
-        <!--this has an annoying error about setSelctionRange that we should probably deal with-->
-        <label for="userAge">Age (filter in Angular):</label>
-        <mat-form-field>
-          <input
-            matInput
-            id="userAge"
-            type="number"
-            placeholder="Filter by age"
-            min="0" max="200"
-            (input)="updateAge($event.target.value)">
-        </mat-form-field>
-        <!--<mat-form-field>-->
-        <!--<input matInput id="userCompany" #input type="text" placeholder="Search for company" (input)="contentChange($event.target.value)">-->
-        <!--</mat-form-field>-->
+<div fxLayout="row">
+  <div fxFlex fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10">
 
-        <!--example of filtering on the server-->
-        <mat-form-field>
-          <mat-label>Age (filter on server):</mat-label>
-          <mat-select (selectionChange)="updateServerFilterAge($event.value)" [(ngModel)]="userAgeForServerFilter" id="userAgeForServerFilter">
-            <mat-option value="">no particular age</mat-option>
-            <mat-option value="23">23</mat-option>
-            <mat-option value="25">25</mat-option>
-            <mat-option value="27">27</mat-option>
-          </mat-select>
-          <mat-hint>Filter by age (on server)</mat-hint>
-        </mat-form-field>
+    <mat-card class="search-card">
+      <mat-card-header>
+        <mat-card-title>Users</mat-card-title>
+      </mat-card-header>
+      <mat-card-content fxLayout="column" >
 
-        <mat-accordion *ngIf="serverFilteredUsers; else usersError">
-          <mat-accordion *ngFor="let user of this.filteredUsers">
+        <div fxLayout="row wrap" fxLayoutGap="10px">
 
-            <!-- Example of using a child component -->
-            <app-user-component [user]="user"></app-user-component>
+          <!-- Examples of filtering in Angular -->
 
-          </mat-accordion>
-        </mat-accordion>
-        <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
-        <ng-template #usersError>
-          <mat-error>
-            There was a problem loading the users. Possibly the server is down or perhaps there are network
-            issues.
-          </mat-error>
-          <mat-error>
-            Please wait a bit and try again or start the server.
-          </mat-error>
-        </ng-template>
-      </mat-card-content>
-    </mat-card>
+          <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput id="userName" placeholder="Filter by name"
+            [(ngModel)]="userName" (input)="updateFilter()">
+            <mat-hint>Filtered in Angular</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Company</mat-label>
+            <input matInput id="userCompany" placeholder="Filter by company"
+            [(ngModel)]="userCompany" (input)="updateFilter()">
+            <mat-hint>Filtered in Angular</mat-hint>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxLayoutGap="10px">
+
+          <!-- Examples of filtering on the server -->
+
+          <mat-form-field>
+            <mat-label>Age</mat-label>
+            <input matInput id="userAge" type="number" placeholder="Filter by age"
+            min="0" max="200" [(ngModel)]="userAge" (input)="getUsersFromServer()">
+            <mat-hint>Filtered on Server</mat-hint>
+          </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Role</mat-label>
+              <mat-select (selectionChange)="getUsersFromServer()" [(ngModel)]="userRole" id="userAgeForServerFilter">
+                <mat-option>--</mat-option>
+                <mat-option value="admin">Admin</mat-option>
+                <mat-option value="editor">Editor</mat-option>
+                <mat-option value="viewer">Viewer</mat-option>
+              </mat-select>
+              <mat-hint>Filtered on server</mat-hint>
+            </mat-form-field>
+          </div>
+          <br>
+          <div fxLayout="row wrap" fxLayoutGap="10px">
+            <label>View type: </label>
+            <mat-radio-group aria-label="View type" [(ngModel)]="viewType">
+              <mat-radio-button value="card">Card</mat-radio-button>
+              <mat-radio-button value="list">List</mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
-</div>
+
+  <div fxLayout="row">
+    <div fxFlex fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" *ngIf="serverFilteredUsers; else usersError" >
+      <div [ngSwitch]="viewType">
+
+        <div *ngSwitchCase="'card'" fxLayout="row wrap" fxLayoutGap="10px" class="user-cards-container">
+          <app-user-card simple="true" *ngFor="let user of filteredUsers" class="user-card" [user]="user" fxFlex="1 1 280px"></app-user-card>
+        </div>
+
+
+        <mat-card *ngSwitchCase="'list'">
+          <mat-card-content>
+            <mat-nav-list >
+              <h3 mat-subheader>Users</h3>
+              <a mat-list-item *ngFor="let user of this.filteredUsers" [routerLink]="['/users', user._id]" >
+                <img matListAvatar [src]="user.avatar">
+                <h3 matLine> {{user.name}} </h3>
+                <p matLine> {{user.company}} </p>
+              </a>
+            </mat-nav-list>
+          </mat-card-content>
+        </mat-card>
+
+
+
+      </div>
+    </div>
+
+    <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
+    <ng-template #usersError>
+      <div fxFlex fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10">
+        <mat-error>
+          There was a problem loading the users. Possibly the server is down or perhaps there are network
+          issues.
+        </mat-error>
+        <mat-error>
+          Please wait a bit and try again or start the server.
+        </mat-error>
+      </div>
+    </ng-template>
+
+  </div>
+
