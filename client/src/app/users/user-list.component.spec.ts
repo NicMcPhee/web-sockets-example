@@ -1,27 +1,24 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {Observable} from 'rxjs';
-import { of } from 'rxjs';
-import {FormsModule} from '@angular/forms';
-
-
-import {User} from './user';
-import {UserListComponent} from './user-list.component';
-import {UserService} from './user.service';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import { MatOptionModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import {MatRadioModule} from '@angular/material/radio';
-import { MockUserService } from './user.service.mock';
+import { Observable } from 'rxjs';
+import { MockUserService } from '../../testing/user.service.mock';
+import { User } from './user';
 import { UserCardComponent } from './user-card.component';
+import { UserListComponent } from './user-list.component';
+import { UserService } from './user.service';
 
 const COMMON_IMPORTS: any[] = [
   FormsModule,
@@ -51,7 +48,7 @@ describe('User list', () => {
       declarations: [UserListComponent, UserCardComponent],
       // providers:    [ UserService ]  // NO! Don't provide the real service!
       // Provide a test-double instead
-      providers: [{provide: UserService, useValue: new MockUserService()}]
+      providers: [{ provide: UserService, useValue: new MockUserService() }]
     });
   });
 
@@ -109,7 +106,7 @@ describe('Misbehaving User List', () => {
       declarations: [UserListComponent],
       // providers:    [ UserService ]  // NO! Don't provide the real service!
       // Provide a test-double instead
-      providers: [{provide: UserService, useValue: userServiceStub}]
+      providers: [{ provide: UserService, useValue: userServiceStub }]
     });
   });
 

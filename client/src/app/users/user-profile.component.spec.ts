@@ -1,29 +1,32 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { UserProfileComponent } from './user-profile.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { UserCardComponent } from './user-card.component';
-import { of, Observable } from 'rxjs';
-import { User } from './user';
-import { UserService } from './user.service';
 import { MatCardModule } from '@angular/material/card';
-import { MockUserService } from './user.service.mock';
+import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRouteStub } from '../../testing/activated-route-stub';
+import { MockUserService } from '../../testing/user.service.mock';
+import { User } from './user';
+import { UserCardComponent } from './user-card.component';
+import { UserProfileComponent } from './user-profile.component';
+import { UserService } from './user.service';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
   let fixture: ComponentFixture<UserProfileComponent>;
+  const activatedRoute: ActivatedRouteStub = new ActivatedRouteStub();
 
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
         MatCardModule
       ],
-      declarations: [ UserProfileComponent, UserCardComponent ],
-      providers: [{provide: UserService, useValue: new MockUserService()}]
+      declarations: [UserProfileComponent, UserCardComponent],
+      providers: [
+        { provide: UserService, useValue: new MockUserService() },
+        { provide: ActivatedRoute, useValue: activatedRoute }
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
