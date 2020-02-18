@@ -7,4 +7,6 @@ config.capabilities = {
   }
 };
 
+config.highlightDelay = undefined;
+
 exports.config = config;
