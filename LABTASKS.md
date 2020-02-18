@@ -54,7 +54,7 @@ this data.
 
 - Use Angular to build a nice client-side interface which allows the user to:
     - filter search results by status, owner,
-      body text, and/or category
+      body text, and category
     - see returned todo items in a useful, meaningful way including: 
       - choosing to limit the number of todos displayed
       - sorting the todos by various fields
