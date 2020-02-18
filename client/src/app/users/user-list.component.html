@@ -8,7 +8,6 @@
       <mat-card-content fxLayout="column" >
 
         <div fxLayout="row wrap" fxLayoutGap="10px">
-
           <!-- Examples of filtering in Angular -->
 
           <mat-form-field class="input-field">
@@ -27,7 +26,6 @@
         </div>
 
         <div fxLayout="row wrap" fxLayoutGap="10px">
-
           <!-- Examples of filtering on the server -->
 
           <mat-form-field class="input-field">
@@ -48,60 +46,60 @@
             <mat-hint>Filtered on server</mat-hint>
           </mat-form-field>
         </div>
-          <br>
-          <div fxLayout="row wrap" fxLayoutGap="10px">
-            <label>View type: </label>
-            <mat-radio-group aria-label="View type" [(ngModel)]="viewType" id="view-type-radio">
-              <mat-radio-button value="card">Card</mat-radio-button>
-              <mat-radio-button value="list">List</mat-radio-button>
-            </mat-radio-group>
-          </div>
 
-
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </div>
-
-  <div fxLayout="row">
-    <div fxFlex fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" *ngIf="serverFilteredUsers; else usersError" >
-      <div [ngSwitch]="viewType">
-
-        <div *ngSwitchCase="'card'" fxLayout="row wrap" fxLayoutGap="10px" class="user-cards-container">
-          <app-user-card simple="true" *ngFor="let user of filteredUsers" class="user-card" [user]="user" fxFlex="1 1 280px"></app-user-card>
+        <br>
+        <div fxLayout="row wrap" fxLayoutGap="10px">
+          <label>View type: </label>
+          <mat-radio-group aria-label="View type" [(ngModel)]="viewType" id="view-type-radio">
+            <mat-radio-button value="card">Card</mat-radio-button>
+            <mat-radio-button value="list">List</mat-radio-button>
+          </mat-radio-group>
         </div>
 
-
-        <mat-card *ngSwitchCase="'list'">
-          <mat-card-content>
-            <mat-nav-list class="user-nav-list">
-              <h3 mat-subheader>Users</h3>
-              <a mat-list-item *ngFor="let user of this.filteredUsers" [routerLink]="['/users', user._id]" class="user-list-item">
-                <img matListAvatar [src]="user.avatar">
-                <h3 matLine class="user-list-name"> {{user.name}} </h3>
-                <p matLine class="user-list-role"> {{user.role}} </p>
-              </a>
-            </mat-nav-list>
-          </mat-card-content>
-        </mat-card>
-
-
-
-      </div>
-    </div>
-
-    <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
-    <ng-template #usersError>
-      <div fxFlex fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" class="user-error">
-        <mat-error>
-          There was a problem loading the users. Possibly the server is down or perhaps there are network
-          issues.
-        </mat-error>
-        <mat-error>
-          Please wait a bit and try again or start the server.
-        </mat-error>
-      </div>
-    </ng-template>
-
+      </mat-card-content>
+    </mat-card>
   </div>
+</div>
+
+<div fxLayout="row">
+  <div fxFlex fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" *ngIf="serverFilteredUsers; else usersError" >
+    <!-- Switch between card and list view based on the viewType variable, set above in the mar-radio-group -->
+    <div [ngSwitch]="viewType">
+
+      <!-- Card grid view -->
+      <div *ngSwitchCase="'card'" fxLayout="row wrap" fxLayoutGap="10px" class="user-cards-container">
+        <app-user-card simple="true" *ngFor="let user of filteredUsers" class="user-card" [user]="user" fxFlex="1 1 280px"></app-user-card>
+      </div>
+
+      <!-- List view -->
+      <mat-card *ngSwitchCase="'list'">
+        <mat-card-content>
+          <mat-nav-list class="user-nav-list">
+            <h3 mat-subheader>Users</h3>
+            <a mat-list-item *ngFor="let user of this.filteredUsers" [routerLink]="['/users', user._id]" class="user-list-item">
+              <img matListAvatar [src]="user.avatar">
+              <h3 matLine class="user-list-name"> {{user.name}} </h3>
+              <p matLine class="user-list-role"> {{user.role}} </p>
+            </a>
+          </mat-nav-list>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+  </div>
+
+  <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
+  <ng-template #usersError>
+    <div fxFlex fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" class="user-error">
+      <mat-error>
+        There was a problem loading the users. Possibly the server is down or perhaps there are network
+        issues.
+      </mat-error>
+      <mat-error>
+        Please wait a bit and try again or start the server.
+      </mat-error>
+    </div>
+  </ng-template>
+
+</div>
 

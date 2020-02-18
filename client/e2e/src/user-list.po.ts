@@ -28,7 +28,7 @@ export class UserPage {
     let sel = element(by.id(selectID));
     return sel.click().then(() => {
       return element(by.css('mat-option[value="' + value + '"]')).click();
-    })
+    });
   }
 
   getUserCards() {
@@ -42,7 +42,6 @@ export class UserPage {
   clickViewProfile(card: ElementFinder) {
     return card.element(by.buttonText('VIEW PROFILE')).click();
   }
-
 
   changeView(viewType: 'card' | 'list') {
     return element(by.id('view-type-radio')).element(by.css('mat-radio-button[value="' + viewType + '"]')).click();
