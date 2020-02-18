@@ -96,10 +96,10 @@ describe('Misbehaving User List', () => {
   beforeEach(() => {
     // stub UserService for test purposes
     userServiceStub = {
-      getUsers: () => Observable.create(observer => {
+      getUsers: () => new Observable(observer => {
         observer.error('Error-prone observable');
       }),
-      getUsersFiltered: () => Observable.create(observer => {
+      getUsersFiltered: () => new Observable(observer => {
         observer.error('Error-prone observable');
       })
     };
