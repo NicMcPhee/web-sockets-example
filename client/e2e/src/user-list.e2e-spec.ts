@@ -72,8 +72,8 @@ describe('User list', () => {
     page.clickViewProfile(page.getUserCards().first());
     page.getUrl().then(url => {
       expect(url.endsWith("/users/588935f57546a2daea44de7c")).toBe(true);
-      expect(element(by.className("user-card-name")).getText()).toEqual("Connie Stewart");
     });
+    expect(element(by.className("user-card-name")).getText()).toEqual("Connie Stewart");
   });
 
 });
