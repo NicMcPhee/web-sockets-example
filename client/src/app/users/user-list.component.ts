@@ -1,7 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {UserService} from './user.service';
-import {User, UserRole} from './user';
-import {Observable} from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { User, UserRole } from './user';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-user-list-component',
@@ -19,7 +18,7 @@ export class UserListComponent implements OnInit {
   public userAge: number;
   public userRole: UserRole;
   public userCompany: string;
-  public viewType: "card" | "list" = "card";
+  public viewType: 'card' | 'list' = 'card';
 
 
   // Inject the UserService into this component.

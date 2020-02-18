@@ -1,7 +1,7 @@
-import { UserService } from "./user.service";
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { User, UserRole } from './user';
-import { of, Observable } from 'rxjs';
+import { UserService } from './user.service';
 
 @Injectable()
 export class MockUserService extends UserService {
@@ -12,7 +12,7 @@ export class MockUserService extends UserService {
       age: 25,
       company: 'UMM',
       email: 'chris@this.that',
-      role: "admin",
+      role: 'admin',
       avatar: 'https://gravatar.com/avatar/8c9616d6cc5de638ea6920fb5d65fc6c?d=identicon'
     },
     {
@@ -21,7 +21,7 @@ export class MockUserService extends UserService {
       age: 37,
       company: 'IBM',
       email: 'pat@something.com',
-      role: "editor",
+      role: 'editor',
       avatar: 'https://gravatar.com/avatar/b42a11826c3bde672bce7e06ad729d44?d=identicon'
     },
     {
@@ -30,7 +30,7 @@ export class MockUserService extends UserService {
       age: 37,
       company: 'Frogs, Inc.',
       email: 'jamie@frogs.com',
-      role: "viewer",
+      role: 'viewer',
       avatar: 'https://gravatar.com/avatar/d4a6c71dd9470ad4cf58f78c100258bf?d=identicon'
     }
   ];

@@ -1,9 +1,8 @@
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {TestBed} from '@angular/core/testing';
-import {HttpClient} from '@angular/common/http';
-
-import {User} from './user';
-import {UserService} from './user.service';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { User } from './user';
+import { UserService } from './user.service';
 
 describe('User service: ', () => {
   // A small collection of test users
@@ -14,7 +13,7 @@ describe('User service: ', () => {
       age: 25,
       company: 'UMM',
       email: 'chris@this.that',
-      role: "admin",
+      role: 'admin',
       avatar: 'https://gravatar.com/avatar/8c9616d6cc5de638ea6920fb5d65fc6c?d=identicon'
     },
     {
@@ -23,7 +22,7 @@ describe('User service: ', () => {
       age: 37,
       company: 'IBM',
       email: 'pat@something.com',
-      role: "editor",
+      role: 'editor',
       avatar: 'https://gravatar.com/avatar/b42a11826c3bde672bce7e06ad729d44?d=identicon'
     },
     {
@@ -32,7 +31,7 @@ describe('User service: ', () => {
       age: 37,
       company: 'Frogs, Inc.',
       email: 'jamie@frogs.com',
-      role: "viewer",
+      role: 'viewer',
       avatar: 'https://gravatar.com/avatar/d4a6c71dd9470ad4cf58f78c100258bf?d=identicon'
     }
   ];
@@ -48,8 +47,8 @@ describe('User service: ', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule]
     });
-    httpClient = TestBed.get(HttpClient);
-    httpTestingController = TestBed.get(HttpTestingController);
+    httpClient = TestBed.inject(HttpClient);
+    httpTestingController = TestBed.inject(HttpTestingController);
     // Construct an instance of the service with the mock
     // HTTP client.
     userService = new UserService(httpClient);
@@ -64,7 +63,7 @@ describe('User service: ', () => {
     // Assert that the users we get from this call to getUsers()
     // should be our set of test users. Because we're subscribing
     // to the result of getUsers(), this won't actually get
-    // checked until the mocked HTTP request "returns" a response.
+    // checked until the mocked HTTP request 'returns' a response.
     // This happens when we call req.flush(testUsers) a few lines
     // down.
     userService.getUsers().subscribe(
@@ -83,43 +82,43 @@ describe('User service: ', () => {
 
   it('getUsers() calls api/users with filter parameter', () => {
 
-    userService.getUsers({role: "admin"}).subscribe(
+    userService.getUsers({role: 'admin'}).subscribe(
       users => expect(users).toBe(testUsers)
     );
 
     // Specify that (exactly) one request will be made to the specified URL with the role parameter.
     const req = httpTestingController.expectOne(
-      (request) => request.url.startsWith(userService.userUrl) && request.params.has("role")
+      (request) => request.url.startsWith(userService.userUrl) && request.params.has('role')
     );
 
     // Check that the request made to that URL was a GET request.
     expect(req.request.method).toEqual('GET');
 
-    // Check that the role parameter was "admin"
-    expect(req.request.params.get("role")).toEqual("admin");
+    // Check that the role parameter was 'admin'
+    expect(req.request.params.get('role')).toEqual('admin');
 
     req.flush(testUsers);
   });
 
   it('getUsers() calls api/users with multiple filter parameters', () => {
 
-    userService.getUsers({role: "editor", company: "IBM", age:"37"}).subscribe(
+    userService.getUsers({role: 'editor', company: 'IBM', age: 37}).subscribe(
       users => expect(users).toBe(testUsers)
     );
 
     // Specify that (exactly) one request will be made to the specified URL with the role parameter.
     const req = httpTestingController.expectOne(
       (request) => request.url.startsWith(userService.userUrl)
-      && request.params.has("role") && request.params.has("company") && request.params.has("age")
+      && request.params.has('role') && request.params.has('company') && request.params.has('age')
     );
 
     // Check that the request made to that URL was a GET request.
     expect(req.request.method).toEqual('GET');
 
     // Check that the role parameters are correct
-    expect(req.request.params.get("role")).toEqual("editor");
-    expect(req.request.params.get("company")).toEqual("IBM");
-    expect(req.request.params.get("age")).toEqual("37");
+    expect(req.request.params.get('role')).toEqual('editor');
+    expect(req.request.params.get('company')).toEqual('IBM');
+    expect(req.request.params.get('age')).toEqual('37');
 
     req.flush(testUsers);
   });
@@ -139,20 +138,20 @@ describe('User service: ', () => {
 
   it('filterUsers() filters by name', () => {
     expect(testUsers.length).toBe(3);
-    let userName = 'a';
+    const userName = 'a';
     expect(userService.filterUsers(testUsers, {name: userName}).length).toBe(2);
   });
 
   it('filterUsers() filters by company', () => {
     expect(testUsers.length).toBe(3);
-    let userCompany = 'UMM';
+    const userCompany = 'UMM';
     expect(userService.filterUsers(testUsers, {company: userCompany}).length).toBe(1);
   });
 
   it('filterUsers() filters by name and company', () => {
     expect(testUsers.length).toBe(3);
-    let userCompany = 'UMM';
-    let userName = 'chris';
+    const userCompany = 'UMM';
+    const userName = 'chris';
     expect(userService.filterUsers(testUsers, {name: userName, company: userCompany}).length).toBe(1);
   });
 });
