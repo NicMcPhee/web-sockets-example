@@ -13,7 +13,7 @@ export class UserService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getUsers(filters?: {role?: UserRole, age?: string, company?: string}): Observable<User[]> {
+  getUsers(filters?: {role?: UserRole, age?: number, company?: string}): Observable<User[]> {
     let httpParams: HttpParams = new HttpParams();
     if(filters) {
       if(filters.role) httpParams = httpParams.set("role", filters.role);

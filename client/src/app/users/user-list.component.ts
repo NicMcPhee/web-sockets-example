@@ -35,7 +35,7 @@ export class UserListComponent implements OnInit {
   getUsersFromServer() {
     this.userService.getUsers({
         role: this.userRole,
-        age: this.userAge ? this.userAge.toString() : null
+        age: this.userAge
       }).subscribe(returnedUsers => {
       this.serverFilteredUsers = returnedUsers;
       this.updateFilter();
