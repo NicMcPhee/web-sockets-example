@@ -33,22 +33,22 @@ export class UserListComponent implements OnInit {
 
   getUsersFromServer() {
     this.userService.getUsers({
-        role: this.userRole,
-        age: this.userAge
-      }).subscribe(returnedUsers => {
+      role: this.userRole,
+      age: this.userAge
+    }).subscribe(returnedUsers => {
       this.serverFilteredUsers = returnedUsers;
       this.updateFilter();
     },
-    err => {
-      console.log(err);
-    });
+      err => {
+        console.log(err);
+      });
   }
 
   public updateFilter() {
     this.filteredUsers =
       this.userService.filterUsers(
         this.serverFilteredUsers,
-        {name: this.userName, company: this.userCompany});
+        { name: this.userName, company: this.userCompany });
   }
 
   /**

@@ -82,7 +82,7 @@ describe('User service: ', () => {
 
   it('getUsers() calls api/users with filter parameter', () => {
 
-    userService.getUsers({role: 'admin'}).subscribe(
+    userService.getUsers({ role: 'admin' }).subscribe(
       users => expect(users).toBe(testUsers)
     );
 
@@ -102,14 +102,14 @@ describe('User service: ', () => {
 
   it('getUsers() calls api/users with multiple filter parameters', () => {
 
-    userService.getUsers({role: 'editor', company: 'IBM', age: 37}).subscribe(
+    userService.getUsers({ role: 'editor', company: 'IBM', age: 37 }).subscribe(
       users => expect(users).toBe(testUsers)
     );
 
     // Specify that (exactly) one request will be made to the specified URL with the role parameter.
     const req = httpTestingController.expectOne(
       (request) => request.url.startsWith(userService.userUrl)
-      && request.params.has('role') && request.params.has('company') && request.params.has('age')
+        && request.params.has('role') && request.params.has('company') && request.params.has('age')
     );
 
     // Check that the request made to that URL was a GET request.
@@ -139,19 +139,19 @@ describe('User service: ', () => {
   it('filterUsers() filters by name', () => {
     expect(testUsers.length).toBe(3);
     const userName = 'a';
-    expect(userService.filterUsers(testUsers, {name: userName}).length).toBe(2);
+    expect(userService.filterUsers(testUsers, { name: userName }).length).toBe(2);
   });
 
   it('filterUsers() filters by company', () => {
     expect(testUsers.length).toBe(3);
     const userCompany = 'UMM';
-    expect(userService.filterUsers(testUsers, {company: userCompany}).length).toBe(1);
+    expect(userService.filterUsers(testUsers, { company: userCompany }).length).toBe(1);
   });
 
   it('filterUsers() filters by name and company', () => {
     expect(testUsers.length).toBe(3);
     const userCompany = 'UMM';
     const userName = 'chris';
-    expect(userService.filterUsers(testUsers, {name: userName, company: userCompany}).length).toBe(1);
+    expect(userService.filterUsers(testUsers, { name: userName, company: userCompany }).length).toBe(1);
   });
 });
