@@ -40,7 +40,7 @@ export class UserPage {
   }
 
   clickViewProfile(card: ElementFinder) {
-    return element(by.buttonText('VIEW PROFILE')).click();
+    return card.element(by.buttonText('VIEW PROFILE')).click();
   }
 
 
