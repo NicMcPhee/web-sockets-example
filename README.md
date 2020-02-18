@@ -80,9 +80,9 @@ There are GitHub Actions set up in your repo for each of the three checks: JUnit
 [tour-of-heroes]: https://angular.io/tutorial
 [protractor]: https://www.protractortest.org/#/toc
 [e2e-testing]: https://coryrylan.com/blog/introduction-to-e2e-testing-with-the-angular-cli-and-protractor
-[environments]: http://tattoocoder.com/angular-cli-using-the-environment-option/
+[environments]: https://angular.io/guide/build#configuring-application-environments
 [labtasks]: LABTASKS.md
-[angular-cli-commands]: https://github.com/angular/angular-cli/wiki
+[angular-cli-commands]: https://angular.io/cli
 [status-codes]: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 
 
