@@ -58,8 +58,8 @@ Testing client:
 
 * `ng test` runs the client tests once.
 * `ng test --code-coverage` runs the client tests and generates a coverage file you can find in your client directory `client/coverage/client/index.html`.
-Right click on `index.html` and select `Copy path` and paste it into your browser of choice. For Chrome users, you can drag and drop `index.html` onto the tab area of Chrome and it will open it.  arma tests for the client, 
-* `ng e2e` runs end to end tests. arma tests for the client, What are e2e tests? They are tests that run the real aarma tests for the client, pplication and simulate user behavior. They assert that tharma tests for the client, e app is running as expected. NOTE: The server (`run`) needs to be actively executing for these tests to work!
+Right click on `index.html` and select `Copy path` and paste it into your browser of choice. For Chrome users, you can drag and drop `index.html` onto the tab area of Chrome and it will open it.
+* `npm run e2e` runs end to end tests. What are e2e tests? They are tests that run the real application and simulate user behavior. They assert that the app is running as expected. NOTE: The server (`./gradlew run`) needs to be actively executing for these tests to work!
 
 There are GitHub Actions set up in your repo for each of the three checks: JUnit tests for the server, Karma tests for the client, and Protractor tests for end-to-end testing. There are badges above that show the status of these checks on the master branch.
 
