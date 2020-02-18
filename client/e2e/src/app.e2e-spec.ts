@@ -10,4 +10,9 @@ describe('angular-spark-lab', () => {
   it('should load', () => {
     page.navigateTo();
   });
+
+  it('should have the correct title', () => {
+    page.navigateTo();
+    expect(page.getAppTitle()).toEqual("CSCI 3601 Lab 3");
+  });
 });
