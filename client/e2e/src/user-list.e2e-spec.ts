@@ -1,53 +1,79 @@
 import {UserPage} from './user-list.po';
-import {browser, protractor} from 'protractor';
-
-let origFn = browser.driver.controlFlow().execute;
-
-//https://hassantariqblog.wordpress.com/2015/11/09/reduce-speed-of-angular-e2e-protractor-tests/
-browser.driver.controlFlow().execute = function () {
-  let args = arguments;
-
-  // queue 100ms wait between test
-  //This delay is only put here so that you can watch the browser do its' thing.
-  //If you're tired of it taking long you can remove this call
-  origFn.call(browser.driver.controlFlow(), function () {
-    return protractor.promise.delayed(100);
-  });
-
-  return origFn.apply(browser.driver.controlFlow(), args);
-};
+import {browser, protractor, by, element} from 'protractor';
 
 describe('User list', () => {
   let page: UserPage;
 
   beforeEach(() => {
     page = new UserPage();
+    page.navigateTo();
   });
 
-  it('should get and highlight User Name attribute ', () => {
-    page.navigateTo();
+  it('Should have the correct title', () => {
     expect(page.getUserTitle()).toEqual('Users');
   });
 
-  it('should type something in filter name box and check that it returned correct element', () => {
-    page.navigateTo();
-    page.typeAName("t");
-    expect(page.getUniqueUser("kittypage@surelogic.com")).toEqual("Kitty Page");
-    page.backspace();
-    page.typeAName("lynn")
-    expect(page.getUniqueUser("lynnferguson@niquent.com")).toEqual("Lynn Ferguson");
+  it('Should type something in the name filter and check that it returned correct elements', () => {
+    page.typeInput("user-name-input", "Lynn Ferguson");
+
+    page.getUserCards().each(e => {
+        expect(e.element(by.className("user-card-name")).getText()).toEqual("Lynn Ferguson")
+    });
   });
 
-  it('should click on the age 27 times and return 3 elements', () => {
-    page.navigateTo();
-    page.getUserByAge();
-    for (let i = 0; i < 27; i++) {
-      page.selectUpKey();
-    }
+  it('Should type something in the company filter and check that it returned correct elements', () => {
+    page.typeInput("user-company-input","ti");
 
-    expect(page.getUniqueUser("stokesclayton@momentia.com")).toEqual("Stokes Clayton");
-
-    expect(page.getUniqueUser("merrillparker@escenta.com")).toEqual("Merrill Parker");
-
+    let companies = page.getUserCards().map(e => e.element(by.className("user-card-company")).getText());
+    expect(companies).toContain("MOMENTIA");
+    expect(companies).toContain("KINETICUT");
+    expect(companies).not.toContain("DATAGENE");
+    expect(companies).not.toContain("OHMNET");
   });
+
+  it('Should type something partial in the company filter and check that it returned correct elements', () => {
+    page.typeInput("user-company-input","OHMNET");
+
+    page.getUserCards().each(e => {
+        expect(e.element(by.className("user-card-company")).getText()).toEqual("OHMNET")
+    });
+  });
+
+  it('Should type something in the age filter and check that it returned correct elements', () => {
+    page.typeInput("user-age-input","27");
+
+    let names = page.getUserCards().map(e => e.element(by.className("user-card-name")).getText());
+
+    expect(names).toContain("Stokes Clayton");
+    expect(names).toContain("Bolton Monroe");
+    expect(names).toContain("Merrill Parker");
+    expect(names).not.toContain("Connie Stewart");
+    expect(names).not.toContain("Lynn Ferguson");
+  });
+
+  it('Should change the view', () => {
+    page.changeView('list');
+
+    expect(page.getUserCards().count()).toEqual(0);
+    expect(page.getUserListItems().count()).toBeGreaterThan(0);
+  });
+
+  it('Should select a role, switch the view, and check that it returned correct elements', () => {
+    page.selectMatSelectValue("user-role-select", "viewer");
+
+    page.changeView('list');
+
+    page.getUserListItems().each(e => {
+        expect(e.element(by.className("user-list-role")).getText()).toEqual("viewer")
+    });
+  });
+
+  it('Should click view profile on a user and go to the right URL', () => {
+    page.clickViewProfile(page.getUserCards().first());
+    page.getUrl().then(url => {
+      expect(url.endsWith("/users/588935f57546a2daea44de7c")).toBe(true);
+      expect(element(by.className("user-card-name")).getText()).toEqual("Connie Stewart");
+    });
+  });
+
 });
