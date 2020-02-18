@@ -80,7 +80,7 @@ describe('User service: ', () => {
     req.flush(testUsers);
   });
 
-  it('getUsers() calls api/users with filter parameter', () => {
+  it('getUsers() calls api/users with filter parameter \'admin\'', () => {
 
     userService.getUsers({ role: 'admin' }).subscribe(
       users => expect(users).toBe(testUsers)
@@ -96,6 +96,26 @@ describe('User service: ', () => {
 
     // Check that the role parameter was 'admin'
     expect(req.request.params.get('role')).toEqual('admin');
+
+    req.flush(testUsers);
+  });
+
+  it('getUsers() calls api/users with filter parameter \'age\'', () => {
+
+    userService.getUsers({ age: 25 }).subscribe(
+      users => expect(users).toBe(testUsers)
+    );
+
+    // Specify that (exactly) one request will be made to the specified URL with the role parameter.
+    const req = httpTestingController.expectOne(
+      (request) => request.url.startsWith(userService.userUrl) && request.params.has('age')
+    );
+
+    // Check that the request made to that URL was a GET request.
+    expect(req.request.method).toEqual('GET');
+
+    // Check that the role parameter was 'admin'
+    expect(req.request.params.get('age')).toEqual('25');
 
     req.flush(testUsers);
   });
