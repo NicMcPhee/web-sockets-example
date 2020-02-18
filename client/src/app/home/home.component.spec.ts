@@ -2,7 +2,6 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {HomeComponent} from './home.component';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {CustomModule} from '../custom.module';
 
 describe('Home', () => {
 
@@ -13,7 +12,7 @@ describe('Home', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CustomModule],
+      imports: [],
       declarations: [HomeComponent], // declare the test component
     });
 
@@ -22,13 +21,13 @@ describe('Home', () => {
     component = fixture.componentInstance; // BannerComponent test instance
 
     // query for the link (<a> tag) by CSS element selector
-    de = fixture.debugElement.query(By.css('a'));
+    de = fixture.debugElement.query(By.css('.home-card'));
     el = de.nativeElement;
   });
 
-  it('displays a link to users', () => {
+  it('It has the basic home page text', () => {
     fixture.detectChanges();
-    expect(el.textContent).toContain("Users");
+    expect(el.textContent).toContain("This is a home page! It doesn't do anything!");
   });
 
 });
