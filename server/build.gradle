@@ -31,6 +31,9 @@ dependencies {
   // Javalin, a simple web framework for Java
   compile 'io.javalin:javalin:3.7.0'
 
+  // Mongo DB Driver, a productive database
+  compile 'org.mongodb:mongodb-driver:3.10.1'
+
   // Jackson, a JSON library for Java
   implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
   // Simple Logging Facade for Java
