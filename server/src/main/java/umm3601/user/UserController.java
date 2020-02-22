@@ -44,7 +44,6 @@ public class UserController {
    * and `null` if no user with that ID is found
    */
   public User getUser(String id) {
-    System.out.println(id);
     try {
       return userCollection.find(eq("_id", new ObjectId(id).toHexString())).first();
     } catch(IllegalArgumentException e) {
