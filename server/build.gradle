@@ -11,6 +11,9 @@ plugins {
   // Apply the Jacoco plugin to add suppport for JUnit test coverage
   // reports.
   id 'jacoco'
+
+  // Mongo plugin allows us to run a seperate instance of MongoDB for testing
+  id 'com.sourcemuse.mongo' version '1.0.7'
 }
 
 // In this section you declare where to find the dependencies of your project
@@ -31,11 +34,16 @@ dependencies {
   // Javalin, a simple web framework for Java
   compile 'io.javalin:javalin:3.7.0'
 
+
+  // MongoDB integration for Jackson
+  implementation 'org.mongojack:mongojack:2.10.0'
+
   // Mongo DB Driver, a productive database
   compile 'org.mongodb:mongodb-driver:3.10.1'
 
   // Jackson, a JSON library for Java
   implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
+
   // Simple Logging Facade for Java
   implementation 'org.slf4j:slf4j-simple:1.7.30'
 
@@ -59,6 +67,16 @@ application {
 test {
   // Use junit platform for unit tests
   useJUnitPlatform()
+
+  runWithMongoDb = true
+
+  mongo {
+    port 'random'
+    mongoVersion '3.4.23' // should match lab version
+    // logging 'console'
+  }
+
+  systemProperty "test.mongo.port", project.mongo.port
 }
 
 // We want our source code to be compatible with Java 1.8
