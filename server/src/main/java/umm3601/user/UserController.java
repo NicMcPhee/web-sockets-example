@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import static com.mongodb.client.model.Filters.eq;
 
 /**
@@ -21,7 +25,6 @@ import static com.mongodb.client.model.Filters.eq;
 public class UserController {
 
   JacksonCodecRegistry jacksonCodecRegistry = JacksonCodecRegistry.withDefaultObjectMapper();
-
 
   private final MongoCollection<User> userCollection;
 
@@ -32,30 +35,31 @@ public class UserController {
    */
   public UserController(MongoDatabase database) {
     jacksonCodecRegistry.addCodecForClass(User.class);
-    userCollection = database.getCollection("users").withDocumentClass(User.class).withCodecRegistry(jacksonCodecRegistry);
+    userCollection = database.getCollection("users").withDocumentClass(User.class)
+        .withCodecRegistry(jacksonCodecRegistry);
   }
 
   /**
-   * Helper method that gets a single user specified by the `id`
-   * parameter in the request.
+   * Helper method that gets a single user specified by the `id` parameter in the
+   * request.
    *
    * @param id the Mongo ID of the desired user
    * @return the desired user as a JSON object if the user with that ID is found,
-   * and `null` if no user with that ID is found
+   *         and `null` if no user with that ID is found
    */
   public User getUser(String id) {
     try {
       return userCollection.find(eq("_id", new ObjectId(id).toHexString())).first();
-    } catch(IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       throw new BadRequestResponse();
     }
   }
 
   /**
-   * Helper method which iterates through the collection, receiving all
-   * documents if no query parameter is specified. If the age query parameter
-   * is specified, then the collection is filtered so only documents of that
-   * specified age are found.
+   * Helper method which iterates through the collection, receiving all documents
+   * if no query parameter is specified. If the age query parameter is specified,
+   * then the collection is filtered so only documents of that specified age are
+   * found.
    *
    * @param queryParams the query parameters from the request
    * @return an arrayList of Users
@@ -69,7 +73,8 @@ public class UserController {
         int targetAge = Integer.parseInt(queryParams.get("age").get(0));
         filterDoc = filterDoc.append("age", targetAge);
       } catch (NumberFormatException e) {
-        throw new BadRequestResponse("Specified age '" + queryParams.get("age").get(0) + "' can't be parsed to an integer");
+        throw new BadRequestResponse(
+            "Specified age '" + queryParams.get("age").get(0) + "' can't be parsed to an integer");
       }
     }
 
@@ -89,18 +94,19 @@ public class UserController {
       filterDoc = filterDoc.append("role", contentRegQuery);
     }
 
-    //FindIterable comes from mongo, Document comes from Gson
+    // FindIterable comes from mongo, Document comes from Gson
     return userCollection.find(filterDoc).into(new ArrayList<>());
   }
 
   /**
-   * Helper method which appends received user information to the to-be added document
+   * Helper method which appends received user information to the to-be added
+   * document
    *
-   * @param name the name of the new user
-   * @param age the age of the new user
+   * @param name    the name of the new user
+   * @param age     the age of the new user
    * @param company the company the new user works for
-   * @param email the email of the new user
-   * @param role the role of the new user
+   * @param email   the email of the new user
+   * @param role    the role of the new user
    * @return boolean after successfully or unsuccessfully adding a user
    */
   public String addNewUser(String name, int age, String company, String email, String role) {
@@ -112,16 +118,31 @@ public class UserController {
     newUser.company = company;
     newUser.email = email;
     newUser.role = role;
-    newUser.avatar = "test";
+    try {
+      newUser.avatar = "https://gravatar.com/avatar/" + md5(email) + "?d=identicon";  // generate unique md5 code for identicon
+    } catch (NoSuchAlgorithmException ignored) {
+      newUser.avatar = "https://gravatar.com/avatar/?d=mp";                           // set to mystery person
+    }
 
     try {
       userCollection.insertOne(newUser);
       ObjectId id = new ObjectId(newUser._id);
-      System.err.println("Successfully added new user [_id=" + id + ", name=" + name + ", age=" + age + " company=" + company + " email=" + email + ']');
+      System.err.println("Successfully added new user [_id=" + id + ", name=" + name + ", age=" + age + " company=" + company + " email=" + email + " role=" + role + ']');
       return id.toHexString();
     } catch (MongoException me) {
       me.printStackTrace();
       return null;
     }
+  }
+
+  public String md5(String str) throws NoSuchAlgorithmException {
+    MessageDigest md = MessageDigest.getInstance("MD5");
+    byte[] hashInBytes = md.digest(str.toLowerCase().getBytes(StandardCharsets.UTF_8));
+
+    String result = "";
+    for (byte b : hashInBytes) {
+      result += String.format("%02x", b);
+    }
+    return result;
   }
 }
