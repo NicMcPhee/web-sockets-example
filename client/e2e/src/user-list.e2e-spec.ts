@@ -85,11 +85,11 @@ describe('User list', () => {
 
     // When the view profile button on the first user card is clicked, we should be sent to the right URL
     page.getUrl().then(url => {
-      expect(url.endsWith('/users/588935f57546a2daea44de7c')).toBe(true);
+      expect(url.endsWith('/users/588935f52787254123f71fed')).toBe(true);
     });
 
     // On this profile page we were sent to, the name should be correct
-    expect(element(by.className('user-card-name')).getText()).toEqual('Connie Stewart');
+    expect(element(by.className('user-card-name')).getText()).toEqual('Stokes Clayton');
   });
 
 });
