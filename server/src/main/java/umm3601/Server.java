@@ -44,10 +44,13 @@ public class Server {
     Javalin server = Javalin.create().start(4567);
 
     // Simple example route
-    server.get("/hello", ctx -> ctx.result("Hello World"));
+    server.get("hello", ctx -> ctx.result("Hello World"));
 
     // Redirects to create simpler URLs
-    server.get("/users", ctx -> ctx.redirect("/users.html"));
+    server.get("users", ctx -> ctx.redirect("/users.html"));
+
+    // Utility routes
+    server.get("api", ctx -> ctx.result(appName));
 
     // Get specific user
     server.get("api/users/:id", ctx -> userRequestHandler.getUser(ctx));
