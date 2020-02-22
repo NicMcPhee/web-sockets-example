@@ -1,25 +1,45 @@
 package umm3601;
 
-import java.io.IOException;
+import java.util.Arrays;
+
+import com.mongodb.MongoClientSettings;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
 
 import io.javalin.Javalin;
-import umm3601.user.UserDatabase;
+
 import umm3601.user.UserController;
-import umm3601.todo.TodoDatabase;
-import umm3601.todo.TodoController;
+import umm3601.user.UserRequestHandler;
 
 public class Server {
 
+  static String appName = "UMM CSci 3601 - Lab 4";
+
   public static final String USER_DATA_FILE = "/users.json";
-  public static final String TODO_DATA_FILE = "/todos.json";
-  private static UserDatabase userDatabase;
-  private static TodoDatabase todoDatabase;
+  private static MongoDatabase database;
 
   public static void main(String[] args) {
 
+    // Get the MongoDB address and database name from environment variables and
+    // if they aren't set, use the defaults of "localhost" and "dev".
+    String mongoAddr = System.getenv().getOrDefault("MONGO_ADDR", "localhost");
+    String databaseName = System.getenv().getOrDefault("MONGO_DB", "dev");
+
+    // Setup the MongoDB client object with the information we set earlier
+    MongoClient mongoClient = MongoClients.create(
+      MongoClientSettings.builder()
+      .applyToClusterSettings(builder ->
+      builder.hosts(Arrays.asList(new ServerAddress(mongoAddr))))
+      .build());
+
+    // Get the database
+    database = mongoClient.getDatabase(databaseName);
+
     // Initialize dependencies
-    UserController userController = buildUserController();
-    TodoController todoController = buildTodoController();
+    UserController userController = new UserController(database);
+    UserRequestHandler userRequestHandler = new UserRequestHandler(userController);
 
     Javalin server = Javalin.create().start(4567);
 
@@ -28,70 +48,19 @@ public class Server {
 
     // Redirects to create simpler URLs
     server.get("/users", ctx -> ctx.redirect("/users.html"));
-    server.get("/todos", ctx -> ctx.redirect("/todos.html"));
-
-    // API endpoints
 
     // Get specific user
-    server.get("api/users/:id", ctx -> userController.getUser(ctx));
+    server.get("api/users/:id", ctx -> userRequestHandler.getUser(ctx));
 
     // List users, filtered using query parameters
-    server.get("api/users", ctx -> userController.getUsers(ctx));
+    server.get("api/users", ctx -> userRequestHandler.getUsers(ctx));
 
-    // Get specific todo
-    server.get("api/todos/:id", ctx -> todoController.getTodo(ctx));
+    // Add new user
+    server.post("api/users/new", ctx -> userRequestHandler.addNewUser(ctx));
 
-    // List todos, filtered using query parameters
-    server.get("api/todos", ctx -> todoController.getTodos(ctx));
-  }
-
-  /**
-   * Create a database using the json file, use it as data source for a new
-   * UserController
-   *
-   * Constructing the controller might throw an IOException if there are problems
-   * reading from the JSON "database" file. If that happens we'll print out an
-   * error message exit the program.
-   */
-  private static UserController buildUserController() {
-    UserController userController = null;
-
-    try {
-      userDatabase = new UserDatabase(USER_DATA_FILE);
-      userController = new UserController(userDatabase);
-    } catch (IOException e) {
-      System.err.println("The server failed to load the user data; shutting down.");
-      e.printStackTrace(System.err);
-
-      // Exit from the Java program
-      System.exit(1);
-    }
-
-    return userController;
-  }
-
-  /**
-   * Create a database using the json file, use it as data source for a new
-   * TodoController
-   *
-   * Constructing the controller might throw an IOException if there are problems
-   * reading from the JSON "database" file. If that happens we'll print out an
-   * error message exit the program.
-   */
-  private static TodoController buildTodoController() {
-    TodoController todoController = null;
-
-    try {
-      todoDatabase = new TodoDatabase(TODO_DATA_FILE);
-      todoController = new TodoController(todoDatabase);
-    } catch (IOException e) {
-      System.err.println("The server failed to load the todo data; shutting down.");
-      e.printStackTrace(System.err);
-
-      // Exit from the Java program
-      System.exit(1);
-    }
-
-    return todoController;
+    server.exception(Exception.class, (e, ctx) -> {
+      ctx.status(500);
+      ctx.json(e);
+    });
   }
 }

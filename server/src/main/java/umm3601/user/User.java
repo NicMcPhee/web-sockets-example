@@ -1,7 +1,11 @@
 package umm3601.user;
+import org.mongojack.Id;
 
 public class User {
+
+  @Id
   public String _id;
+
   public String name;
   public int age;
   public String company;
