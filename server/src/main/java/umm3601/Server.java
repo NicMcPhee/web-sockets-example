@@ -46,20 +46,19 @@ public class Server {
     // Simple example route
     server.get("hello", ctx -> ctx.result("Hello World"));
 
-    // Redirects to create simpler URLs
-    server.get("users", ctx -> ctx.redirect("/users.html"));
-
     // Utility routes
     server.get("api", ctx -> ctx.result(appName));
 
     // Get specific user
-    server.get("api/users/:id", ctx -> userRequestHandler.getUser(ctx));
+    server.get("api/users/:id", userRequestHandler::getUser);
 
     // List users, filtered using query parameters
-    server.get("api/users", ctx -> userRequestHandler.getUsers(ctx));
+    server.get("api/users", userRequestHandler::getUsers);
 
     // Add new user
-    server.post("api/users/new", ctx -> userRequestHandler.addNewUser(ctx));
+    server.post("api/users/new", userRequestHandler::addNewUser);
+
+
 
     server.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
