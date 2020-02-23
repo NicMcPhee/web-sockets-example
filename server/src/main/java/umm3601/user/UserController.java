@@ -1,28 +1,34 @@
 package umm3601.user;
 
-import com.mongodb.MongoException;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
-import org.bson.types.ObjectId;
-import org.mongojack.JacksonCodecRegistry;
-
-import io.javalin.http.BadRequestResponse;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.regex;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
-import static com.mongodb.client.model.Filters.eq;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Sorts;
+
+import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
+import org.mongojack.JacksonCodecRegistry;
+
+import io.javalin.http.BadRequestResponse;
+import io.javalin.http.Context;
+import io.javalin.http.NotFoundResponse;
 
 /**
  * Controller that manages requests for info about users.
  */
 public class UserController {
+
+  static String emailRegex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 
   JacksonCodecRegistry jacksonCodecRegistry = JacksonCodecRegistry.withDefaultObjectMapper();
 
@@ -40,101 +46,97 @@ public class UserController {
   }
 
   /**
-   * Helper method that gets a single user specified by the `id` parameter in the
-   * request.
+   * Get the single user specified by the `id` parameter in the request.
    *
-   * @param id the Mongo ID of the desired user
-   * @return the desired user as a JSON object if the user with that ID is found,
-   *         and `null` if no user with that ID is found
+   * @param ctx a Javalin HTTP context
    */
-  public User getUser(String id) {
+  public void getUser(Context ctx) {
+    String id = ctx.pathParam("id");
+    User user;
+
     try {
-      return userCollection.find(eq("_id", new ObjectId(id).toHexString())).first();
-    } catch (IllegalArgumentException e) {
-      throw new BadRequestResponse();
+      user = userCollection.find(eq("_id", new ObjectId(id))).first();
+    } catch(IllegalArgumentException e) {
+      throw new BadRequestResponse("The requested user id wasn't a legal Mongo Object ID.");
+    }
+    if (user == null) {
+      throw new NotFoundResponse("The requested user was not found");
+    } else {
+      ctx.json(user);
     }
   }
 
   /**
-   * Helper method which iterates through the collection, receiving all documents
-   * if no query parameter is specified. If the age query parameter is specified,
-   * then the collection is filtered so only documents of that specified age are
-   * found.
+   * Delete the user specified by the `id` parameter in the request.
    *
-   * @param queryParams the query parameters from the request
-   * @return an arrayList of Users
+   * @param ctx a Javalin HTTP context
    */
-  public ArrayList<User> getUsers(Map<String, List<String>> queryParams) {
-
-    Document filterDoc = new Document();
-
-    if (queryParams.containsKey("age")) {
-      try {
-        int targetAge = Integer.parseInt(queryParams.get("age").get(0));
-        filterDoc = filterDoc.append("age", targetAge);
-      } catch (NumberFormatException e) {
-        throw new BadRequestResponse(
-            "Specified age '" + queryParams.get("age").get(0) + "' can't be parsed to an integer");
-      }
-    }
-
-    if (queryParams.containsKey("company")) {
-      String targetContent = (queryParams.get("company").get(0));
-      Document contentRegQuery = new Document();
-      contentRegQuery.append("$regex", targetContent);
-      contentRegQuery.append("$options", "i");
-      filterDoc = filterDoc.append("company", contentRegQuery);
-    }
-
-    if (queryParams.containsKey("role")) {
-      String targetRole = (queryParams.get("role").get(0));
-      Document contentRegQuery = new Document();
-      contentRegQuery.append("$regex", targetRole);
-      contentRegQuery.append("$options", "i");
-      filterDoc = filterDoc.append("role", contentRegQuery);
-    }
-
-    // FindIterable comes from mongo, Document comes from Gson
-    return userCollection.find(filterDoc).into(new ArrayList<>());
+  public void deleteUser(Context ctx) {
+    String id = ctx.pathParam("id");
+    userCollection.deleteOne(eq("_id", new ObjectId(id)));
   }
 
   /**
-   * Helper method which appends received user information to the to-be added
-   * document
+   * Get a JSON response with a list of all the users.
    *
-   * @param name    the name of the new user
-   * @param age     the age of the new user
-   * @param company the company the new user works for
-   * @param email   the email of the new user
-   * @param role    the role of the new user
-   * @return boolean after successfully or unsuccessfully adding a user
+   * @param ctx a Javalin HTTP context
    */
-  public String addNewUser(String name, int age, String company, String email, String role) {
+  public void getUsers(Context ctx) {
 
-    User newUser = new User();
-    newUser._id = new ObjectId().toHexString();
-    newUser.name = name;
-    newUser.age = age;
-    newUser.company = company;
-    newUser.email = email;
-    newUser.role = role;
+    List<Bson> filters = new ArrayList<Bson>(); // start with a blank document
+
+    if (ctx.queryParamMap().containsKey("age")) {
+        int targetAge = ctx.queryParam("age", Integer.class).get();
+        filters.add(eq("age", targetAge));
+    }
+
+    if (ctx.queryParamMap().containsKey("company")) {
+      filters.add(regex("company", ctx.queryParam("company"), "i"));
+    }
+
+    if (ctx.queryParamMap().containsKey("role")) {
+      filters.add(eq("role", ctx.queryParam("role")));
+    }
+
+    String sortBy = ctx.queryParam("sortby", "name"); //Sort by sort query param, default is name
+    String sortOrder = ctx.queryParam("sortorder", "asc");
+
+    ctx.json(userCollection.find(filters.isEmpty() ? new Document() : and(filters))
+      .sort(sortOrder.equals("desc") ?  Sorts.descending(sortBy) : Sorts.ascending(sortBy))
+      .into(new ArrayList<>()));
+  }
+
+  /**
+   * Get a JSON response with a list of all the users.
+   *
+   * @param ctx a Javalin HTTP context
+   */
+  public void addNewUser(Context ctx) {
+    User newUser = ctx.bodyValidator(User.class)
+      .check((usr) -> usr.name != null && usr.company.length() > 0) //Verify that the user has a name that is not blank
+      .check((usr) -> usr.email.matches(emailRegex)) // Verify that the provided email is a valid email
+      .check((usr) -> usr.age > 0) // Verify that the provided age is > 0
+      .check((usr) -> usr.role.matches("^(admin|editor|viewer)$")) // Verify that the role is one of the valid roles
+      .check((usr) -> usr.company != null && usr.company.length() > 0) // Verify that the user has a company that is not blank
+      .get();
+
+    // Generate user avatar (you won't need this part for todos)
     try {
-      newUser.avatar = "https://gravatar.com/avatar/" + md5(email) + "?d=identicon";  // generate unique md5 code for identicon
+      newUser.avatar = "https://gravatar.com/avatar/" + md5(newUser.email) + "?d=identicon";  // generate unique md5 code for identicon
     } catch (NoSuchAlgorithmException ignored) {
       newUser.avatar = "https://gravatar.com/avatar/?d=mp";                           // set to mystery person
     }
 
-    try {
-      userCollection.insertOne(newUser);
-      ObjectId id = new ObjectId(newUser._id);
-      System.err.println("Successfully added new user [_id=" + id + ", name=" + name + ", age=" + age + " company=" + company + " email=" + email + " role=" + role + ']');
-      return id.toHexString();
-    } catch (MongoException me) {
-      me.printStackTrace();
-      return null;
-    }
+    userCollection.insertOne(newUser);
+    ctx.status(201);
+    ctx.json(newUser._id); // TODO: see if this works ok
   }
 
+  /**
+   * Utility function to generate the md5 hash for a given string
+   *
+   * @param str the string to generate a md5 for
+   */
   public String md5(String str) throws NoSuchAlgorithmException {
     MessageDigest md = MessageDigest.getInstance("MD5");
     byte[] hashInBytes = md.digest(str.toLowerCase().getBytes(StandardCharsets.UTF_8));

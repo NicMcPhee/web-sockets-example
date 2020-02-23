@@ -11,11 +11,10 @@ import com.mongodb.client.MongoDatabase;
 import io.javalin.Javalin;
 
 import umm3601.user.UserController;
-import umm3601.user.UserRequestHandler;
 
 public class Server {
 
-  static String appName = "UMM CSci 3601 - Lab 4";
+  static String appName = "UMM CSci 3601 Lab 4";
 
   public static final String USER_DATA_FILE = "/users.json";
   private static MongoDatabase database;
@@ -31,7 +30,7 @@ public class Server {
     MongoClient mongoClient = MongoClients.create(
       MongoClientSettings.builder()
       .applyToClusterSettings(builder ->
-      builder.hosts(Arrays.asList(new ServerAddress(mongoAddr))))
+        builder.hosts(Arrays.asList(new ServerAddress(mongoAddr))))
       .build());
 
     // Get the database
@@ -39,7 +38,7 @@ public class Server {
 
     // Initialize dependencies
     UserController userController = new UserController(database);
-    UserRequestHandler userRequestHandler = new UserRequestHandler(userController);
+    //UserRequestHandler userRequestHandler = new UserRequestHandler(userController);
 
     Javalin server = Javalin.create().start(4567);
 
@@ -50,19 +49,21 @@ public class Server {
     server.get("api", ctx -> ctx.result(appName));
 
     // Get specific user
-    server.get("api/users/:id", userRequestHandler::getUser);
+    server.get("api/users/:id", userController::getUser);
+
+    server.delete("api/users/:id", userController::deleteUser);
 
     // List users, filtered using query parameters
-    server.get("api/users", userRequestHandler::getUsers);
+    server.get("api/users", userController::getUsers);
 
     // Add new user
-    server.post("api/users/new", userRequestHandler::addNewUser);
+    server.post("api/users/new", userController::addNewUser);
 
 
 
     server.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
-      ctx.json(e);
+      ctx.json(e); // you probably want to remove this in production
     });
   }
 }
