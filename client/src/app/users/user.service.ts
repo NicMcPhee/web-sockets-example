@@ -1,8 +1,9 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { User, UserRole } from './user';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class UserService {
@@ -56,5 +57,10 @@ export class UserService {
     }
 
     return filteredUsers;
+  }
+
+  addUser(newUser: User): Observable<string> {
+    // Send post request to add a new user with the user data as the body.
+    return this.httpClient.post<{id: string}>(this.userUrl + '/new', newUser).pipe(map(res => res.id));
   }
 }
