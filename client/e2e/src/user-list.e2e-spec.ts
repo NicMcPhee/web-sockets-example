@@ -53,7 +53,7 @@ describe('User list', () => {
     await browser.sleep(200); // wait a little for the server
 
     // Go through each of the cards that are being shown and get the names
-    let names = page.getUserCards().map(e => e.element(by.className('user-card-name')).getText());
+    const names = await page.getUserCards().map(e => e.element(by.className('user-card-name')).getText());
 
     // We should see these users whose age is 27
     expect(names).toContain('Stokes Clayton');
