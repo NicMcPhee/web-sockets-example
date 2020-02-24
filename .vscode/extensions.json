@@ -35,10 +35,14 @@
     // Code Spell Checker
     // https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker
     "streetsidesoftware.code-spell-checker",
-    
+
     // TSLint
     // https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-tslint-plugin
-    "ms-vscode.vscode-typescript-tslint-plugin"
+    "ms-vscode.vscode-typescript-tslint-plugin",
+
+    // Azure Cosmos DB
+    // https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-cosmosdb
+    "ms-azuretools.vscode-cosmosdb"
   ],
   // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
   "unwantedRecommendations": []
