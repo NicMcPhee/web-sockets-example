@@ -7,8 +7,21 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    services:
+      mongo:
+        image: mongo:3.4.23
+        ports:
+          - '27017-27019:27017-27019'
+
     steps:
     - uses: actions/checkout@v1
+
+    - name: Install Mongo Tools
+      run: sudo apt-get install mongo-tools
+
+    - name: Seed database
+      run: ./mongoseed.sh
+      working-directory: ./database
 
     - name: Cache node modules
       uses: actions/cache@v1

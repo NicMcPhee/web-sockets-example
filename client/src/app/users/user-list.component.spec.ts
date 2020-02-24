@@ -19,6 +19,7 @@ import { User } from './user';
 import { UserCardComponent } from './user-card.component';
 import { UserListComponent } from './user-list.component';
 import { UserService } from './user.service';
+import { MatIconModule } from '@angular/material/icon';
 
 const COMMON_IMPORTS: any[] = [
   FormsModule,
@@ -33,6 +34,7 @@ const COMMON_IMPORTS: any[] = [
   MatListModule,
   MatDividerModule,
   MatRadioModule,
+  MatIconModule,
   BrowserAnimationsModule,
   RouterTestingModule,
 ];

@@ -14,14 +14,10 @@ export class UserPage {
     return title;
   }
 
-  backspace() {
-    browser.actions().sendKeys(Key.BACK_SPACE).perform();
-  }
-
-  typeInput(inputId: string, text: string) {
+  async typeInput(inputId: string, text: string) {
     let input = element(by.id(inputId));
-    input.click();
-    input.sendKeys(text);
+    await input.click();
+    await input.sendKeys(text);
   }
 
   selectMatSelectValue(selectID: string, value: string) {
@@ -45,5 +41,9 @@ export class UserPage {
 
   changeView(viewType: 'card' | 'list') {
     return element(by.id('view-type-radio')).element(by.css('mat-radio-button[value="' + viewType + '"]')).click();
+  }
+
+  clickAddUserFAB() {
+    return element(by.className('add-user-fab')).click();
   }
 }

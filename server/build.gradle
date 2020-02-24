@@ -29,14 +29,24 @@ dependencies {
   implementation 'com.google.guava:guava:28.2-jre'
 
   // Javalin, a simple web framework for Java
-  compile 'io.javalin:javalin:3.7.0'
+  implementation 'io.javalin:javalin:3.7.0'
+
+  // Mongo DB Driver for Java
+  implementation 'org.mongodb:mongodb-driver:3.10.1'
 
   // Jackson, a JSON library for Java
   implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
+
+  // MongoJack, MongoDB integration for Jackson
+  implementation 'org.mongojack:mongojack:2.10.0'
+
+  // Jackson support modules for Java 8 datatypes
+  implementation 'com.fasterxml.jackson.module:jackson-module-parameter-names:2.10.1'
+  implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.10.1'
+  implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.1'
+
   // Simple Logging Facade for Java
   implementation 'org.slf4j:slf4j-simple:1.7.30'
-
-  implementation 'com.google.code.gson:gson:2.8.6'
 
   // JUnit Jupiter API for testing.
   testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
@@ -44,8 +54,7 @@ dependencies {
   // JUnit Jupiter Engine for testing.
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
 
-  // Mockito for testing
-  testImplementation 'org.mockito:mockito-core:3.2.4'
+  testImplementation 'com.mockrunner:mockrunner-servlet:2.0.1'
 }
 
 application {
@@ -56,10 +65,12 @@ application {
 test {
   // Use junit platform for unit tests
   useJUnitPlatform()
+
 }
 
 // We want our source code to be compatible with Java 1.8
 sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 wrapper {
   distributionType = Wrapper.DistributionType.ALL
