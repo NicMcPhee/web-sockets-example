@@ -101,4 +101,18 @@ describe('User list', () => {
     expect(element(by.className('user-card-name')).getText()).toEqual('Bolton Monroe');
   });
 
+  it('Should click add user and go to the right URL', async () => {
+    await page.clickAddUserFAB();
+
+    // Wait until the URL contains 'users/new'
+    await browser.wait(EC.urlContains('users/new'), 1000);
+
+    // When the view profile button on the first user card is clicked, we should be sent to the right URL
+    let url = await page.getUrl();
+    expect(url.endsWith('/users/new')).toBe(true);
+
+    // On this profile page we were sent to, We should see the right title
+    expect(element(by.className('add-user-title')).getText()).toEqual('New User');
+  });
+
 });

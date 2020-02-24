@@ -42,4 +42,8 @@ export class UserPage {
   changeView(viewType: 'card' | 'list') {
     return element(by.id('view-type-radio')).element(by.css('mat-radio-button[value="' + viewType + '"]')).click();
   }
+
+  clickAddUserFAB() {
+    return element(by.className('add-user-fab')).click();
+  }
 }
