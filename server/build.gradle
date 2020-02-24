@@ -29,10 +29,10 @@ dependencies {
   implementation 'com.google.guava:guava:28.2-jre'
 
   // Javalin, a simple web framework for Java
-  compile 'io.javalin:javalin:3.7.0'
+  implementation 'io.javalin:javalin:3.7.0'
 
   // Mongo DB Driver for Java
-  compile 'org.mongodb:mongodb-driver:3.10.1'
+  implementation 'org.mongodb:mongodb-driver:3.10.1'
 
   // Jackson, a JSON library for Java
   implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
@@ -70,6 +70,7 @@ test {
 
 // We want our source code to be compatible with Java 1.8
 sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 wrapper {
   distributionType = Wrapper.DistributionType.ALL

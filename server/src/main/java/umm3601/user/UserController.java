@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Sorts;
@@ -114,7 +115,7 @@ public class UserController {
    */
   public void addNewUser(Context ctx) {
     User newUser = ctx.bodyValidator(User.class)
-      .check((usr) -> usr.name != null && usr.company.length() > 0) //Verify that the user has a name that is not blank
+      .check((usr) -> usr.name != null && usr.name.length() > 0) //Verify that the user has a name that is not blank
       .check((usr) -> usr.email.matches(emailRegex)) // Verify that the provided email is a valid email
       .check((usr) -> usr.age > 0) // Verify that the provided age is > 0
       .check((usr) -> usr.role.matches("^(admin|editor|viewer)$")) // Verify that the role is one of the valid roles
@@ -130,7 +131,7 @@ public class UserController {
 
     userCollection.insertOne(newUser);
     ctx.status(201);
-    ctx.json(Map.of("id", newUser._id)); // TODO: see if this works ok
+    ctx.json(ImmutableMap.of("id", newUser._id));
   }
 
   /**

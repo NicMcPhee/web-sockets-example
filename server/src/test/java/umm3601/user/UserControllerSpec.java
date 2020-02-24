@@ -15,6 +15,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.ImmutableMap;
 import com.mockrunner.mock.web.MockHttpServletRequest;
 import com.mockrunner.mock.web.MockHttpServletResponse;
 import com.mongodb.BasicDBObject;
@@ -218,7 +219,7 @@ public class UserControllerSpec {
 
     String testID = samsId.toHexString();
 
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", Map.of("id", testID));
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", ImmutableMap.of("id", testID));
     userController.getUser(ctx);
 
     assertEquals(200, mockRes.getStatus());
@@ -233,7 +234,7 @@ public class UserControllerSpec {
   @Test
   public void GetUserWithBadId() throws IOException {
 
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", Map.of("id", "bad"));
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", ImmutableMap.of("id", "bad"));
 
     assertThrows(BadRequestResponse.class, () -> {
       userController.getUser(ctx);
@@ -243,7 +244,7 @@ public class UserControllerSpec {
   @Test
   public void GetUserWithNonexistentId() throws IOException {
 
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", Map.of("id", "58af3a600343927e48e87335"));
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", ImmutableMap.of("id", "58af3a600343927e48e87335"));
 
     assertThrows(NotFoundResponse.class, () -> {
       userController.getUser(ctx);
