@@ -3,6 +3,7 @@ import {browser, protractor, by, element} from 'protractor';
 
 describe('User list', () => {
   let page: UserPage;
+  var EC = protractor.ExpectedConditions;
 
   beforeEach(() => {
     page = new UserPage();
@@ -49,6 +50,8 @@ describe('User list', () => {
   it('Should type something in the age filter and check that it returned correct elements', async () => {
     await page.typeInput('user-age-input', '27');
 
+    await browser.sleep(200); // wait a little for the server
+
     // Go through each of the cards that are being shown and get the names
     let names = page.getUserCards().map(e => e.element(by.className('user-card-name')).getText());
 
@@ -71,8 +74,8 @@ describe('User list', () => {
 
   it('Should select a role, switch the view, and check that it returned correct elements', async () => {
     await page.selectMatSelectValue('user-role-select', 'viewer');
-
-    page.changeView('list');
+    await browser.sleep(200); // wait a little for the server
+    await page.changeView('list');
 
     // All of the user list items should have the role we are looking for
     page.getUserListItems().each(e => {
@@ -82,6 +85,9 @@ describe('User list', () => {
 
   it('Should click view profile on a user and go to the right URL', async () => {
     await page.clickViewProfile(page.getUserCards().first());
+
+    // Wait until the URL contains 'users/' (note the ending slash)
+    await browser.wait(EC.urlContains('users/'), 1000);
 
     // When the view profile button on the first user card is clicked, we should be sent to the right URL
     let url = await page.getUrl();
