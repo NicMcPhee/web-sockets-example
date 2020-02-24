@@ -199,6 +199,20 @@ public class UserControllerSpec {
   }
 
   @Test
+  public void GetUsersByRole() throws IOException {
+
+    mockReq.setQueryString("role=viewer");
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
+    userController.getUsers(ctx);
+
+    assertEquals(200, mockRes.getStatus());
+    String result = ctx.resultString();
+    for (User user : JavalinJson.fromJson(result, User[].class)) {
+      assertEquals("viewer", user.role);
+    }
+  }
+
+  @Test
   public void GetUsersByCompanyAndAge() throws IOException {
 
      mockReq.setQueryString("company=OHMNET&age=37");

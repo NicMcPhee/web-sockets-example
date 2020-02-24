@@ -10,6 +10,8 @@ jobs:
     services:
       mongo:
         image: mongo:3.4.23
+        ports:
+          - '27017-27019:27017-27019'
 
     steps:
     - uses: actions/checkout@v1
@@ -29,5 +31,3 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
       working-directory: ./server
-      env:
-        MONGO_ADDR: mongo
