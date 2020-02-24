@@ -1,4 +1,4 @@
-# CSCI 3601 Lab #3 - Angular and Spark Lab
+# CSCI 3601 Lab #4 - MongoDB Lab
 
 [![Server Build Status](../../workflows/Server%20Java/badge.svg?branch=master)](../../actions?query=workflow%3A"Server+Java")
 [![Client Build Status](../../workflows/Client%20Angular/badge.svg?branch=master)](../../actions?query=workflow%3A"Client+Angular")
