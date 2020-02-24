@@ -3,7 +3,7 @@ import { AddUserPage } from './add-user.po';
 
 describe('Add user', () => {
   let page: AddUserPage;
-  var EC = protractor.ExpectedConditions;
+  let EC = protractor.ExpectedConditions;
 
   beforeEach(() => {
     page = new AddUserPage();
