@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User, UserRole } from './user';
 import { UserService } from './user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-list-component',
@@ -9,7 +10,7 @@ import { UserService } from './user.service';
   providers: []
 })
 
-export class UserListComponent implements OnInit {
+export class UserListComponent implements OnInit, OnDestroy  {
   // These are public so that tests can reference them (.spec.ts)
   public serverFilteredUsers: User[];
   public filteredUsers: User[];
@@ -19,6 +20,7 @@ export class UserListComponent implements OnInit {
   public userRole: UserRole;
   public userCompany: string;
   public viewType: 'card' | 'list' = 'card';
+  getUsersSub: Subscription;
 
 
   // Inject the UserService into this component.
@@ -31,8 +33,9 @@ export class UserListComponent implements OnInit {
 
   }
 
-  getUsersFromServer() {
-    this.userService.getUsers({
+  getUsersFromServer(): void {
+    this.unsub();
+    this.getUsersSub = this.userService.getUsers({
       role: this.userRole,
       age: this.userAge
     }).subscribe(returnedUsers => {
@@ -43,7 +46,7 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  public updateFilter() {
+  public updateFilter(): void {
     this.filteredUsers = this.userService.filterUsers(
       this.serverFilteredUsers, { name: this.userName, company: this.userCompany });
   }
@@ -54,5 +57,15 @@ export class UserListComponent implements OnInit {
    */
   ngOnInit(): void {
     this.getUsersFromServer();
+  }
+
+  ngOnDestroy(): void {
+    this.unsub();
+  }
+
+  unsub(): void {
+    if(this.getUsersSub) {
+      this.getUsersSub.unsubscribe();
+    }
   }
 }

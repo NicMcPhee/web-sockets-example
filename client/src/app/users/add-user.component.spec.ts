@@ -1,8 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddUserComponent } from './add-user.component';
-import { NgForm, FormsModule } from '@angular/forms';
+import { NgForm, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { UserService } from './user.service';
+import { MockUserService } from 'src/testing/user.service.mock';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AddUserComponent', () => {
   let addUserComponent: AddUserComponent;
@@ -11,9 +20,19 @@ describe('AddUserComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        BrowserAnimationsModule,
+        RouterTestingModule
+      ],
       declarations: [AddUserComponent],
-      providers: []
+      providers: [{ provide: UserService, useValue: new MockUserService() }]
     }).compileComponents().catch(error => {
       expect(error).toBeNull();
     });
@@ -30,10 +49,10 @@ describe('AddUserComponent', () => {
   // https://stackoverflow.com/questions/52046741/angular-testbed-query-by-css-find-the-pseudo-element
   // https://angular.io/guide/form-validation
   // https://github.com/angular/angular/blob/7.2.2/packages/forms/src/validators.ts#L136-L157
-  it('should not allow a name to contain a symbol'), async(() => {
+  xit('should not allow a name to contain a symbol', async(() => {
     let fixture = TestBed.createComponent(AddUserComponent);
     let debug = fixture.debugElement;
-    let input = debug.query(By.css('[name=email]'));
+    let input = debug.query(By.css('#emailField'));
 
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -55,5 +74,5 @@ describe('AddUserComponent', () => {
       expect(form.control.valid).toEqual(true);
       expect(form.control.hasError('notPeeskillet', ['email'])).toEqual(false);
     });
-  });
+  }));
 });
