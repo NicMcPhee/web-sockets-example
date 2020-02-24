@@ -36,7 +36,7 @@ describe('User list', () => {
     await page.typeInput('user-company-input', 'ti');
 
     // Go through each of the cards that are being shown and get the companies
-    let companies = page.getUserCards().map(e => e.element(by.className('user-card-company')).getText());
+    let companies = await page.getUserCards().map(e => e.element(by.className('user-card-company')).getText());
 
     // We should see these companies
     expect(companies).toContain('MOMENTIA');
@@ -50,10 +50,8 @@ describe('User list', () => {
   it('Should type something in the age filter and check that it returned correct elements', async () => {
     await page.typeInput('user-age-input', '27');
 
-    await browser.sleep(200); // wait a little for the server
-
     // Go through each of the cards that are being shown and get the names
-    let names = page.getUserCards().map(e => e.element(by.className('user-card-name')).getText());
+    const names = await page.getUserCards().map(e => e.element(by.className('user-card-name')).getText());
 
     // We should see these users whose age is 27
     expect(names).toContain('Stokes Clayton');
@@ -74,10 +72,9 @@ describe('User list', () => {
 
   it('Should select a role, switch the view, and check that it returned correct elements', async () => {
     await page.selectMatSelectValue('user-role-select', 'viewer');
-    await browser.sleep(200); // wait a little for the server
     await page.changeView('list');
 
-    expect((await page.getUserListItems()).length).toBeGreaterThan(0);
+    expect(page.getUserListItems().count()).toBeGreaterThan(0);
 
     // All of the user list items should have the role we are looking for
     page.getUserListItems().each(e => {
