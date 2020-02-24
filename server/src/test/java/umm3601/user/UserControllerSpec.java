@@ -1,36 +1,42 @@
 package umm3601.user;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static com.mongodb.client.model.Filters.eq;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.client.MongoClient;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.mockrunner.mock.web.MockHttpServletRequest;
+import com.mockrunner.mock.web.MockHttpServletResponse;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import org.mockito.ArgumentCaptor;
 
-import io.javalin.core.validation.Validator;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
+import io.javalin.http.util.ContextUtil;
+import io.javalin.plugin.json.JavalinJson;
 
 
 /**
@@ -40,7 +46,8 @@ import io.javalin.http.NotFoundResponse;
 */
 public class UserControllerSpec {
 
-  private Context ctx = mock(Context.class);
+  MockHttpServletRequest mockReq = new MockHttpServletRequest();
+  MockHttpServletResponse mockRes = new MockHttpServletResponse();
 
   private UserController userController;
 
@@ -49,8 +56,10 @@ public class UserControllerSpec {
   static MongoClient mongoClient;
   static MongoDatabase db;
 
+  static ObjectMapper jsonMapper = new ObjectMapper();
+
   @BeforeAll
-  public static void setupDB() {
+  public static void setupAll() {
     String mongoAddr = System.getenv().getOrDefault("MONGO_ADDR", "localhost");
 
     mongoClient = MongoClients.create(
@@ -62,11 +71,17 @@ public class UserControllerSpec {
     db = mongoClient.getDatabase("test");
   }
 
+  static String testNewUser = "{\n\t\"name\": \"Test User\",\n\t\"age\":25,\n\t\"company\": \"testers\",\n\t\"email\": \"test@example.com\",\n\t\"role\": \"viewer\"\n}";
+
+
   @BeforeEach
-  public void setUp() throws IOException {
-    ctx.clearCookieStore();
+  public void setupEach() throws IOException {
 
+    // Reset our mock request and response objects
+    mockReq.resetAll();
+    mockRes.resetAll();
 
+    // Setup database
     MongoCollection<Document> userDocuments = db.getCollection("users");
     userDocuments.drop();
     List<Document> testUsers = new ArrayList<>();
@@ -89,7 +104,7 @@ public class UserControllerSpec {
     testUsers.add(Document.parse("{\n" +
     "                    name: \"Jamie\",\n" +
     "                    age: 37,\n" +
-    "                    company: \"Frogs, Inc.\",\n" +
+    "                    company: \"OHMNET\",\n" +
     "                    email: \"jamie@frogs.com\",\n" +
     "                    role: \"viewer\",\n" +
     "                    avatar: \"https://gravatar.com/avatar/d4a6c71dd9470ad4cf58f78c100258bf?d=identicon\"\n" +
@@ -99,7 +114,7 @@ public class UserControllerSpec {
     BasicDBObject sam = new BasicDBObject("_id", samsId);
     sam = sam.append("name", "Sam")
       .append("age", 45)
-      .append("company", "Frogs, Inc.")
+      .append("company", "OHMNET")
       .append("email", "sam@frogs.com")
       .append("role", "viewer")
       .append("avatar", "https://gravatar.com/avatar/08b7610b558a4cbbd20ae99072801f4d?d=identicon");
@@ -111,30 +126,43 @@ public class UserControllerSpec {
     userController = new UserController(db);
   }
 
-  @Test
-  public void GETRequestForAllUsers() throws IOException {
-    // Call the method on the mock controller
-    userController.getUsers(ctx);
-
-    // Confirm that `json` was called with all the users.
-    ArgumentCaptor<User[]> argument = ArgumentCaptor.forClass(User[].class);
-    verify(ctx).json(argument.capture());
-    assertEquals(db.getCollection("users").countDocuments(), argument.getValue().length);
+  @AfterAll
+  public static void teardown() {
+    db.drop();
+    mongoClient.close();
   }
 
   @Test
-  public void GETRequestForAgeUsers() throws IOException {
-    Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put("age", Arrays.asList(new String[] { "37" }));
+  public void GetAllUsers() throws IOException {
 
-    when(ctx.queryParamMap()).thenReturn(queryParams);
+    // Create our fake Javalin context
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
     userController.getUsers(ctx);
 
-    // Confirm that all the users passed to `json` have age 37.
-    ArgumentCaptor<User[]> argument = ArgumentCaptor.forClass(User[].class);
-    verify(ctx).json(argument.capture());
-    for (User user : argument.getValue()) {
-      assertEquals(37, user.age);
+
+    assertEquals(200, mockRes.getStatus());
+
+    String result = ctx.resultString();
+    assertEquals(db.getCollection("users").countDocuments(), JavalinJson.fromJson(result, User[].class).length);
+  }
+
+  @Test
+  public void GetUsersByAge() throws IOException {
+
+    // Set the query string to test with
+    mockReq.setQueryString("age=27");
+
+    // Create our fake Javalin context
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
+
+    userController.getUsers(ctx);
+
+    assertEquals(200, mockRes.getStatus()); // The response status should be 200
+
+    String result = ctx.resultString();
+
+    for (User user : JavalinJson.fromJson(result, User[].class)) {
+      assertEquals(37, user.age); // Every user should be age 37
     }
   }
 
@@ -144,13 +172,11 @@ public class UserControllerSpec {
   * we get a reasonable error code back.
   */
   @Test
-  public void GETRequestForUsersWithIllegalAge() {
-    // We'll set the requested "age" to be a string ("abc")
-    // that can't be parsed to a number.
-    Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put("age", Arrays.asList(new String[] { "abc" }));
+  public void GetUsersWithIllegalAge() {
 
-    when(ctx.queryParamMap()).thenReturn(queryParams);
+    mockReq.setQueryString("age=abc");
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
+
     // This should now throw a `BadRequestResponse` exception because
     // our request has an age that can't be parsed to a number.
     assertThrows(BadRequestResponse.class, () -> {
@@ -159,55 +185,97 @@ public class UserControllerSpec {
   }
 
   @Test
-  public void GETRequestForCompanyUsers() throws IOException {
+  public void GetUsersByCompany() throws IOException {
 
-    Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put("company", Arrays.asList(new String[] { "OHMNET" }));
-
-    when(ctx.queryParamMap()).thenReturn(queryParams);
+    mockReq.setQueryString("company=OHMNET");
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
     userController.getUsers(ctx);
 
-    // Confirm that all the users passed to `json` work for OHMNET.
-    ArgumentCaptor<User[]> argument = ArgumentCaptor.forClass(User[].class);
-    verify(ctx).json(argument.capture());
-    for (User user : argument.getValue()) {
+    assertEquals(200, mockRes.getStatus());
+    String result = ctx.resultString();
+    for (User user : JavalinJson.fromJson(result, User[].class)) {
       assertEquals("OHMNET", user.company);
     }
   }
 
   @Test
-  public void GETRequestForCompanyAndAgeUsers() throws IOException {
+  public void GetUsersByCompanyAndAge() throws IOException {
 
-    Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put("company", Arrays.asList(new String[] { "Frogs, Inc." }));
+     mockReq.setQueryString("company=OHMNET&age=37");
+     Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
+     userController.getUsers(ctx);
 
-    queryParams.put("age", Arrays.asList(new String[] { "37" }));
-
-    when(ctx.queryParamMap()).thenReturn(queryParams);
-    userController.getUsers(ctx);
-
-    // Confirm that all the users passed to `json` work for OHMNET
-    // and have age 25.
-    ArgumentCaptor<User[]> argument = ArgumentCaptor.forClass(User[].class);
-    verify(ctx).json(argument.capture());
-    for (User user : argument.getValue()) {
-      assertEquals(37, user.age);
-      assertEquals("Frogs, Inc.", user.company);
-    }
+     assertEquals(200, mockRes.getStatus());
+     String result = ctx.resultString();
+     for (User user : JavalinJson.fromJson(result, User[].class)) {
+       assertEquals("OHMNET", user.company);
+       assertEquals(37, user.age);
+     }
   }
 
   @Test
-  public void GETRequestForUserWithExistentId() throws IOException {
-    when(ctx.pathParam("id", String.class)).thenReturn(new Validator<String>(samsId.toHexString(), ""));
+  public void GetUserWithExistentId() throws IOException {
+
+    String testID = samsId.toHexString();
+
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", Map.of("id", testID));
     userController.getUser(ctx);
-    verify(ctx).status(200);
+
+    assertEquals(200, mockRes.getStatus());
+
+    String result = ctx.resultString();
+    User resultUser = JavalinJson.fromJson(result, User.class);
+
+    assertEquals(resultUser._id, samsId.toHexString());
+    assertEquals(resultUser.name, "Sam");
   }
 
   @Test
-  public void GETRequestForUserWithNonexistentId() throws IOException {
-    when(ctx.pathParam("id", String.class)).thenReturn(new Validator<String>("nonexistent", ""));
+  public void GetUserWithBadId() throws IOException {
+
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", Map.of("id", "bad"));
+
+    assertThrows(BadRequestResponse.class, () -> {
+      userController.getUser(ctx);
+    });
+  }
+
+  @Test
+  public void GetUserWithNonexistentId() throws IOException {
+
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", Map.of("id", "58af3a600343927e48e87335"));
+
     assertThrows(NotFoundResponse.class, () -> {
       userController.getUser(ctx);
     });
+  }
+
+  @Test
+  public void AddUser() throws IOException {
+
+    mockReq.setBodyContent(testNewUser);
+
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
+
+    userController.addNewUser(ctx);
+
+    assertEquals(201, mockRes.getStatus());
+
+    String result = ctx.resultString();
+    String id = jsonMapper.readValue(result, ObjectNode.class).get("id").asText();
+    assertNotEquals("", id);
+    System.out.println(id);
+
+    assertEquals(1, db.getCollection("users").countDocuments(eq("_id", new ObjectId(id))));
+
+    //verify user was added to the database and the correct ID
+    Document addedUser = db.getCollection("users").find(eq("_id", new ObjectId(id))).first();
+    assertNotNull(addedUser);
+    assertEquals("Test User", addedUser.getString("name"));
+    assertEquals(25, addedUser.getInteger("age"));
+    assertEquals("testers", addedUser.getString("company"));
+    assertEquals("test@example.com", addedUser.getString("email"));
+    assertEquals("viewer", addedUser.getString("role"));
+    assertTrue(addedUser.containsKey("avatar"));
   }
 }

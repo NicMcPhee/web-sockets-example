@@ -1,9 +1,11 @@
 package umm3601.user;
+
 import org.mongojack.Id;
+import org.mongojack.ObjectId;
 
 public class User {
 
-  @Id
+  @ObjectId @Id
   public String _id;
 
   public String name;
@@ -12,4 +14,5 @@ public class User {
   public String email;
   public String avatar;
   public String role;
+
 }

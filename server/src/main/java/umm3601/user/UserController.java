@@ -9,6 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -129,7 +130,7 @@ public class UserController {
 
     userCollection.insertOne(newUser);
     ctx.status(201);
-    ctx.json(newUser._id); // TODO: see if this works ok
+    ctx.json(Map.of("id", newUser._id)); // TODO: see if this works ok
   }
 
   /**
