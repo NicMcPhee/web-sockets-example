@@ -77,10 +77,14 @@ describe('User list', () => {
     await browser.sleep(200); // wait a little for the server
     await page.changeView('list');
 
+    expect((await page.getUserListItems()).length).toBeGreaterThan(0);
+
     // All of the user list items should have the role we are looking for
     page.getUserListItems().each(e => {
       expect(e.element(by.className('user-list-role')).getText()).toEqual('viewer');
     });
+
+
   });
 
   it('Should click view profile on a user and go to the right URL', async () => {
