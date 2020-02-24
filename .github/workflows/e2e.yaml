@@ -12,11 +12,16 @@ jobs:
         image: mongo:3.4.23
         ports:
           - '27017-27019:27017-27019'
-        volumes:
-          - ${{ github.workspace }}/database:/docker-entrypoint-initdb.d
 
     steps:
     - uses: actions/checkout@v1
+
+    - name: Install Mongo Tools
+      run: sudo apt-get install mongo-tools
+
+    - name: Seed database
+      run: ./mongoseed.sh
+      working-directory: ./database
 
     - name: Cache node modules
       uses: actions/cache@v1
