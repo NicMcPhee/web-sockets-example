@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { User } from './user';
 import { UserService } from './user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-user',
@@ -15,7 +16,7 @@ export class AddUserComponent implements OnInit {
 
   user: User;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private snackBar: MatSnackBar) {
+  constructor(private fb: FormBuilder, private userService: UserService, private snackBar: MatSnackBar, private router: Router) {
   }
 
   // not sure if this name is magical and making it be found or if I'm missing something,
@@ -86,10 +87,11 @@ export class AddUserComponent implements OnInit {
 
 
   submitForm() {
-    this.userService.addUser(this.addUserForm.value).subscribe(result => {
+    this.userService.addUser(this.addUserForm.value).subscribe(newID => {
       this.snackBar.open("Added User " + this.addUserForm.value.name, null, {
         duration: 2000,
       });
+      this.router.navigate(['/users/', newID]);
     }, err => {
       this.snackBar.open("Added card", null, {
         duration: 2000,
