@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddUserComponent } from './add-user.component';
 import { NgForm, FormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 
 describe('AddUserComponent', () => {
   let addUserComponent: AddUserComponent;

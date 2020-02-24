@@ -6,7 +6,7 @@ is potentially helpful and contributed to the shaping of this example -->
     <form [formGroup]="addUserForm" (ngSubmit)="submitForm();">
     <mat-card class="add-user-card">
         <mat-card-header>
-          <mat-card-title>New User</mat-card-title>
+          <mat-card-title class="add-user-title">New User</mat-card-title>
         </mat-card-header>
         <mat-card-content fxLayout="column">
           <mat-form-field>
@@ -65,7 +65,7 @@ is potentially helpful and contributed to the shaping of this example -->
         <mat-card-actions align="end">
           <button mat-button id="confirmAddUserButton" type="button" color="primary"
                   [disabled]="!addUserForm.valid" type="submit">
-                  Add User
+                  ADD USER
           </button>
         </mat-card-actions>
     </mat-card>
