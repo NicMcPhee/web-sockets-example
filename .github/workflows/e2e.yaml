@@ -7,6 +7,14 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    services:
+      mongo:
+        image: mongo:3.4.23
+        ports:
+          - '27017-27019:27017-27019'
+        volumes:
+          - ${{ github.workspace }}/database:/docker-entrypoint-initdb.d
+
     steps:
     - uses: actions/checkout@v1
 
