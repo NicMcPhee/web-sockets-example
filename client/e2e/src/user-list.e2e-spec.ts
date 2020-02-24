@@ -3,7 +3,7 @@ import {browser, protractor, by, element} from 'protractor';
 
 describe('User list', () => {
   let page: UserPage;
-  var EC = protractor.ExpectedConditions;
+  let EC = protractor.ExpectedConditions;
 
   beforeEach(() => {
     page = new UserPage();
@@ -36,7 +36,7 @@ describe('User list', () => {
     await page.typeInput('user-company-input', 'ti');
 
     // Go through each of the cards that are being shown and get the companies
-    let companies = await page.getUserCards().map(e => e.element(by.className('user-card-company')).getText());
+    const companies = await page.getUserCards().map(e => e.element(by.className('user-card-company')).getText());
 
     // We should see these companies
     expect(companies).toContain('MOMENTIA');
@@ -105,7 +105,7 @@ describe('User list', () => {
     await browser.wait(EC.urlContains('users/new'), 1000);
 
     // When the view profile button on the first user card is clicked, we should be sent to the right URL
-    let url = await page.getUrl();
+    const url = await page.getUrl();
     expect(url.endsWith('/users/new')).toBe(true);
 
     // On this profile page we were sent to, We should see the right title

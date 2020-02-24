@@ -10,18 +10,18 @@ export class UserPage {
   }
 
   getUserTitle() {
-    let title = element(by.className('user-list-title')).getText();
+    const title = element(by.className('user-list-title')).getText();
     return title;
   }
 
   async typeInput(inputId: string, text: string) {
-    let input = element(by.id(inputId));
+    const input = element(by.id(inputId));
     await input.click();
     await input.sendKeys(text);
   }
 
   selectMatSelectValue(selectID: string, value: string) {
-    let sel = element(by.id(selectID));
+    const sel = element(by.id(selectID));
     return sel.click().then(() => {
       return element(by.css('mat-option[value="' + value + '"]')).click();
     });
