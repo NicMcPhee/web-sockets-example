@@ -254,6 +254,7 @@ public class UserControllerSpec {
   public void AddUser() throws IOException {
 
     mockReq.setBodyContent(testNewUser);
+    mockReq.setMethod("POST");
 
     Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
 
@@ -278,4 +279,22 @@ public class UserControllerSpec {
     assertEquals("viewer", addedUser.getString("role"));
     assertTrue(addedUser.containsKey("avatar"));
   }
+
+  @Test
+  public void DeleteUser() throws IOException {
+
+    String testID = samsId.toHexString();
+
+    // User exists before deletion
+    assertEquals(1, db.getCollection("users").countDocuments(eq("_id", new ObjectId(testID))));
+
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", ImmutableMap.of("id", testID));
+    userController.deleteUser(ctx);
+
+    assertEquals(200, mockRes.getStatus());
+
+    // User is no longer in the database
+    assertEquals(0, db.getCollection("users").countDocuments(eq("_id", new ObjectId(testID))));
+  }
+
 }
