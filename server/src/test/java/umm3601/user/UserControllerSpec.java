@@ -71,8 +71,6 @@ public class UserControllerSpec {
     db = mongoClient.getDatabase("test");
   }
 
-  static String testNewUser = "{\n\t\"name\": \"Test User\",\n\t\"age\":25,\n\t\"company\": \"testers\",\n\t\"email\": \"test@example.com\",\n\t\"role\": \"viewer\"\n}";
-
 
   @BeforeEach
   public void setupEach() throws IOException {
@@ -267,6 +265,8 @@ public class UserControllerSpec {
   @Test
   public void AddUser() throws IOException {
 
+    String testNewUser = "{\n\t\"name\": \"Test User\",\n\t\"age\":25,\n\t\"company\": \"testers\",\n\t\"email\": \"test@example.com\",\n\t\"role\": \"viewer\"\n}";
+
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
 
@@ -292,6 +292,54 @@ public class UserControllerSpec {
     assertEquals("test@example.com", addedUser.getString("email"));
     assertEquals("viewer", addedUser.getString("role"));
     assertTrue(addedUser.containsKey("avatar"));
+  }
+
+  @Test
+  public void AddInvalidEmailUser() throws IOException {
+    String testNewUser = "{\n\t\"name\": \"Test User\",\n\t\"age\":25,\n\t\"company\": \"testers\",\n\t\"email\": \"invalidemail\",\n\t\"role\": \"viewer\"\n}";
+    mockReq.setBodyContent(testNewUser);
+    mockReq.setMethod("POST");
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
+
+    assertThrows(BadRequestResponse.class, () -> {
+      userController.addNewUser(ctx);
+    });
+  }
+
+  @Test
+  public void AddInvalidAgeUser() throws IOException {
+    String testNewUser = "{\n\t\"name\": \"Test User\",\n\t\"age\":\"notanumber\",\n\t\"company\": \"testers\",\n\t\"email\": \"test@example.com\",\n\t\"role\": \"viewer\"\n}";
+    mockReq.setBodyContent(testNewUser);
+    mockReq.setMethod("POST");
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
+
+    assertThrows(BadRequestResponse.class, () -> {
+      userController.addNewUser(ctx);
+    });
+  }
+
+  @Test
+  public void AddInvalidNameUser() throws IOException {
+    String testNewUser = "{\n\t\"age\":25,\n\t\"company\": \"testers\",\n\t\"email\": \"test@example.com\",\n\t\"role\": \"viewer\"\n}";
+    mockReq.setBodyContent(testNewUser);
+    mockReq.setMethod("POST");
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
+
+    assertThrows(BadRequestResponse.class, () -> {
+      userController.addNewUser(ctx);
+    });
+  }
+
+  @Test
+  public void AddInvalidRoleUser() throws IOException {
+    String testNewUser = "{\n\t\"name\": \"Test User\",\n\t\"age\":25,\n\t\"company\": \"testers\",\n\t\"email\": \"test@example.com\",\n\t\"role\": \"invalidrole\"\n}";
+    mockReq.setBodyContent(testNewUser);
+    mockReq.setMethod("POST");
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
+
+    assertThrows(BadRequestResponse.class, () -> {
+      userController.addNewUser(ctx);
+    });
   }
 
   @Test
