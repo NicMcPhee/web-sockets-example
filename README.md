@@ -87,6 +87,7 @@ There are GitHub Actions set up in your repo for each of the three checks: JUnit
 
 ## Resources
 
+- [Angular Material components docs](https://material.angular.io/components/categories)
 - [Angular tutorial][angular-tutorial]
 - [Angular testing (Karma)][angular-karma]
 - [Angular Tour of Heroes tutorial][tour-of-heroes]
