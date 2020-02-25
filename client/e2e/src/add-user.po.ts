@@ -1,5 +1,13 @@
 import {browser, by, element, Key, ElementFinder} from 'protractor';
 
+export interface TestUser {
+  name: string;
+  age: string;
+  company?: string;
+  email?: string;
+  role: 'admin' | 'editor' | 'viewer';
+}
+
 export class AddUserPage {
   navigateTo() {
     return browser.get('/users/new');
@@ -29,5 +37,18 @@ export class AddUserPage {
 
   clickAddUser() {
     return element(by.buttonText('ADD USER')).click();
+  }
+
+  async addUser(newUser: TestUser) {
+    await this.typeInput('nameField', newUser.name);
+    await this.typeInput('ageField', newUser.age);
+    if (newUser.company) {
+      await this.typeInput('companyField', newUser.company);
+    }
+    if (newUser.email) {
+      await this.typeInput('emailField', newUser.email);
+    }
+    await this.selectMatSelectValue('roleField', newUser.role);
+    return this.clickAddUser();
   }
 }

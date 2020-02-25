@@ -1,6 +1,6 @@
 import {AppPage} from './app.po';
 
-describe('angular-spark-lab', () => {
+describe('App', () => {
   let page: AppPage;
 
   beforeEach(() => {
