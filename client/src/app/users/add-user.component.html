@@ -37,12 +37,13 @@ is potentially helpful and contributed to the shaping of this example -->
             <mat-label>Company</mat-label>
             <input matInput #input id="companyField" placeholder="Company"
                   formControlName="company">
+            <mat-hint>Not required in Angular for demonstration, still required by server</mat-hint>
           </mat-form-field>
 
           <mat-form-field >
             <mat-label>Email</mat-label>
             <input matInput #input id="emailField" placeholder="Email"
-                  formControlName="email">
+                  formControlName="email" required>
             <mat-error *ngFor="let validation of add_user_validation_messages.email">
               <mat-error class="error-message" id='email-error'
                         *ngIf="addUserForm.get('email').hasError(validation.type) && (addUserForm.get('email').dirty || addUserForm.get('email').touched)">
@@ -58,8 +59,11 @@ is potentially helpful and contributed to the shaping of this example -->
               <mat-option value="editor">Editor</mat-option>
               <mat-option value="viewer">Viewer</mat-option>
             </mat-select>
+            <mat-error *ngIf="addUserForm.get('role').hasError('required')">You must make a selection</mat-error>
+            <mat-error *ngIf="addUserForm.get('role').hasError('pattern') && !addUserForm.get('role').hasError('required')">
+              Your selection is invalid
+            </mat-error>
           </mat-form-field>
-
 
         </mat-card-content>
         <mat-card-actions align="end">
