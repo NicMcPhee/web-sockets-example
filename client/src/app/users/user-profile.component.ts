@@ -23,7 +23,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     // to display the newly requested user.
     this.route.paramMap.subscribe((pmap) => {
       this.id = pmap.get('id');
-      if(this.getUserSub) {
+      if (this.getUserSub) {
         this.getUserSub.unsubscribe();
       }
       this.getUserSub = this.userService.getUserById(this.id).subscribe(user => this.user = user);
@@ -31,7 +31,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.getUserSub) {
+    if (this.getUserSub) {
       this.getUserSub.unsubscribe();
     }
   }

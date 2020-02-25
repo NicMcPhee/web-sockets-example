@@ -64,7 +64,7 @@ export class UserListComponent implements OnInit, OnDestroy  {
   }
 
   unsub(): void {
-    if(this.getUsersSub) {
+    if (this.getUsersSub) {
       this.getUsersSub.unsubscribe();
     }
   }

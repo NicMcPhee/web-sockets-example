@@ -3,7 +3,7 @@ import {browser, protractor, by, element} from 'protractor';
 
 describe('User list', () => {
   let page: UserPage;
-  let EC = protractor.ExpectedConditions;
+  const EC = protractor.ExpectedConditions;
 
   beforeEach(() => {
     page = new UserPage();
