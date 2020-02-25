@@ -1,8 +1,8 @@
 # CSCI 3601 Lab #4 - MongoDB Lab
 
-[![Server Build Status](../../workflows/Server%20Java/badge.svg?branch=master)](../../actions?query=workflow%3A"Server+Java")
-[![Client Build Status](../../workflows/Client%20Angular/badge.svg?branch=master)](../../actions?query=workflow%3A"Client+Angular")
-[![End to End Build Status](../../workflows/End-to-End/badge.svg?branch=master)](../../actions?query=workflow%3AEnd-to-End)
+[![Server Build Status](../../workflows/Server%20Java/badge.svg)](../../actions?query=workflow%3A"Server+Java")
+[![Client Build Status](../../workflows/Client%20Angular/badge.svg)](../../actions?query=workflow%3A"Client+Angular")
+[![End to End Build Status](../../workflows/End-to-End/badge.svg)](../../actions?query=workflow%3AEnd-to-End)
 
 During this lab, you will use a ToDo API like you created in the previous lab
 by building a basic client-side application using Angular. This will enable you
