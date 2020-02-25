@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { User } from './user';
-import { UserService } from './user.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { User } from './user';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-add-user',
@@ -78,9 +78,16 @@ export class AddUserComponent implements OnInit {
       company: new FormControl(''),
 
       // We don't need a special validator just for our app here, but there is a default one for email.
-      email: new FormControl('', Validators.email),
+      // We will require the email, though.
+      email: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.email,
+      ])),
 
-      role: new FormControl('viewer', Validators.required)
+      role: new FormControl('viewer', Validators.compose([
+        Validators.required,
+        Validators.pattern('^(Admin|Editor|Viewer)$'),
+      ])),
     });
 
   }
