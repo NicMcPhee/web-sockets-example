@@ -38,7 +38,8 @@ export class AddUserComponent implements OnInit {
     ],
 
     email: [
-      {type: 'email', message: 'Email must be formatted properly'}
+      {type: 'email', message: 'Email must be formatted properly'},
+      {type: 'required', message: 'Email is required'}
     ],
 
     role: [
@@ -80,7 +81,7 @@ export class AddUserComponent implements OnInit {
 
       // We don't care much about what is in the company field, so we just add it here as part of the form
       // without any particular validation.
-      company: new FormControl(''),
+      company: new FormControl(),
 
       // We don't need a special validator just for our app here, but there is a default one for email.
       // We will require the email, though.
