@@ -25,7 +25,7 @@ export class AddUserComponent implements OnInit {
     name: [
       {type: 'required', message: 'Name is required'},
       {type: 'minlength', message: 'Name must be at least 2 characters long'},
-      {type: 'maxlength', message: 'Name cannot be more than 25 characters long'},
+      {type: 'maxlength', message: 'Name cannot be more than 50 characters long'},
       {type: 'pattern', message: 'Name must contain only numbers and letters'},
       {type: 'existingName', message: 'Name has already been taken'}
     ],
@@ -42,7 +42,8 @@ export class AddUserComponent implements OnInit {
     ],
 
     role: [
-      { type: 'role', message: 'Role must be Admin, Editor, or Viewer' }
+      { type: 'required', message: 'Role is required' },
+      { type: 'pattern', message: 'Role must be Admin, Editor, or Viewer' },
     ]
   };
 
