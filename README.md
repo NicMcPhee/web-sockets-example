@@ -1,24 +1,15 @@
-# CSCI 3601 Lab #4 - MongoDB Lab
+# CSCI 3601 Lab #4 - MongoDB
 
 [![Server Build Status](../../workflows/Server%20Java/badge.svg)](../../actions?query=workflow%3A"Server+Java")
 [![Client Build Status](../../workflows/Client%20Angular/badge.svg)](../../actions?query=workflow%3A"Client+Angular")
 [![End to End Build Status](../../workflows/End-to-End/badge.svg)](../../actions?query=workflow%3AEnd-to-End)
 
-During this lab, you will use a ToDo API like you created in the previous lab
-by building a basic client-side application using Angular. This will enable you
-to better handle user input and display data returned from the server. As always, 
+In this lab, you'll be working to re-implement the ToDo API, this time pulling data from a Mongo Database rather than a flat JSON file. You will also be implementing a simple Angular web app for viewing and adding ToDos. As always, 
 you'll be expected to make good use of the version control (e.g., branching for features and merging changes to the master branch as appropriate) and project management 
 tools available to you: write good commit messages, test things, document issues, etc.
 
 Your specific tasks for this lab can be found in the [LABTASKS.md][labtasks]
 file in this repository.
-
->:warning: One thing to keep in mind is that the Angular developers provide two
-major updates to Angular each year. This lab is built using Angular 9. Pay attention to
-the version of Angular being used in examples and on-line documentation that you find. Most
-of the time, it won't matter very much, but there are times when something you find 
-doesn't match what we're doing. If things seem odd, look at the versions for the
-example or documentation you're looking at just in case there's a mismatch that matters.
 
 ## Setup
 
@@ -34,32 +25,60 @@ group using GitHub classroom, you can clone your repository using the command li
 
 ## Running your project
 
-Now that the structure of the project is a little different, the way we run the project
-is different too.
-
-- The familiar **run** Gradle task will still run your Javalin server.
-(which is available at ``localhost:4567``)
+- The **run** Gradle task will still run your Javalin server.
+(which is available at [`localhost:4567`](http://localhost:4567))
 - The **build** task (or its alias **buildExecutable**) will still _build_ the entire project, but not run it.
 
-The major difference here is that the _client_ side of your project is,
-effectively, an entirely separate project from your Javalin server. We've included a full API
-for the ToDo's, which you implemented in lab 2, so no need to copy your old project over.
+Like in lab 3, the first time you run your Angular project, you will need to run move into your `client` directory and run `npm install` so that all the dependencies managed by npm will be installed. Once you have successfully run `npm install`, in order to serve up the _client side_ of your project, you will type 
+**ng serve** and the client will be running at [`localhost:4200`](http://localhost:4200).
 
-The first time you run your Angular project, you will need to run move into your `client` directory and run `npm install` so that all the dependencies managed by npm will be installed. Once you have successfully run `npm install`, in order to serve up the _client side_ of your project, you will type 
-**ng serve**. This will trigger the various tools in the
-client side portion of the project to build and host your client side
-application on their own little web-server, available by default at ``localhost:4200``. If your server is running, you will be able to see data for users if you navigate to the right place in the project.
+The major difference between this lab and lab #3 is that, here, your data (users and todos) will be stored in a database rather than as "flat" JSON files within the server source code.
+
+For the most part, you will be using a local installation of Mongo as a dev (development) database. You don't really need to worry about how this is set up, but you do need to know a couple of tricks to help you use it:
+
+### Seeding the Database
+
+Seed data and the seed script are stored in the top level directory `database`. To seed the database, move into that directory and run `./mongoseed.sh`. This will take each of the JSON files in `database/seed/` and insert their elements into the `dev` database (to specify a different database, provide it as an argument).
+
+### MongoDB in VS Code
+
+We have included an extension called [Azure Cosmos DB](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-cosmosdb) in the recommended extensions. This extension allows you to view, edit, and delete the things in MongoDB.
+
+When installed you will see a new icon in the sidebar, click it and click "Attach Database Account...".
+
+![](https://i.vgy.me/ElqdfW.png)
+
+Then select "Azure Cosmos DB for MongoDB API".
+
+It will ask you for a connection string, hitting enter on the default one should work for the machines in our lab.
+
+![](https://i.vgy.me/2dk1ws.png)
+
+You will then have the MongoDB server in the sidebar. You can explore the databases and collections here. You can click a record to view and edit it or right click it for other options like deleting. If you want to clear out and seed a database again you can delete the database from this interface and run the seed script again. You can also import JSON into the database right from this extension.
+
+![](https://i.vgy.me/AWAUHw.png)
 
 ## Testing and Continuous Integration
 
 There are now more testing options! You can test the client, or the server or both.
 
-Testing client:
+### Testing the client
 
-* `ng test` runs the client tests once.
+From the `client` directory:
+* `ng test` runs the client tests.
 * `ng test --code-coverage` runs the client tests and generates a coverage file you can find in your client directory `client/coverage/client/index.html`.
 Right click on `index.html` and select `Copy path` and paste it into your browser of choice. For Chrome users, you can drag and drop `index.html` onto the tab area of Chrome and it will open it.
-* `npm run e2e` runs end to end tests. What are e2e tests? They are tests that run the real application and simulate user behavior. They assert that the app is running as expected. NOTE: The server (`./gradlew run`) needs to be actively executing for these tests to work!
+
+### Testing the server
+
+From the `server` directory:
+* `./gradlew test` runs the server tests once.
+* `./gradlew test jacocoTestReport` runs the server tests and generates a coverage file you can find in `server/build/jacocoHtml/index.html`.
+
+### End to end testing
+* `npm run e2e` from the `client` directory runs end to end tests. What are e2e tests? They are tests that run the real application and simulate user behavior. They assert that the app is running as expected. NOTE: The server (`./gradlew run` in the `server` directory) needs to be actively executing for these tests to work!
+
+### GitHub Actions
 
 There are GitHub Actions set up in your repo for each of the three checks: JUnit tests for the server, Karma tests for the client, and Protractor tests for end-to-end testing. There are badges above that show the status of these checks on the master branch.
 
@@ -73,7 +92,7 @@ There are GitHub Actions set up in your repo for each of the three checks: JUnit
 - [What are environments in Angular CLI?][environments]
 - [Angular CLI commands][angular-cli-commands]
 - [HTTP Status Codes][status-codes]
-
+- [MongoDB Java Driver][mongo-java]
 
 [angular-tutorial]: https://angular.io/start
 [angular-karma]:https://angular.io/guide/testing
@@ -84,5 +103,5 @@ There are GitHub Actions set up in your repo for each of the three checks: JUnit
 [labtasks]: LABTASKS.md
 [angular-cli-commands]: https://angular.io/cli
 [status-codes]: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
-
+[mongo-java]: https://mongodb.github.io/mongo-java-driver/
 
