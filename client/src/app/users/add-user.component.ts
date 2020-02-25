@@ -48,6 +48,14 @@ export class AddUserComponent implements OnInit {
     this.addUserForm = this.fb.group({
       // We allow alphanumeric input and limit the length for name.
       name: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(2),
+        // In the real world you'd want to be very careful about having
+        // an upper limit like this because people can sometimes have
+        // very long names. This demonstrates that it's possible, though,
+        // to have maximum length limits.
+        Validators.maxLength(50),
+        Validators.pattern('^[A-Za-z0-9\\s]+[A-Za-z0-9\\s]+$(\\.0-9+)?'),
         (fc) => {
           if (fc.value.toLowerCase() === "abc123" || fc.value.toLowerCase() === "123abc") {
             return ({existingName: true});
@@ -55,18 +63,14 @@ export class AddUserComponent implements OnInit {
             return null;
           }
         },
-        Validators.minLength(2),
-        Validators.maxLength(25),
-        Validators.pattern('^[A-Za-z0-9\\s]+[A-Za-z0-9\\s]+$(\\.0-9+)?'),
-        Validators.required
       ])),
 
       // Since this is for a company, we need workers to be old enough to work, and probably not older than 200.
       age: new FormControl('', Validators.compose([
+        Validators.required,
         Validators.pattern('^[0-9]+[0-9]?'),
         Validators.min(15),
         Validators.max(200),
-        Validators.required
       ])),
 
       // We don't care much about what is in the company field, so we just add it here as part of the form
