@@ -22,7 +22,7 @@ export class AddUserComponent implements OnInit {
   // not sure if this name is magical and making it be found or if I'm missing something,
   // but this is where the red text that shows up (when there is invalid input) comes from
   add_user_validation_messages = {
-    'name': [
+    name: [
       {type: 'required', message: 'Name is required'},
       {type: 'minlength', message: 'Name must be at least 2 characters long'},
       {type: 'maxlength', message: 'Name cannot be more than 25 characters long'},
@@ -30,18 +30,18 @@ export class AddUserComponent implements OnInit {
       {type: 'existingName', message: 'Name has already been taken'}
     ],
 
-    'age': [
+    age: [
       {type: 'pattern', message: 'Age must be a number'},
       {type: 'min', message: 'Age must be at least 15'},
       {type: 'max', message: 'Age may not be greater than 200'},
       {type: 'required', message: 'Age is required'}
     ],
 
-    'email': [
+    email: [
       {type: 'email', message: 'Email must be formatted properly'}
     ],
 
-    'role': [
+    role: [
       { type: 'role', message: 'Role must be Admin, Editor, or Viewer' }
     ]
   };
@@ -61,7 +61,7 @@ export class AddUserComponent implements OnInit {
         Validators.maxLength(50),
         Validators.pattern('^[A-Za-z0-9\\s]+[A-Za-z0-9\\s]+$(\\.0-9+)?'),
         (fc) => {
-          if (fc.value.toLowerCase() === "abc123" || fc.value.toLowerCase() === "123abc") {
+          if (fc.value.toLowerCase() === 'abc123' || fc.value.toLowerCase() === '123abc') {
             return ({existingName: true});
           } else {
             return null;
@@ -103,15 +103,15 @@ export class AddUserComponent implements OnInit {
 
   submitForm() {
     this.userService.addUser(this.addUserForm.value).subscribe(newID => {
-      this.snackBar.open("Added User " + this.addUserForm.value.name, null, {
+      this.snackBar.open('Added User ' + this.addUserForm.value.name, null, {
         duration: 2000,
       });
       this.router.navigate(['/users/', newID]);
     }, err => {
-      this.snackBar.open("Added card", null, {
+      this.snackBar.open('Failed to add the user' + err, null, {
         duration: 2000,
       });
-    })
+    });
   }
 
 }

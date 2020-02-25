@@ -66,21 +66,21 @@ describe('AddUserComponent', () => {
   });
 
   describe('The name field', () => {
-    let nameControl : AbstractControl;
+    let nameControl: AbstractControl;
 
     beforeEach(() => {
-      nameControl = addUserComponent.addUserForm.controls['name'];
+      nameControl = addUserComponent.addUserForm.controls[`name`];
     });
 
     it('should not allow empty names', () => {
       nameControl.setValue('');
       expect(nameControl.valid).toBeFalsy();
-    })
+    });
 
     it('should be fine with "Chris Smith"', () => {
       nameControl.setValue('Chris Smith');
       expect(nameControl.valid).toBeTruthy();
-    })
+    });
 
     it('should fail on single character names', () => {
       nameControl.setValue('x');
@@ -88,7 +88,7 @@ describe('AddUserComponent', () => {
       // Annoyingly, Angular uses lowercase 'l' here
       // when it's an upper case 'L' in `Validators.minLength(2)`.
       expect(nameControl.hasError('minlength')).toBeTruthy();
-    })
+    });
 
     // In the real world, you'd want to be pretty careful about
     // setting upper limits on things like name lengths just
@@ -99,16 +99,16 @@ describe('AddUserComponent', () => {
       // Annoyingly, Angular uses lowercase 'l' here
       // when it's an upper case 'L' in `Validators.maxLength(2)`.
       expect(nameControl.hasError('maxlength')).toBeTruthy();
-    })
+    });
 
     it('should not allow a name to contain a symbol', () => {
-      nameControl.setValue("bad@email.com");
+      nameControl.setValue('bad@email.com');
       expect(nameControl.valid).toBeFalsy();
       expect(nameControl.hasError('pattern')).toBeTruthy();
     });
 
     it('should allow digits in the name', () => {
-      nameControl.setValue("Bad2Th3B0ne");
+      nameControl.setValue('Bad2Th3B0ne');
       expect(nameControl.valid).toBeTruthy();
     });
 
@@ -126,27 +126,27 @@ describe('AddUserComponent', () => {
   });
 
   describe('The age field', () => {
-    let ageControl : AbstractControl;
+    let ageControl: AbstractControl;
 
     beforeEach(() => {
-      ageControl = addUserComponent.addUserForm.controls['age'];
+      ageControl = addUserComponent.addUserForm.controls[`age`];
     });
 
     it('should not allow empty names', () => {
       ageControl.setValue('');
       expect(ageControl.valid).toBeFalsy();
-    })
+    });
 
     it('should be fine with "27"', () => {
       ageControl.setValue('27');
       expect(ageControl.valid).toBeTruthy();
-    })
+    });
 
     it('should fail on ages that are too low', () => {
       ageControl.setValue('14');
       expect(ageControl.valid).toBeFalsy();
       expect(ageControl.hasError('min')).toBeTruthy();
-    })
+    });
 
     // In the real world, you'd want to be pretty careful about
     // setting upper limits on things like ages.
@@ -157,10 +157,10 @@ describe('AddUserComponent', () => {
       // when it's an upper case 'L' in `Validators.maxLength(2)`.
       // But I apparently do.
       expect(ageControl.hasError('max')).toBeTruthy();
-    })
+    });
 
     it('should not allow an age to contain non-digits', () => {
-      ageControl.setValue("123x567");
+      ageControl.setValue('123x567');
       expect(ageControl.valid).toBeFalsy();
       expect(ageControl.hasError('pattern')).toBeTruthy();
     });
@@ -168,17 +168,17 @@ describe('AddUserComponent', () => {
 
   describe('The company field', () => {
     it('should allow empty values', () => {
-      let companyControl = addUserForm.controls['company'];
+      const companyControl = addUserForm.controls[`company`];
       companyControl.setValue('');
       expect(companyControl.valid).toBeTruthy();
     });
   });
 
   describe('The email field', () => {
-    let emailControl : AbstractControl;
+    let emailControl: AbstractControl;
 
     beforeEach(() => {
-      emailControl = addUserComponent.addUserForm.controls['email'];
+      emailControl = addUserComponent.addUserForm.controls[`email`];
     });
 
     it('should not allow empty values', () => {
@@ -203,7 +203,7 @@ describe('AddUserComponent', () => {
     let roleControl: AbstractControl;
 
     beforeEach(() => {
-      roleControl = addUserForm.controls['role'];
+      roleControl = addUserForm.controls[`role`];
     });
 
     it('should not allow empty values', () => {
