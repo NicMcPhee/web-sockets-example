@@ -39,7 +39,7 @@ For the most part, you will be using a local installation of Mongo as a dev (dev
 
 ### Seeding the Database
 
-Seed data and the seed script are stored in the top level directory `database`. To seed the database, move into that directory and run `./mongoseed.sh`. This will take each of the JSON files in `database/seed/` and insert their elements into the `dev` database (to specify a different database, provide it as an argument). It also drops the database before seeding it so it is clean.
+To give yourself some data to work with instead of starting with an empty database in our development environment, you need to 'seed' the database with some starter data. Seed data and the seed script are stored in the top level directory `database`. To seed the database, move into that directory and run `./mongoseed.sh`. This will take each of the JSON files in `database/seed/` and insert their elements into the `dev` database (to specify a different database, provide it as an argument). It also drops the database before seeding it so it is clean.
 
 ### MongoDB in VS Code
 
