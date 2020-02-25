@@ -58,8 +58,11 @@ is potentially helpful and contributed to the shaping of this example -->
               <mat-option value="editor">Editor</mat-option>
               <mat-option value="viewer">Viewer</mat-option>
             </mat-select>
+            <mat-error *ngIf="addUserForm.get('role').hasError('required')">You must make a selection</mat-error>
+            <mat-error *ngIf="addUserForm.get('role').hasError('pattern') && !addUserForm.get('role').hasError('required')">
+              Your selection is invalid
+            </mat-error>
           </mat-form-field>
-
 
         </mat-card-content>
         <mat-card-actions align="end">

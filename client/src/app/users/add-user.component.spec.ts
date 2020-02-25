@@ -212,24 +212,24 @@ describe('AddUserComponent', () => {
       expect(roleControl.hasError('required')).toBeTruthy();
     });
 
-    it('should allow "Admin"', () => {
-      roleControl.setValue('Admin');
+    it('should allow "admin"', () => {
+      roleControl.setValue('admin');
       expect(roleControl.valid).toBeTruthy();
-    })
+    });
 
-    it('should allow "Editor"', () => {
-      roleControl.setValue('Editor');
+    it('should allow "editor"', () => {
+      roleControl.setValue('editor');
       expect(roleControl.valid).toBeTruthy();
-    })
+    });
 
-    it('should allow "Viewer"', () => {
-      roleControl.setValue('Viewer');
+    it('should allow "viewer"', () => {
+      roleControl.setValue('viewer');
       expect(roleControl.valid).toBeTruthy();
-    })
+    });
 
     it('should not allow "Supreme Overlord"', () => {
       roleControl.setValue('Supreme Overlord');
       expect(roleControl.valid).toBeFalsy();
-    })
+    });
   });
 });

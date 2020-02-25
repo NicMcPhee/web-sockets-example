@@ -39,6 +39,10 @@ export class AddUserComponent implements OnInit {
 
     'email': [
       {type: 'email', message: 'Email must be formatted properly'}
+    ],
+
+    'role': [
+      { type: 'role', message: 'Role must be Admin, Editor, or Viewer' }
     ]
   };
 
@@ -86,7 +90,7 @@ export class AddUserComponent implements OnInit {
 
       role: new FormControl('viewer', Validators.compose([
         Validators.required,
-        Validators.pattern('^(Admin|Editor|Viewer)$'),
+        Validators.pattern('^(admin|editor|viewer)$'),
       ])),
     });
 
