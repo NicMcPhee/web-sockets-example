@@ -39,7 +39,7 @@ For the most part, you will be using a local installation of Mongo as a dev (dev
 
 ### Seeding the Database
 
-Seed data and the seed script are stored in the top level directory `database`. To seed the database, move into that directory and run `./mongoseed.sh`. This will take each of the JSON files in `database/seed/` and insert their elements into the `dev` database (to specify a different database, provide it as an argument).
+Seed data and the seed script are stored in the top level directory `database`. To seed the database, move into that directory and run `./mongoseed.sh`. This will take each of the JSON files in `database/seed/` and insert their elements into the `dev` database (to specify a different database, provide it as an argument). It also drops the database before seeding it so it is clean.
 
 ### MongoDB in VS Code
 
@@ -55,7 +55,7 @@ It will ask you for a connection string, hitting enter on the default one should
 
 ![](https://i.vgy.me/2dk1ws.png)
 
-You will then have the MongoDB server in the sidebar. You can explore the databases and collections here. You can click a record to view and edit it or right click it for other options like deleting. If you want to clear out and seed a database again you can delete the database from this interface and run the seed script again. You can also import JSON into the database right from this extension.
+You will then have the MongoDB server in the sidebar. You can explore the databases and collections here. You can click a record to view and edit it or right click it for other options like deleting. You can also import JSON into the database right from this extension.
 
 ![](https://i.vgy.me/AWAUHw.png)
 
