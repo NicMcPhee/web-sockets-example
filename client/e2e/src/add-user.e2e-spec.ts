@@ -39,6 +39,7 @@ describe('Add user', () => {
     await browser.wait(EC.not(EC.urlContains('users/new')), 10000);
 
     const url = await page.getUrl();
+    expect(RegExp('.*\/users\/[0-9a-fA-F]{24}$', 'i').test(url)).toBe(true);
     expect(url.endsWith('/users/new')).toBe(false);
 
     expect(element(by.className('user-card-name')).getText()).toEqual(user.name);
