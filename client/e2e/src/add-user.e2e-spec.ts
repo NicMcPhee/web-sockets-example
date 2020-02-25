@@ -16,12 +16,14 @@ describe('Add user', () => {
   });
 
 
-  it('Should enable the add user button', async () => {
+  it('Should enable and disable the add user button', async () => {
     expect(element(by.buttonText('ADD USER')).isEnabled()).toBe(false);
     await page.typeInput('nameField', 'test');
     expect(element(by.buttonText('ADD USER')).isEnabled()).toBe(false);
     await page.typeInput('ageField', '20');
     expect(element(by.buttonText('ADD USER')).isEnabled()).toBe(true);
+    await page.typeInput('emailField', 'invalid email');
+    expect(element(by.buttonText('ADD USER')).isEnabled()).toBe(false);
   });
 
   it('Should add a new user and go to the right page', async () => {
