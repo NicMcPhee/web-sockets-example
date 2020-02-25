@@ -109,7 +109,7 @@ export class AddUserComponent implements OnInit {
       });
       this.router.navigate(['/users/', newID]);
     }, err => {
-      this.snackBar.open('Failed to add the user' + err, null, {
+      this.snackBar.open('Failed to add the user', null, {
         duration: 2000,
       });
     });
