@@ -25,12 +25,13 @@ group using GitHub classroom, you can clone your repository using the command li
 
 ## Running your project
 
-- The **run** Gradle task will still run your Javalin server.
-(which is available at [`localhost:4567`](http://localhost:4567))
-- The **build** task (or its alias **buildExecutable**) will still _build_ the entire project, but not run it.
+- The **run** Gradle task (`./gradlew run` in the `server` directory) will still run your Javalin server, which is available at [`localhost:4567`](http://localhost:4567).
+- The **build** task will still _build_ the server, but not run it.
 
-Like in lab 3, the first time you run your Angular project, you will need to run move into your `client` directory and run `npm install` so that all the dependencies managed by npm will be installed. Once you have successfully run `npm install`, in order to serve up the _client side_ of your project, you will type 
-**ng serve** and the client will be running at [`localhost:4200`](http://localhost:4200).
+Like in lab 3, the first time you run your Angular project, you will need to run move into your `client` directory and run `npm install` so that all the dependencies managed by npm will be installed. 
+
+Once you have successfully run `npm install`, in order to serve up the _client side_ of your project, you will type 
+`ng serve` and the client will be running at [`localhost:4200`](http://localhost:4200).
 
 The major difference between this lab and lab #3 is that, here, your data (users and todos) will be stored in a database rather than as "flat" JSON files within the server source code.
 
@@ -76,7 +77,9 @@ From the `server` directory:
 * `./gradlew test jacocoTestReport` runs the server tests and generates a coverage file you can find in `server/build/jacocoHtml/index.html`.
 
 ### End to end testing
-* `npm run e2e` from the `client` directory runs end to end tests. What are e2e tests? They are tests that run the real application and simulate user behavior. They assert that the app is running as expected. NOTE: The server (`./gradlew run` in the `server` directory) needs to be actively executing for these tests to work!
+* `npm run e2e` from the `client` directory runs end to end tests. 
+  * What are e2e tests? They are tests that run the real application and simulate user behavior. They assert that the app is running as expected. 
+  * NOTE: The server (`./gradlew run` in the `server` directory) needs to be actively executing for these tests to work!
 
 ### GitHub Actions
 
