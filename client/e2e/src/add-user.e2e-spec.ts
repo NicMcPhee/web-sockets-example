@@ -21,9 +21,11 @@ describe('Add user', () => {
     await page.typeInput('nameField', 'test');
     expect(element(by.buttonText('ADD USER')).isEnabled()).toBe(false);
     await page.typeInput('ageField', '20');
-    expect(element(by.buttonText('ADD USER')).isEnabled()).toBe(true);
-    await page.typeInput('emailField', 'invalid email');
     expect(element(by.buttonText('ADD USER')).isEnabled()).toBe(false);
+    await page.typeInput('emailField', 'invalid');
+    expect(element(by.buttonText('ADD USER')).isEnabled()).toBe(false);
+    await page.typeInput('emailField', '@example.com');
+    expect(element(by.buttonText('ADD USER')).isEnabled()).toBe(true);
   });
 
   it('Should add a new user and go to the right page', async () => {
