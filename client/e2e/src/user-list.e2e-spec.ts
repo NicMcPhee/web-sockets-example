@@ -85,24 +85,27 @@ describe('User list', () => {
   });
 
   it('Should click view profile on a user and go to the right URL', async () => {
+    const firstUserName = await page.getUserCards().first().element(by.className('user-card-name')).getText();
+    const firstUserCompany = await page.getUserCards().first().element(by.className('user-card-company')).getText();
     await page.clickViewProfile(page.getUserCards().first());
 
     // Wait until the URL contains 'users/' (note the ending slash)
-    await browser.wait(EC.urlContains('users/'), 1000);
+    await browser.wait(EC.urlContains('users/'), 10000);
 
-    // When the view profile button on the first user card is clicked, we should be sent to the right URL
+    // When the view profile button on the first user card is clicked, the URL should have a valid mongo ID
     let url = await page.getUrl();
-    expect(url.endsWith('/users/588935f5556f992bf8f37c01')).toBe(true);
+    expect(RegExp('.*\/users\/[0-9a-fA-F]{24}$', 'i').test(url)).toBe(true);
 
-    // On this profile page we were sent to, the name should be correct
-    expect(element(by.className('user-card-name')).getText()).toEqual('Bolton Monroe');
+    // On this profile page we were sent to, the name and company should be correct
+    expect(element(by.className('user-card-name')).getText()).toEqual(firstUserName);
+    expect(element(by.className('user-card-company')).getText()).toEqual(firstUserCompany);
   });
 
   it('Should click add user and go to the right URL', async () => {
     await page.clickAddUserFAB();
 
     // Wait until the URL contains 'users/new'
-    await browser.wait(EC.urlContains('users/new'), 1000);
+    await browser.wait(EC.urlContains('users/new'), 10000);
 
     // When the view profile button on the first user card is clicked, we should be sent to the right URL
     let url = await page.getUrl();
