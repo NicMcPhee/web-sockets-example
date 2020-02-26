@@ -42,7 +42,7 @@ dependencies {
 
   // Jackson support modules for Java 8 datatypes
   implementation 'com.fasterxml.jackson.module:jackson-module-parameter-names:2.10.2'
-  implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.10.1'
+  implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.10.2'
   implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.1'
 
   // Simple Logging Facade for Java
