@@ -4,12 +4,9 @@
 [![Client Build Status](../../workflows/Client%20Angular/badge.svg)](../../actions?query=workflow%3A"Client+Angular")
 [![End to End Build Status](../../workflows/End-to-End/badge.svg)](../../actions?query=workflow%3AEnd-to-End)
 
-In this lab, you'll be working to re-implement the ToDo API, this time pulling data from a Mongo Database rather than a flat JSON file. You will also be implementing a simple Angular web app for viewing and adding ToDos. As always, 
-you'll be expected to make good use of the version control (e.g., branching for features and merging changes to the master branch as appropriate) and project management 
-tools available to you: write good commit messages, test things, document issues, etc.
+This is your starter code for Iteration 1.
 
-Your specific tasks for this lab can be found in the [LABTASKS.md][labtasks]
-file in this repository.
+There are a number of pieces in this production template to help you get started. As you work on your project, you should replace some of these pieces with elements of your project and remove whatever you don't need (e.g., markdown files, JSON data files, or any remnants of the labs).
 
 ## Setup
 
