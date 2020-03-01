@@ -16,7 +16,6 @@ public class Server {
 
   static String appName = "UMM CSci 3601 Lab 4";
 
-  public static final String USER_DATA_FILE = "/users.json";
   private static MongoDatabase database;
 
   public static void main(String[] args) {
