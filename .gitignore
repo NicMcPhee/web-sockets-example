@@ -164,3 +164,4 @@ $RECYCLE.BIN/
 # Aditional custom ignores
 
 .settings/
+.caddy
