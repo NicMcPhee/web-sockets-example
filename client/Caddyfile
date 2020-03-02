@@ -12,9 +12,8 @@
     }
 
     expires {
-        match .js$ 1y
-        match .css$ 1y
-
+        match .js$ 1m
+        match .css$ 1m
         match .png$ 1w
         match .jpg$ 1w
         match .gif$ 1w
