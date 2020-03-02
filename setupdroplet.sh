@@ -39,7 +39,7 @@ if [ "${agreed}" = false ]; then
   echo "TLS (HTTPS) will be disabled"
   echo
   echo "Your server is setup"
-  echo "Once you start it with 'docker-compose up -d' it will be avaiable at:"
+  echo "Once you start it with 'docker-compose up -d' it will be available at:"
   echo "http://${domain}"
 else
   echo
@@ -50,6 +50,6 @@ else
   echo "APP_TLS_EMAIL=${email}" >> .env
   echo
   echo "Your server is setup"
-  echo "Once you start it with 'docker-compose up -d' it will be avaiable at:"
+  echo "Once you start it with 'docker-compose up -d' it will be available at:"
   echo "https://${domain}"
 fi
