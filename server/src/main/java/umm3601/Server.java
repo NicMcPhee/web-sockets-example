@@ -14,9 +14,8 @@ import umm3601.user.UserController;
 
 public class Server {
 
-  static String appName = "UMM CSci 3601 Lab 4";
+  static String appName = "CSCI 3601 Iteration Template";
 
-  public static final String USER_DATA_FILE = "/users.json";
   private static MongoDatabase database;
 
   public static void main(String[] args) {
