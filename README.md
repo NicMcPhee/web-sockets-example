@@ -92,6 +92,8 @@ The project by default has the name "CSCI 3601 Iteration Template". There are a 
 - [`client/src/app/app.component.ts`](client/src/app/app.component.ts)
   - The `title` variable
   - Also the associated unit and E2E tests will need to be changed.
+- [`client/src/index.html`](client/src/index.html)
+  - The `title` element
 
 ## Deployment
 
