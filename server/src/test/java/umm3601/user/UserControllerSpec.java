@@ -148,7 +148,7 @@ public class UserControllerSpec {
   public void GetUsersByAge() throws IOException {
 
     // Set the query string to test with
-    mockReq.setQueryString("age=27");
+    mockReq.setQueryString("age=37");
 
     // Create our fake Javalin context
     Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
@@ -158,8 +158,10 @@ public class UserControllerSpec {
     assertEquals(200, mockRes.getStatus()); // The response status should be 200
 
     String result = ctx.resultString();
+    User[] resultUsers = JavalinJson.fromJson(result, User[].class);
 
-    for (User user : JavalinJson.fromJson(result, User[].class)) {
+    assertEquals(2, resultUsers.length); // There should be two users returned
+    for (User user : resultUsers) {
       assertEquals(37, user.age); // Every user should be age 37
     }
   }
@@ -191,7 +193,11 @@ public class UserControllerSpec {
 
     assertEquals(200, mockRes.getStatus());
     String result = ctx.resultString();
-    for (User user : JavalinJson.fromJson(result, User[].class)) {
+
+    User[] resultUsers = JavalinJson.fromJson(result, User[].class);
+
+    assertEquals(2, resultUsers.length); // There should be two users returned
+    for (User user : resultUsers) {
       assertEquals("OHMNET", user.company);
     }
   }
@@ -213,13 +219,16 @@ public class UserControllerSpec {
   @Test
   public void GetUsersByCompanyAndAge() throws IOException {
 
-     mockReq.setQueryString("company=OHMNET&age=37");
-     Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
-     userController.getUsers(ctx);
+    mockReq.setQueryString("company=OHMNET&age=37");
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
+    userController.getUsers(ctx);
 
-     assertEquals(200, mockRes.getStatus());
-     String result = ctx.resultString();
-     for (User user : JavalinJson.fromJson(result, User[].class)) {
+    assertEquals(200, mockRes.getStatus());
+    String result = ctx.resultString();
+    User[] resultUsers = JavalinJson.fromJson(result, User[].class);
+
+    assertEquals(1, resultUsers.length); // There should be one user returned
+    for (User user : resultUsers) {
        assertEquals("OHMNET", user.company);
        assertEquals(37, user.age);
      }
