@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
-
-echo "Setting up swapfile"
-# Set up swap space
-fallocate -l 3G /swapfile
-chmod 600 /swapfile
-mkswap /swapfile
-swapon /swapfile
-echo '/swapfile none swap sw 0 0' | tee -a /etc/fstab
-echo 'vm.swappiness=10' >> /etc/sysctl.conf
+if [[ ! -e /swapfile ]]; then
+  echo "/swapfile does not exist, setting up swap"
+  # Set up swap space
+  fallocate -l 3G /swapfile
+  chmod 600 /swapfile
+  mkswap /swapfile
+  swapon /swapfile
+  echo '/swapfile none swap sw 0 0' | tee -a /etc/fstab
+  echo 'vm.swappiness=10' >> /etc/sysctl.conf
+else
+  echo "/swapfile already exists, skipping swap setup"
+fi
 
 
 ip="$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)"
