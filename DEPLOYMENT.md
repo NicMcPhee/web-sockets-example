@@ -25,7 +25,7 @@ We will be using a tool called Docker to help with the deployment process.
 Docker is a tool for creating and running "containers."
 Containers allow a developer to package up an application with all of the parts it needs, 
 such as libraries and other dependencies, and deploy it as one package.
-We will use Docker to separate our app into three containers. 
+We will use Docker to separate our app into three containers:
 One for the Java server, one for hosting the client files, and one for the database.
 
 - A Docker **image** is the blueprint for a **container**. It contains the filesystem and instructions for what to execute.
