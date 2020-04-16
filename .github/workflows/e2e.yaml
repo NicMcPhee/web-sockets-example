@@ -16,9 +16,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: Install Mongo Tools
-      run: sudo apt-get install mongo-tools
-
     - name: Seed database
       run: ./mongoseed.sh
       working-directory: ./database
