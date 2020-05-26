@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Updating ng dependencies # the magic happens here!
-        uses: tinesoft/ngx-uptodate@v1.1.0
+        uses: tinesoft/ngx-uptodate@v1.1.1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           project-path: ./client/
