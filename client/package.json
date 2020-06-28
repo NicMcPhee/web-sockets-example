@@ -9,7 +9,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "pree2e": "node node_modules/protractor/bin/webdriver-manager -- update --gecko false",
-    "e2eci": "ng e2e --protractor-config=e2e/protractor-ci.conf.js"
+    "e2eci": "ng e2e --protractor-config=e2e/protractor-ci.conf.js",
+    "cy:open": "cypress open --config baseUrl=http://localhost:4200"
   },
   "private": true,
   "dependencies": {
@@ -33,10 +34,13 @@
     "@angular/cli": "~9.0.3",
     "@angular/compiler-cli": "~9.0.2",
     "@angular/language-service": "~9.0.2",
-    "@types/node": "^13.7.4",
+    "@nrwl/cypress": "^9.4.5",
+    "@nrwl/workspace": "^9.4.5",
     "@types/jasmine": "~3.5.7",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "^13.7.4",
     "codelyzer": "^5.1.2",
+    "cypress": "^4.9.0",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.4.1",
