@@ -8,8 +8,6 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "pree2e": "node node_modules/protractor/bin/webdriver-manager -- update --gecko false",
-    "e2eci": "ng e2e --protractor-config=e2e/protractor-ci.conf.js",
     "cy:open": "cypress open --config baseUrl=http://localhost:4200"
   },
   "private": true,
