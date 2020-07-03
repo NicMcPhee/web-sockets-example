@@ -28,7 +28,7 @@ jobs:
     - name: Run e2e tests
       uses: cypress-io/github-action@v2
       with:
-        start: cd ../server && ./gradlew run
+        start: ../server/gradlew run -p ../server/
         command: npm run e2e
         working-directory: ./client
 
