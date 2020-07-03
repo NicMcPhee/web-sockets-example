@@ -30,6 +30,6 @@ jobs:
       with:
         start: cd ../server && ./gradlew run
         command: npm run e2e
-        working-directory: ./phone-store
+        working-directory: ./client
 
 
