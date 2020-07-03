@@ -26,7 +26,7 @@ jobs:
         java-version: 1.8
 
     - name: Run e2e tests
-      uses: cypress-io/github-action@1
+      uses: cypress-io/github-action@v2
       with:
         start: cd ../server && ./gradlew run
         command: npm run e2e
