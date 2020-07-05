@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "cy:open": "cypress open --config baseUrl=http://localhost:4200"
+    "cy:open": "cypress open"
   },
   "private": true,
   "dependencies": {
