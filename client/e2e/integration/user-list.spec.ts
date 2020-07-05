@@ -91,6 +91,10 @@ describe('User list', () => {
     //   expect(page.getUserListItems().count()).toBeGreaterThan(0); // There should be list items
     page.getUserCards().should('not.exist');
     page.getUserListItems().should('exist');
+
+    page.changeView('card');
+    page.getUserCards().should('exist');
+    page.getUserListItems().should('not.exist');
   });
 
   it('Should select a role, switch the view, and check that it returned correct elements', () => {
