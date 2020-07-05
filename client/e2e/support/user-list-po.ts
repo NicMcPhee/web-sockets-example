@@ -26,15 +26,12 @@ export class UserListPage {
   }
 
   changeView(viewType: 'card' | 'list') {
-    // in the test of changing the view, .check will not work if you look for mat-radio-button
-    // or, basically anything other than :radio and it will never be ready to click,
-    // so you have to use force: true as an option to not wait for it to be ready
-    return cy.get(`:radio[value="${viewType}"]`).check({ force: true }).click({ force: true });
+    return cy.get(`#view-type-radio .mat-radio-button[value="${viewType}"]`).click();
   }
 
   selectRole(value: string) {
     // This is messy. I'm not sure that Cypress is working well for us here. Might want to find a better way.
-    return cy.get('#user-role-select').click({ force: true }).get(`mat-option[value="${value}"]`).type('{enter');
+    return cy.get('#user-role-select').click().get(`mat-option[value="${value}"]`).click();
   }
 
   addUserFAB() {
