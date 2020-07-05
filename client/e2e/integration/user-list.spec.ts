@@ -1,4 +1,4 @@
-import { UserListPage } from '../support/user-list-po';
+import { UserListPage } from '../support/user-list.po';
 import { arrayBufferToBlob } from 'cypress/types/blob-util';
 
 const page = new UserListPage();
