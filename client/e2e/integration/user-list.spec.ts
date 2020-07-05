@@ -110,19 +110,10 @@ describe('User list', () => {
   });
 
   it('Should click view profile on a user and go to the right URL', () => {
-    page.changeView('card');
-    let firstUserName;
-    let firstUserCompany;
-
-    page.getUserCards().first().should(card => {
-      firstUserName = card.find('.user-card-name').text();
-      console.log(firstUserName);
-      firstUserCompany = card.find('.user-card-company').text();
-      console.log(firstUserCompany);
-    }).then(() => {
-      console.log(firstUserName);
-      console.log(firstUserCompany);
-      page.getUserCards().find('button').first().click({ force: true});
+    page.getUserCards().first().then((card) => {
+      const firstUserName = card.find('.user-card-name').text();
+      const firstUserCompany = card.find('.user-card-company').text();
+      page.getUserCards().first().contains('button', 'VIEW PROFILE').click();
       // When the view profile button on the first user card is clicked, the URL should have a valid mongo ID
       //   await page.clickViewProfile(page.getUserCards().first());
 
