@@ -113,7 +113,7 @@ describe('User list', () => {
     page.getUserCards().first().then((card) => {
       const firstUserName = card.find('.user-card-name').text();
       const firstUserCompany = card.find('.user-card-company').text();
-      page.getUserCards().first().contains('button', 'VIEW PROFILE').click();
+      page.clickViewProfile(page.getUserCards().first());
       // When the view profile button on the first user card is clicked, the URL should have a valid mongo ID
       //   await page.clickViewProfile(page.getUserCards().first());
 

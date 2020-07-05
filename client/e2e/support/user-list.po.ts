@@ -22,7 +22,7 @@ export class UserListPage {
 
   clickViewProfile(card: Cypress.Chainable<JQuery<HTMLElement>>) {
     // return card.element(by.buttonText('VIEW PROFILE')).click();
-    return card.find('button');
+    return card.contains('button', 'VIEW PROFILE').click();
   }
 
   changeView(viewType: 'card' | 'list') {
