@@ -4,7 +4,7 @@ FROM node:14-alpine as build
 WORKDIR /client
 
 # Install npm dependencies
-COPY package*.json .npmrc /client/
+COPY package*.json /client/
 RUN npm ci
 
 # Build the Angular project
