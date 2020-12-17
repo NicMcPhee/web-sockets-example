@@ -1,5 +1,5 @@
 # Build the client files in a build stage
-FROM node:alpine as build
+FROM node:lts-alpine as build
 
 WORKDIR /client
 
