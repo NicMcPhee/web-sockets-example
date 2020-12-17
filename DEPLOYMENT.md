@@ -42,7 +42,7 @@ One for the Java server, one for hosting the client files, and one for the datab
 
 ## Step 2: Creating a droplet
 
-- Go to [this link](https://cloud.digitalocean.com/droplets/new?image=docker-18-04&app=docker&size=s-1vcpu-1gb&options=install_agent). It should bring you to the Create Droplets page with the Docker marketplace image selected and the $5/month standard plan selected. If those are not selected, please select them.
+- Go to [this link](https://cloud.digitalocean.com/droplets/new?image=docker-20-04&app=docker&size=s-1vcpu-1gb&options=install_agent). It should bring you to the Create Droplets page with the Docker marketplace image selected and the $5/month standard plan selected. If those are not selected, please select them.
 - Stick with the default datacenter / region (probably one of the U.S. options).
 - Scroll down and choose "One-time password." This will have them email you a temporary password for the `root` user.
 - You don't need to add block storage or backups.
