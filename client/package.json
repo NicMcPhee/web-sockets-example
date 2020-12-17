@@ -9,7 +9,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "pree2e": "node node_modules/protractor/bin/webdriver-manager -- update --gecko false",
-    "e2eci": "ng e2e --protractor-config=e2e/protractor-ci.conf.js"
+    "e2eci": "ng e2e --protractor-config=e2e/protractor-ci.conf.js",
+    "docker-build": "npm run build -- --prod"
   },
   "private": true,
   "dependencies": {
