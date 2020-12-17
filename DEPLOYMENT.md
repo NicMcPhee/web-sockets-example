@@ -42,9 +42,11 @@ One for the Java server, one for hosting the client files, and one for the datab
 
 ## Step 2: Creating a droplet
 
-- Go to [this link](https://cloud.digitalocean.com/droplets/new?image=docker-20-04&app=docker&size=s-1vcpu-1gb&options=install_agent). It should bring you to the Create Droplets page with the Docker marketplace image selected and the $5/month standard plan selected. If those are not selected, please select them.
+- Go to [this link](https://cloud.digitalocean.com/droplets/new?image=docker-20-04&app=docker&size=s-1vcpu-1gb&options=install_agent). It should bring you to the Create Droplets page with the Docker marketplace image selected and the $5/month basic plan selected. If those are not selected, please select them.
 - Stick with the default datacenter / region (probably one of the U.S. options).
-- Scroll down and choose "One-time password." This will have them email you a temporary password for the `root` user.
+- Scroll down and choose "Password" under Authentication. Enter a password here, this will be the password for the `root` user.
+  - This should be a good, secure password since it gives access to everything on your droplet and anyone can attempt to `ssh` into it. You may wish to use a random password generator for this.
+  - You can change this password later with the `passwd` command.
 - You don't need to add block storage or backups.
 - Finally, only make one droplet and choose a name for it.
 - It will take a couple seconds to make the droplet.
@@ -52,16 +54,15 @@ One for the Java server, one for hosting the client files, and one for the datab
 
 
 ## Step 3: Setting up your droplet and running your project
-- SSH to your droplet by running ``ssh root@[my ip here]`` (using the IP of your droplet) and enter the password emailed to you.
-- It will ask you to set a new password for `root`. Enter the original password emailed to you and then set a new one. 
-  - This should be a good, secure password since it gives access to everything on your droplet and anyone can attempt to `ssh` into it. You may wish to use a random password generator for this.
-  - You can change this password later with the `passwd` command.
+- SSH to your droplet by running ``ssh root@[my ip here]`` (using the IP of your droplet) and enter the password you set.
+- When you first log in it'll tell you if there are any updates available. If there are, you can run `apt update` and then `apt upgrade` to apply the updates.
 - `git clone` your repository
 - `cd` into the newly created directory
 - run `./setupdroplet.sh` to go through the initial setup steps
   - It will ask you to agree to the [Let's Encrypt Subscriber Agreement](https://letsencrypt.org/documents/2017.11.15-LE-SA-v1.2.pdf). You will need to answer `yes` or `y` to have HTTPS enabled.
   - If you answered yes in the last step it will ask for an email address, this is needed for HTTPS as well and will be used for any relevant alerts about your HTTPS certificate (you probably won't get any emails from them).
   - We are using a service called [nip.io](https://nip.io/) to give us the valid domains we need for HTTPS. The script will tell you the `nip.io` address your app will be hosted on.
+  - It will give you the address 
 - To build and start your server, run `docker-compose up -d`
   - The `-d` means detached and you can then run `docker-compose logs` to see the output at any time.
   - To stop the containers, run `docker-compose stop`
