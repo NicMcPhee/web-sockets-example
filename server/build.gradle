@@ -68,9 +68,9 @@ test {
 
 }
 
-// We want our source code to be compatible with Java 1.8
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+// We want our source code to be compatible with Java 11
+sourceCompatibility = '11'
+targetCompatibility = '11'
 
 wrapper {
   distributionType = Wrapper.DistributionType.ALL
