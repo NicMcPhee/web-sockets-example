@@ -24,7 +24,7 @@ services:
     depends_on:
       - mongo
   mongo:
-      image: mongo:3.4.23
+      image: mongo
       restart: always
       environment:
         MONGO_DB: prod

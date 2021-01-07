@@ -18,6 +18,7 @@ domain="${ip}.nip.io"
 echo
 echo "Setting APP_HOST to ${domain}"
 echo "APP_HOST=${domain}" > .env
+echo
 while true; do
     read -p "Would you like to enable TLS (HTTPS)? (Y/n)" yn
     case $yn in
@@ -37,6 +38,8 @@ if [ "${tls}" = false ]; then
   echo "Your server is setup"
   echo "Once you start it with 'docker-compose up -d' it will be available at:"
   echo "http://${domain}"
+  echo "You should copy this down somewhere."
+  echo
 else
   echo "Your site will be served over HTTPS automatically using Let's Encrypt or ZeroSSL."
   echo "By continuing, you agree to the Let's Encrypt Subscriber Agreement at:"
@@ -55,7 +58,8 @@ else
     echo "APP_CADDY_GLOBAL_OPTIONS=email ${email}" >> .env
   fi
   echo
-  echo "Your server is setup"
+  echo "Your server is set up."
   echo "Once you start it with 'docker-compose up -d' it will be available at:"
   echo "https://${domain}"
+  echo "You should copy this down somewhere."
 fi
