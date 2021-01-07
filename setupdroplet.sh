@@ -19,16 +19,17 @@ echo
 echo "Setting APP_HOST to ${domain}"
 echo "APP_HOST=${domain}" > .env
 while true; do
-    read -p "Would you like to enable TLS (HTTPS)? (y/n)" yn
+    read -p "Would you like to enable TLS (HTTPS)? (Y/n)" yn
     case $yn in
         [Yy]* ) tls=true; break;;
         [Nn]* ) tls=false; break;;
-        * ) echo "Please answer yes or no.";;
+        * ) tls=true; break;;
     esac
 done
 echo
 if [ "${tls}" = false ]; then
   echo "TLS (HTTPS) will be disabled"
+  echo "This is NOT recommended. If you want to turn it back on, run this script again."
   echo
   echo "Setting APP_CADDY_GLOBAL_OPTIONS to \"auto_https off\""
   echo "APP_CADDY_GLOBAL_OPTIONS=auto_https off" >> .env
@@ -47,8 +48,12 @@ else
   echo "in case of issues."
   read -p "Email address: " email
   echo
-  echo "Setting APP_CADDY_GLOBAL_OPTIONS to \"email ${email}\""
-  echo "APP_CADDY_GLOBAL_OPTIONS=email ${email}" >> .env
+  if [ -z "$email" ]; then
+    echo "Not setting APP_CADDY_GLOBAL_OPTIONS"
+  else
+    echo "Setting APP_CADDY_GLOBAL_OPTIONS to \"email ${email}\""
+    echo "APP_CADDY_GLOBAL_OPTIONS=email ${email}" >> .env
+  fi
   echo
   echo "Your server is setup"
   echo "Once you start it with 'docker-compose up -d' it will be available at:"
