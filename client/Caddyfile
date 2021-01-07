@@ -1,3 +1,9 @@
+{
+  # We expect this environment variable to be a valid Caddy global config
+  # for example, "email user@example.com" or "auto_https off"
+  {$CADDY_GLOBAL_OPTIONS}
+}
+
 {$CADDY_HOST}  # Set host with environment variable
 
 route {

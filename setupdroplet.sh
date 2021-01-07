@@ -20,22 +20,31 @@ echo
 echo "Setting APP_HOST to ${domain}"
 echo "APP_HOST=${domain}" > .env
 
+
+while true; do
+    read -p "Would you like to enable TLS (HTTPS)? (y/n)" yn
+    case $yn in
+        [Yy]* ) tls=true; break;;
+        [Nn]* ) tls=false; break;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
 echo
-echo "Your site will be served over HTTPS automatically using Let's Encrypt or ZeroSSL."
-echo "By continuing, you agree to the Let's Encrypt Subscriber Agreement at:"
-echo "https://letsencrypt.org/documents/2017.11.15-LE-SA-v1.2.pdf"
-echo "as well as the ZeroSSL Terms of Service at:"
-echo "https://zerossl.com/terms/"
-# while true; do
-#     read -p "Do you agree to the terms? (y/n)" yn
-#     case $yn in
-#         [Yy]* ) agreed=true; break;;
-#         [Nn]* ) agreed=false; break;;
-#         * ) echo "Please answer yes or no.";;
-#     esac
-# done
-# echo "Setting APP_ACME_AGREE to ${agreed}"
-# echo "APP_ACME_AGREE=${agreed}" >> .env
+if [ "${tls}" = false ]; then
+  echo "TLS (HTTPS) will be disabled"
+  echo
+  echo "Setting APP_CADDY_GLOBAL_OPTIONS to \"auto_https off\""
+  echo "APP_CADDY_GLOBAL_OPTIONS=auto_https off" >> .env
+  echo
+  echo "Your server is setup"
+  echo "Once you start it with 'docker-compose up -d' it will be available at:"
+  echo "http://${domain}"
+else
+  echo "Your site will be served over HTTPS automatically using Let's Encrypt or ZeroSSL."
+  echo "By continuing, you agree to the Let's Encrypt Subscriber Agreement at:"
+  echo "https://letsencrypt.org/documents/2017.11.15-LE-SA-v1.2.pdf"
+  echo "as well as the ZeroSSL Terms of Service at:"
+  echo "https://zerossl.com/terms/"
 
 # if [ "${agreed}" = false ]; then
 #   echo "TLS (HTTPS) will be disabled"
@@ -44,14 +53,15 @@ echo "https://zerossl.com/terms/"
 #   echo "Once you start it with 'docker-compose up -d' it will be available at:"
 #   echo "http://${domain}"
 # else
-echo
-echo "Please enter your email address to signify agreement and to be notified"
-echo "in case of issues."
-read -p "Email address: " email
-echo "Setting APP_TLS_EMAIL to ${email}"
-echo "APP_TLS_EMAIL=${email}" >> .env
-echo
-echo "Your server is setup"
-echo "Once you start it with 'docker-compose up -d' it will be available at:"
-echo "https://${domain}"
+  echo
+  echo "Please enter your email address to signify agreement and to be notified"
+  echo "in case of issues."
+  read -p "Email address: " email
+  echo
+  echo "Setting APP_CADDY_GLOBAL_OPTIONS to \"email ${email}\""
+  echo "APP_CADDY_GLOBAL_OPTIONS=email ${email}" >> .env
+  echo
+  echo "Your server is setup"
+  echo "Once you start it with 'docker-compose up -d' it will be available at:"
+  echo "https://${domain}"
 

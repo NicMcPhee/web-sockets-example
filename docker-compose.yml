@@ -8,10 +8,10 @@ services:
       - caddy_config:/config
     environment:
       CADDY_HOST: "${APP_HOST:-localhost}" # The domain/host to serve to
-      CADDY_EMAIL: "${APP_TLS_EMAIL}" # Set to email address to enable TLS
+      CADDY_GLOBAL_OPTIONS: "${APP_CADDY_GLOBAL_OPTIONS}" # A valid Caddy global option, see Caddyfile
     ports:
-      - "8083:80" # http
-      - "8084:443" # https
+      - "80:80" # http
+      - "443:443" # https
     depends_on:
       - server
   server:
