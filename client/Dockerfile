@@ -14,10 +14,10 @@ RUN npm run docker-build
 
 # Build the production web server and client container
 # Caddy is a web server with automatic HTTPS
-FROM abiosoft/caddy
+FROM caddy:2
 # Copy the client files from the build stage
-COPY --from=ngbuild /client/dist/client /www/client
+COPY --from=ngbuild /client/dist/client /srv
 # Copy the Caddyfile (configuration for Caddy)
-COPY ./Caddyfile /etc/Caddyfile
+COPY ./Caddyfile /etc/caddy/Caddyfile
 # Set default Caddy host
 ENV CADDY_HOST localhost
