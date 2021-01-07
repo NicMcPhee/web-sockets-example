@@ -12,15 +12,12 @@ else
   echo "/swapfile already exists, skipping swap setup"
 fi
 
-
 ip="$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)"
 domain="${ip}.nip.io"
 
 echo
 echo "Setting APP_HOST to ${domain}"
 echo "APP_HOST=${domain}" > .env
-
-
 while true; do
     read -p "Would you like to enable TLS (HTTPS)? (y/n)" yn
     case $yn in
@@ -45,14 +42,6 @@ else
   echo "https://letsencrypt.org/documents/2017.11.15-LE-SA-v1.2.pdf"
   echo "as well as the ZeroSSL Terms of Service at:"
   echo "https://zerossl.com/terms/"
-
-# if [ "${agreed}" = false ]; then
-#   echo "TLS (HTTPS) will be disabled"
-#   echo
-#   echo "Your server is setup"
-#   echo "Once you start it with 'docker-compose up -d' it will be available at:"
-#   echo "http://${domain}"
-# else
   echo
   echo "Please enter your email address to signify agreement and to be notified"
   echo "in case of issues."
@@ -64,4 +53,4 @@ else
   echo "Your server is setup"
   echo "Once you start it with 'docker-compose up -d' it will be available at:"
   echo "https://${domain}"
-
+fi
