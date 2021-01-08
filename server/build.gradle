@@ -13,6 +13,12 @@ plugins {
   id 'jacoco'
 }
 
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(11)
+  }
+}
+
 // In this section you declare where to find the dependencies of your project
 repositories {
   // Use jcenter for resolving your dependencies.
@@ -65,12 +71,7 @@ application {
 test {
   // Use junit platform for unit tests
   useJUnitPlatform()
-
 }
-
-// We want our source code to be compatible with Java 11
-sourceCompatibility = '11'
-targetCompatibility = '11'
 
 wrapper {
   distributionType = Wrapper.DistributionType.ALL
