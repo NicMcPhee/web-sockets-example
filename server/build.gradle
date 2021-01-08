@@ -59,7 +59,7 @@ dependencies {
 
 application {
   // Define the main class for the application
-  mainClassName = 'umm3601.Server'
+  mainClass.set("umm3601.Server")
 }
 
 test {
