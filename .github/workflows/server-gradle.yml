@@ -9,17 +9,22 @@ jobs:
 
     services:
       mongo:
-        image: mongo:4.4.3
+        image: mongo
         ports:
           - '27017-27019:27017-27019'
 
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout the repository
+      uses: actions/checkout@v2
 
-    - uses: actions/cache@v1
+    - name: Cache Gradle artifacts (downloaded JARs, the wrapper, and any downloaded JDKs)
+      uses: actions/cache@v2
       with:
-        path: ~/.gradle/caches
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+          ~/.gradle/jdks
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/.gradle/') }}
         restore-keys: |
           ${{ runner.os }}-gradle-
 
