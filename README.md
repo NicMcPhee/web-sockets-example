@@ -1,5 +1,6 @@
 # CSCI 3601 Iteration Template
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3ff057fa70954e0a89a8a94bb2bd5a4c)](https://app.codacy.com/gh/UMM-CSci-3601/3601-iteration-template?utm_source=github.com&utm_medium=referral&utm_content=UMM-CSci-3601/3601-iteration-template&utm_campaign=Badge_Grade)
 [![Server Build Status](../../workflows/Server%20Java/badge.svg)](../../actions?query=workflow%3A"Server+Java")
 [![Client Build Status](../../workflows/Client%20Angular/badge.svg)](../../actions?query=workflow%3A"Client+Angular")
 [![End to End Build Status](../../workflows/End-to-End/badge.svg)](../../actions?query=workflow%3AEnd-to-End)
