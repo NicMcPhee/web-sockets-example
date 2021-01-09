@@ -4,6 +4,14 @@
 [![Client Build Status](../../workflows/Client%20Angular/badge.svg)](../../actions?query=workflow%3A"Client+Angular")
 [![End to End Build Status](../../workflows/End-to-End/badge.svg)](../../actions?query=workflow%3AEnd-to-End)
 
+[![CodeScene Code Health](https://codescene.io/projects/11122/status-badges/code-health)](https://codescene.io/projects/11122)
+[![CodeScene System Mastery](https://codescene.io/projects/11122/status-badges/system-mastery)](https://codescene.io/projects/11122)
+
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/UMM-CSci-3601/3601-iteration-template.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/UMM-CSci-3601/3601-iteration-template/context:javascript)
+[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/UMM-CSci-3601/3601-iteration-template.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/UMM-CSci-3601/3601-iteration-template/context:java)
+
+[![BCH compliance](https://bettercodehub.com/edge/badge/UMM-CSci-3601/3601-iteration-template?branch=master)](https://bettercodehub.com/)
+
 This is your starter code for Iteration 1.
 
 There are a number of pieces in this production template to help you get started. As you work on your project, you should replace some of these pieces with elements of your project and remove whatever you don't need (e.g., markdown files, JSON data files, or any remnants of the labs).
