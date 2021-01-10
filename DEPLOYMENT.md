@@ -43,15 +43,23 @@ One for the Java server, one for hosting the client files, and one for the datab
 
 ## Step 2: Creating a droplet
 
-- Go to [this link](https://cloud.digitalocean.com/droplets/new?image=docker-20-04&app=docker&size=s-1vcpu-1gb&options=install_agent). It should bring you to the Create Droplets page with the Docker marketplace image selected and the $5/month basic plan selected. If those are not selected, please select them.
+- Go to
+  [this link](https://cloud.digitalocean.com/droplets/new?image=docker-20-04&app=docker&size=s-1vcpu-1gb&options=install_agent).
+  It should bring you to the Create Droplets page with the Docker
+  marketplace image selected and the $5/month basic plan selected.
+  If those are not selected, please select them.
 - Stick with the default datacenter / region (probably one of the U.S. options).
-- Scroll down and choose "Password" under Authentication. Enter a password here, this will be the password for the `root` user.
-  - This should be a good, secure password since it gives access to everything on your droplet and anyone can attempt to `ssh` into it. You may wish to use a random password generator for this.
+- Scroll down and choose "Password" under Authentication. Enter a password here,
+  this will be the password for the `root` user.
+  - This should be a good, secure password since it gives access to everything on
+    your droplet and anyone can attempt to `ssh` into it. You may wish to use a random
+    password generator for this.
   - You can change this password later with the `passwd` command.
 - You don't need to add block storage or backups.
 - Finally, only make one droplet and choose a name for it.
 - It will take a couple seconds to make the droplet.
-- You will then be able to see it on your [Droplets](https://cloud.digitalocean.com/droplets) page and get the IP for it.
+- You will then be able to see it on your
+  [Droplets](https://cloud.digitalocean.com/droplets) page and get the IP for it.
 
 ## Step 3: Setting up your droplet and running your project
 
