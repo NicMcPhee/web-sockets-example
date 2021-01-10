@@ -3,17 +3,17 @@ languages:
 - name: java
   production:
     include:
-      - server/src/main/*.\.java
+      - server/src/main/.*\.java
   test:
     include:
-      - server/src/test/*.\.java
+      - server/src/test/.*\.java
 - name: typescript
   production:
     include:
-      - client/src/app/*.\.ts 
+      - client/src/app/.*\.ts 
     exclude:
-      - client/src/app/*.\.spec\.ts
+      - client/src/app/.*\.spec\.ts
   test:
     include:
-      - client/src/app/*.\.spec\.ts
-      - client/e2e/*.\.ts
+      - client/src/app/.*\.spec\.ts
+      - client/e2e/.*\.ts
