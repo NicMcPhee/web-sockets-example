@@ -13,7 +13,7 @@ because we all know none of us actually read walls of text.
 Most of this will happen in a terminal window, which is yet another reason to take
 some time to learn how to use the Unix shell.
 
-### Some terminology:
+### Some terminology
 
 You're going to see the word "droplet" used a lot here. Digital ocean is in the
 business of hosting Virtual Private Servers (VPS), which they have decided to call
@@ -21,9 +21,9 @@ business of hosting Virtual Private Servers (VPS), which they have decided to ca
 specifically to the VPSs hosted by DigitalOcean and all the features which that
 entails.
 
-We will be using a tool called Docker to help with the deployment process. 
+We will be using a tool called Docker to help with the deployment process.
 Docker is a tool for creating and running "containers."
-Containers allow a developer to package up an application with all of the parts it needs, 
+Containers allow a developer to package up an application with all of the parts it needs,
 such as libraries and other dependencies, and deploy it as one package.
 We will use Docker to separate our app into three containers:
 One for the Java server, one for hosting the client files, and one for the database.
@@ -35,6 +35,7 @@ One for the Java server, one for hosting the client files, and one for the datab
   - The project has a [`docker-compose.yml`](docker-compose.yml) file that instructs Docker Compose on how to run our server, client, and database containers together.
 
 ## Step 1: Creating an account
+
 - Go to [Digital Ocean](https://www.digitalocean.com).
 - You *can* create an account without adding billing information.
 - You *cannot* create any droplets without "activating" your account (by adding billing info).
@@ -52,8 +53,8 @@ One for the Java server, one for hosting the client files, and one for the datab
 - It will take a couple seconds to make the droplet.
 - You will then be able to see it on your [Droplets](https://cloud.digitalocean.com/droplets) page and get the IP for it.
 
-
 ## Step 3: Setting up your droplet and running your project
+
 - SSH to your droplet by running ``ssh root@[my ip here]`` (using the IP of your droplet) and enter the password you set.
 - When you first log in it'll tell you if there are any updates available. If there are, you can run `apt update` and then `apt upgrade` to apply the updates.
 - `git clone` your repository
@@ -62,25 +63,29 @@ One for the Java server, one for hosting the client files, and one for the datab
   - It will ask you to agree to the [Let's Encrypt Subscriber Agreement](https://letsencrypt.org/documents/2017.11.15-LE-SA-v1.2.pdf). You will need to answer `yes` or `y` to have HTTPS enabled.
   - If you answered yes in the last step it will ask for an email address, this is needed for HTTPS as well and will be used for any relevant alerts about your HTTPS certificate (you probably won't get any emails from them).
   - We are using a service called [nip.io](https://nip.io/) to give us the valid domains we need for HTTPS. The script will tell you the `nip.io` address your app will be hosted on.
-  - It will give you the address 
+  - It will give you the address
 - To build and start your server, run `docker-compose up -d`
   - The `-d` means detached and you can then run `docker-compose logs` to see the output at any time.
   - To stop the containers, run `docker-compose stop`
 
 ## Common tasks
+
 Do all of these from within the base directory of the repo.
 
 ### Resetting the database
+
 To clear the current database and have it seeded again:
+
 - `docker-compose down -v` to stop and remove containers and volumes.
 - `docker-compose up -d` to build and start the containers again.
 
 ### Updating the server or client code
+
 If you have made changes and wish to update what is running on the server:
+
 - `docker-compose down` to stop and remove containers (if you want to also reset the database, use `docker-compose down -v`).
 - `git pull` to update the code.
 - `docker-compose up --build -d` to rebuild anything that has changed and start the containers.
-
 
 ## Additional Docker Compose commands
 

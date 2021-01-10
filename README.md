@@ -13,21 +13,20 @@ There are a number of pieces in this production template to help you get started
 As in the previous lab, you'll be using VS Code and GitKraken. Once you've all joined your
 group using GitHub classroom, you can clone your repository using the command line or GitKraken:
 
-- From the file menu, choose **Clone Repo**
-- Choose GitHub.com in the middle column (as the source location of your repo)
-- Browse to the location you'd like to put the local copy of this project repo
-- Select the correct repo from the list of repositories
-- Select **Clone the repo!**
-
+* From the file menu, choose **Clone Repo**
+* Choose GitHub.com in the middle column (as the source location of your repo)
+* Browse to the location you'd like to put the local copy of this project repo
+* Select the correct repo from the list of repositories
+* Select **Clone the repo!**
 
 ## Running your project
 
-- The **run** Gradle task (`./gradlew run` in the `server` directory) will still run your Javalin server, which is available at [`localhost:4567`](http://localhost:4567).
-- The **build** task will still _build_ the server, but not run it.
+* The **run** Gradle task (`./gradlew run` in the `server` directory) will still run your Javalin server, which is available at [`localhost:4567`](http://localhost:4567).
+* The **build** task will still _build_ the server, but not run it.
 
-Like in lab 3, the first time you run your Angular project, you will need to run move into your `client` directory and run `npm install` so that all the dependencies managed by npm will be installed. 
+Like in lab 3, the first time you run your Angular project, you will need to run move into your `client` directory and run `npm install` so that all the dependencies managed by npm will be installed.
 
-Once you have successfully run `npm install`, in order to serve up the _client side_ of your project, you will type 
+Once you have successfully run `npm install`, in order to serve up the _client side_ of your project, you will type
 `ng serve` and the client will be running at [`localhost:4200`](http://localhost:4200).
 
 The major difference between this lab and lab #3 is that, here, your data (users and todos) will be stored in a database rather than as "flat" JSON files within the server source code.
@@ -44,17 +43,17 @@ We have included an extension called [Azure Cosmos DB](https://marketplace.visua
 
 When installed you will see a new icon in the sidebar, click it and click "Attach Database Account...".
 
-![](https://i.vgy.me/ElqdfW.png)
+![Screen grab of attaching database account](https://i.vgy.me/ElqdfW.png)
 
 Then select "Azure Cosmos DB for MongoDB API".
 
 It will ask you for a connection string, hitting enter on the default one should work for the machines in our lab.
 
-![](https://i.vgy.me/2dk1ws.png)
+![Screen grab of entering the default MongoDB connection string](https://i.vgy.me/2dk1ws.png)
 
 You will then have the MongoDB server in the sidebar. You can explore the databases and collections here. You can click a record to view and edit it or right click it for other options like deleting. You can also import JSON into the database right from this extension.
 
-![](https://i.vgy.me/AWAUHw.png)
+![Screen grab of displaying the users in the sample MongoDB database in VS Code](https://i.vgy.me/AWAUHw.png)
 
 ## Testing and Continuous Integration
 
@@ -63,6 +62,7 @@ There are now more testing options! You can test the client, or the server or bo
 ### Testing the client
 
 From the `client` directory:
+
 * `ng test` runs the client tests.
 * `ng test --code-coverage` runs the client tests and generates a coverage file you can find in your client directory `client/coverage/client/index.html`.
 Right click on `index.html` and select `Copy path` and paste it into your browser of choice. For Chrome users, you can drag and drop `index.html` onto the tab area of Chrome and it will open it.
@@ -70,12 +70,14 @@ Right click on `index.html` and select `Copy path` and paste it into your browse
 ### Testing the server
 
 From the `server` directory:
+
 * `./gradlew test` runs the server tests once.
 * `./gradlew test jacocoTestReport` runs the server tests and generates a coverage file you can find in `server/build/jacocoHtml/index.html`.
 
 ### End to end testing
-* `npm run e2e` from the `client` directory runs end to end tests. 
-  * What are e2e tests? They are tests that run the real application and simulate user behavior. They assert that the app is running as expected. 
+
+* `npm run e2e` from the `client` directory runs end to end tests.
+  * What are e2e tests? They are tests that run the real application and simulate user behavior. They assert that the app is running as expected.
   * NOTE: The server (`./gradlew run` in the `server` directory) needs to be actively executing for these tests to work!
 
 ### GitHub Actions
@@ -86,14 +88,14 @@ There are GitHub Actions set up in your repo for each of the three checks: JUnit
 
 The project by default has the name "CSCI 3601 Iteration Template". There are a few places you need to change to make this the name you want:
 
-- The title of this README.md
-- [`server/src/main/java/umm3601/Server.java`](server/src/main/java/umm3601/Server.java)
-  - The `appName` variable
-- [`client/src/app/app.component.ts`](client/src/app/app.component.ts)
-  - The `title` variable
-  - Also the associated unit and E2E tests will need to be changed.
-- [`client/src/index.html`](client/src/index.html)
-  - The `title` element
+* The title of this README.md
+* [`server/src/main/java/umm3601/Server.java`](server/src/main/java/umm3601/Server.java)
+  * The `appName` variable
+* [`client/src/app/app.component.ts`](client/src/app/app.component.ts)
+  * The `title` variable
+  * Also the associated unit and E2E tests will need to be changed.
+* [`client/src/index.html`](client/src/index.html)
+  * The `title` element
 
 ## Deployment
 
@@ -101,16 +103,16 @@ Instructions on how to crate a DigitalOcean Droplet and setup your project are i
 
 ## Resources
 
-- [Angular Material components docs](https://material.angular.io/components/categories)
-- [Angular tutorial][angular-tutorial]
-- [Angular testing (Karma)][angular-karma]
-- [Angular Tour of Heroes tutorial][tour-of-heroes]
-- [End-to-end testing (Protractor)][protractor]
-- [End to end testing (e2e) with protractor and Angular CLI][e2e-testing]
-- [What are environments in Angular CLI?][environments]
-- [Angular CLI commands][angular-cli-commands]
-- [HTTP Status Codes][status-codes]
-- [MongoDB Java Driver][mongo-java]
+* [Angular Material components docs](https://material.angular.io/components/categories)
+* [Angular tutorial][angular-tutorial]
+* [Angular testing (Karma)][angular-karma]
+* [Angular Tour of Heroes tutorial][tour-of-heroes]
+* [End-to-end testing (Protractor)][protractor]
+* [End to end testing (e2e) with protractor and Angular CLI][e2e-testing]
+* [What are environments in Angular CLI?][environments]
+* [Angular CLI commands][angular-cli-commands]
+* [HTTP Status Codes][status-codes]
+* [MongoDB Java Driver][mongo-java]
 
 [angular-tutorial]: https://angular.io/start
 [angular-karma]:https://angular.io/guide/testing
@@ -122,4 +124,3 @@ Instructions on how to crate a DigitalOcean Droplet and setup your project are i
 [angular-cli-commands]: https://angular.io/cli
 [status-codes]: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 [mongo-java]: https://mongodb.github.io/mongo-java-driver/
-
