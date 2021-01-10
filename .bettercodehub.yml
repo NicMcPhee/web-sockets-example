@@ -1,4 +1,5 @@
 component_depth: 1
+default_excludes: true
 languages:
 - name: java
   production:
@@ -10,7 +11,7 @@ languages:
 - name: typescript
   production:
     include:
-      - client/src/app/.*\.ts 
+      - client/src/app/.*\.ts
     exclude:
       - client/src/app/.*\.spec\.ts
   test:
