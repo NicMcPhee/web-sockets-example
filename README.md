@@ -3,7 +3,7 @@
 > **Make sure you update the links for the badges below so they point
 > to _your_ project and not the "starter" copy. You also need to make
 > sure that analysis checks are being run on all pull requests.** See
-> [`UPDATING_BADGES_AND_PR_CHECKS.md`](UPDATING_BADGES_AND_PR_CHECKS.md)
+> [`UPDATING-BADGES-AND-PR-CHECKS.md`](UPDATING-BADGES-AND-PR-CHECKS.md)
 > for info on how to do that.
 >
 > Feel free to remove the badge above and this text when you've
