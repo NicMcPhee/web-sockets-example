@@ -4,13 +4,12 @@ services:
     build: ./client # Location of the Dockerfile for the client
     restart: always
     volumes:
-      - ./.caddy:/root/.caddy  # to save certificates on disk
+      - caddy_data:/data
+      - caddy_config:/config
     environment:
       CADDY_HOST: "${APP_HOST:-localhost}" # The domain/host to serve to
-      CADDY_TLS: "${APP_TLS_EMAIL:-off}" # Set to email address to enable TLS
-      ACME_AGREE: "${APP_ACME_AGREE:-false}" # Set to true to agree to the Let's Encrypt Subscriber Agreement (https://letsencrypt.org/documents/2017.11.15-LE-SA-v1.2.pdf)
+      CADDY_GLOBAL_OPTIONS: "${APP_CADDY_GLOBAL_OPTIONS}" # A valid Caddy global option, see Caddyfile
     ports:
-      - "2015:2015"
       - "80:80" # http
       - "443:443" # https
     depends_on:
@@ -25,7 +24,7 @@ services:
     depends_on:
       - mongo
   mongo:
-      image: mongo:3.4.23
+      image: mongo
       restart: always
       environment:
         MONGO_DB: prod
@@ -35,3 +34,5 @@ services:
 
 volumes:
   mongo_data:
+  caddy_data:
+  caddy_config:
