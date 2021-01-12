@@ -30,7 +30,7 @@ echo "in case of issues."
 read -p "Email address: " email
 echo
 if [ -z "$email" ]; then
-  echo "Not setting APP_CADDY_GLOBAL_OPTIONS"
+  echo "No email entered; not setting APP_CADDY_GLOBAL_OPTIONS"
 else
   echo "Setting APP_CADDY_GLOBAL_OPTIONS to \"email ${email}\""
   echo "APP_CADDY_GLOBAL_OPTIONS=\"email ${email}\"" >> .env
