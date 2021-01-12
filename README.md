@@ -1,9 +1,21 @@
+!["Broken" badge to remind us to fix the URLs on the "real" badges](https://img.shields.io/badge/FIX_BADGES-Badges_below_need_to_be_updated-red)
+
+> **Make sure you update the links for the badges below so they point
+> to _your_ project and not the "starter" copy. You also need to make
+> sure that analysis checks are being run on all pull requests.** See
+> [`CODE-QUALITY-CHECKS.md`](CODE-QUALITY-CHECKS.md)
+> for info on how to do that.
+>
+> Feel free to remove the badge above and this text when you've
+> dealt with that.
 # CSCI 3601 Iteration Template
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3ff057fa70954e0a89a8a94bb2bd5a4c)](https://app.codacy.com/gh/UMM-CSci-3601/3601-iteration-template?utm_source=github.com&utm_medium=referral&utm_content=UMM-CSci-3601/3601-iteration-template&utm_campaign=Badge_Grade)
 [![Server Build Status](../../workflows/Server%20Java/badge.svg)](../../actions?query=workflow%3A"Server+Java")
 [![Client Build Status](../../workflows/Client%20Angular/badge.svg)](../../actions?query=workflow%3A"Client+Angular")
 [![End to End Build Status](../../workflows/End-to-End/badge.svg)](../../actions?query=workflow%3AEnd-to-End)
+
+[![BCH compliance](https://bettercodehub.com/edge/badge/UMM-CSci-3601/3601-iteration-template?branch=master)](https://bettercodehub.com/)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/UMM-CSci-3601/3601-iteration-template.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/UMM-CSci-3601/3601-iteration-template/alerts/)
 
 This is your starter code for Iteration 1.
 
