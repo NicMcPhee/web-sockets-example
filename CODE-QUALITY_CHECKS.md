@@ -29,9 +29,9 @@ every time you or GitHub Classroom makes a new repository. This is
 Here's a checklist of actions you'll need to take for each
 new repository:
 
-* [ ] Fix BetterCodeHub badge
+* [ ] Fix Better Code Hub badge
 * [ ] Fix LGTM badge(s)
-* [ ] Enable PR checks for BetterCodeHub
+* [ ] Enable PR checks for Better Code Hub
 * [ ] Enable PR checks for LGTM
 
 This document includes:
@@ -67,22 +67,22 @@ making an effort to maintain the quality of your codebase.
 
 There are quite a few code analysis tools out there; we're using two
 that, together, seem to cover a lot of the major issues in ways that
-are pretty "user friendly": BetterCodeHub.com and LGTM.com. We make no
+are pretty "user friendly": [Better Code Hub](https://bettercodehub.com/) and [LGTM](https://lgtm.com/). We make no
 claims that these are the "best", however, and feel free to
 explore others, sharing cool things that you discover.
 
 Some other services:
 
-* CodeScene.io provides quite sophisticated analyses of your codebase,
+* [CodeScene](https://codescene.io/) provides quite sophisticated analyses of your codebase,
   but it's not trivial to make sense of the huge amount of information
   that it provides.
-* Codacy.com is cool in that it understands a _lot_ of languages
+* [Codacy](https://www.codacy.com/) is cool in that it understands a _lot_ of languages
   and notations, but it's defaults can be quite "noisy" and it's not
   trivial to reconfigure.
 
-### BetterCodeHub
+### Better Code Hub
 
-BetterCodeHub.com provides a "big picture" analysis of your codebase,
+[Better Code Hub](https://bettercodehub.com/) provides a "big picture" analysis of your codebase,
 checking 10 particular properties. Many of these are different versions
 of "keep things simple", although there are also architecture-level
 checks. They have a check on testing that doesn't make any particular
@@ -94,13 +94,13 @@ report page, and for most of them they'll point you directly at the
 culprit(s). Even "passing" checks will often (when you open them) provide
 you with "at risk" areas where you're approaching a potential problem.
 You can also generate GitHub issues for your project directly from the
-BetterCodeHub report, if you want to bring a concern over from
-BetterCodeHub into your repo.
+Better Code Hub report, if you want to bring a concern over from
+Better Code Hub into your repo.
 
 ### LGTM ("Looks Good To Me")
 
-LGTM.com provides a comprehensive set of "violations" based checks.
-Where BetterCodeHub is typically looking at the "big picture" state
+[LGTM](https://lgtm.com/) provides a comprehensive set of "violations" based checks.
+Where Better Code Hub is typically looking at the "big picture" state
 of the codebase, LGTM is looking for specific (often line-level)
 problems that have been shown to create potential issues for a
 codebase.
@@ -117,7 +117,7 @@ just address them top down as time allows and necessity requires.
 It's not uncommon that you get an alert from an analysis tool that
 you don't really understand, or you don't understand how to "fix".
 
-BetterCodeHub has a "Guideline Explanation" tab on the left of each
+Better Code Hub has a "Guideline Explanation" tab on the left of each
 of the ten checks. (You have to open up that check to see the tab.)
 
 Violation-based tools like LGTM will often provide a link to a
@@ -156,10 +156,10 @@ do), so they "automagically" work when your repo is created.
 Unfortunately the other badges are going from sources outside of GitHub,
 so we can't use the same trick for them.
 
-#### BetterCodeHub and LGTM badges
+#### Better Code Hub and LGTM badges
 
 When GitHub Classroom makes the initial copies of this repository, the
-[BetterCodeHub](https://bettercodehub.com) (BCH) and
+[Better Code Hub](https://bettercodehub.com) (BCH) and
 [LGTM](https://lgtm.com) ("looks good to me") badges have several copies
 of this string:
 
@@ -209,7 +209,7 @@ the external services.
 
 To enable pull request checks from BetterCodeHub you need to:
 
-1. Go to [BetterCodeHub](https://bettercodehub.com) and login using
+1. Go to [Better Code Hub](https://bettercodehub.com) and login using
    your GitHub account.
 2. Choose this semester's organization icon from the set of icons to the
    right of "Your repositories".
@@ -217,10 +217,10 @@ To enable pull request checks from BetterCodeHub you need to:
    be rather a lot towards the end. Scroll or search to find your
    specific repository.
 4. On the bottom left of your repo's card should be the GitHub pull
-   request icon. Click that to enable BetterCodeHub pull request checks
+   request icon. Click that to enable Better Code Hub pull request checks
    for that repository.
 
-You should then see BetterCodeHub checks on your next pull request on
+You should then see Better Code Hub checks on your next pull request on
 that project.
 
 ### LGTM pull request checks
