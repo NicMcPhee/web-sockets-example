@@ -12,10 +12,11 @@ languages:
   production:
     include:
       - client/src/app/.*\.ts
-      - client/src/testing/.*\.ts
+      - client/src/environments/.*\.ts
     exclude:
       - client/src/app/.*\.spec\.ts
   test:
     include:
       - client/src/app/.*\.spec\.ts
       - client/e2e/.*\.ts
+      - client/src/testing/.*\.ts
