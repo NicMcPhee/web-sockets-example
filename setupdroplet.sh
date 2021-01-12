@@ -33,7 +33,7 @@ if [ "${tls}" = false ]; then
   echo "This is NOT recommended. If you want to turn it back on, run this script again."
   echo
   echo "Setting APP_CADDY_GLOBAL_OPTIONS to \"auto_https off\""
-  echo "APP_CADDY_GLOBAL_OPTIONS=auto_https off" >> .env
+  echo 'APP_CADDY_GLOBAL_OPTIONS="auto_https off"' >> .env
   echo
   echo "Your server is setup"
   echo "Once you start it with 'docker-compose up -d' it will be available at:"
@@ -55,7 +55,7 @@ else
     echo "Not setting APP_CADDY_GLOBAL_OPTIONS"
   else
     echo "Setting APP_CADDY_GLOBAL_OPTIONS to \"email ${email}\""
-    echo "APP_CADDY_GLOBAL_OPTIONS=email ${email}" >> .env
+    echo 'APP_CADDY_GLOBAL_OPTIONS="email ${email}"' >> .env
   fi
   echo
   echo "Your server is set up."
