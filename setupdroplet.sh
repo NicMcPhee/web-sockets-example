@@ -33,7 +33,7 @@ if [ -z "$email" ]; then
   echo "Not setting APP_CADDY_GLOBAL_OPTIONS"
 else
   echo "Setting APP_CADDY_GLOBAL_OPTIONS to \"email ${email}\""
-  echo 'APP_CADDY_GLOBAL_OPTIONS="email ${email}"' >> .env
+  echo "APP_CADDY_GLOBAL_OPTIONS=\"email ${email}\"" >> .env
 fi
 echo
 echo "Your server is set up."
