@@ -79,7 +79,7 @@ One for the Java server, one for hosting the client files, and one for the datab
 - `git clone` your repository
 - `cd` into the newly created directory
 - run `./setupdroplet.sh` to go through the initial setup steps
-  - It will ask for your email, email address, this will be used for any relevant alerts about your HTTPS certificate (you probably won't get any emails from them). Entering your email signifies agreement to the [Let's Encrypt Subscriber Agreement](https://letsencrypt.org/documents/2017.11.15-LE-SA-v1.2.pdf) and the [ZeroSSL Terms of Service](https://zerossl.com/terms/) (either one of those providers may be used to setup your certificate).
+  - It will ask for your email address, which will be used for any relevant alerts about your HTTPS certificate (you probably won't get any emails from them). Entering your email signifies agreement to the [Let's Encrypt Subscriber Agreement](https://letsencrypt.org/documents/2017.11.15-LE-SA-v1.2.pdf) and the [ZeroSSL Terms of Service](https://zerossl.com/terms/) (either one of those providers may be used to setup your certificate).
   - We are using a service called [nip.io](https://nip.io/) to give us the valid domains we need for HTTPS. The script will tell you the `nip.io` address your app will be hosted on. Copy this down for later.
 - To build and start your server, run `docker-compose up -d`
   - The `-d` means detached and you can then run `docker-compose logs` to see the output at any time.
