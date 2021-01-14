@@ -1,4 +1,15 @@
-# DigitalOcean Deployment Instructions
+# DigitalOcean Deployment Instructions <!-- omit in toc -->
+
+- [Summary](#summary)
+  - [Some terminology](#some-terminology)
+- [Step 1: Creating an account](#step-1-creating-an-account)
+- [Step 2: Creating a droplet](#step-2-creating-a-droplet)
+- [Step 3: Setting up your droplet and running your project](#step-3-setting-up-your-droplet-and-running-your-project)
+- [Common tasks](#common-tasks)
+  - [Resetting the database](#resetting-the-database)
+  - [Updating the server or client code](#updating-the-server-or-client-code)
+- [Additional Docker Compose commands](#additional-docker-compose-commands)
+- [Using a custom domain](#using-a-custom-domain)
 
 ## Summary
 
