@@ -81,8 +81,3 @@ jacocoTestReport {
     html.destination file("${buildDir}/jacocoHtml")
   }
 }
-
-tasks.withType(JavaCompile) {
-  // All of our source files are written in UTF-8
-  options.encoding = 'UTF-8'
-}
