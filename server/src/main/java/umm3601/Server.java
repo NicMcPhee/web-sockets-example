@@ -41,22 +41,19 @@ public class Server {
 
     Javalin server = Javalin.create().start(4567);
 
-    // Simple example route
-    server.get("hello", ctx -> ctx.result("Hello World"));
-
     // Utility routes
-    server.get("api", ctx -> ctx.result(appName));
+    server.get("/api", ctx -> ctx.result(appName));
 
     // Get specific user
-    server.get("api/users/:id", userController::getUser);
+    server.get("/api/users/:id", userController::getUser);
 
-    server.delete("api/users/:id", userController::deleteUser);
+    server.delete("/api/users/:id", userController::deleteUser);
 
     // List users, filtered using query parameters
-    server.get("api/users", userController::getUsers);
+    server.get("/api/users", userController::getUsers);
 
     // Add new user
-    server.post("api/users/new", userController::addNewUser);
+    server.post("/api/users/new", userController::addNewUser);
 
 
 
