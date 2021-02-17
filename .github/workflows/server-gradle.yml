@@ -3,7 +3,7 @@ name: Server Java
 on: [push]
 
 jobs:
-  build:
+  gradle-build:
 
     runs-on: ubuntu-latest
 
