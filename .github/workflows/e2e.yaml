@@ -3,7 +3,7 @@ name: End-to-End
 on: [push]
 
 jobs:
-  test:
+  ng-e2e:
 
     runs-on: ubuntu-latest
 
