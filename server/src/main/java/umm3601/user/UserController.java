@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableMap;
 import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Sorts;
 
 import org.bson.Document;
@@ -38,8 +39,8 @@ public class UserController {
    *
    * @param database the database containing user data
    */
-  public UserController(MongoClient client, String databaseName) {
-    userCollection = JacksonMongoCollection.builder().build(client, databaseName, "users", User.class);
+  public UserController(MongoDatabase database) {
+    userCollection = JacksonMongoCollection.builder().build(database, "users", User.class);
   }
 
   /**

@@ -33,8 +33,11 @@ public class Server {
       .build());
 
 
+    // Get the database
+    database = mongoClient.getDatabase(databaseName);
+
     // Initialize dependencies
-    UserController userController = new UserController(mongoClient, databaseName);
+    UserController userController = new UserController(database);
     //UserRequestHandler userRequestHandler = new UserRequestHandler(userController);
 
     Javalin server = Javalin.create().start(4567);
