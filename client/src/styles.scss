@@ -92,6 +92,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   @include app-theming($dark-theme);
 }
 
+// Use uppercase text on buttons
+.mat-button,
+.mat-raised-button,
+.mat-stroked-button,
+.mat-flat-button {
+  text-transform: uppercase;
+}
+
 // Special styling for the E2E test highlighter
 #BP_ELEMENT_HIGHLIGHT__ {
   z-index: 100;
