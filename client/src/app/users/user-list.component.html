@@ -2,9 +2,7 @@
   <div fxFlex fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10">
 
     <mat-card class="search-card">
-      <mat-card-header>
-        <mat-card-title class="user-list-title">Users</mat-card-title>
-      </mat-card-header>
+      <mat-card-title class="user-list-title">Users</mat-card-title>
       <mat-card-content fxLayout="column" >
 
         <div fxLayout="row wrap" fxLayoutGap="10px">
@@ -14,14 +12,14 @@
             <mat-label>Name</mat-label>
             <input matInput id="user-name-input" placeholder="Filter by name"
             [(ngModel)]="userName" (input)="updateFilter()">
-            <mat-hint>Filtered in Angular</mat-hint>
+            <mat-hint>Filtered on client</mat-hint>
           </mat-form-field>
 
           <mat-form-field class="input-field">
             <mat-label>Company</mat-label>
             <input matInput id="user-company-input" placeholder="Filter by company"
             [(ngModel)]="userCompany" (input)="updateFilter()">
-            <mat-hint>Filtered in Angular</mat-hint>
+            <mat-hint>Filtered on client</mat-hint>
           </mat-form-field>
         </div>
 
@@ -32,7 +30,7 @@
             <mat-label>Age</mat-label>
             <input matInput id="user-age-input" type="number" placeholder="Filter by age"
             min="0" max="200" [(ngModel)]="userAge" (input)="getUsersFromServer()">
-            <mat-hint>Filtered on Server</mat-hint>
+            <mat-hint>Filtered on server</mat-hint>
           </mat-form-field>
 
           <mat-form-field class="input-field">
