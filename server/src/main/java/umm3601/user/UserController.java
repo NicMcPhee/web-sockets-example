@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import com.google.common.collect.ImmutableMap;
 import com.mongodb.client.MongoCollection;
@@ -93,7 +94,7 @@ public class UserController {
     }
 
     if (ctx.queryParamMap().containsKey("company")) {
-      filters.add(regex("company", ctx.queryParam("company"), "i"));
+      filters.add(regex("company", Pattern.quote(ctx.queryParam("company")), "i"));
     }
 
     if (ctx.queryParamMap().containsKey("role")) {
