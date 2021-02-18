@@ -3,6 +3,7 @@
     "java.server.launchMode": "Standard",
     "cSpell.words": [
         "CSCI",
+        "Javalin",
         "sidenav",
         "todos"
     ]
