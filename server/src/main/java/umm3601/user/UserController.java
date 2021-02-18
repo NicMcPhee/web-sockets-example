@@ -113,11 +113,11 @@ public class UserController {
    */
   public void addNewUser(Context ctx) {
     User newUser = ctx.bodyValidator(User.class)
-      .check((usr) -> usr.name != null && usr.name.length() > 0) //Verify that the user has a name that is not blank
-      .check((usr) -> usr.email.matches(emailRegex)) // Verify that the provided email is a valid email
-      .check((usr) -> usr.age > 0) // Verify that the provided age is > 0
-      .check((usr) -> usr.role.matches("^(admin|editor|viewer)$")) // Verify that the role is one of the valid roles
-      .check((usr) -> usr.company != null && usr.company.length() > 0) // Verify that the user has a company that is not blank
+      .check(usr -> usr.name != null && usr.name.length() > 0) //Verify that the user has a name that is not blank
+      .check(usr -> usr.email.matches(emailRegex)) // Verify that the provided email is a valid email
+      .check(usr -> usr.age > 0) // Verify that the provided age is > 0
+      .check(usr -> usr.role.matches("^(admin|editor|viewer)$")) // Verify that the role is one of the valid roles
+      .check(usr -> usr.company != null && usr.company.length() > 0) // Verify that the user has a company that is not blank
       .get();
 
     // Generate user avatar (you won't need this part for todos)
@@ -142,10 +142,10 @@ public class UserController {
     MessageDigest md = MessageDigest.getInstance("MD5");
     byte[] hashInBytes = md.digest(str.toLowerCase().getBytes(StandardCharsets.UTF_8));
 
-    String result = "";
+    StringBuilder result = new StringBuilder();
     for (byte b : hashInBytes) {
-      result += String.format("%02x", b);
+      result.append(String.format("%02x", b));
     }
-    return result;
+    return result.toString();
   }
 }

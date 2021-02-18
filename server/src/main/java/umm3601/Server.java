@@ -16,8 +16,6 @@ public class Server {
 
   static String appName = "CSCI 3601 Iteration Template";
 
-  private static MongoDatabase database;
-
   public static void main(String[] args) {
 
     // Get the MongoDB address and database name from environment variables and
@@ -26,37 +24,44 @@ public class Server {
     String databaseName = System.getenv().getOrDefault("MONGO_DB", "dev");
 
     // Setup the MongoDB client object with the information we set earlier
-    MongoClient mongoClient = MongoClients.create(
+    // The `try/finally` ensures that the mongoClient is closed even if
+    // some exception occurs in the process of setting up the client.
+    MongoClient mongoClient = null;
+    try {
+    mongoClient = MongoClients.create(
       MongoClientSettings.builder()
       .applyToClusterSettings(builder ->
         builder.hosts(Arrays.asList(new ServerAddress(mongoAddr))))
       .build());
-
+    } finally {
+      if (mongoClient != null) {
+        mongoClient.close();
+      }
+    }
 
     // Get the database
-    database = mongoClient.getDatabase(databaseName);
+    MongoDatabase database = mongoClient.getDatabase(databaseName);
 
     // Initialize dependencies
     UserController userController = new UserController(database);
-    //UserRequestHandler userRequestHandler = new UserRequestHandler(userController);
 
     Javalin server = Javalin.create().start(4567);
 
     // Utility routes
     server.get("/api", ctx -> ctx.result(appName));
 
-    // Get specific user
-    server.get("/api/users/:id", userController::getUser);
-
-    server.delete("/api/users/:id", userController::deleteUser);
-
     // List users, filtered using query parameters
     server.get("/api/users", userController::getUsers);
 
-    // Add new user
+    // Get the specified user
+    server.get("/api/users/:id", userController::getUser);
+
+    // Delete the specified user
+    server.delete("/api/users/:id", userController::deleteUser);
+
+    // Add new user with the user info being in the JSON body
+    // of the HTTP request
     server.post("/api/users/new", userController::addNewUser);
-
-
 
     server.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
