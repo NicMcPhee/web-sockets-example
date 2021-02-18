@@ -24,20 +24,11 @@ public class Server {
     String databaseName = System.getenv().getOrDefault("MONGO_DB", "dev");
 
     // Setup the MongoDB client object with the information we set earlier
-    // The `try/finally` ensures that the mongoClient is closed even if
-    // some exception occurs in the process of setting up the client.
-    MongoClient mongoClient = null;
-    try {
-    mongoClient = MongoClients.create(
-      MongoClientSettings.builder()
-      .applyToClusterSettings(builder ->
-        builder.hosts(Arrays.asList(new ServerAddress(mongoAddr))))
-      .build());
-    } finally {
-      if (mongoClient != null) {
-        mongoClient.close();
-      }
-    }
+    MongoClient mongoClient
+      = MongoClients.create(MongoClientSettings
+        .builder()
+        .applyToClusterSettings(builder -> builder.hosts(Arrays.asList(new ServerAddress(mongoAddr))))
+        .build());
 
     // Get the database
     MongoDatabase database = mongoClient.getDatabase(databaseName);
@@ -45,7 +36,19 @@ public class Server {
     // Initialize dependencies
     UserController userController = new UserController(database);
 
-    Javalin server = Javalin.create().start(4567);
+    Javalin server = Javalin.create();
+    /*
+     * We want to shut the `mongoClient` down if the server either
+     * fails to start, or when it's shutting down for whatever reason.
+     * Since the mongClient needs to be available throughout the
+     * life of the server, the only way to do this is to wait for
+     * these events and close it then.
+     */
+    server.events(event -> {
+      event.serverStartFailed(mongoClient::close);
+      event.serverStopping(mongoClient::close);
+    });
+    server.start(4567);
 
     // Utility routes
     server.get("/api", ctx -> ctx.result(appName));
