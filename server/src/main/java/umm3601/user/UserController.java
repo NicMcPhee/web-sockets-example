@@ -28,8 +28,11 @@ import io.javalin.http.NotFoundResponse;
  */
 public class UserController {
 
-  static String emailRegex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+  private static final String AGE_KEY = "age";
+  private static final String COMPANY_KEY = "company";
+  private static final String ROLE_KEY = "role";
 
+  static String emailRegex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 
   private final JacksonMongoCollection<User> userCollection;
 
@@ -80,19 +83,19 @@ public class UserController {
    */
   public void getUsers(Context ctx) {
 
-    List<Bson> filters = new ArrayList<Bson>(); // start with a blank document
+    List<Bson> filters = new ArrayList<>(); // start with a blank document
 
-    if (ctx.queryParamMap().containsKey("age")) {
-        int targetAge = ctx.queryParam("age", Integer.class).get();
-        filters.add(eq("age", targetAge));
+    if (ctx.queryParamMap().containsKey(AGE_KEY)) {
+        int targetAge = ctx.queryParam(AGE_KEY, Integer.class).get();
+        filters.add(eq(AGE_KEY, targetAge));
     }
 
-    if (ctx.queryParamMap().containsKey("company")) {
-      filters.add(regex("company", ctx.queryParam("company"), "i"));
+    if (ctx.queryParamMap().containsKey(COMPANY_KEY)) {
+      filters.add(regex(COMPANY_KEY, ctx.queryParam(COMPANY_KEY), "i"));
     }
 
-    if (ctx.queryParamMap().containsKey("role")) {
-      filters.add(eq("role", ctx.queryParam("role")));
+    if (ctx.queryParamMap().containsKey(ROLE_KEY)) {
+      filters.add(eq(ROLE_KEY, ctx.queryParam(ROLE_KEY)));
     }
 
     String sortBy = ctx.queryParam("sortby", "name"); //Sort by sort query param, default is name
