@@ -12,7 +12,7 @@ export class UserService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getUsers(filters?: { role?: UserRole, age?: number, company?: string }): Observable<User[]> {
+  getUsers(filters?: { role?: UserRole; age?: number; company?: string }): Observable<User[]> {
     let httpParams: HttpParams = new HttpParams();
     if (filters) {
       if (filters.role) {
@@ -34,7 +34,7 @@ export class UserService {
     return this.httpClient.get<User>(this.userUrl + '/' + id);
   }
 
-  filterUsers(users: User[], filters: { name?: string, company?: string }): User[] {
+  filterUsers(users: User[], filters: { name?: string; company?: string }): User[] {
 
     let filteredUsers = users;
 
@@ -42,18 +42,14 @@ export class UserService {
     if (filters.name) {
       filters.name = filters.name.toLowerCase();
 
-      filteredUsers = filteredUsers.filter(user => {
-        return user.name.toLowerCase().indexOf(filters.name) !== -1;
-      });
+      filteredUsers = filteredUsers.filter(user => user.name.toLowerCase().indexOf(filters.name) !== -1);
     }
 
     // Filter by company
     if (filters.company) {
       filters.company = filters.company.toLowerCase();
 
-      filteredUsers = filteredUsers.filter(user => {
-        return user.company.toLowerCase().indexOf(filters.company) !== -1;
-      });
+      filteredUsers = filteredUsers.filter(user => user.company.toLowerCase().indexOf(filters.company) !== -1);
     }
 
     return filteredUsers;
