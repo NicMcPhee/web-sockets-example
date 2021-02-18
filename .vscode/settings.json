@@ -1,5 +1,14 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
+    "eslint.workingDirectories": [ "./client" ],
+    "eslint.options": {
+      "extensions": [".ts", ".html"]
+    },
+    "eslint.validate": [
+      "javascript",
+      "typescript",
+      "html"
+    ],
     "cSpell.words": [
         "CSCI",
         "sidenav",
