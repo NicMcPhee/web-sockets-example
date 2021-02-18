@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class UserService {
-  readonly userUrl: string = environment.API_URL + 'users';
+  readonly userUrl: string = environment.apiUrl + 'users';
 
   constructor(private httpClient: HttpClient) {
   }

@@ -16,12 +16,9 @@ export class AddUserComponent implements OnInit {
 
   user: User;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private snackBar: MatSnackBar, private router: Router) {
-  }
-
-  // not sure if this name is magical and making it be found or if I'm missing something,
+    // not sure if this name is magical and making it be found or if I'm missing something,
   // but this is where the red text that shows up (when there is invalid input) comes from
-  add_user_validation_messages = {
+  addUserValidationMessages = {
     name: [
       {type: 'required', message: 'Name is required'},
       {type: 'minlength', message: 'Name must be at least 2 characters long'},
@@ -47,6 +44,9 @@ export class AddUserComponent implements OnInit {
       { type: 'pattern', message: 'Role must be Admin, Editor, or Viewer' },
     ]
   };
+
+  constructor(private fb: FormBuilder, private userService: UserService, private snackBar: MatSnackBar, private router: Router) {
+  }
 
   createForms() {
 
