@@ -4,5 +4,6 @@
         "CSCI",
         "sidenav",
         "todos"
-    ]
+    ],
+    "angular.enable-experimental-ivy-prompt": false,
 }
