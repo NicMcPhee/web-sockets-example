@@ -9,6 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.google.common.collect.ImmutableMap;
 import com.mongodb.client.MongoDatabase;
@@ -91,7 +92,7 @@ public class UserController {
     }
 
     if (ctx.queryParamMap().containsKey(COMPANY_KEY)) {
-      filters.add(regex(COMPANY_KEY, ctx.queryParam(COMPANY_KEY), "i"));
+      filters.add(regex(COMPANY_KEY,  Pattern.quote(ctx.queryParam(COMPANY_KEY)), "i"));
     }
 
     if (ctx.queryParamMap().containsKey(ROLE_KEY)) {
