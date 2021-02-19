@@ -1,10 +1,4 @@
-export interface TestUser {
-  name: string;
-  age: string;
-  company?: string;
-  email?: string;
-  role: 'admin' | 'editor' | 'viewer';
-}
+import {User} from 'src/app/users/user';
 
 export class AddUserPage {
   navigateTo() {
@@ -31,9 +25,9 @@ export class AddUserPage {
     const sel = cy.get(`#${selectID}`).click().get(`mat-option[value="${value}"]`).click();
   }
 
-  addUser(newUser: TestUser) {
+  addUser(newUser: User) {
     this.typeInput('nameField', newUser.name);
-    this.typeInput('ageField', newUser.age);
+    this.typeInput('ageField', newUser.age.toString());
     if (newUser.company) {
       this.typeInput('companyField', newUser.company);
     }

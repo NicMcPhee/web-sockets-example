@@ -1,3 +1,5 @@
+import { UserRole } from "src/app/users/user";
+
 export class UserListPage {
   navigateTo() {
     return cy.visit('/users');
@@ -39,7 +41,7 @@ export class UserListPage {
    *
    * @param value The role *value* to select, this is what's found in the mat-option "value" attribute.
    */
-  selectRole(value: string) {
+  selectRole(value: UserRole) {
     return cy.get('[data-test=userRoleSelect]').click().get(`mat-option[value="${value}"]`).click();
   }
 

@@ -1,4 +1,5 @@
-import { AddUserPage, TestUser } from '../support/add-user.po';
+import { User } from 'src/app/users/user';
+import { AddUserPage } from '../support/add-user.po';
 
 describe('Add user', () => {
   const page = new AddUserPage();
@@ -32,9 +33,10 @@ describe('Add user', () => {
 
   describe('Adding a new user', () => {
 
-    const user: TestUser = {
+    const user: User = {
+      _id: null,
       name: 'Test User',
-      age: '30',
+      age: 30,
       company: 'Test Company',
       email: 'test@example.com',
       role: 'editor'
