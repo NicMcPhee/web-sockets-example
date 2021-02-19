@@ -35,7 +35,7 @@
 
           <mat-form-field class="input-field">
             <mat-label>Role</mat-label>
-            <mat-select (selectionChange)="getUsersFromServer()" [(ngModel)]="userRole" id="user-role-select">
+            <mat-select (selectionChange)="getUsersFromServer()" [(ngModel)]="userRole" data-test="userRoleSelect">
               <mat-option>--</mat-option>
               <mat-option value="admin">Admin</mat-option>
               <mat-option value="editor">Editor</mat-option>
@@ -48,7 +48,7 @@
         <br>
         <div fxLayout="row wrap" fxLayoutGap="10px">
           <label>View type: </label>
-          <mat-radio-group aria-label="View type" [(ngModel)]="viewType" id="view-type-radio">
+          <mat-radio-group aria-label="View type" [(ngModel)]="viewType" data-test="viewTypeRadio">
             <mat-radio-button value="card">Card</mat-radio-button>
             <mat-radio-button value="list">List</mat-radio-button>
           </mat-radio-group>
@@ -101,6 +101,6 @@
 
 </div>
 
-<button mat-fab class="add-user-fab" matTooltip="Add User" matTooltipPosition="left" routerLink="/users/new">
+<button mat-fab class="add-user-fab" matTooltip="Add User" matTooltipPosition="left" routerLink="/users/new" data-test="addUserButton">
     <mat-icon class="md-24" aria-label="Add User">add</mat-icon>
 </button>

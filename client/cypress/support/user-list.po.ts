@@ -16,25 +16,38 @@ export class UserListPage {
   }
 
   getUserListItems() {
-    // return element(by.className('user-nav-list')).all(by.className('user-list-item'));
     return cy.get('.user-nav-list .user-list-item');
   }
 
+  /**
+   * Clicks the "view profile" button for the given user card.
+   * Requires being in the "card" view.
+   *
+   * @param card The user card
+   */
   clickViewProfile(card: Cypress.Chainable<JQuery<HTMLElement>>) {
-    // return card.element(by.buttonText('VIEW PROFILE')).click();
-    return card.contains('button', 'VIEW PROFILE').click();
+    return card.find<HTMLButtonElement>('[data-test=viewProfileButton]').click();
   }
 
+  /**
+   * Change the view of users.
+   *
+   * @param viewType Which view type to change to: "card" or "list".
+   */
   changeView(viewType: 'card' | 'list') {
-    return cy.get(`#view-type-radio .mat-radio-button[value="${viewType}"]`).click();
+    return cy.get(`[data-test=viewTypeRadio] .mat-radio-button[value="${viewType}"]`).click();
   }
 
+  /**
+   * Selects a role to filter in the "Role" selector.
+   *
+   * @param value The role *value* to select, this is what's found in the mat-option "value" attribute.
+   */
   selectRole(value: string) {
-    // This is messy. I'm not sure that Cypress is working well for us here. Might want to find a better way.
-    return cy.get('#user-role-select').click().get(`mat-option[value="${value}"]`).click();
+    return cy.get('[data-test=userRoleSelect]').click().get(`mat-option[value="${value}"]`).click();
   }
 
   addUserFAB() {
-    return cy.get('.add-user-fab');
+    return cy.get('[data-test=addUserButton]');
   }
 }
