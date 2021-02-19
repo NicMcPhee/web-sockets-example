@@ -166,7 +166,7 @@ describe('AddUserComponent', () => {
       expect(ageControl.hasError('max')).toBeTruthy();
     });
 
-    it('should not allow an age to contain non-digits', () => {
+    it('should not allow an age to be non-numeric', () => {
       // The HTML input field itself checks to make sure that the value is
       // numeric. Angular's form controls aren't even involved with this step.
       const ageHtmlInput =
@@ -174,6 +174,12 @@ describe('AddUserComponent', () => {
       ageHtmlInput.value = '27aa';
       expect(ageHtmlInput.validity.valid).toBeFalsy();
       expect(ageHtmlInput.validity.valueMissing).toBeTruthy();
+    });
+
+    it('should not allow an age to contain a decimal point', () => {
+      ageControl.setValue(27.5);
+      expect(ageControl.valid).toBeFalsy();
+      expect(ageControl.hasError('pattern')).toBeTruthy();
     });
   });
 
