@@ -1,10 +1,9 @@
-name: End-to-End
+name: End to End
 
 on: [push]
 
 jobs:
   ng-e2e:
-
     runs-on: ubuntu-latest
 
     services:
@@ -14,7 +13,7 @@ jobs:
           - '27017-27019:27017-27019'
 
     steps:
-    - name: Checkout the repository
+    - name: Checkout repository
       uses: actions/checkout@v2
 
     - name: Seed database
