@@ -10,7 +10,7 @@ export class AddUserPage {
   }
 
   addUserButton() {
-    return cy.contains('button', 'ADD USER');
+    return cy.get('[data-test=confirmAddUserButton]');
   }
 
   typeInput(inputId: string, text: string, clear = true) {

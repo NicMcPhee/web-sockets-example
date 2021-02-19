@@ -67,9 +67,15 @@ is potentially helpful and contributed to the shaping of this example -->
 
         </mat-card-content>
         <mat-card-actions align="end">
-          <button mat-button id="confirmAddUserButton" type="button" color="primary"
-                  [disabled]="!addUserForm.valid" type="submit">
-                  ADD USER
+          <button
+            mat-button
+            type="button"
+            color="primary"
+            [disabled]="!addUserForm.valid"
+            type="submit"
+            data-test="confirmAddUserButton"
+          >
+            ADD USER
           </button>
         </mat-card-actions>
     </mat-card>
