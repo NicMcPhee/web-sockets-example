@@ -27,9 +27,10 @@ export class AddUserComponent implements OnInit {
     ],
 
     age: [
+      {type: 'required', message: 'Age is required'},
       {type: 'min', message: 'Age must be at least 15'},
       {type: 'max', message: 'Age may not be greater than 200'},
-      {type: 'required', message: 'Age is required'}
+      {type: 'pattern', message: 'Age must be a whole number'}
     ],
 
     email: [
@@ -70,12 +71,13 @@ export class AddUserComponent implements OnInit {
 
       // Since this is for a company, we need workers to be old enough to work, and probably not older than 200.
       age: new FormControl('', Validators.compose([
-        // We don't need to check that the input is numeric, since we've set
-        // type="number" on the HTML. (The HTML will enforce that constraint
-        // for us.)
         Validators.required,
         Validators.min(15),
         Validators.max(200),
+        // In the HTML, we set type="number" on this field. That guarantees that the value of this field is numeric,
+        // but not that it's a whole number. (The user could still type -27.3232, for example.) So, we also need
+        // to include this pattern.
+        Validators.pattern('^[0-9]+$')
       ])),
 
       // We don't care much about what is in the company field, so we just add it here as part of the form
