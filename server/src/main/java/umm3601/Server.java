@@ -46,8 +46,12 @@ public class Server {
      */
     server.events(event -> {
       event.serverStartFailed(mongoClient::close);
-      event.serverStopping(mongoClient::close);
+      event.serverStopped(mongoClient::close);
     });
+    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+      server.stop();
+    }));
+
     server.start(4567);
 
     // Utility routes
