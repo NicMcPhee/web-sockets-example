@@ -1,5 +1,4 @@
 import { AddUserPage, TestUser } from '../support/add-user.po';
-import { E2EUtil } from '../support/e2e.util';
 
 describe('Add user', () => {
   const page = new AddUserPage();
