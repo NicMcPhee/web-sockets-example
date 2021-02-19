@@ -9,6 +9,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 
 import io.javalin.Javalin;
+import io.javalin.core.util.RouteOverviewPlugin;
 
 import umm3601.user.UserController;
 
@@ -36,7 +37,9 @@ public class Server {
     // Initialize dependencies
     UserController userController = new UserController(database);
 
-    Javalin server = Javalin.create();
+    Javalin server = Javalin.create(config -> {
+      config.registerPlugin(new RouteOverviewPlugin("/api"));
+    });
     /*
      * We want to shut the `mongoClient` down if the server either
      * fails to start, or when it's shutting down for whatever reason.
@@ -53,9 +56,6 @@ public class Server {
     }));
 
     server.start(4567);
-
-    // Utility routes
-    server.get("/api", ctx -> ctx.result(appName));
 
     // List users, filtered using query parameters
     server.get("/api/users", userController::getUsers);
