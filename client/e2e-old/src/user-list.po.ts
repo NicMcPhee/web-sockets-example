@@ -1,4 +1,4 @@
-import {browser, by, element, Key, ElementFinder} from 'protractor';
+import {browser, by, element, ElementFinder} from 'protractor';
 
 export class UserPage {
   navigateTo() {
@@ -36,7 +36,7 @@ export class UserPage {
   }
 
   clickViewProfile(card: ElementFinder) {
-    return card.element(by.buttonText('VIEW PROFILE')).click();
+    return card.element(by.buttonText('View Profile')).click();
   }
 
   changeView(viewType: 'card' | 'list') {

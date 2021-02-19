@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
-SEED_DB=${MONGO_DB:-dev}
-echo Dropping DB $SEED_DB
-mongo $SEED_DB --eval "db.dropDatabase()"
-for file in $(dirname $BASH_SOURCE)/seed/*.json; do
-  echo Seeding $(basename "$file" ".json") from $file in DB $SEED_DB
-  mongoimport --db=$SEED_DB --collection=$(basename "$file" ".json") --file=$file --jsonArray
+seed_db="${MONGO_DB:-dev}"
+echo Dropping DB $seed_db
+mongo "$seed_db" --eval "db.dropDatabase()"
+for file in "$(dirname "$BASH_SOURCE")"/seed/*.json; do
+  if [[ -f "$file" ]]; then
+    echo Seeding $(basename "$file" ".json") from $file in DB $seed_db
+    mongoimport --db="$seed_db" --collection="$(basename "$file" ".json")" --file="$file" --jsonArray
+  fi
 done

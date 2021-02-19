@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, NgForm, ReactiveFormsModule, FormGroup, AbstractControl } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,7 +18,7 @@ describe('AddUserComponent', () => {
   let calledClose: boolean;
   let fixture: ComponentFixture<AddUserComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
@@ -69,7 +69,7 @@ describe('AddUserComponent', () => {
     let nameControl: AbstractControl;
 
     beforeEach(() => {
-      nameControl = addUserComponent.addUserForm.controls[`name`];
+      nameControl = addUserComponent.addUserForm.controls.name;
     });
 
     it('should not allow empty names', () => {
@@ -129,7 +129,7 @@ describe('AddUserComponent', () => {
     let ageControl: AbstractControl;
 
     beforeEach(() => {
-      ageControl = addUserComponent.addUserForm.controls[`age`];
+      ageControl = addUserComponent.addUserForm.controls.age;
     });
 
     it('should not allow empty names', () => {
@@ -168,7 +168,7 @@ describe('AddUserComponent', () => {
 
   describe('The company field', () => {
     it('should allow empty values', () => {
-      const companyControl = addUserForm.controls[`company`];
+      const companyControl = addUserForm.controls.company;
       companyControl.setValue('');
       expect(companyControl.valid).toBeTruthy();
     });
@@ -178,7 +178,7 @@ describe('AddUserComponent', () => {
     let emailControl: AbstractControl;
 
     beforeEach(() => {
-      emailControl = addUserComponent.addUserForm.controls[`email`];
+      emailControl = addUserComponent.addUserForm.controls.email;
     });
 
     it('should not allow empty values', () => {
@@ -203,7 +203,7 @@ describe('AddUserComponent', () => {
     let roleControl: AbstractControl;
 
     beforeEach(() => {
-      roleControl = addUserForm.controls[`role`];
+      roleControl = addUserForm.controls.role;
     });
 
     it('should not allow empty values', () => {

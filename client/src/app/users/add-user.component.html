@@ -13,7 +13,7 @@ is potentially helpful and contributed to the shaping of this example -->
             <mat-label>Name</mat-label>
             <input matInput id="nameField" placeholder="Name" formControlName="name"
                   required>
-            <mat-error *ngFor="let validation of add_user_validation_messages.name">
+            <mat-error *ngFor="let validation of addUserValidationMessages.name">
               <mat-error class="error-message" id="name-error"
                         *ngIf="addUserForm.get('name').hasError(validation.type) && (addUserForm.get('name').dirty || addUserForm.get('name').touched)">
                 {{validation.message}}
@@ -25,7 +25,7 @@ is potentially helpful and contributed to the shaping of this example -->
             <mat-label>Age</mat-label>
             <input matInput #input id="ageField" type="number" placeholder="Age"
                   formControlName="age" required>
-            <mat-error *ngFor="let validation of add_user_validation_messages.age">
+            <mat-error *ngFor="let validation of addUserValidationMessages.age">
               <mat-error class="error-message" id="age-error"
                         *ngIf="addUserForm.get('age').hasError(validation.type) && (addUserForm.get('age').dirty || addUserForm.get('age').touched)">
                 {{validation.message}}
@@ -44,7 +44,7 @@ is potentially helpful and contributed to the shaping of this example -->
             <mat-label>Email</mat-label>
             <input matInput #input id="emailField" placeholder="Email"
                   formControlName="email" required>
-            <mat-error *ngFor="let validation of add_user_validation_messages.email">
+            <mat-error *ngFor="let validation of addUserValidationMessages.email">
               <mat-error class="error-message" id='email-error'
                         *ngIf="addUserForm.get('email').hasError(validation.type) && (addUserForm.get('email').dirty || addUserForm.get('email').touched)">
                 {{validation.message}}
