@@ -23,10 +23,7 @@ is potentially helpful and contributed to the shaping of this example -->
 
           <mat-form-field>
             <mat-label>Age</mat-label>
-            <!-- We'd use type="number" here, but then the field would add some
-            of its own validation, which interferes with what we're doing. -->
-            <input matInput #input id="ageField" placeholder="Age"
-                  formControlName="age" required>
+            <input matInput #input type = "number" id="ageField" placeholder="Age"                  formControlName="age" required>
             <mat-error *ngFor="let validation of addUserValidationMessages.age">
               <mat-error class="error-message" id="age-error"
                         *ngIf="addUserForm.get('age').hasError(validation.type) && (addUserForm.get('age').dirty || addUserForm.get('age').touched)">

@@ -126,14 +126,27 @@ describe('AddUserComponent', () => {
       ageControl = addUserComponent.addUserForm.controls.age;
     });
 
-    it('should not allow empty names', () => {
+    it('should not allow empty ages', () => {
       ageControl.setValue('');
       expect(ageControl.valid).toBeFalsy();
     });
 
-    it('should be fine with "27"', () => {
-      ageControl.setValue('27');
-      expect(ageControl.valid).toBeTruthy();
+    describe('should be fine with "27"', () => {
+      // Both the form control and the HTML itself enforce certain constraints
+      // what we can put in the age field. The HTML makes sure that the value
+      // is numeric, and the form control makes sure that it's in the right
+      // range.
+      it('...the form control', () => {
+        ageControl.setValue('27');
+        expect(ageControl.valid).toBeTruthy();
+      });
+
+      it('...and the input field itself', () => {
+        const ageHtmlInput =
+          document.getElementsByTagName('input').namedItem('ageField');
+        ageHtmlInput.value = '27';
+        expect(ageHtmlInput.validity.valid).toBeTruthy();
+      });
     });
 
     it('should fail on ages that are too low', () => {
@@ -154,9 +167,13 @@ describe('AddUserComponent', () => {
     });
 
     it('should not allow an age to contain non-digits', () => {
-      ageControl.setValue('123x567');
-      expect(ageControl.valid).toBeFalsy();
-      expect(ageControl.hasError('pattern')).toBeTruthy();
+      // The HTML input field itself checks to make sure that the value is
+      // numeric. Angular's form controls aren't even involved with this step.
+      const ageHtmlInput =
+        document.getElementsByTagName('input').namedItem('ageField');
+      ageHtmlInput.value = '27aa';
+      expect(ageHtmlInput.validity.valid).toBeFalsy();
+      expect(ageHtmlInput.validity.valueMissing).toBeTruthy();
     });
   });
 
