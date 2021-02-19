@@ -110,7 +110,7 @@
           "builder": "@nrwl/cypress:cypress",
           "options": {
             "cypressConfig": "cypress.json",
-            "tsConfig": "e2e/tsconfig.json",
+            "tsConfig": "cypress/tsconfig.json",
             "devServerTarget": "client:serve"
           },
           "configurations": {
