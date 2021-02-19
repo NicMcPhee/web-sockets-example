@@ -9,14 +9,13 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 
 import io.javalin.Javalin;
+import io.javalin.core.util.RouteOverviewPlugin;
 
 import umm3601.user.UserController;
 
 public class Server {
 
   static String appName = "CSCI 3601 Iteration Template";
-
-  private static MongoDatabase database;
 
   public static void main(String[] args) {
 
@@ -26,39 +25,50 @@ public class Server {
     String databaseName = System.getenv().getOrDefault("MONGO_DB", "dev");
 
     // Setup the MongoDB client object with the information we set earlier
-    MongoClient mongoClient = MongoClients.create(
-      MongoClientSettings.builder()
-      .applyToClusterSettings(builder ->
-        builder.hosts(Arrays.asList(new ServerAddress(mongoAddr))))
-      .build());
+    MongoClient mongoClient
+      = MongoClients.create(MongoClientSettings
+        .builder()
+        .applyToClusterSettings(builder -> builder.hosts(Arrays.asList(new ServerAddress(mongoAddr))))
+        .build());
 
     // Get the database
-    database = mongoClient.getDatabase(databaseName);
+    MongoDatabase database = mongoClient.getDatabase(databaseName);
 
     // Initialize dependencies
     UserController userController = new UserController(database);
-    //UserRequestHandler userRequestHandler = new UserRequestHandler(userController);
 
-    Javalin server = Javalin.create().start(4567);
+    Javalin server = Javalin.create(config -> {
+      config.registerPlugin(new RouteOverviewPlugin("/api"));
+    });
+    /*
+     * We want to shut the `mongoClient` down if the server either
+     * fails to start, or when it's shutting down for whatever reason.
+     * Since the mongClient needs to be available throughout the
+     * life of the server, the only way to do this is to wait for
+     * these events and close it then.
+     */
+    server.events(event -> {
+      event.serverStartFailed(mongoClient::close);
+      event.serverStopped(mongoClient::close);
+    });
+    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+      server.stop();
+    }));
 
-    // Simple example route
-    server.get("hello", ctx -> ctx.result("Hello World"));
-
-    // Utility routes
-    server.get("api", ctx -> ctx.result(appName));
-
-    // Get specific user
-    server.get("api/users/:id", userController::getUser);
-
-    server.delete("api/users/:id", userController::deleteUser);
+    server.start(4567);
 
     // List users, filtered using query parameters
-    server.get("api/users", userController::getUsers);
+    server.get("/api/users", userController::getUsers);
 
-    // Add new user
-    server.post("api/users/new", userController::addNewUser);
+    // Get the specified user
+    server.get("/api/users/:id", userController::getUser);
 
+    // Delete the specified user
+    server.delete("/api/users/:id", userController::deleteUser);
 
+    // Add new user with the user info being in the JSON body
+    // of the HTTP request
+    server.post("/api/users/new", userController::addNewUser);
 
     server.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);

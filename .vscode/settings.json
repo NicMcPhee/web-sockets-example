@@ -1,5 +1,6 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
+    "java.server.launchMode": "Standard",
     "eslint.workingDirectories": [ "./client" ],
     "eslint.validate": [
       "javascript",
@@ -7,7 +8,9 @@
       "html"
     ],
     "cSpell.words": [
+        "Bson",
         "CSCI",
+        "Javalin",
         "sidenav",
         "todos"
     ],
