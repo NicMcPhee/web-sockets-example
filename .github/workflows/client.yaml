@@ -2,6 +2,10 @@ name: Client
 
 on: [push]
 
+defaults:
+  run:
+    working-directory: ./client
+
 jobs:
   ng-test:
     runs-on: ubuntu-latest
@@ -25,11 +29,9 @@ jobs:
 
     - name: Install dependencies (npm ci)
       run: npm ci
-      working-directory: ./client
 
     - name: Test (npm run test)
       run: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
-      working-directory: ./client
 
   ng-lint:
     runs-on: ubuntu-latest
@@ -53,8 +55,6 @@ jobs:
 
     - name: Install dependencies (npm ci)
       run: npm ci
-      working-directory: ./client
 
     - name: Lint (npm run lint)
       run: npm run lint
-      working-directory: ./client
