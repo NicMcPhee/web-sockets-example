@@ -13,32 +13,27 @@ export class AddUserPage {
     return cy.get('[data-test=confirmAddUserButton]');
   }
 
-  typeInput(inputId: string, text: string, clear = true) {
-    const input = cy.get(`#${inputId}`).click();
+  typeInput(input: Cypress.Chainable, text: string, clear = true) {
     if(clear) {
       input.clear();
     }
-    input.type(text);
+    return input.type(text);
   }
 
-  selectMatSelectValue(selectID: string, value: string) {
-    const sel = cy.get(`#${selectID}`).click().get(`mat-option[value="${value}"]`).click();
+  selectMatSelectValue(select: Cypress.Chainable, value: string) {
+    return select.click().get(`mat-option[value="${value}"]`).click();
   }
 
   addUser(newUser: User) {
-    this.typeInput('nameField', newUser.name);
-    this.typeInput('ageField', newUser.age.toString());
+    this.typeInput(cy.get('#nameField'), newUser.name);
+    this.typeInput(cy.get('#ageField'), newUser.age.toString());
     if (newUser.company) {
-      this.typeInput('companyField', newUser.company);
+      this.typeInput(cy.get('#companyField'), newUser.company);
     }
     if (newUser.email) {
-      this.typeInput('emailField', newUser.email);
+      this.typeInput(cy.get('#emailField'), newUser.email);
     }
-    this.selectMatSelectValue('roleField', newUser.role);
+    this.selectMatSelectValue(cy.get('#roleField'), newUser.role);
     return this.addUserButton().click();
-  }
-
-  checkSnackbar(newUserName: string) {
-    cy.get('.mat-simple-snackbar').invoke('text').should('eq', `Added User ${newUserName}`);
   }
 }

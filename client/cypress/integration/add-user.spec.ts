@@ -20,13 +20,13 @@ describe('Add user', () => {
   it('Should enable and disable the add user button', () => {
     // ADD USER button should be disabled until...
     page.addUserButton().should('be.disabled');
-    page.typeInput('nameField', 'test');
+    page.typeInput(cy.get('#nameField'), 'test');
     page.addUserButton().should('be.disabled');
-    page.typeInput('ageField', '20');
+    page.typeInput(cy.get('#ageField'), '20');
     page.addUserButton().should('be.disabled');
-    page.typeInput('emailField', 'invalid');
+    page.typeInput(cy.get('#emailField'), 'invalid');
     page.addUserButton().should('be.disabled');
-    page.typeInput('emailField', 'user@example.com');
+    page.typeInput(cy.get('#emailField'), 'user@example.com');
     // all the required fields have valid input, then it should be enabled
     page.addUserButton().should('be.enabled');
   });
@@ -59,7 +59,7 @@ describe('Add user', () => {
       cy.get('.user-card-age').should('have.text', user.age);
       cy.get('.user-card-email').should('have.text', user.email);
 
-      page.checkSnackbar(user.name);
+      cy.get('.mat-simple-snackbar').should('have.text', `Added User ${user.name}`);
     });
   });
 
