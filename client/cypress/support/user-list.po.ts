@@ -1,4 +1,4 @@
-import { UserRole } from "src/app/users/user";
+import { UserRole } from 'src/app/users/user';
 
 export class UserListPage {
   navigateTo() {
