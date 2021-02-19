@@ -1,7 +1,10 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
+    "java.server.launchMode": "Standard",
     "cSpell.words": [
+        "Bson",
         "CSCI",
+        "Javalin",
         "sidenav",
         "todos"
     ]

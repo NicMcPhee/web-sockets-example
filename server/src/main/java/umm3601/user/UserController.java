@@ -9,18 +9,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.ImmutableMap;
-import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Sorts;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
-import org.mongojack.JacksonCodecRegistry;
+import org.mongojack.JacksonMongoCollection;
 
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
@@ -31,11 +29,13 @@ import io.javalin.http.NotFoundResponse;
  */
 public class UserController {
 
+  private static final String AGE_KEY = "age";
+  private static final String COMPANY_KEY = "company";
+  private static final String ROLE_KEY = "role";
+
   static String emailRegex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 
-  JacksonCodecRegistry jacksonCodecRegistry = JacksonCodecRegistry.withDefaultObjectMapper();
-
-  private final MongoCollection<User> userCollection;
+  private final JacksonMongoCollection<User> userCollection;
 
   /**
    * Construct a controller for users.
@@ -43,9 +43,7 @@ public class UserController {
    * @param database the database containing user data
    */
   public UserController(MongoDatabase database) {
-    jacksonCodecRegistry.addCodecForClass(User.class);
-    userCollection = database.getCollection("users").withDocumentClass(User.class)
-        .withCodecRegistry(jacksonCodecRegistry);
+    userCollection = JacksonMongoCollection.builder().build(database, "users", User.class);
   }
 
   /**
@@ -86,19 +84,19 @@ public class UserController {
    */
   public void getUsers(Context ctx) {
 
-    List<Bson> filters = new ArrayList<Bson>(); // start with a blank document
+    List<Bson> filters = new ArrayList<>(); // start with a blank document
 
-    if (ctx.queryParamMap().containsKey("age")) {
-        int targetAge = ctx.queryParam("age", Integer.class).get();
-        filters.add(eq("age", targetAge));
+    if (ctx.queryParamMap().containsKey(AGE_KEY)) {
+        int targetAge = ctx.queryParam(AGE_KEY, Integer.class).get();
+        filters.add(eq(AGE_KEY, targetAge));
     }
 
-    if (ctx.queryParamMap().containsKey("company")) {
-      filters.add(regex("company", Pattern.quote(ctx.queryParam("company")), "i"));
+    if (ctx.queryParamMap().containsKey(COMPANY_KEY)) {
+      filters.add(regex(COMPANY_KEY,  Pattern.quote(ctx.queryParam(COMPANY_KEY)), "i"));
     }
 
-    if (ctx.queryParamMap().containsKey("role")) {
-      filters.add(eq("role", ctx.queryParam("role")));
+    if (ctx.queryParamMap().containsKey(ROLE_KEY)) {
+      filters.add(eq(ROLE_KEY, ctx.queryParam(ROLE_KEY)));
     }
 
     String sortBy = ctx.queryParam("sortby", "name"); //Sort by sort query param, default is name
@@ -116,11 +114,11 @@ public class UserController {
    */
   public void addNewUser(Context ctx) {
     User newUser = ctx.bodyValidator(User.class)
-      .check((usr) -> usr.name != null && usr.name.length() > 0) //Verify that the user has a name that is not blank
-      .check((usr) -> usr.email.matches(emailRegex)) // Verify that the provided email is a valid email
-      .check((usr) -> usr.age > 0) // Verify that the provided age is > 0
-      .check((usr) -> usr.role.matches("^(admin|editor|viewer)$")) // Verify that the role is one of the valid roles
-      .check((usr) -> usr.company != null && usr.company.length() > 0) // Verify that the user has a company that is not blank
+      .check(usr -> usr.name != null && usr.name.length() > 0) //Verify that the user has a name that is not blank
+      .check(usr -> usr.email.matches(emailRegex)) // Verify that the provided email is a valid email
+      .check(usr -> usr.age > 0) // Verify that the provided age is > 0
+      .check(usr -> usr.role.matches("^(admin|editor|viewer)$")) // Verify that the role is one of the valid roles
+      .check(usr -> usr.company != null && usr.company.length() > 0) // Verify that the user has a company that is not blank
       .get();
 
     // Generate user avatar (you won't need this part for todos)
@@ -145,10 +143,10 @@ public class UserController {
     MessageDigest md = MessageDigest.getInstance("MD5");
     byte[] hashInBytes = md.digest(str.toLowerCase().getBytes(StandardCharsets.UTF_8));
 
-    String result = "";
+    StringBuilder result = new StringBuilder();
     for (byte b : hashInBytes) {
-      result += String.format("%02x", b);
+      result.append(String.format("%02x", b));
     }
-    return result;
+    return result.toString();
   }
 }
