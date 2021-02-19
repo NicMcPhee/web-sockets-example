@@ -72,7 +72,7 @@ export class AddUserComponent implements OnInit {
       // Since this is for a company, we need workers to be old enough to work, and probably not older than 200.
       age: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('^[0-9]+[0-9]?'),
+        Validators.pattern('^[0-9]+$'),
         Validators.min(15),
         Validators.max(200),
       ])),
