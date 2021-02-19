@@ -3,7 +3,7 @@
   "fileServerFolder": ".",
   "fixturesFolder": "cypress/fixtures",
   "integrationFolder": "cypress/integration",
-  "pluginsFile": "cypress/plugins/index",
+  "pluginsFile": "cypress/plugins/index.ts",
   "supportFile": false,
   "video": true,
   "videosFolder": "cypress/videos",

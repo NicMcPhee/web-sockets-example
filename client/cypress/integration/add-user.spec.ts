@@ -8,6 +8,11 @@ describe('Add user', () => {
     page.navigateTo();
   });
 
+  after(() => {
+    // Lets put the db back to its original state before we leave.
+    //cy.task('seed:database');
+  });
+
   it('Should have the correct title', () => {
     page.getTitle().should('have.text', 'New User');
   });
@@ -26,28 +31,35 @@ describe('Add user', () => {
     page.addUserButton().should('be.enabled');
   });
 
-  it('Should add a new user, go to the right page, and have the right info', () => {
+  describe('Adding a new user', () => {
+
     const user: TestUser = {
-      name: E2EUtil.randomText(10),
+      name: 'Test User',
       age: '30',
-      company: E2EUtil.randomText(10),
-      email: E2EUtil.randomText(5) + '@example.com',
+      company: 'Test Company',
+      email: 'test@example.com',
       role: 'editor'
     };
 
-    page.addUser(user);
+    beforeEach(() => {
+      cy.task('seed:database');
+    });
 
-    cy.url()
-      .should('match', /.*\/users\/[0-9a-fA-F]{24}$/)
-      .should('not.match', /.*\/users\/new$/);
+    it('Should go to the right page, and have the right info', () => {
+      page.addUser(user);
 
-    cy.get('.user-card-name').should('have.text', user.name);
-    cy.get('.user-card-company').should('have.text', user.company);
-    cy.get('.user-card-role').should('have.text', user.role);
-    cy.get('.user-card-age').should('have.text', user.age);
-    cy.get('.user-card-email').should('have.text', user.email);
+      cy.url()
+        .should('match', /.*\/users\/[0-9a-fA-F]{24}$/)
+        .should('not.match', /.*\/users\/new$/);
 
-    page.checkSnackbar(user.name);
+      cy.get('.user-card-name').should('have.text', user.name);
+      cy.get('.user-card-company').should('have.text', user.company);
+      cy.get('.user-card-role').should('have.text', user.role);
+      cy.get('.user-card-age').should('have.text', user.age);
+      cy.get('.user-card-email').should('have.text', user.email);
+
+      page.checkSnackbar(user.name);
+    });
   });
 
 });

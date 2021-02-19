@@ -4,12 +4,18 @@ const page = new UserListPage();
 
 describe('User list', () => {
 
+  before(() => {
+    cy.task('seed:database');
+  });
+
   beforeEach(() => {
     page.navigateTo();
   });
 
-  it('Should have the correct title', () => {
-    page.getUserTitle().should('have.text', 'Users');
+  it('Should show 10 users in both card and list view', () => {
+    page.getUserCards().should('have.length', 10);
+    page.changeView('list');
+    page.getUserListItems().should('have.length', 10);
   });
 
   it('Should type something in the name filter and check that it returned correct elements', () => {
@@ -31,6 +37,8 @@ describe('User list', () => {
     // Filter for company 'OHMNET'
     cy.get('#user-company-input').type('OHMNET');
 
+    page.getUserCards().should('have.lengthOf.above', 0);
+
     // All of the user cards should have the company we are filtering by
     page.getUserCards().find('.user-card-company').each($card => {
       cy.wrap($card).should('have.text', 'OHMNET');
@@ -40,6 +48,8 @@ describe('User list', () => {
   it('Should type something partial in the company filter and check that it returned correct elements', () => {
     // Filter for companies that contain 'ti'
     cy.get('#user-company-input').type('ti');
+
+    page.getUserCards().should('have.lengthOf.above', 0);
 
     // Go through each of the cards that are being shown and get the companies
     page.getUserCards().find('.user-card-company')
@@ -54,6 +64,8 @@ describe('User list', () => {
   it('Should type something in the age filter and check that it returned correct elements', () => {
     // Filter for users of age '27'
     cy.get('#user-age-input').type('27');
+
+    page.getUserCards().should('have.lengthOf.above', 0);
 
     // Go through each of the cards that are being shown and get the names
     page.getUserCards().find('.user-card-name')
@@ -92,7 +104,7 @@ describe('User list', () => {
     page.changeView('list');
 
     // Some of the users should be listed
-    page.getUserListItems().should('exist');
+    page.getUserListItems().should('have.lengthOf.above', 0);
 
     // All of the user list items that show should have the role we are looking for
     page.getUserListItems().each(e => {
