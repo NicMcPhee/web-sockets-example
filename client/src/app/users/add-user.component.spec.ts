@@ -101,12 +101,6 @@ describe('AddUserComponent', () => {
       expect(nameControl.hasError('maxlength')).toBeTruthy();
     });
 
-    it('should not allow a name to contain a symbol', () => {
-      nameControl.setValue('bad@email.com');
-      expect(nameControl.valid).toBeFalsy();
-      expect(nameControl.hasError('pattern')).toBeTruthy();
-    });
-
     it('should allow digits in the name', () => {
       nameControl.setValue('Bad2Th3B0ne');
       expect(nameControl.valid).toBeTruthy();

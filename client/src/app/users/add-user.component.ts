@@ -23,7 +23,6 @@ export class AddUserComponent implements OnInit {
       {type: 'required', message: 'Name is required'},
       {type: 'minlength', message: 'Name must be at least 2 characters long'},
       {type: 'maxlength', message: 'Name cannot be more than 50 characters long'},
-      {type: 'pattern', message: 'Name must contain only numbers and letters'},
       {type: 'existingName', message: 'Name has already been taken'}
     ],
 
@@ -61,7 +60,6 @@ export class AddUserComponent implements OnInit {
         // very long names. This demonstrates that it's possible, though,
         // to have maximum length limits.
         Validators.maxLength(50),
-        Validators.pattern('^[A-Za-z0-9\\s]+[A-Za-z0-9\\s]+$(\\.0-9+)?'),
         (fc) => {
           if (fc.value.toLowerCase() === 'abc123' || fc.value.toLowerCase() === '123abc') {
             return ({existingName: true});
