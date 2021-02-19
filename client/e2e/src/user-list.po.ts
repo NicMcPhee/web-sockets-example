@@ -36,7 +36,7 @@ export class UserPage {
   }
 
   clickViewProfile(card: ElementFinder) {
-    return card.element(by.buttonText('VIEW PROFILE')).click();
+    return card.element(by.buttonText('View Profile')).click();
   }
 
   changeView(viewType: 'card' | 'list') {

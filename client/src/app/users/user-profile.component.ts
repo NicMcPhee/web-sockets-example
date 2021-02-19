@@ -11,11 +11,11 @@ import { Subscription } from 'rxjs';
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
 
-  constructor(private route: ActivatedRoute, private userService: UserService) { }
-
   user: User;
   id: string;
   getUserSub: Subscription;
+
+  constructor(private route: ActivatedRoute, private userService: UserService) { }
 
   ngOnInit(): void {
     // We subscribe to the parameter map here so we'll be notified whenever
