@@ -19,8 +19,11 @@ export class AddUserPage {
     return cy.contains('button', 'ADD USER');
   }
 
-  typeInput(inputId: string, text: string) {
+  typeInput(inputId: string, text: string, clear = true) {
     const input = cy.get(`#${inputId}`).click();
+    if(clear) {
+      input.clear();
+    }
     input.type(text);
   }
 
