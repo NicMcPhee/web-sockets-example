@@ -133,7 +133,7 @@ describe('User list', () => {
 
   it('Should click add user and go to the right URL', () => {
     // Click on the button for adding a new user
-    page.addUserFAB().click();
+    page.addUserButton().click();
 
     // The URL contains and ends with '/users/new'
     cy.url()

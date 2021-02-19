@@ -45,7 +45,7 @@ export class UserListPage {
     return cy.get('[data-test=userRoleSelect]').click().get(`mat-option[value="${value}"]`).click();
   }
 
-  addUserFAB() {
+  addUserButton() {
     return cy.get('[data-test=addUserButton]');
   }
 }
