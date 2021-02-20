@@ -17,7 +17,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableMap;
 import com.mockrunner.mock.web.MockHttpServletRequest;
 import com.mockrunner.mock.web.MockHttpServletResponse;
-import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
@@ -109,8 +108,9 @@ public class UserControllerSpec {
         .append("avatar", "https://gravatar.com/avatar/d4a6c71dd9470ad4cf58f78c100258bf?d=identicon"));
 
     samsId = new ObjectId();
-    BasicDBObject sam =
-      new BasicDBObject("_id", samsId)
+    Document sam =
+      new Document()
+        .append("_id", samsId)
         .append("name", "Sam")
         .append("age", 45)
         .append("company", "OHMNET")
@@ -120,7 +120,7 @@ public class UserControllerSpec {
 
 
     userDocuments.insertMany(testUsers);
-    userDocuments.insertOne(Document.parse(sam.toJson()));
+    userDocuments.insertOne(sam);
 
     userController = new UserController(db);
   }
