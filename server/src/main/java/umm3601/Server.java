@@ -68,7 +68,7 @@ public class Server {
 
     // Add new user with the user info being in the JSON body
     // of the HTTP request
-    server.post("/api/users/new", userController::addNewUser);
+    server.post("/api/users", userController::addNewUser);
 
     server.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);

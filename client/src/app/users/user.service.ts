@@ -57,6 +57,6 @@ export class UserService {
 
   addUser(newUser: User): Observable<string> {
     // Send post request to add a new user with the user data as the body.
-    return this.httpClient.post<{id: string}>(this.userUrl + '/new', newUser).pipe(map(res => res.id));
+    return this.httpClient.post<{id: string}>(this.userUrl, newUser).pipe(map(res => res.id));
   }
 }

@@ -175,13 +175,13 @@ describe('User service: ', () => {
     expect(userService.filterUsers(testUsers, { name: userName, company: userCompany }).length).toBe(1);
   });
 
-  it('addUser() calls api/users/new', () => {
+  it('addUser() posts to api/users', () => {
 
     userService.addUser(testUsers[1]).subscribe(
       id => expect(id).toBe('testid')
     );
 
-    const req = httpTestingController.expectOne(userService.userUrl + '/new');
+    const req = httpTestingController.expectOne(userService.userUrl);
 
     expect(req.request.method).toEqual('POST');
     expect(req.request.body).toEqual(testUsers[1]);
