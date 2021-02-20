@@ -17,10 +17,6 @@ jobs:
     - name: Checkout the repository
       uses: actions/checkout@v2
 
-    - name: Seed database
-      run: ./mongoseed.sh
-      working-directory: ./database
-
     - name: Cache node modules
       uses: actions/cache@v2
       with:
