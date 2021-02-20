@@ -68,24 +68,24 @@ public class MongoSpec {
     userDocuments = db.getCollection("users");
     userDocuments.drop();
     List<Document> testUsers = new ArrayList<>();
-    testUsers.add(Document.parse("{\n" +
-      "                    name: \"Chris\",\n" +
-      "                    age: 25,\n" +
-      "                    company: \"UMM\",\n" +
-      "                    email: \"chris@this.that\"\n" +
-      "                }"));
-    testUsers.add(Document.parse("{\n" +
-      "                    name: \"Pat\",\n" +
-      "                    age: 37,\n" +
-      "                    company: \"IBM\",\n" +
-      "                    email: \"pat@something.com\"\n" +
-      "                }"));
-    testUsers.add(Document.parse("{\n" +
-      "                    name: \"Jamie\",\n" +
-      "                    age: 37,\n" +
-      "                    company: \"Frogs, Inc.\",\n" +
-      "                    email: \"jamie@frogs.com\"\n" +
-      "                }"));
+    testUsers.add(Document.parse("{"
+      + "name: \"Chris\","
+      + "age: 25,"
+      + "company: \"UMM\","
+      + "email: \"chris@this.that\""
+      + "}"));
+    testUsers.add(Document.parse("{"
+      + "name: \"Pat\","
+      + "age: 37,"
+      + "company: \"IBM\","
+      + "email: \"pat@something.com\""
+      + "}"));
+    testUsers.add(Document.parse("{"
+      + "name: \"Jamie\","
+      + "age: 37,"
+      + "company: \"Frogs, Inc.\","
+      + "email: \"jamie@frogs.com\""
+      + "}"));
     userDocuments.insertMany(testUsers);
   }
 

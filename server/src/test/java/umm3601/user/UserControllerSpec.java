@@ -83,30 +83,30 @@ public class UserControllerSpec {
     MongoCollection<Document> userDocuments = db.getCollection("users");
     userDocuments.drop();
     List<Document> testUsers = new ArrayList<>();
-    testUsers.add(Document.parse("{\n" +
-    "                    name: \"Chris\",\n" +
-    "                    age: 25,\n" +
-    "                    company: \"UMM\",\n" +
-    "                    email: \"chris@this.that\",\n" +
-    "                    role: \"admin\",\n" +
-    "                    avatar: \"https://gravatar.com/avatar/8c9616d6cc5de638ea6920fb5d65fc6c?d=identicon\"\n" +
-    "                }"));
-    testUsers.add(Document.parse("{\n" +
-    "                    name: \"Pat\",\n" +
-    "                    age: 37,\n" +
-    "                    company: \"IBM\",\n" +
-    "                    email: \"pat@something.com\",\n" +
-    "                    role: \"editor\",\n" +
-    "                    avatar: \"https://gravatar.com/avatar/b42a11826c3bde672bce7e06ad729d44?d=identicon\"\n" +
-    "                }"));
-    testUsers.add(Document.parse("{\n" +
-    "                    name: \"Jamie\",\n" +
-    "                    age: 37,\n" +
-    "                    company: \"OHMNET\",\n" +
-    "                    email: \"jamie@frogs.com\",\n" +
-    "                    role: \"viewer\",\n" +
-    "                    avatar: \"https://gravatar.com/avatar/d4a6c71dd9470ad4cf58f78c100258bf?d=identicon\"\n" +
-    "                }"));
+    testUsers.add(Document.parse("{"
+      + "age: 25,"
+      + "name: \"Chris\","
+      + "company: \"UMM\","
+      + "email: \"chris@this.that\","
+      + "role: \"admin\","
+      + "avatar: \"https://gravatar.com/avatar/8c9616d6cc5de638ea6920fb5d65fc6c?d=identicon\""
+      + "}"));
+    testUsers.add(Document.parse("{"
+      + "name: \"Pat\","
+      + "age: 37,"
+      + "company: \"IBM\","
+      + "email: \"pat@something.com\","
+      + "role: \"editor\","
+      + "avatar: \"https://gravatar.com/avatar/b42a11826c3bde672bce7e06ad729d44?d=identicon\""
+      + "}"));
+    testUsers.add(Document.parse("{"
+      + "name: \"Jamie\","
+      + "age: 37,"
+      + "company: \"OHMNET\","
+      + "email: \"jamie@frogs.com\","
+      + "role: \"viewer\","
+      + "avatar: \"https://gravatar.com/avatar/d4a6c71dd9470ad4cf58f78c100258bf?d=identicon\""
+      + "}"));
 
     samsId = new ObjectId();
     BasicDBObject sam = new BasicDBObject("_id", samsId);
@@ -229,9 +229,9 @@ public class UserControllerSpec {
 
     assertEquals(1, resultUsers.length); // There should be one user returned
     for (User user : resultUsers) {
-       assertEquals("OHMNET", user.company);
-       assertEquals(37, user.age);
-     }
+      assertEquals("OHMNET", user.company);
+      assertEquals(37, user.age);
+    }
   }
 
   @Test
@@ -274,7 +274,13 @@ public class UserControllerSpec {
   @Test
   public void AddUser() throws IOException {
 
-    String testNewUser = "{\n\t\"name\": \"Test User\",\n\t\"age\":25,\n\t\"company\": \"testers\",\n\t\"email\": \"test@example.com\",\n\t\"role\": \"viewer\"\n}";
+    String testNewUser = "{"
+      + "\"name\": \"Test User\","
+      + "\"age\": 25,"
+      + "\"company\": \"testers\","
+      + "\"email\": \"test@example.com\","
+      + "\"role\": \"viewer\""
+      + "}";
 
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
@@ -305,7 +311,13 @@ public class UserControllerSpec {
 
   @Test
   public void AddInvalidEmailUser() throws IOException {
-    String testNewUser = "{\n\t\"name\": \"Test User\",\n\t\"age\":25,\n\t\"company\": \"testers\",\n\t\"email\": \"invalidemail\",\n\t\"role\": \"viewer\"\n}";
+    String testNewUser = "{"
+      + "\"name\": \"Test User\","
+      + "\"age\": 25,"
+      + "\"company\": \"testers\","
+      + "\"email\": \"invalidemail\","
+      + "\"role\": \"viewer\""
+      + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
     Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
@@ -317,7 +329,13 @@ public class UserControllerSpec {
 
   @Test
   public void AddInvalidAgeUser() throws IOException {
-    String testNewUser = "{\n\t\"name\": \"Test User\",\n\t\"age\":\"notanumber\",\n\t\"company\": \"testers\",\n\t\"email\": \"test@example.com\",\n\t\"role\": \"viewer\"\n}";
+    String testNewUser = "{"
+      + "\"name\": \"Test User\","
+      + "\"age\": \"notanumber\","
+      + "\"company\": \"testers\","
+      + "\"email\": \"test@example.com\","
+      + "\"role\": \"viewer\""
+      + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
     Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
@@ -329,7 +347,12 @@ public class UserControllerSpec {
 
   @Test
   public void AddInvalidNameUser() throws IOException {
-    String testNewUser = "{\n\t\"age\":25,\n\t\"company\": \"testers\",\n\t\"email\": \"test@example.com\",\n\t\"role\": \"viewer\"\n}";
+    String testNewUser = "{"
+      + "\"age\": 25,"
+      + "\"company\": \"testers\","
+      + "\"email\": \"test@example.com\","
+      + "\"role\": \"viewer\""
+      + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
     Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
@@ -341,7 +364,13 @@ public class UserControllerSpec {
 
   @Test
   public void AddInvalidRoleUser() throws IOException {
-    String testNewUser = "{\n\t\"name\": \"Test User\",\n\t\"age\":25,\n\t\"company\": \"testers\",\n\t\"email\": \"test@example.com\",\n\t\"role\": \"invalidrole\"\n}";
+    String testNewUser = "{"
+      + "\"name\": \"Test User\","
+      + "\"age\": 25,"
+      + "\"company\": \"testers\","
+      + "\"email\": \"test@example.com\","
+      + "\"role\": \"invalidrole\""
+      + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
     Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
