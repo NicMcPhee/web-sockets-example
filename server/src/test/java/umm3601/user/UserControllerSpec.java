@@ -83,39 +83,40 @@ public class UserControllerSpec {
     MongoCollection<Document> userDocuments = db.getCollection("users");
     userDocuments.drop();
     List<Document> testUsers = new ArrayList<>();
-    testUsers.add(Document.parse("{"
-      + "name: \"Chris\","
-      + "age: 25,"
-      + "company: \"UMM\","
-      + "email: \"chris@this.that\","
-      + "role: \"admin\","
-      + "avatar: \"https://gravatar.com/avatar/8c9616d6cc5de638ea6920fb5d65fc6c?d=identicon\""
-      + "}"));
-    testUsers.add(Document.parse("{"
-      + "name: \"Pat\","
-      + "age: 37,"
-      + "company: \"IBM\","
-      + "email: \"pat@something.com\","
-      + "role: \"editor\","
-      + "avatar: \"https://gravatar.com/avatar/b42a11826c3bde672bce7e06ad729d44?d=identicon\""
-      + "}"));
-    testUsers.add(Document.parse("{"
-      + "name: \"Jamie\","
-      + "age: 37,"
-      + "company: \"OHMNET\","
-      + "email: \"jamie@frogs.com\","
-      + "role: \"viewer\","
-      + "avatar: \"https://gravatar.com/avatar/d4a6c71dd9470ad4cf58f78c100258bf?d=identicon\""
-      + "}"));
+    testUsers.add(
+      new Document()
+        .append("name", "Chris")
+        .append("age", 25)
+        .append("company", "UMM")
+        .append("email", "chris@this.that")
+        .append("role", "admin")
+        .append("avatar", "https://gravatar.com/avatar/8c9616d6cc5de638ea6920fb5d65fc6c?d=identicon"));
+    testUsers.add(
+      new Document()
+        .append("name", "Pat")
+        .append("age", 37)
+        .append("company", "IBM")
+        .append("email", "pat@something.com")
+        .append("role", "editor")
+        .append("avatar", "https://gravatar.com/avatar/b42a11826c3bde672bce7e06ad729d44?d=identicon"));
+    testUsers.add(
+      new Document()
+        .append("name", "Jamie")
+        .append("age", 37)
+        .append("company", "OHMNET")
+        .append("email", "jamie@frogs.com")
+        .append("role", "viewer")
+        .append("avatar", "https://gravatar.com/avatar/d4a6c71dd9470ad4cf58f78c100258bf?d=identicon"));
 
     samsId = new ObjectId();
-    BasicDBObject sam = new BasicDBObject("_id", samsId);
-    sam = sam.append("name", "Sam")
-      .append("age", 45)
-      .append("company", "OHMNET")
-      .append("email", "sam@frogs.com")
-      .append("role", "viewer")
-      .append("avatar", "https://gravatar.com/avatar/08b7610b558a4cbbd20ae99072801f4d?d=identicon");
+    BasicDBObject sam =
+      new BasicDBObject("_id", samsId)
+        .append("name", "Sam")
+        .append("age", 45)
+        .append("company", "OHMNET")
+        .append("email", "sam@frogs.com")
+        .append("role", "viewer")
+        .append("avatar", "https://gravatar.com/avatar/08b7610b558a4cbbd20ae99072801f4d?d=identicon");
 
 
     userDocuments.insertMany(testUsers);
