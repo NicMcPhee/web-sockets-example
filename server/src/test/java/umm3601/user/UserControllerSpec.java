@@ -84,8 +84,8 @@ public class UserControllerSpec {
     userDocuments.drop();
     List<Document> testUsers = new ArrayList<>();
     testUsers.add(Document.parse("{"
-      + "age: 25,"
       + "name: \"Chris\","
+      + "age: 25,"
       + "company: \"UMM\","
       + "email: \"chris@this.that\","
       + "role: \"admin\","
