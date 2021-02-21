@@ -117,66 +117,76 @@ describe('AddUserComponent', () => {
   });
 
   describe('The age field', () => {
-    let ageControl: AbstractControl;
-
-    beforeEach(() => {
-      ageControl = addUserComponent.addUserForm.controls.age;
-    });
-
-    it('should not allow empty ages', () => {
-      ageControl.setValue('');
-      expect(ageControl.valid).toBeFalsy();
-    });
-
-    describe('should be fine with "27"', () => {
-      // Both the form control and the HTML itself enforce certain constraints
-      // on what we can put in the age field. The HTML makes sure that the
-      // value is numeric, and the form control makes sure that it's in the
-      // right range.
-      it('...the form control', () => {
-        ageControl.setValue('27');
-        expect(ageControl.valid).toBeTruthy();
+    // Both the form control and the HTML itself enforce certain constraints
+    // on what we can put in the age field. The HTML makes sure that the
+    // value is numeric, and the form control makes sure that it's in the
+    // right range.
+    describe('The HTML element', () => {
+      it('should not allow empty ages', () => {
+        const ageHtmlInput =
+          document.getElementsByTagName('input').namedItem('ageField');
+        ageHtmlInput.value = '';
+        expect(ageHtmlInput.validity.valid).toBeFalsy();
+        expect(ageHtmlInput.validity.valueMissing).toBeTruthy();
       });
 
-      it('...and the input field itself', () => {
+      it('should be fine with "27"', () => {
         const ageHtmlInput =
           document.getElementsByTagName('input').namedItem('ageField');
         ageHtmlInput.value = '27';
         expect(ageHtmlInput.validity.valid).toBeTruthy();
       });
+
+      it('should not allow an age to be non-numeric', () => {
+        // The HTML input field itself checks to make sure that the value is
+        // numeric. Angular's form controls aren't even involved with this step.
+        const ageHtmlInput =
+          document.getElementsByTagName('input').namedItem('ageField');
+        ageHtmlInput.value = '27aa';
+        expect(ageHtmlInput.validity.valid).toBeFalsy();
+        expect(ageHtmlInput.validity.valueMissing).toBeTruthy();
+      });
     });
 
-    it('should fail on ages that are too low', () => {
-      ageControl.setValue('14');
-      expect(ageControl.valid).toBeFalsy();
-      expect(ageControl.hasError('min')).toBeTruthy();
-    });
+    describe('The Angular form control', () => {
+      let ageControl: AbstractControl;
 
-    // In the real world, you'd want to be pretty careful about
-    // setting upper limits on things like ages.
-    it('should fail on ages that are too high', () => {
-      ageControl.setValue(201);
-      expect(ageControl.valid).toBeFalsy();
-      // I have no idea why I have to use a lower case 'l' here
-      // when it's an upper case 'L' in `Validators.maxLength(2)`.
-      // But I apparently do.
-      expect(ageControl.hasError('max')).toBeTruthy();
-    });
+      beforeEach(() => {
+        ageControl = addUserComponent.addUserForm.controls.age;
+      });
 
-    it('should not allow an age to be non-numeric', () => {
-      // The HTML input field itself checks to make sure that the value is
-      // numeric. Angular's form controls aren't even involved with this step.
-      const ageHtmlInput =
-        document.getElementsByTagName('input').namedItem('ageField');
-      ageHtmlInput.value = '27aa';
-      expect(ageHtmlInput.validity.valid).toBeFalsy();
-      expect(ageHtmlInput.validity.valueMissing).toBeTruthy();
-    });
+      it('should not allow empty ages', () => {
+        ageControl.setValue('');
+        expect(ageControl.valid).toBeFalsy();
+      });
 
-    it('should not allow an age to contain a decimal point', () => {
-      ageControl.setValue(27.5);
-      expect(ageControl.valid).toBeFalsy();
-      expect(ageControl.hasError('pattern')).toBeTruthy();
+      it('should be fine with "27"', () => {
+        ageControl.setValue('27');
+        expect(ageControl.valid).toBeTruthy();
+      });
+
+      it('should fail on ages that are too low', () => {
+        ageControl.setValue('14');
+        expect(ageControl.valid).toBeFalsy();
+        expect(ageControl.hasError('min')).toBeTruthy();
+      });
+
+      // In the real world, you'd want to be pretty careful about
+      // setting upper limits on things like ages.
+      it('should fail on ages that are too high', () => {
+        ageControl.setValue(201);
+        expect(ageControl.valid).toBeFalsy();
+        // I have no idea why I have to use a lower case 'l' here
+        // when it's an upper case 'L' in `Validators.maxLength(2)`.
+        // But I apparently do.
+        expect(ageControl.hasError('max')).toBeTruthy();
+      });
+
+      it('should not allow an age to contain a decimal point', () => {
+        ageControl.setValue(27.5);
+        expect(ageControl.valid).toBeFalsy();
+        expect(ageControl.hasError('pattern')).toBeTruthy();
+      });
     });
   });
 
