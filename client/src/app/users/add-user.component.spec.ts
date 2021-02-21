@@ -133,9 +133,9 @@ describe('AddUserComponent', () => {
 
     describe('should be fine with "27"', () => {
       // Both the form control and the HTML itself enforce certain constraints
-      // what we can put in the age field. The HTML makes sure that the value
-      // is numeric, and the form control makes sure that it's in the right
-      // range.
+      // on what we can put in the age field. The HTML makes sure that the
+      // value is numeric, and the form control makes sure that it's in the
+      // right range.
       it('...the form control', () => {
         ageControl.setValue('27');
         expect(ageControl.valid).toBeTruthy();
