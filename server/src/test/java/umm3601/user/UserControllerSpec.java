@@ -286,7 +286,7 @@ public class UserControllerSpec {
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
 
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
     userController.addNewUser(ctx);
 
@@ -321,7 +321,7 @@ public class UserControllerSpec {
       + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
     assertThrows(BadRequestResponse.class, () -> {
       userController.addNewUser(ctx);
@@ -339,7 +339,7 @@ public class UserControllerSpec {
       + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
     assertThrows(BadRequestResponse.class, () -> {
       userController.addNewUser(ctx);
@@ -356,7 +356,7 @@ public class UserControllerSpec {
       + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
     assertThrows(BadRequestResponse.class, () -> {
       userController.addNewUser(ctx);
@@ -374,7 +374,7 @@ public class UserControllerSpec {
       + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
     assertThrows(BadRequestResponse.class, () -> {
       userController.addNewUser(ctx);
