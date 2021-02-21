@@ -123,7 +123,7 @@ describe('User list', () => {
       // The URL should contain '/users/' (note the ending slash) and '/users/' should be followed by a mongo ID
       cy.url()
         .should('contain', '/users/')
-        .should('match', /.*\/users\/[0-9a-fA-F]{24}$/);
+        .should('match', /\/users\/[0-9a-fA-F]{24}$/);
 
       // On this profile page we were sent to, the name and company should be correct
       cy.get('.user-card-name').first().should('have.text', firstUserName);

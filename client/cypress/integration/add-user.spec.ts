@@ -50,8 +50,8 @@ describe('Add user', () => {
       page.addUser(user);
 
       cy.url()
-        .should('match', /.*\/users\/[0-9a-fA-F]{24}$/)
-        .should('not.match', /.*\/users\/new$/);
+        .should('match', /\/users\/[0-9a-fA-F]{24}$/)
+        .should('not.match', /\/users\/new$/);
 
       cy.get('.user-card-name').should('have.text', user.name);
       cy.get('.user-card-company').should('have.text', user.company);

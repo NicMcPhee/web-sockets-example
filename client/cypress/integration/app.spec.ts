@@ -20,7 +20,7 @@ describe('App', () => {
       .and('be.visible');
 
     page.getNavLink('Users').click();
-    cy.url().should('match', /.*\/users$/);
+    cy.url().should('match', /\/users$/);
     page.getSidenav()
       .should('be.hidden')
       .and('not.be.visible');
