@@ -27,7 +27,7 @@ describe('App', () => {
 
     page.getSidenavButton().click();
     page.getNavLink('Home').click();
-    cy.url().should('match', /.*\/$/);
+    cy.url().should('match', /^https?:\/\/[^\/]+\/?$/);
     page.getSidenav()
       .should('be.hidden')
       .and('not.be.visible');
