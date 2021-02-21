@@ -279,7 +279,7 @@ public class UserControllerSpec {
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
 
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
     userController.addNewUser(ctx);
 
@@ -308,7 +308,7 @@ public class UserControllerSpec {
     String testNewUser = "{\n\t\"name\": \"Test User\",\n\t\"age\":25,\n\t\"company\": \"testers\",\n\t\"email\": \"invalidemail\",\n\t\"role\": \"viewer\"\n}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
     assertThrows(BadRequestResponse.class, () -> {
       userController.addNewUser(ctx);
@@ -320,7 +320,7 @@ public class UserControllerSpec {
     String testNewUser = "{\n\t\"name\": \"Test User\",\n\t\"age\":\"notanumber\",\n\t\"company\": \"testers\",\n\t\"email\": \"test@example.com\",\n\t\"role\": \"viewer\"\n}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
     assertThrows(BadRequestResponse.class, () -> {
       userController.addNewUser(ctx);
@@ -332,7 +332,7 @@ public class UserControllerSpec {
     String testNewUser = "{\n\t\"age\":25,\n\t\"company\": \"testers\",\n\t\"email\": \"test@example.com\",\n\t\"role\": \"viewer\"\n}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
     assertThrows(BadRequestResponse.class, () -> {
       userController.addNewUser(ctx);
@@ -344,7 +344,7 @@ public class UserControllerSpec {
     String testNewUser = "{\n\t\"name\": \"Test User\",\n\t\"age\":25,\n\t\"company\": \"testers\",\n\t\"email\": \"test@example.com\",\n\t\"role\": \"invalidrole\"\n}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/new");
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
     assertThrows(BadRequestResponse.class, () -> {
       userController.addNewUser(ctx);
