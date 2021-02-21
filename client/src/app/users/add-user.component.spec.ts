@@ -171,6 +171,12 @@ describe('AddUserComponent', () => {
         expect(ageControl.hasError('min')).toBeTruthy();
       });
 
+      it('should fail on negative ages', () => {
+        ageControl.setValue('-27');
+        expect(ageControl.valid).toBeFalsy();
+        expect(ageControl.hasError('min')).toBeTruthy();
+      });
+
       // In the real world, you'd want to be pretty careful about
       // setting upper limits on things like ages.
       it('should fail on ages that are too high', () => {
