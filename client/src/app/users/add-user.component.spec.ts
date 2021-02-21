@@ -1,11 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule, NgForm, ReactiveFormsModule, FormGroup, AbstractControl } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormGroup, AbstractControl } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockUserService } from 'src/testing/user.service.mock';
@@ -15,7 +14,6 @@ import { UserService } from './user.service';
 describe('AddUserComponent', () => {
   let addUserComponent: AddUserComponent;
   let addUserForm: FormGroup;
-  let calledClose: boolean;
   let fixture: ComponentFixture<AddUserComponent>;
 
   beforeEach(waitForAsync(() => {
@@ -39,7 +37,6 @@ describe('AddUserComponent', () => {
   }));
 
   beforeEach(() => {
-    calledClose = false;
     fixture = TestBed.createComponent(AddUserComponent);
     addUserComponent = fixture.componentInstance;
     addUserComponent.ngOnInit();
