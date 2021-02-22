@@ -8,11 +8,6 @@ describe('Add user', () => {
     page.navigateTo();
   });
 
-  after(() => {
-    // Lets put the db back to its original state before we leave.
-    //cy.task('seed:database');
-  });
-
   it('Should have the correct title', () => {
     page.getTitle().should('have.text', 'New User');
   });
