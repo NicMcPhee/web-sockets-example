@@ -113,6 +113,9 @@ To recap, **here are the steps needed to _run_ the project**:
 
 We have included the [MongoDB for VS Code](https://marketplace.visualstudio.com/items?itemName=mongodb.mongodb-vscode) in the recommended extensions. This extension allows you to view and edit things in the Mongo database.
 
+<details>
+<summary>Expand for setup instructions</summary>
+
 When installed you will see a new icon in the sidebar, click it and click "Add Connection".
 
 ![Screenshot of the Mongo Extension pane](https://user-images.githubusercontent.com/1300395/109005040-1f174c00-766f-11eb-85fb-0de47b22e4ae.png)
@@ -126,7 +129,11 @@ You can leave all the default settings and click the green "Connect" button to a
 ![image](https://user-images.githubusercontent.com/1300395/109006728-fabc6f00-7670-11eb-9f15-55a39f7b9674.png)
 
 
-You will then have the MongoDB server in the sidebar. You can explore the databases and collections here. You can click a record to view and edit it or right click it for other options like deleting. 
+You will then have the MongoDB server in the sidebar.
+
+</details>
+
+You can explore the databases and collections here. You can click a record to view and edit it.
 
 ![Screenshot of displaying the users in the sample MongoDB database in VS Code](https://user-images.githubusercontent.com/1300395/109005447-91882c00-766f-11eb-994e-9a326deee21b.png)
 
