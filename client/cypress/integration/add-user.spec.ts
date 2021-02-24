@@ -28,6 +28,40 @@ describe('Add user', () => {
     page.addUserButton().should('be.enabled');
   });
 
+  it('Should show error messages for invalid inputs', () => {
+
+    cy.get('[data-test=nameError]').should('not.exist');
+
+    page.getFormField('name').click().blur();
+    cy.get('[data-test=nameError]').should('exist').and('be.visible');
+    page.getFormField('name').type('J');
+    cy.get('[data-test=nameError]').should('exist').and('be.visible');
+    page.getFormField('name').clear().type('This is a very long name that goes beyond the 50 character limit');
+    cy.get('[data-test=nameError]').should('exist').and('be.visible');
+    page.getFormField('name').clear().type('John Smith');
+    cy.get('[data-test=nameError]').should('not.exist');
+
+    cy.get('[data-test=ageError]').should('not.exist');
+    page.getFormField('age').click().blur();
+    cy.get('[data-test=ageError]').should('exist').and('be.visible');
+    page.getFormField('age').type('5');
+    cy.get('[data-test=ageError]').should('exist').and('be.visible');
+    page.getFormField('age').clear().type('500');
+    cy.get('[data-test=ageError]').should('exist').and('be.visible');
+    page.getFormField('age').clear().type('25');
+    cy.get('[data-test=ageError]').should('not.exist');
+
+    cy.get('[data-test=emailError]').should('not.exist');
+    page.getFormField('email').click().blur();
+    cy.get('[data-test=emailError]').should('exist').and('be.visible');
+    page.getFormField('email').type('asd');
+    cy.get('[data-test=emailError]').should('exist').and('be.visible');
+    page.getFormField('email').clear().type('@example.com');
+    cy.get('[data-test=emailError]').should('exist').and('be.visible');
+    page.getFormField('email').clear().type('user@example.com');
+    cy.get('[data-test=emailError]').should('not.exist');
+  });
+
   describe('Adding a new user', () => {
 
     const user: User = {
