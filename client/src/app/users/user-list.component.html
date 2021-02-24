@@ -10,14 +10,14 @@
 
           <mat-form-field class="input-field">
             <mat-label>Name</mat-label>
-            <input matInput id="user-name-input" placeholder="Filter by name"
+            <input matInput data-test="userNameInput" placeholder="Filter by name"
             [(ngModel)]="userName" (input)="updateFilter()">
             <mat-hint>Filtered on client</mat-hint>
           </mat-form-field>
 
           <mat-form-field class="input-field">
             <mat-label>Company</mat-label>
-            <input matInput id="user-company-input" placeholder="Filter by company"
+            <input matInput data-test="userCompanyInput" placeholder="Filter by company"
             [(ngModel)]="userCompany" (input)="updateFilter()">
             <mat-hint>Filtered on client</mat-hint>
           </mat-form-field>
@@ -28,7 +28,7 @@
 
           <mat-form-field class="input-field">
             <mat-label>Age</mat-label>
-            <input matInput id="user-age-input" type="number" placeholder="Filter by age"
+            <input matInput data-test="userAgeInput" type="number" placeholder="Filter by age"
             min="0" max="200" [(ngModel)]="userAge" (input)="getUsersFromServer()">
             <mat-hint>Filtered on server</mat-hint>
           </mat-form-field>

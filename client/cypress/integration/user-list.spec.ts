@@ -20,7 +20,7 @@ describe('User list', () => {
 
   it('Should type something in the name filter and check that it returned correct elements', () => {
     // Filter for user 'Lynn Ferguson'
-    cy.get('#user-name-input').type('Lynn Ferguson');
+    cy.get('[data-test=userNameInput]').type('Lynn Ferguson');
 
     // All of the user cards should have the name we are filtering by
     page.getUserCards().each(e => {
@@ -35,7 +35,7 @@ describe('User list', () => {
 
   it('Should type something in the company filter and check that it returned correct elements', () => {
     // Filter for company 'OHMNET'
-    cy.get('#user-company-input').type('OHMNET');
+    cy.get('[data-test=userCompanyInput]').type('OHMNET');
 
     page.getUserCards().should('have.lengthOf.above', 0);
 
@@ -47,7 +47,7 @@ describe('User list', () => {
 
   it('Should type something partial in the company filter and check that it returned correct elements', () => {
     // Filter for companies that contain 'ti'
-    cy.get('#user-company-input').type('ti');
+    cy.get('[data-test=userCompanyInput]').type('ti');
 
     page.getUserCards().should('have.lengthOf.above', 0);
 
@@ -63,7 +63,7 @@ describe('User list', () => {
 
   it('Should type something in the age filter and check that it returned correct elements', () => {
     // Filter for users of age '27'
-    cy.get('#user-age-input').type('27');
+    cy.get('[data-test=userAgeInput]').type('27');
 
     page.getUserCards().should('have.lengthOf.above', 0);
 
