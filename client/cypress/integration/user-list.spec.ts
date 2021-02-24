@@ -28,8 +28,8 @@ describe('User list', () => {
     });
 
     // (We check this two ways to show multiple ways to check this)
-    page.getUserCards().find('.user-card-name').each($el =>
-      expect($el.text()).to.equal('Lynn Ferguson')
+    page.getUserCards().find('.user-card-name').each(el =>
+      expect(el.text()).to.equal('Lynn Ferguson')
     );
   });
 
@@ -40,8 +40,8 @@ describe('User list', () => {
     page.getUserCards().should('have.lengthOf.above', 0);
 
     // All of the user cards should have the company we are filtering by
-    page.getUserCards().find('.user-card-company').each($card => {
-      cy.wrap($card).should('have.text', 'OHMNET');
+    page.getUserCards().find('.user-card-company').each(card => {
+      cy.wrap(card).should('have.text', 'OHMNET');
     });
   });
 
@@ -107,8 +107,8 @@ describe('User list', () => {
     page.getUserListItems().should('have.lengthOf.above', 0);
 
     // All of the user list items that show should have the role we are looking for
-    page.getUserListItems().each(e => {
-      cy.wrap(e).find('.user-list-role').should('have.text', ' viewer '); // this seems fragile since the spaces are expected
+    page.getUserListItems().each(el => {
+      cy.wrap(el).find('.user-list-role').should('contain', 'viewer');
     });
   });
 
@@ -120,10 +120,8 @@ describe('User list', () => {
       // When the view profile button on the first user card is clicked, the URL should have a valid mongo ID
       page.clickViewProfile(page.getUserCards().first());
 
-      // The URL should contain '/users/' (note the ending slash) and '/users/' should be followed by a mongo ID
-      cy.url()
-        .should('contain', '/users/')
-        .should('match', /\/users\/[0-9a-fA-F]{24}$/);
+      // The URL should be '/users/' followed by a mongo ID
+      cy.url().should('match', /\/users\/[0-9a-fA-F]{24}$/);
 
       // On this profile page we were sent to, the name and company should be correct
       cy.get('.user-card-name').first().should('have.text', firstUserName);
@@ -135,10 +133,8 @@ describe('User list', () => {
     // Click on the button for adding a new user
     page.addUserButton().click();
 
-    // The URL contains and ends with '/users/new'
-    cy.url()
-      .should('contain', '/users/new')
-      .should(url => expect(url.endsWith('/users/new')).to.be.true);
+    // The URL should end with '/users/new'
+    cy.url().should(url => expect(url.endsWith('/users/new')).to.be.true);
 
     // On the page we were sent to, We should see the right title
     cy.get('.add-user-title').should('have.text', 'New User');
