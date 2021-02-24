@@ -29,9 +29,8 @@ describe('Add user', () => {
   });
 
   it('Should show error messages for invalid inputs', () => {
-
+    // Before doing anything there shouldn't be an error
     cy.get('[data-test=nameError]').should('not.exist');
-
     // Just clicking the name field without entering anything should cause an error message
     page.getFormField('name').click().blur();
     cy.get('[data-test=nameError]').should('exist').and('be.visible');
@@ -44,8 +43,9 @@ describe('Add user', () => {
     page.getFormField('name').clear().type('John Smith');
     cy.get('[data-test=nameError]').should('not.exist');
 
-    // Just clicking the age field without entering anything should cause an error message
+    // Before doing anything there shouldn't be an error
     cy.get('[data-test=ageError]').should('not.exist');
+    // Just clicking the age field without entering anything should cause an error message
     page.getFormField('age').click().blur();
     // Some more tests for various invalid age inputs
     cy.get('[data-test=ageError]').should('exist').and('be.visible');
@@ -57,8 +57,9 @@ describe('Add user', () => {
     page.getFormField('age').clear().type('25');
     cy.get('[data-test=ageError]').should('not.exist');
 
-    // Just clicking the email field without entering anything should cause an error message
+    // Before doing anything there shouldn't be an error
     cy.get('[data-test=emailError]').should('not.exist');
+    // Just clicking the email field without entering anything should cause an error message
     page.getFormField('email').click().blur();
     // Some more tests for various invalid email inputs
     cy.get('[data-test=emailError]').should('exist').and('be.visible');
