@@ -48,25 +48,28 @@ For the most part, you will be using a local installation of Mongo as a dev (dev
 
 ### Seeding the Database
 
-To give yourself some data to work with instead of starting with an empty database in our development environment, you need to 'seed' the database with some starter data. Seed data and the seed script are stored in the top level directory `database`. To seed the database, move into that directory and run `./mongoseed.sh`. This will take each of the JSON files in `database/seed/` and insert their elements into the `dev` database (to specify a different database, provide it as an argument). It also drops the database before seeding it so it is clean.
+To give yourself some data to work with instead of starting with an empty database in our development environment, you need to 'seed' the database with some starter data. Seed data and the seed script are stored in the top level directory `database`. To seed the database, move into that directory and run `./mongoseed.sh` (or `.\mongoseed.bat` on Windows). This will take each of the JSON files in `database/seed/` and insert their elements into the `dev` database (to specify a different database, provide it as an argument). It also drops the database before seeding it so it is clean.
 
 ### MongoDB in VS Code
 
-We have included an extension called [Azure Cosmos DB](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-cosmosdb) in the recommended extensions. This extension allows you to view, edit, and delete the things in MongoDB.
+We have included the [MongoDB for VS Code](https://marketplace.visualstudio.com/items?itemName=mongodb.mongodb-vscode) in the recommended extensions. This extension allows you to view and edit things in the Mongo database.
 
-When installed you will see a new icon in the sidebar, click it and click "Attach Database Account...".
+When installed you will see a new icon in the sidebar, click it and click "Add Connection".
 
-![Screen grab of attaching database account](https://i.vgy.me/ElqdfW.png)
+![Screenshot of the Mongo Extension pane](https://user-images.githubusercontent.com/1300395/109005040-1f174c00-766f-11eb-85fb-0de47b22e4ae.png)
 
-Then select "Azure Cosmos DB for MongoDB API".
+That will open a new tab with some options. Click "Open form" under "Advanced Connection Settings"
 
-It will ask you for a connection string, hitting enter on the default one should work for the machines in our lab.
+![image](https://user-images.githubusercontent.com/1300395/109006193-6c47ed80-7670-11eb-8b28-a740f9088d4f.png)
 
-![Screen grab of entering the default MongoDB connection string](https://i.vgy.me/2dk1ws.png)
+You can leave all the default settings and click the green "Connect" button to add the connection.
 
-You will then have the MongoDB server in the sidebar. You can explore the databases and collections here. You can click a record to view and edit it or right click it for other options like deleting. You can also import JSON into the database right from this extension.
+![image](https://user-images.githubusercontent.com/1300395/109006728-fabc6f00-7670-11eb-9f15-55a39f7b9674.png)
 
-![Screen grab of displaying the users in the sample MongoDB database in VS Code](https://i.vgy.me/AWAUHw.png)
+
+You will then have the MongoDB server in the sidebar. You can explore the databases and collections here. You can click a record to view and edit it or right click it for other options like deleting. 
+
+![Screenshot of displaying the users in the sample MongoDB database in VS Code](https://user-images.githubusercontent.com/1300395/109005447-91882c00-766f-11eb-994e-9a326deee21b.png)
 
 ## Testing and Continuous Integration
 
