@@ -1,4 +1,4 @@
-name: End to End
+name: End-to-End
 
 on: [push]
 
