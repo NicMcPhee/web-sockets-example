@@ -42,7 +42,10 @@ export class UserListPage {
    * @param value The role *value* to select, this is what's found in the mat-option "value" attribute.
    */
   selectRole(value: UserRole) {
-    return cy.get('[data-test=userRoleSelect]').click().get(`mat-option[value="${value}"]`).click();
+    // Find and click the drop down
+    return cy.get('[data-test=userRoleSelect]').click()
+      // Select and click the desired value from the resulting menu
+      .get(`mat-option[value="${value}"]`).click();
   }
 
   addUserButton() {
