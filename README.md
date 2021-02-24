@@ -174,11 +174,11 @@ We use [Cypress](https://www.cypress.io/) for our end-to-end tests. There are a 
 
 The main page of Cypress looks like this:
 
-![image](https://user-images.githubusercontent.com/1300395/107994604-9af40300-6fa2-11eb-9caf-35d804281929.png)
+![image](https://user-images.githubusercontent.com/1300395/109009410-22f99d00-7674-11eb-9469-dd6a09710813.png)
 
-You can click on any of the integration test files to run their tests or run them all. When you run a set of tests you will
+You can click on any of the integration test files to run their tests or run them all. When you run a set of tests you will see something like this:
 
-![image](https://user-images.githubusercontent.com/1300395/107994642-acd5a600-6fa2-11eb-8b88-1f2879e82848.png)
+![image](https://user-images.githubusercontent.com/1300395/109009528-3f95d500-7674-11eb-86ee-8c5e375d5d0b.png)
 
 There are a lot of neat things you can do here like inspect each test and find which selectors to use in the tests you are writing. We encourage you to look through some of the Cypress documentation linked in the "Resources" section below.
 
