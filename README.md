@@ -8,7 +8,7 @@
 >
 > Feel free to remove the badge above and this text when you've
 > dealt with that.
-# CSCI 3601 Iteration Template
+# CSCI 3601 Iteration Template <!-- omit in toc -->
 
 [![Server Build Status](../../actions/workflows/server.yml/badge.svg)](../../actions/workflows/server.yml)
 [![Client Build Status](../../actions/workflows/client.yaml/badge.svg)](../../actions/workflows/client.yaml)
@@ -16,6 +16,23 @@
 
 [![BCH compliance](https://bettercodehub.com/edge/badge/UMM-CSci-3601/3601-iteration-template?branch=master)](https://bettercodehub.com/)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/UMM-CSci-3601/3601-iteration-template.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/UMM-CSci-3601/3601-iteration-template/alerts/)
+
+- [Setup](#setup)
+  - [Open the project in VS Code](#open-the-project-in-vs-code)
+  - [Installing the client dependencies](#installing-the-client-dependencies)
+  - [Enable ESLint in VS Code](#enable-eslint-in-vs-code)
+  - [Seeding the Database](#seeding-the-database)
+- [Running your project](#running-your-project)
+  - [MongoDB in VS Code](#mongodb-in-vs-code)
+- [Testing and Continuous Integration](#testing-and-continuous-integration)
+  - [Testing the client](#testing-the-client)
+    - [Linting the client](#linting-the-client)
+  - [Testing the server](#testing-the-server)
+  - [End to end testing](#end-to-end-testing)
+  - [GitHub Actions](#github-actions)
+- [Changing the name](#changing-the-name)
+- [Deployment](#deployment)
+- [Resources](#resources)
 
 This is your starter code for Iteration 1.
 
