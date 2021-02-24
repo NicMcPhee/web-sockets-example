@@ -23,32 +23,74 @@ There are a number of pieces in this production template to help you get started
 
 ## Setup
 
-As in the previous lab, you'll be using VS Code and GitKraken. Once you've all joined your
+As in the previous labs, you'll be using VS Code and GitKraken. Once you've all joined your
 group using GitHub classroom, you can clone your repository using the command line or GitKraken:
 
-* From the file menu, choose **Clone Repo**
-* Choose GitHub.com in the middle column (as the source location of your repo)
-* Browse to the location you'd like to put the local copy of this project repo
-* Select the correct repo from the list of repositories
-* Select **Clone the repo!**
+1. From the file menu, choose **Clone Repo**
+2. Choose GitHub.com in the middle column (as the source location of your repo)
+3. Browse to the location you'd like to put the local copy of this project repo
+4. Select the correct repo from the list of repositories
+5. Select **Clone the repo!**
+
+### Open the project in VS Code
+
+Launch Visual Studio Code, and then choose `File -> Open Folder…`. Navigate to your clone
+of the repo and choose `Open`.
+
+You may see a dialog that looks like this if you don't already have the recommended extensions:
+
+![Dialog suggesting installation of recommended extensions](https://user-images.githubusercontent.com/1300395/72710961-bf767500-3b2d-11ea-8ea4-fbbd39c78da5.png)
+
+Don't worry if you don't get the dialog, it is probably because you already have them all installed.
+
+Like in previous labs, click "Install All" to automatically install them.
+
+### Installing the client dependencies
+
+Before you start working you will need to install the dependencies for the client.
+
+1. Move into the `client` directory (`cd client`)
+2. Run `npm install`
+
+### Enable ESLint in VS Code
+
+Since this is the first time we will be using ESLint there is an additional step to make sure the VS Code extension is working in the project. When you first open a TypeScript file you will see at the bottom right that ESLint is disabled.
+
+![image](https://user-images.githubusercontent.com/1300395/107999308-bc59ec80-6fac-11eb-9784-75a471a50aa4.png)
+
+Click the red "ESLINT" to open this dialog:
+
+![image](https://user-images.githubusercontent.com/1300395/107996971-528b1400-6fa7-11eb-89bc-afc71747f820.png)
+
+Click "Allow Everywhere" to enable ESLint.
+
+You can also open this dialog with the following steps:
+
+1. Hit `CTRL + SHIFT + P` (`⌘ + ⇧ + P` on Macs) to open the Command Palette. You can also find this by going to the "View" menu and clicking "Command Palette..."
+2. Start typing and select "ESlint: Manage Library Execution". That should open a dialog seen above.
+
+### Seeding the Database
+
+To give yourself some data to work with instead of starting with an empty database in our development environment, you need to 'seed' the database with some starter data. Seed data and the seed script are stored in the top level directory `database`. To seed the database, move into that directory and run `./mongoseed.sh` (or `.\mongoseed.bat` on Windows). This will take each of the JSON files in `database/seed/` and insert their elements into the `dev` database (to specify a different database, provide it as an argument). It also drops the database before seeding it so it is clean. You should run this after first cloning the project and again anytime you want to reset the database or you add new seed data to the `database/seed/` directory.
 
 ## Running your project
 
-* The **run** Gradle task (`./gradlew run` in the `server` directory) will still run your Javalin server, which is available at [`localhost:4567`](http://localhost:4567).
-* The **build** task will still _build_ the server, but not run it.
+- The **run** Gradle task (`./gradlew run` in the `server` directory) will still run your Javalin server, which is available at [`localhost:4567`](http://localhost:4567).
+- The **build** task will still _build_ the server, but not run it.
 
-Like in lab 3, the first time you run your Angular project, you will need to run move into your `client` directory and run `npm install` so that all the dependencies managed by npm will be installed.
-
-Once you have successfully run `npm install`, in order to serve up the _client side_ of your project, you will type
-`ng serve` and the client will be running at [`localhost:4200`](http://localhost:4200).
+Once you have successfully run `npm install`, in order to serve up the _client side_ of your project, you will run
+`ng serve` (from the `client` directory as well). The client will be available by default at [`localhost:4200`](http://localhost:4200). If your server is running, you will be able to see data for users if you navigate to the right place in the project.
 
 The major difference between this lab and lab #3 is that, here, your data (users and todos) will be stored in a database rather than as "flat" JSON files within the server source code.
 
 For the most part, you will be using a local installation of Mongo as a dev (development) database. You don't really need to worry about how this is set up, but you do need to know a couple of tricks to help you use it:
 
-### Seeding the Database
+To recap, **here are the steps needed to _run_ the project**:
 
-To give yourself some data to work with instead of starting with an empty database in our development environment, you need to 'seed' the database with some starter data. Seed data and the seed script are stored in the top level directory `database`. To seed the database, move into that directory and run `./mongoseed.sh` (or `.\mongoseed.bat` on Windows). This will take each of the JSON files in `database/seed/` and insert their elements into the `dev` database (to specify a different database, provide it as an argument). It also drops the database before seeding it so it is clean.
+1. Go into the `server` directory and enter `./gradlew run`.
+2. In a _different_ terminal, go into the `client` directory and enter `ng server`.
+3. You can then go to [`localhost:4200`](http://localhost:4200) in your favorite web browser and see
+   your nifty Angular app.
 
 ### MongoDB in VS Code
 
@@ -79,39 +121,74 @@ There are now more testing options! You can test the client, or the server or bo
 
 From the `client` directory:
 
-* `ng test` runs the client tests.
-* `ng test --code-coverage` runs the client tests and generates a coverage file you can find in your client directory `client/coverage/client/index.html`.
-Right click on `index.html` and select `Copy path` and paste it into your browser of choice. For Chrome users, you can drag and drop `index.html` onto the tab area of Chrome and it will open it.
+- `ng test` runs the client tests
+  - This will pop up a Chrome window with the results of the tests.
+  - This will run "forever", updating both in your terminal and in the Chrome
+    window that gets generated. Typing CTRL-C in the terminal window will end
+    the `ng test` process and close the generated Chrome window.
+  - You can add `ng test --watch=false` if you just want to run the tests once
+    instead of going into the "run forever" mode.
+- `ng test --code-coverage` runs the client tests and generates a coverage report
+  - It generates a coverage report you can find in your client directory `client/coverage/client/index.html`.
+  - Right click on `index.html` and select `Copy path` and paste it into your browser of choice. You can also drag and drop `index.html` onto the tab area of your browser and it will open it.
+
+#### Linting the client
+
+We have included a tool called ESLint which helps analyze the code and catch various errors. You will most likely see it directly in VS Code as yellow and red underlines. You can also directly run the linter on the entire client by running `ng lint`. This will check the whole client project and tell you if there are any issues.
 
 ### Testing the server
 
 From the `server` directory:
 
-* `./gradlew test` runs the server tests once.
-* `./gradlew test jacocoTestReport` runs the server tests and generates a coverage file you can find in `server/build/jacocoHtml/index.html`.
+- `./gradlew test` runs the server tests once.
+  - It generates a report you can find in `server/build/reports/tests/test/index.html`.
+- `./gradlew test jacocoTestReport` runs the server tests once and creates a coverage report
+  - It generates a coverage report you can find in `server/build/jacocoHtml/index.html` in addition to the regular report generated by the `test` task.
 
 ### End to end testing
 
-* `npm run e2e` from the `client` directory runs end to end tests.
-  * What are e2e tests? They are tests that run the real application and simulate user behavior. They assert that the app is running as expected.
-  * NOTE: The server (`./gradlew run` in the `server` directory) needs to be actively executing for these tests to work!
+End to end (E2E) testing involves the whole software stack rather than one part of it. Our E2E tests look at the behavior of both the client and server and how they interact by simulating what a real user would do with it.
+
+We use [Cypress](https://www.cypress.io/) for our end-to-end tests. There are a few ways to run the E2E tests. They are all started from the `client` directory and require the server be running at the same time (`./gradlew run` in the `server` directory).
+
+- `ng e2e` both builds and serves the client and runs through all the Cypress end-to-end tests once.
+- `ng e2e --watch` builds and serves the client but just opens Cypress for you to be able to run the tests you want without closing automatically.
+  - This is the same as running `ng serve` and `npm run cy:open` (or `npx cypress open`) at the same time. If you are already running `ng serve` it will be easier to do this rather than closing it and running `ng e2e`.
+
+The main page of Cypress looks like this:
+
+![image](https://user-images.githubusercontent.com/1300395/107994604-9af40300-6fa2-11eb-9caf-35d804281929.png)
+
+You can click on any of the integration test files to run their tests or run them all. When you run a set of tests you will
+
+![image](https://user-images.githubusercontent.com/1300395/107994642-acd5a600-6fa2-11eb-8b88-1f2879e82848.png)
+
+There are a lot of neat things you can do here like inspect each test and find which selectors to use in the tests you are writing. We encourage you to look through some of the Cypress documentation linked in the "Resources" section below.
 
 ### GitHub Actions
 
-There are GitHub Actions set up in your repo for each of the three checks: JUnit tests for the server, Karma tests for the client, and Protractor tests for end-to-end testing. There are badges above that show the status of these checks on the master branch.
+There are three GitHub Actions workflows set up in your repo:
+
+- [Server Java](../../actions/workflows/server.yml) - JUnit tests for the server (`gradle-build`)
+- [Client Angular](../../actions/workflows/client.yaml) - Karma tests (`ng-test`) and ESLint linting (`ng-lint`) for the client
+- [End to End](../../actions/workflows/e2e.yaml) - Cypress tests for end-to-end testing
+
+There are badges above that show the status of these checks on the master branch.
 
 ## Changing the name
 
 The project by default has the name "CSCI 3601 Iteration Template". There are a few places you need to change to make this the name you want:
 
-* The title of this README.md
-* [`server/src/main/java/umm3601/Server.java`](server/src/main/java/umm3601/Server.java)
-  * The `appName` variable
-* [`client/src/app/app.component.ts`](client/src/app/app.component.ts)
-  * The `title` variable
-  * Also the associated unit and E2E tests will need to be changed.
-* [`client/src/index.html`](client/src/index.html)
-  * The `title` element
+- The title of this README.md
+- [`server/src/main/java/umm3601/Server.java`](server/src/main/java/umm3601/Server.java)
+  - The `appName` variable
+- [`client/src/app/app.component.ts`](client/src/app/app.component.ts)
+  - The `title` variable
+  - Also the associated unit and E2E tests will need to be changed.
+- [`client/src/app/app.component.html`](client/src/app/app.component.html)
+  - The `mat-toolbar` element for the navigation drawer is just "Client" by default.
+- [`client/src/index.html`](client/src/index.html)
+  - The `title` element
 
 ## Deployment
 
@@ -119,16 +196,16 @@ Instructions on how to crate a DigitalOcean Droplet and setup your project are i
 
 ## Resources
 
-* [Angular Material components docs](https://material.angular.io/components/categories)
-* [Angular tutorial][angular-tutorial]
-* [Angular testing (Karma)][angular-karma]
-* [Angular Tour of Heroes tutorial][tour-of-heroes]
-* [End-to-end testing (Protractor)][protractor]
-* [End to end testing (e2e) with protractor and Angular CLI][e2e-testing]
-* [What are environments in Angular CLI?][environments]
-* [Angular CLI commands][angular-cli-commands]
-* [HTTP Status Codes][status-codes]
-* [MongoDB Java Driver][mongo-java]
+- [Angular Material components docs](https://material.angular.io/components/categories)
+- [Angular tutorial][angular-tutorial]
+- [Angular testing (Karma)][angular-karma]
+- [Angular Tour of Heroes tutorial][tour-of-heroes]
+- [End-to-end testing (Protractor)][protractor]
+- [End to end testing (e2e) with protractor and Angular CLI][e2e-testing]
+- [What are environments in Angular CLI?][environments]
+- [Angular CLI commands][angular-cli-commands]
+- [HTTP Status Codes][status-codes]
+- [MongoDB Java Driver][mongo-java]
 
 [angular-tutorial]: https://angular.io/start
 [angular-karma]:https://angular.io/guide/testing
