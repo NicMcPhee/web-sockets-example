@@ -13,7 +13,9 @@ describe('Add user', () => {
   });
 
   it('Should enable and disable the add user button', () => {
-    // ADD USER button should be disabled until...
+    // ADD USER button should be disabled until all the necessary fields
+    // are filled. Once the last (`#emailField`) is filled, then the button should
+    // become enabled.
     page.addUserButton().should('be.disabled');
     page.typeInput(cy.get('#nameField'), 'test');
     page.addUserButton().should('be.disabled');
@@ -44,6 +46,7 @@ describe('Add user', () => {
     it('Should go to the right page, and have the right info', () => {
       page.addUser(user);
 
+      // New URL should end in the 24 hex character Mongo ID of the newly added user
       cy.url()
         .should('match', /\/users\/[0-9a-fA-F]{24}$/)
         .should('not.match', /\/users\/new$/);
