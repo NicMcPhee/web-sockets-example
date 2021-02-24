@@ -27,16 +27,20 @@ export class AddUserPage {
       .get(`mat-option[value="${value}"]`).click();
   }
 
+  getFormField(fieldName: string) {
+    return cy.get(`mat-form-field [formcontrolname=${fieldName}]`);
+  }
+
   addUser(newUser: User) {
-    this.typeInput(cy.get('#nameField'), newUser.name);
-    this.typeInput(cy.get('#ageField'), newUser.age.toString());
+    this.typeInput(this.getFormField('name'), newUser.name);
+    this.typeInput(this.getFormField('age'), newUser.age.toString());
     if (newUser.company) {
-      this.typeInput(cy.get('#companyField'), newUser.company);
+      this.typeInput(this.getFormField('company'), newUser.company);
     }
     if (newUser.email) {
-      this.typeInput(cy.get('#emailField'), newUser.email);
+      this.typeInput(this.getFormField('email'), newUser.email);
     }
-    this.selectMatSelectValue(cy.get('#roleField'), newUser.role);
+    this.selectMatSelectValue(this.getFormField('role'), newUser.role);
     return this.addUserButton().click();
   }
 }

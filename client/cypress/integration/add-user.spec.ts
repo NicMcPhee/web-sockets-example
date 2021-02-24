@@ -17,13 +17,13 @@ describe('Add user', () => {
     // are filled. Once the last (`#emailField`) is filled, then the button should
     // become enabled.
     page.addUserButton().should('be.disabled');
-    page.typeInput(cy.get('#nameField'), 'test');
+    page.typeInput(page.getFormField('name'), 'test');
     page.addUserButton().should('be.disabled');
-    page.typeInput(cy.get('#ageField'), '20');
+    page.typeInput(page.getFormField('age'), '20');
     page.addUserButton().should('be.disabled');
-    page.typeInput(cy.get('#emailField'), 'invalid');
+    page.typeInput(page.getFormField('email'), 'invalid');
     page.addUserButton().should('be.disabled');
-    page.typeInput(cy.get('#emailField'), 'user@example.com');
+    page.typeInput(page.getFormField('email'), 'user@example.com');
     // all the required fields have valid input, then it should be enabled
     page.addUserButton().should('be.enabled');
   });

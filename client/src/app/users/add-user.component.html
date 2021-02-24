@@ -11,10 +11,10 @@ is potentially helpful and contributed to the shaping of this example -->
         <mat-card-content fxLayout="column">
           <mat-form-field>
             <mat-label>Name</mat-label>
-            <input matInput id="nameField" placeholder="Name" formControlName="name"
+            <input matInput data-test="nameField" placeholder="Name" formControlName="name"
                   required>
             <mat-error *ngFor="let validation of addUserValidationMessages.name">
-              <mat-error class="error-message" id="name-error"
+              <mat-error class="error-message" data-test="name-error"
                         *ngIf="addUserForm.get('name').hasError(validation.type) && (addUserForm.get('name').dirty || addUserForm.get('name').touched)">
                 {{validation.message}}
               </mat-error>
@@ -23,10 +23,10 @@ is potentially helpful and contributed to the shaping of this example -->
 
           <mat-form-field>
             <mat-label>Age</mat-label>
-            <input matInput #input id="ageField" type="number" placeholder="Age"
+            <input matInput data-test="ageField" type="number" placeholder="Age"
                   formControlName="age" required>
             <mat-error *ngFor="let validation of addUserValidationMessages.age">
-              <mat-error class="error-message" id="age-error"
+              <mat-error class="error-message" data-test="age-error"
                         *ngIf="addUserForm.get('age').hasError(validation.type) && (addUserForm.get('age').dirty || addUserForm.get('age').touched)">
                 {{validation.message}}
               </mat-error>
@@ -35,17 +35,17 @@ is potentially helpful and contributed to the shaping of this example -->
 
           <mat-form-field>
             <mat-label>Company</mat-label>
-            <input matInput #input id="companyField" placeholder="Company"
+            <input matInput data-test="companyField" placeholder="Company"
                   formControlName="company">
             <mat-hint>Not required in Angular for demonstration, still required by server</mat-hint>
           </mat-form-field>
 
           <mat-form-field >
             <mat-label>Email</mat-label>
-            <input matInput #input id="emailField" placeholder="Email"
+            <input matInput data-test="emailField" placeholder="Email"
                   formControlName="email" required>
             <mat-error *ngFor="let validation of addUserValidationMessages.email">
-              <mat-error class="error-message" id='email-error'
+              <mat-error class="error-message" data-test='email-error'
                         *ngIf="addUserForm.get('email').hasError(validation.type) && (addUserForm.get('email').dirty || addUserForm.get('email').touched)">
                 {{validation.message}}
               </mat-error>
@@ -54,7 +54,7 @@ is potentially helpful and contributed to the shaping of this example -->
 
           <mat-form-field>
             <mat-label>Role</mat-label>
-            <mat-select id="roleField" required formControlName="role">
+            <mat-select data-test="roleField" required formControlName="role">
               <mat-option value="admin">Admin</mat-option>
               <mat-option value="editor">Editor</mat-option>
               <mat-option value="viewer">Viewer</mat-option>
