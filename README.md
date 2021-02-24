@@ -33,6 +33,10 @@
 - [Changing the name](#changing-the-name)
 - [Deployment](#deployment)
 - [Resources](#resources)
+  - [Angular (client)](#angular-client)
+  - [Javalin (server)](#javalin-server)
+  - [MongoDB (database)](#mongodb-database)
+  - [Cypress (end-to-end testing)](#cypress-end-to-end-testing)
 
 This is your starter code for Iteration 1.
 
@@ -220,24 +224,32 @@ Instructions on how to crate a DigitalOcean Droplet and setup your project are i
 
 ## Resources
 
-- [Angular Material components docs](https://material.angular.io/components/categories)
-- [Angular tutorial][angular-tutorial]
-- [Angular testing (Karma)][angular-karma]
-- [Angular Tour of Heroes tutorial][tour-of-heroes]
-- [End-to-end testing (Protractor)][protractor]
-- [End to end testing (e2e) with protractor and Angular CLI][e2e-testing]
-- [What are environments in Angular CLI?][environments]
-- [Angular CLI commands][angular-cli-commands]
-- [HTTP Status Codes][status-codes]
-- [MongoDB Java Driver][mongo-java]
+### Angular (client)
 
-[angular-tutorial]: https://angular.io/start
-[angular-karma]:https://angular.io/guide/testing
-[tour-of-heroes]: https://angular.io/tutorial
-[protractor]: https://www.protractortest.org/#/toc
-[e2e-testing]: https://coryrylan.com/blog/introduction-to-e2e-testing-with-the-angular-cli-and-protractor
-[environments]: https://angular.io/guide/build#configuring-application-environments
-[labtasks]: LABTASKS.md
-[angular-cli-commands]: https://angular.io/cli
-[status-codes]: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
-[mongo-java]: https://mongodb.github.io/mongo-java-driver/
+* [Angular Unit Testing (Karma)](https://angular.io/guide/testing)
+* [Angular Routing](https://angular.io/guide/router)
+* [Angular Forms](https://angular.io/guide/forms-overview)
+* [Angular Material](https://material.angular.io/)
+* [What are environments in Angular](https://angular.io/guide/build#configuring-application-environments)
+* [Angular CLI](https://angular.io/cli)
+
+### Javalin (server)
+
+- [Javalin Documentation](https://javalin.io/documentation)
+- [Javalin Tutorials](https://javalin.io/tutorials/)
+  - [Testing Javalin Applications](https://javalin.io/tutorials/testing)
+  - [Mocking Javalin classes in Mockito](https://javalin.io/tutorials/mockito-testing)
+
+### MongoDB (database)
+
+- [The MongoDB Manual](https://docs.mongodb.com/manual/)
+- [MongoDB Java Drivers](https://mongodb.github.io/mongo-java-driver/)
+  - [MongoDB Driver 3.12 Documentation](https://mongodb.github.io/mongo-java-driver/3.12/driver/)
+- [MongoJack](https://mongojack.org/)
+
+### Cypress (end-to-end testing)
+
+* [Cypress Docs](https://docs.cypress.io/)
+* [Cypress Best Practices](https://docs.cypress.io/guides/references/best-practices.html)
+* [Introduction to Cypress](https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html#Cypress-Can-Be-Simple-Sometimes)
+* [Interacting with Elements in Cypress](https://docs.cypress.io/guides/core-concepts/interacting-with-elements.html#Actionability)
