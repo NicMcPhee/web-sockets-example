@@ -64,20 +64,20 @@ describe('Add user', () => {
 
   describe('Adding a new user', () => {
 
-    const user: User = {
-      _id: null,
-      name: 'Test User',
-      age: 30,
-      company: 'Test Company',
-      email: 'test@example.com',
-      role: 'editor'
-    };
-
     beforeEach(() => {
       cy.task('seed:database');
     });
 
     it('Should go to the right page, and have the right info', () => {
+      const user: User = {
+        _id: null,
+        name: 'Test User',
+        age: 30,
+        company: 'Test Company',
+        email: 'test@example.com',
+        role: 'editor'
+      };
+
       page.addUser(user);
 
       // New URL should end in the 24 hex character Mongo ID of the newly added user
@@ -91,7 +91,33 @@ describe('Add user', () => {
       cy.get('.user-card-age').should('have.text', user.age);
       cy.get('.user-card-email').should('have.text', user.email);
 
-      cy.get('.mat-simple-snackbar').should('have.text', `Added User ${user.name}`);
+      cy.get('.mat-simple-snackbar').should('contain', `Added User ${user.name}`);
+    });
+
+    it('Should fail with no company', () => {
+      const user: User = {
+        _id: null,
+        name: 'Test User',
+        age: 30,
+        company: null,
+        email: 'test@example.com',
+        role: 'editor'
+      };
+
+      page.addUser(user);
+
+      cy.get('.mat-simple-snackbar').should('contain', `Failed to add the user`);
+
+      // We should have stayed on the new user page
+      cy.url()
+        .should('not.match', /\/users\/[0-9a-fA-F]{24}$/)
+        .should('match', /\/users\/new$/);
+
+      // The things we entered should still be there
+      page.getFormField('name').should('have.value', user.name);
+      page.getFormField('age').should('have.value', user.age);
+      page.getFormField('email').should('have.value', user.email);
+      page.getFormField('role').should('contain', 'Editor');
     });
   });
 
