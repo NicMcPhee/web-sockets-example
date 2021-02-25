@@ -18,6 +18,7 @@
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/UMM-CSci-3601/3601-iteration-template.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/UMM-CSci-3601/3601-iteration-template/alerts/)
 
 - [Setup](#setup)
+  - [Make sure you have Mongo running on your computer](#make-sure-you-have-mongo-running-on-your-computer)
   - [Open the project in VS Code](#open-the-project-in-vs-code)
   - [Installing the client dependencies](#installing-the-client-dependencies)
   - [Enable ESLint in VS Code](#enable-eslint-in-vs-code)
@@ -40,7 +41,9 @@
 
 This is your starter code for Iteration 1.
 
-There are a number of pieces in this production template to help you get started. As you work on your project, you should replace some of these pieces with elements of your project and remove whatever you don't need (e.g., markdown files, JSON data files, or any remnants of the labs).
+There are a number of pieces in this production template to help you get started. As you work on your project, you should replace some of these pieces with elements of your project and remove whatever you don't need (e.g., markdown files, JSON data files, or any remnants of the labs). We include, for example, the users and todo parts of the
+previous labs. These are almost certainly not relevant to your project
+and should be removed once you've gotten going.
 
 ## Setup
 
@@ -52,6 +55,26 @@ group using GitHub classroom, you can clone your repository using the command li
 3. Browse to the location you'd like to put the local copy of this project repo
 4. Select the correct repo from the list of repositories
 5. Select **Clone the repo!**
+
+### Make sure you have Mongo running on your computer
+
+For all of this to work, it's critical that you have Mongo installed
+and working, as described in the system setup documentation from the
+beginning of the semester. If you're unsure if it's set up and
+working correctly, try:
+
+```bash
+mongo
+```
+
+If your MongoDB server isn't installed you'll likely get an error
+message like:
+
+```text
+Error: couldn't connect to server 127.0.0.1:27017, connection attempt failed: SocketException: Error connecting to 127.0.0.1:27017 :: caused by :: Connection refused :
+```
+
+(Use CTRL-D to exit out of the `mongo` tool.)
 
 ### Open the project in VS Code
 
@@ -75,6 +98,10 @@ Before you start working you will need to install the dependencies for the clien
 
 ### Enable ESLint in VS Code
 
+ESLint is a tool for checking the quality and style of your TypeScript
+and JavaScript code, and can provide valuable "live" feedback on
+your coding in VS Code.
+
 Since this is the first time we will be using ESLint there is an additional step to make sure the VS Code extension is working in the project. When you first open a TypeScript file you will see at the bottom right that ESLint is disabled.
 
 ![image](https://user-images.githubusercontent.com/1300395/107999308-bc59ec80-6fac-11eb-9784-75a471a50aa4.png)
@@ -92,7 +119,21 @@ You can also open this dialog with the following steps:
 
 ### Seeding the Database
 
-To give yourself some data to work with instead of starting with an empty database in our development environment, you need to 'seed' the database with some starter data. Seed data and the seed script are stored in the top level directory `database`. To seed the database, move into that directory and run `./mongoseed.sh` (or `.\mongoseed.bat` on Windows). This will take each of the JSON files in `database/seed/` and insert their elements into the `dev` database (to specify a different database, provide it as an argument). It also drops the database before seeding it so it is clean. You should run this after first cloning the project and again anytime you want to reset the database or you add new seed data to the `database/seed/` directory.
+To give yourself some data to work with instead of starting with an empty database in our development environment, you need to 'seed' the database with some starter data. Seed data and the seed script are stored in the top level directory `database`. To seed the database, move into that directory and run `./mongoseed.sh` (or `.\mongoseed.bat` on Windows). This will take each of the JSON files in `database/seed/` and insert their elements into the `dev` database. (If you want to
+seed a different database, you can provide the name of the desired
+database as an argument to the `mongoseed` script.).
+
+These scripts also drop the database before seeding it so it is clean. You should run this after first cloning the project and again anytime you want to reset the database or you add new seed data to the `database/seed/` directory.
+
+:warning: Our example E2E tests also reseed the `dev` database
+whenever you run them to ensure that those tests happen in a predictable
+state, so be prepared for that.
+
+You'll want to create your own seed files and add them to the
+`database/seed/` directory for new types used by your project. There
+are nice tools like
+[next.json-generator.com](https://next.json-generator.com/) that you
+can use to easily generate sophisticated seed data for your project.
 
 ## Running your project
 
@@ -162,7 +203,8 @@ From the `client` directory:
 
 #### Linting the client
 
-We have included a tool called ESLint which helps analyze the code and catch various errors. You will most likely see it directly in VS Code as yellow and red underlines. You can also directly run the linter on the entire client by running `ng lint`. This will check the whole client project and tell you if there are any issues.
+We have included a tool called ESLint which helps analyze the client
+TypeScript and JavaScript code and catch various errors and concerns. You will most likely see it directly in VS Code as yellow and red underlines. You can also directly run the linter on the entire client by running `ng lint` in the terminal in the `client` directory. This will check the whole client project and tell you if there are any issues.
 
 ### Testing the server
 
@@ -175,7 +217,8 @@ From the `server` directory:
 
 ### End to end testing
 
-End to end (E2E) testing involves the whole software stack rather than one part of it. Our E2E tests look at the behavior of both the client and server and how they interact by simulating what a real user would do with it.
+End to end (E2E) testing involves the whole software stack rather than one part of it. Our E2E tests look at the behavior of both the client,
+the server, and the database, and how they interact by simulating how a real user would interact with the app.
 
 We use [Cypress](https://www.cypress.io/) for our end-to-end tests. There are a few ways to run the E2E tests. They are all started from the `client` directory and require the server be running at the same time (`./gradlew run` in the `server` directory).
 
@@ -246,6 +289,8 @@ Instructions on how to crate a DigitalOcean Droplet and setup your project are i
 - [MongoDB Java Drivers](https://mongodb.github.io/mongo-java-driver/)
   - [MongoDB Driver 3.12 Documentation](https://mongodb.github.io/mongo-java-driver/3.12/driver/)
 - [MongoJack](https://mongojack.org/)
+- [JSON generator](https://next.json-generator.com/) for generating
+  seed data for testing
 
 ### Cypress (end-to-end testing)
 
