@@ -122,17 +122,26 @@ describe('AddUserComponent', () => {
     // value is numeric, and the form control makes sure that it's in the
     // right range.
     describe('The HTML element', () => {
+      let ageHtmlInput: HTMLInputElement;
+
+      beforeEach(() => {
+        ageHtmlInput = document.querySelector('[data-test=ageField]');
+      });
+
+      it('should actually be an <input> tag', () => {
+        // None of the other tests work if this isn't true. (If you do want to
+        // change the tag used, you're probably going to need to rewrite this
+        // whole describe block.)
+        expect(ageHtmlInput.tagName).toBe('INPUT');
+      });
+
       it('should not allow empty ages', () => {
-        const ageHtmlInput =
-          document.getElementsByTagName('input').namedItem('ageField');
         ageHtmlInput.value = '';
         expect(ageHtmlInput.validity.valid).toBeFalsy();
         expect(ageHtmlInput.validity.valueMissing).toBeTruthy();
       });
 
       it('should be fine with "27"', () => {
-        const ageHtmlInput =
-          document.getElementsByTagName('input').namedItem('ageField');
         ageHtmlInput.value = '27';
         expect(ageHtmlInput.validity.valid).toBeTruthy();
       });
@@ -140,8 +149,6 @@ describe('AddUserComponent', () => {
       it('should not allow an age to be non-numeric', () => {
         // The HTML input field itself checks to make sure that the value is
         // numeric. Angular's form controls aren't even involved with this step.
-        const ageHtmlInput =
-          document.getElementsByTagName('input').namedItem('ageField');
         ageHtmlInput.value = '27aa';
         expect(ageHtmlInput.validity.valid).toBeFalsy();
         expect(ageHtmlInput.validity.valueMissing).toBeTruthy();
