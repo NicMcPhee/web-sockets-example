@@ -61,11 +61,7 @@ group using GitHub classroom, you can clone your repository using the command li
 For all of this to work, it's critical that you have Mongo installed
 and working, as described in the system setup documentation from the
 beginning of the semester. If you're unsure if it's set up and
-working correctly, try:
-
-```bash
-mongo
-```
+working correctly, try running `mongo`.
 
 If your MongoDB server isn't installed you'll likely get an error
 message like:
@@ -74,7 +70,7 @@ message like:
 Error: couldn't connect to server 127.0.0.1:27017, connection attempt failed: SocketException: Error connecting to 127.0.0.1:27017 :: caused by :: Connection refused :
 ```
 
-(Use CTRL-D to exit out of the `mongo` tool.)
+(Type `exit` to exit out of the `mongo` tool.)
 
 ### Open the project in VS Code
 
@@ -98,8 +94,8 @@ Before you start working you will need to install the dependencies for the clien
 
 ### Enable ESLint in VS Code
 
-ESLint is a tool for checking the quality and style of your TypeScript
-and JavaScript code, and can provide valuable "live" feedback on
+ESLint is a tool for checking the quality and style of your client TypeScript
+and template HTML code, and can provide valuable "live" feedback on
 your coding in VS Code.
 
 Since this is the first time we will be using ESLint there is an additional step to make sure the VS Code extension is working in the project. When you first open a TypeScript file you will see at the bottom right that ESLint is disabled.
@@ -119,9 +115,7 @@ You can also open this dialog with the following steps:
 
 ### Seeding the Database
 
-To give yourself some data to work with instead of starting with an empty database in our development environment, you need to 'seed' the database with some starter data. Seed data and the seed script are stored in the top level directory `database`. To seed the database, move into that directory and run `./mongoseed.sh` (or `.\mongoseed.bat` on Windows). This will take each of the JSON files in `database/seed/` and insert their elements into the `dev` database. (If you want to
-seed a different database, you can provide the name of the desired
-database as an argument to the `mongoseed` script.).
+To give yourself some data to work with instead of starting with an empty database in our development environment, you need to 'seed' the database with some starter data. Seed data and the seed script are stored in the top level directory `database`. To seed the database, move into that directory and run `./mongoseed.sh` (or `.\mongoseed.bat` on Windows). This will take each of the JSON files in `database/seed/` and insert their elements into the `dev` database.
 
 These scripts also drop the database before seeding it so it is clean. You should run this after first cloning the project and again anytime you want to reset the database or you add new seed data to the `database/seed/` directory.
 
@@ -204,7 +198,7 @@ From the `client` directory:
 #### Linting the client
 
 We have included a tool called ESLint which helps analyze the client
-TypeScript and JavaScript code and catch various errors and concerns. You will most likely see it directly in VS Code as yellow and red underlines. You can also directly run the linter on the entire client by running `ng lint` in the terminal in the `client` directory. This will check the whole client project and tell you if there are any issues.
+TypeScript and template HTML code and catch various errors and concerns. You will most likely see it directly in VS Code as yellow and red underlines. You can also directly run the linter on the entire client by running `ng lint` in the terminal in the `client` directory. This will check the whole client project and tell you if there are any issues.
 
 ### Testing the server
 
@@ -289,7 +283,7 @@ Instructions on how to crate a DigitalOcean Droplet and setup your project are i
 - [MongoDB Java Drivers](https://mongodb.github.io/mongo-java-driver/)
   - [MongoDB Driver 3.12 Documentation](https://mongodb.github.io/mongo-java-driver/3.12/driver/)
 - [MongoJack](https://mongojack.org/)
-- [JSON generator](https://next.json-generator.com/) for generating
+- [JSON Generator](https://next.json-generator.com/) for generating
   seed data for testing
 
 ### Cypress (end-to-end testing)
