@@ -40,6 +40,10 @@
     // https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
     "dbaeumer.vscode-eslint",
 
+    // Live Share
+    // https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare
+    "MS-vsliveshare.vsliveshare",
+
     // MongoDB for VS Code
     // https://marketplace.visualstudio.com/items?itemName=mongodb.mongodb-vscode
     "mongodb.mongodb-vscode"
