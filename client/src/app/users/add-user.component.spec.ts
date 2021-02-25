@@ -117,89 +117,49 @@ describe('AddUserComponent', () => {
   });
 
   describe('The age field', () => {
-    // Both the form control and the HTML itself enforce certain constraints
-    // on what we can put in the age field. The HTML makes sure that the
-    // value is numeric, and the form control makes sure that it's in the
-    // right range.
-    describe('The HTML element', () => {
-      let ageHtmlInput: HTMLInputElement;
+    let ageControl: AbstractControl;
 
-      beforeEach(() => {
-        ageHtmlInput = document.querySelector('[formControlName=age]');
-      });
-
-      it('should actually be an <input> tag', () => {
-        // None of the other tests work if this isn't true. (If you do want to
-        // change the tag used, you're probably going to need to rewrite this
-        // whole describe block.)
-        expect(ageHtmlInput.tagName).toBe('INPUT');
-      });
-
-      it('should not allow empty ages', () => {
-        ageHtmlInput.value = '';
-        expect(ageHtmlInput.validity.valid).toBeFalsy();
-        expect(ageHtmlInput.validity.valueMissing).toBeTruthy();
-      });
-
-      it('should be fine with "27"', () => {
-        ageHtmlInput.value = '27';
-        expect(ageHtmlInput.validity.valid).toBeTruthy();
-      });
-
-      it('should not allow an age to be non-numeric', () => {
-        // The HTML input field itself checks to make sure that the value is
-        // numeric. Angular's form controls aren't even involved with this step.
-        ageHtmlInput.value = '27aa';
-        expect(ageHtmlInput.validity.valid).toBeFalsy();
-        expect(ageHtmlInput.validity.valueMissing).toBeTruthy();
-      });
+    beforeEach(() => {
+      ageControl = addUserComponent.addUserForm.controls.age;
     });
 
-    describe('The Angular form control', () => {
-      let ageControl: AbstractControl;
+    it('should not allow empty ages', () => {
+      ageControl.setValue('');
+      expect(ageControl.valid).toBeFalsy();
+    });
 
-      beforeEach(() => {
-        ageControl = addUserComponent.addUserForm.controls.age;
-      });
+    it('should be fine with "27"', () => {
+      ageControl.setValue('27');
+      expect(ageControl.valid).toBeTruthy();
+    });
 
-      it('should not allow empty ages', () => {
-        ageControl.setValue('');
-        expect(ageControl.valid).toBeFalsy();
-      });
+    it('should fail on ages that are too low', () => {
+      ageControl.setValue('14');
+      expect(ageControl.valid).toBeFalsy();
+      expect(ageControl.hasError('min')).toBeTruthy();
+    });
 
-      it('should be fine with "27"', () => {
-        ageControl.setValue('27');
-        expect(ageControl.valid).toBeTruthy();
-      });
+    it('should fail on negative ages', () => {
+      ageControl.setValue('-27');
+      expect(ageControl.valid).toBeFalsy();
+      expect(ageControl.hasError('min')).toBeTruthy();
+    });
 
-      it('should fail on ages that are too low', () => {
-        ageControl.setValue('14');
-        expect(ageControl.valid).toBeFalsy();
-        expect(ageControl.hasError('min')).toBeTruthy();
-      });
+    // In the real world, you'd want to be pretty careful about
+    // setting upper limits on things like ages.
+    it('should fail on ages that are too high', () => {
+      ageControl.setValue(201);
+      expect(ageControl.valid).toBeFalsy();
+      // I have no idea why I have to use a lower case 'l' here
+      // when it's an upper case 'L' in `Validators.maxLength(2)`.
+      // But I apparently do.
+      expect(ageControl.hasError('max')).toBeTruthy();
+    });
 
-      it('should fail on negative ages', () => {
-        ageControl.setValue('-27');
-        expect(ageControl.valid).toBeFalsy();
-        expect(ageControl.hasError('min')).toBeTruthy();
-      });
-
-      // In the real world, you'd want to be pretty careful about
-      // setting upper limits on things like ages.
-      it('should fail on ages that are too high', () => {
-        ageControl.setValue(201);
-        expect(ageControl.valid).toBeFalsy();
-        // I have no idea why I have to use a lower case 'l' here
-        // when it's an upper case 'L' in `Validators.maxLength(2)`.
-        // But I apparently do.
-        expect(ageControl.hasError('max')).toBeTruthy();
-      });
-
-      it('should not allow an age to contain a decimal point', () => {
-        ageControl.setValue(27.5);
-        expect(ageControl.valid).toBeFalsy();
-        expect(ageControl.hasError('pattern')).toBeTruthy();
-      });
+    it('should not allow an age to contain a decimal point', () => {
+      ageControl.setValue(27.5);
+      expect(ageControl.valid).toBeFalsy();
+      expect(ageControl.hasError('pattern')).toBeTruthy();
     });
   });
 
