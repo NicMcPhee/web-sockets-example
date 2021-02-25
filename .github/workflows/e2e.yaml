@@ -1,4 +1,4 @@
-name: End to End
+name: End-to-End
 
 on: [push]
 
@@ -15,10 +15,6 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
-    - name: Seed database
-      run: ./mongoseed.sh
-      working-directory: ./database
 
     - name: Cache node modules
       uses: actions/cache@v2
@@ -44,11 +40,11 @@ jobs:
       with:
         node-version: 14
 
-    - name: Install dependencies (npm ci)
-      run: npm ci
-      working-directory: ./client
-
-    - name: Start server and run e2e tests
-      run: cd server && ./gradlew run & cd client && npm run e2eci
+    - name: Run e2e tests
+      uses: cypress-io/github-action@v2
+      with:
+        start: ${{ github.workspace }}/server/gradlew run -p ${{ github.workspace }}/server/
+        command: npm run e2e
+        working-directory: ./client
 
 
