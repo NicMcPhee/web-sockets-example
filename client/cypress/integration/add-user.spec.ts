@@ -35,12 +35,12 @@ describe('Add user', () => {
     page.getFormField('name').click().blur();
     cy.get('[data-test=nameError]').should('exist').and('be.visible');
     // Some more tests for various invalid name inputs
-    page.getFormField('name').type('J');
+    page.getFormField('name').type('J').blur();
     cy.get('[data-test=nameError]').should('exist').and('be.visible');
-    page.getFormField('name').clear().type('This is a very long name that goes beyond the 50 character limit');
+    page.getFormField('name').clear().type('This is a very long name that goes beyond the 50 character limit').blur();
     cy.get('[data-test=nameError]').should('exist').and('be.visible');
     // Entering a valid name should remove the error.
-    page.getFormField('name').clear().type('John Smith');
+    page.getFormField('name').clear().type('John Smith').blur();
     cy.get('[data-test=nameError]').should('not.exist');
 
     // Before doing anything there shouldn't be an error
@@ -49,12 +49,14 @@ describe('Add user', () => {
     page.getFormField('age').click().blur();
     // Some more tests for various invalid age inputs
     cy.get('[data-test=ageError]').should('exist').and('be.visible');
-    page.getFormField('age').type('5');
+    page.getFormField('age').type('5').blur();
     cy.get('[data-test=ageError]').should('exist').and('be.visible');
-    page.getFormField('age').clear().type('500');
+    page.getFormField('age').clear().type('500').blur();
+    cy.get('[data-test=ageError]').should('exist').and('be.visible');
+    page.getFormField('age').clear().type('asd').blur();
     cy.get('[data-test=ageError]').should('exist').and('be.visible');
     // Entering a valid age should remove the error.
-    page.getFormField('age').clear().type('25');
+    page.getFormField('age').clear().type('25').blur();
     cy.get('[data-test=ageError]').should('not.exist');
 
     // Before doing anything there shouldn't be an error
@@ -63,12 +65,12 @@ describe('Add user', () => {
     page.getFormField('email').click().blur();
     // Some more tests for various invalid email inputs
     cy.get('[data-test=emailError]').should('exist').and('be.visible');
-    page.getFormField('email').type('asd');
+    page.getFormField('email').type('asd').blur();
     cy.get('[data-test=emailError]').should('exist').and('be.visible');
-    page.getFormField('email').clear().type('@example.com');
+    page.getFormField('email').clear().type('@example.com').blur();
     cy.get('[data-test=emailError]').should('exist').and('be.visible');
     // Entering a valid email should remove the error.
-    page.getFormField('email').clear().type('user@example.com');
+    page.getFormField('email').clear().type('user@example.com').blur();
     cy.get('[data-test=emailError]').should('not.exist');
   });
 
