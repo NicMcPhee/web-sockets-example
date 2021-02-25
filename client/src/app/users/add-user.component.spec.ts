@@ -125,7 +125,7 @@ describe('AddUserComponent', () => {
       let ageHtmlInput: HTMLInputElement;
 
       beforeEach(() => {
-        ageHtmlInput = document.querySelector('[data-test=ageField]');
+        ageHtmlInput = document.querySelector('[formControlName=age]');
       });
 
       it('should actually be an <input> tag', () => {
