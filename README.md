@@ -34,6 +34,7 @@
 - [Changing the name](#changing-the-name)
 - [Deployment](#deployment)
 - [Resources](#resources)
+  - [git and GitHub](#git-and-github)
   - [Angular (client)](#angular-client)
   - [Javalin (server)](#javalin-server)
   - [MongoDB (database)](#mongodb-database)
@@ -260,6 +261,17 @@ The project by default has the name "CSCI 3601 Iteration Template". There are a 
 Instructions on how to crate a DigitalOcean Droplet and setup your project are in [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ## Resources
+
+### git and GitHub
+
+Now that you've had more experience with `git` and
+GitHub, you might consider going back and
+revisiting some of the resources
+from [Lab 0](https://github.com/UMM-CSci-3601/intro-to-git) including:
+
+  * [Understanding the GitHub flow](https://guides.github.com/introduction/flow/)
+  * [Mastering Markdown](https://guides.github.com/features/mastering-markdown/)
+* [The GitKraken tutorial videos](https://www.gitkraken.com/learn-git)
 
 ### Angular (client)
 
