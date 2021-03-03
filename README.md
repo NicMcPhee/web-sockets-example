@@ -14,7 +14,7 @@
 [![Client Build Status](../../actions/workflows/client.yaml/badge.svg)](../../actions/workflows/client.yaml)
 [![End to End Build Status](../../actions/workflows/e2e.yaml/badge.svg)](../../actions/workflows/e2e.yaml)
 
-[![BCH compliance](https://bettercodehub.com/edge/badge/UMM-CSci-3601/3601-iteration-template?branch=master)](https://bettercodehub.com/)
+[![BCH compliance](https://bettercodehub.com/edge/badge/UMM-CSci-3601/3601-iteration-template?branch=main)](https://bettercodehub.com/)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/UMM-CSci-3601/3601-iteration-template.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/UMM-CSci-3601/3601-iteration-template/alerts/)
 
 - [Setup](#setup)
@@ -63,7 +63,7 @@ and working, as described in the system setup documentation from the
 beginning of the semester. If you're unsure if it's set up and
 working correctly, try running `mongo`.
 
-If your MongoDB server isn't installed you'll likely get an error
+If your MongoDB server isn't running you'll likely get an error
 message like:
 
 ```text
