@@ -39,6 +39,7 @@
   - [Javalin (server)](#javalin-server)
   - [MongoDB (database)](#mongodb-database)
   - [Cypress (end-to-end testing)](#cypress-end-to-end-testing)
+  - [Accessibility](#accessibility)
 
 This is your starter code for Iteration 1.
 
@@ -304,3 +305,21 @@ from [Lab 0](https://github.com/UMM-CSci-3601/intro-to-git) including:
 * [Cypress Best Practices](https://docs.cypress.io/guides/references/best-practices.html)
 * [Introduction to Cypress](https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html#Cypress-Can-Be-Simple-Sometimes)
 * [Interacting with Elements in Cypress](https://docs.cypress.io/guides/core-concepts/interacting-with-elements.html#Actionability)
+
+### Accessibility
+
+We haven't talked much about accessibility, but it's
+a really important issue in making the web and our apps
+available to as broad as audience as possible.
+
+Here are some useful resources to explore:
+
+- Firefox has a built-in accessiblity checker in the
+  "Web Developer" tools
+- NoCoffee: A browser extension that simulates a variety of visual impairments
+  - [For Chrome](https://chrome.google.com/webstore/detail/nocoffee/jjeeggmbnhckmgdhmgdckeigabjfbddl?hl=en-US)
+  - [For Firefox](https://addons.mozilla.org/en-US/firefox/addon/nocoffee/)
+- [The Angular accessibility guide](https://angular.io/guide/accessibility
+- [The U of MN's accessibility info for web devs](https://accessibility.umn.edu/core-skills-web-developers)
+- [Audit your Angular app's accessibility with codelyzer](https://web.dev/accessible-angular-with-codelyzer/)
+- [The WAVE accessibility analyzer](https://wave.webaim.org/)
