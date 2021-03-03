@@ -270,18 +270,18 @@ GitHub, you might consider going back and
 revisiting some of the resources
 from [Lab 0](https://github.com/UMM-CSci-3601/intro-to-git) including:
 
-  * [Understanding the GitHub flow](https://guides.github.com/introduction/flow/)
-  * [Mastering Markdown](https://guides.github.com/features/mastering-markdown/)
-* [The GitKraken tutorial videos](https://www.gitkraken.com/learn-git)
+  - [Understanding the GitHub flow](https://guides.github.com/introduction/flow/)
+  - [Mastering Markdown](https://guides.github.com/features/mastering-markdown/)
+- [The GitKraken tutorial videos](https://www.gitkraken.com/learn-git)
 
 ### Angular (client)
 
-* [Angular Unit Testing (Karma)](https://angular.io/guide/testing)
-* [Angular Routing](https://angular.io/guide/router)
-* [Angular Forms](https://angular.io/guide/forms-overview)
-* [Angular Material](https://material.angular.io/)
-* [What are environments in Angular](https://angular.io/guide/build#configuring-application-environments)
-* [Angular CLI](https://angular.io/cli)
+- [Angular Unit Testing (Karma)](https://angular.io/guide/testing)
+- [Angular Routing](https://angular.io/guide/router)
+- [Angular Forms](https://angular.io/guide/forms-overview)
+- [Angular Material](https://material.angular.io/)
+- [What are environments in Angular](https://angular.io/guide/build#configuring-application-environments)
+- [Angular CLI](https://angular.io/cli)
 
 ### Javalin (server)
 
@@ -301,10 +301,10 @@ from [Lab 0](https://github.com/UMM-CSci-3601/intro-to-git) including:
 
 ### Cypress (end-to-end testing)
 
-* [Cypress Docs](https://docs.cypress.io/)
-* [Cypress Best Practices](https://docs.cypress.io/guides/references/best-practices.html)
-* [Introduction to Cypress](https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html#Cypress-Can-Be-Simple-Sometimes)
-* [Interacting with Elements in Cypress](https://docs.cypress.io/guides/core-concepts/interacting-with-elements.html#Actionability)
+- [Cypress Docs](https://docs.cypress.io/)
+- [Cypress Best Practices](https://docs.cypress.io/guides/references/best-practices.html)
+- [Introduction to Cypress](https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html#Cypress-Can-Be-Simple-Sometimes)
+- [Interacting with Elements in Cypress](https://docs.cypress.io/guides/core-concepts/interacting-with-elements.html#Actionability)
 
 ### Accessibility
 
@@ -314,12 +314,13 @@ available to as broad as audience as possible.
 
 Here are some useful resources to explore:
 
-- Firefox has a built-in accessiblity checker in the
+- [The Angular accessibility guide](https://angular.io/guide/accessibility)
+- [The U of MN's accessibility info for web devs](https://accessibility.umn.edu/core-skills-web-developers)
+- Firefox has a built-in accessibility checker in the
   "Web Developer" tools
+- [axe browser extensions](https://www.deque.com/axe/browser-extensions/)
+- [The WAVE accessibility analyzer](https://wave.webaim.org/)
+  - [WAVE browser extensions](https://wave.webaim.org/extension/)
 - NoCoffee: A browser extension that simulates a variety of visual impairments
   - [For Chrome](https://chrome.google.com/webstore/detail/nocoffee/jjeeggmbnhckmgdhmgdckeigabjfbddl?hl=en-US)
   - [For Firefox](https://addons.mozilla.org/en-US/firefox/addon/nocoffee/)
-- [The Angular accessibility guide](https://angular.io/guide/accessibility
-- [The U of MN's accessibility info for web devs](https://accessibility.umn.edu/core-skills-web-developers)
-- [Audit your Angular app's accessibility with codelyzer](https://web.dev/accessible-angular-with-codelyzer/)
-- [The WAVE accessibility analyzer](https://wave.webaim.org/)
