@@ -66,6 +66,7 @@ application {
 test {
   // Use junit platform for unit tests
   useJUnitPlatform()
+  finalizedBy jacocoTestCoverageVerification
 }
 
 wrapper {
@@ -73,11 +74,49 @@ wrapper {
 }
 
 jacocoTestReport {
+  dependsOn test
   reports {
     // This isn't strictly necessary, but the default reports
     // location is buried pretty deep in the build directory,
     // so this makes it easier to find.
     html.destination file("${buildDir}/jacocoHtml")
+  }
+
+  afterEvaluate {
+    classDirectories.setFrom(files(classDirectories.files.collect {
+      fileTree(dir: it, exclude: 'umm3601/Server.class')
+    }))
+  }
+}
+
+jacocoTestCoverageVerification {
+  dependsOn test
+  violationRules {
+    rule {
+      element = 'BUNDLE'
+      limit {
+        counter = 'INSTRUCTION'
+        minimum = 0.8
+      }
+      limit {
+        counter = 'LINE'
+        minimum = 0.8
+      }
+      limit {
+        counter = 'BRANCH'
+        minimum = 0.8
+      }
+      limit {
+        counter = 'METHOD'
+        minimum = 0.8
+      }
+    }
+  }
+
+  afterEvaluate {
+    classDirectories.setFrom(files(classDirectories.files.collect {
+      fileTree(dir: it, exclude: 'umm3601/Server.class')
+    }))
   }
 }
 
