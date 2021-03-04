@@ -26,9 +26,13 @@
 
 This is your starter code for Iteration 1.
 
-There are a number of pieces in this production template to help you get started. As you work on your project, you should replace some of these pieces with elements of your project and remove whatever you don't need (e.g., markdown files, JSON data files, or any remnants of the labs). We include, for example, the users and todo parts of the
+There are a number of pieces in this production template to help you get started. As you work on your project, you should replace some of these pieces with elements of your project and remove whatever you don't need (e.g., markdown files, JSON data files, or any remnants of the labs). We include, for example, the users parts of the
 previous labs. These are almost certainly not relevant to your project
-and should be removed once you've gotten going.
+and should be removed once you've started.
+
+:exclamation: You should remove this sentence and the text above, and
+replace them with least an elevator pitch description of your project so that
+if someone comes to this repo they'll know what the project is about.
 
 ## [Development](DEVELOPMENT.md)
 
@@ -44,6 +48,9 @@ From the `client` directory:
 - `ng serve` to run the client
 - `ng test` to test the client
 - `ng e2e` and `ng e2e --watch` to run end-to-end tests
+
+From the `database` directory:
+- `./mongoseed.sh` (or `.\mongoseed.bat` on Windows) to seed the database
 
 ## [Deployment](DEPLOYMENT.md)
 
@@ -72,4 +79,4 @@ The project by default has the name "CSCI 3601 Iteration Template". There are a 
 - [`client/src/index.html`](client/src/index.html)
   - The `title` element
 
-You can remove this section of the README once you have changed the name.
+You can go ahead and remove this section of the README once you have changed the name.

@@ -108,10 +108,6 @@ can use to easily generate sophisticated seed data for your project.
 Once you have successfully run `npm install`, in order to serve up the _client side_ of your project, you will run
 `ng serve` (from the `client` directory as well). The client will be available by default at [`localhost:4200`](http://localhost:4200). If your server is running, you will be able to see data for users if you navigate to the right place in the project.
 
-The major difference between this lab and lab #3 is that, here, your data (users and todos) will be stored in a database rather than as "flat" JSON files within the server source code.
-
-For the most part, you will be using a local installation of Mongo as a dev (development) database. You don't really need to worry about how this is set up, but you do need to know a couple of tricks to help you use it:
-
 To recap, **here are the steps needed to _run_ the project**:
 
 1. Go into the `server` directory and enter `./gradlew run`.
