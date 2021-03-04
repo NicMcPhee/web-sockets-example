@@ -166,3 +166,9 @@ $RECYCLE.BIN/
 .settings/
 .caddy
 .env
+
+# We ignore node files at the top level to prevent committing
+# them when accidentally created by running npm commands at the root
+node_modules/
+package-lock.json
+package.json
