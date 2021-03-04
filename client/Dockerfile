@@ -5,7 +5,7 @@ WORKDIR /client
 
 # Install npm dependencies
 COPY package*.json /client/
-RUN npm ci
+RUN CYPRESS_INSTALL_BINARY=0 npm ci
 
 # Build the Angular project
 COPY . /client
