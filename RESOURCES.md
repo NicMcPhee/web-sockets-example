@@ -19,6 +19,7 @@ from [Lab 0](https://github.com/UMM-CSci-3601/intro-to-git) including:
 - [Angular Material](https://material.angular.io/)
 - [What are environments in Angular](https://angular.io/guide/build#configuring-application-environments)
 - [Angular CLI](https://angular.io/cli)
+- [Learn RxJS](https://www.learnrxjs.io/)
 
 ### Javalin (server)
 
