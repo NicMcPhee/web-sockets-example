@@ -104,9 +104,3 @@ body {
 .mat-flat-button {
   text-transform: uppercase;
 }
-
-// Special styling for the E2E test highlighter
-#BP_ELEMENT_HIGHLIGHT__ {
-  z-index: 100;
-  background-color: yellow !important;
-}
