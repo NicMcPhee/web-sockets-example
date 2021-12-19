@@ -1,5 +1,5 @@
 // Server side build.gradle
-// Builds the server side of the project
+// Builds and tests the server side of the project
 
 plugins {
   // Apply the application plugin to add support for building a CLI application
@@ -21,9 +21,9 @@ java {
 
 // In this section you declare where to find the dependencies of your project
 repositories {
-  // Use jcenter for resolving your dependencies.
+  // Use Maven Central for resolving your dependencies.
   // You can declare any Maven/Ivy/file repository here.
-  jcenter()
+  mavenCentral()
 }
 
 // External dependencies that our application utilizes
@@ -69,22 +69,89 @@ application {
 test {
   // Use junit platform for unit tests
   useJUnitPlatform()
-}
 
-wrapper {
-  distributionType = Wrapper.DistributionType.ALL
+  // After running the tests, generate a coverage report
+  finalizedBy jacocoTestReport
+  // After running the tests, check the coverage level
+  finalizedBy jacocoTestCoverageVerification
 }
 
 jacocoTestReport {
+  // Running the test report task automatically runs test first
+  dependsOn test
+
   reports {
     // This isn't strictly necessary, but the default reports
     // location is buried pretty deep in the build directory,
     // so this makes it easier to find.
     html.destination file("${buildDir}/jacocoHtml")
   }
+
+  afterEvaluate {
+    // This excludes the `Server` class from the coverage report. We don't
+    // have any good way to test the `Server` class directory (we'd have
+    // to somehow fake incoming HTTP requests), so we are just
+    // leaving it out of the coverage report and the coverage limits.
+    classDirectories.setFrom(files(classDirectories.files.collect {
+      fileTree(dir: it, exclude: 'umm3601/Server.class')
+    }))
+  }
+}
+
+jacocoTestCoverageVerification {
+  // Running the test verification task automatically runs test first
+  dependsOn test
+
+  // These are the rules applied to the test coverage
+  violationRules {
+    rule {
+      // We are looking at the entire bundle overall, i.e.,
+      // 80% of all instructions across all the Java files
+      // (except Server.java) need to be covered.
+      element = 'BUNDLE'
+
+      // 80% of instructions should be covered
+      limit {
+        counter = 'INSTRUCTION'
+        minimum = 0.8
+      }
+
+      // 80% of lines should be covered
+      limit {
+        counter = 'LINE'
+        minimum = 0.8
+      }
+
+      // 80% of branches should be covered
+      limit {
+        counter = 'BRANCH'
+        minimum = 0.8
+      }
+
+      // 80% of methods should be covered
+      limit {
+        counter = 'METHOD'
+        minimum = 0.8
+      }
+    }
+  }
+
+  // This excludes the `Server` class from coverage verification. We don't
+  // have any good way to test the `Server` class directory (we'd have
+  // to somehow fake incoming HTTP requests), so we are just
+  // leaving it out of the coverage report and the coverage limits.
+  afterEvaluate {
+    classDirectories.setFrom(files(classDirectories.files.collect {
+      fileTree(dir: it, exclude: 'umm3601/Server.class')
+    }))
+  }
 }
 
 tasks.withType(JavaCompile) {
   // All of our source files are written in UTF-8
   options.encoding = 'UTF-8'
+}
+
+wrapper {
+  distributionType = Wrapper.DistributionType.ALL
 }

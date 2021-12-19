@@ -40,9 +40,13 @@
     // https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
     "dbaeumer.vscode-eslint",
 
-    // Azure Cosmos DB
-    // https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-cosmosdb
-    "ms-azuretools.vscode-cosmosdb"
+    // Live Share
+    // https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare
+    "MS-vsliveshare.vsliveshare",
+
+    // MongoDB for VS Code
+    // https://marketplace.visualstudio.com/items?itemName=mongodb.mongodb-vscode
+    "mongodb.mongodb-vscode"
   ],
   // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
   "unwantedRecommendations": []

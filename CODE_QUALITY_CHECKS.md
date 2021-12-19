@@ -1,16 +1,16 @@
 # Code quality checks <!-- omit in toc -->
 
-* [What analysis tools are we using and why?](#what-analysis-tools-are-we-using-and-why)
-  * [BetterCodeHub](#bettercodehub)
-  * [LGTM ("Looks Good To Me")](#lgtm-looks-good-to-me)
-  * [What to do if you don't understand an alert?](#what-to-do-if-you-dont-understand-an-alert)
-* [Code quality badges](#code-quality-badges)
-  * [Updating the badges](#updating-the-badges)
-    * [GitHub Actions build statuses](#github-actions-build-statuses)
-    * [BetterCodeHub and LGTM badges](#bettercodehub-and-lgtm-badges)
-* [Enabling pull request checks](#enabling-pull-request-checks)
-  * [BetterCodeHub pull request checks](#bettercodehub-pull-request-checks)
-  * [LGTM pull request checks](#lgtm-pull-request-checks)
+- [What analysis tools are we using and why?](#what-analysis-tools-are-we-using-and-why)
+  - [Better Code Hub](#better-code-hub)
+  - [LGTM ("Looks Good To Me")](#lgtm-looks-good-to-me)
+  - [What to do if you don't understand an alert?](#what-to-do-if-you-dont-understand-an-alert)
+- [Code quality badges](#code-quality-badges)
+  - [Updating the badges](#updating-the-badges)
+    - [GitHub Actions build statuses](#github-actions-build-statuses)
+    - [Better Code Hub and LGTM badges](#better-code-hub-and-lgtm-badges)
+- [Enabling pull request checks](#enabling-pull-request-checks)
+  - [Better Code Hub pull request checks](#better-code-hub-pull-request-checks)
+  - [LGTM pull request checks](#lgtm-pull-request-checks)
 
 There are numerous tools designed to monitor the "quality" (defined
 in various ways) of your code and provide feedback on weak spots and
@@ -205,16 +205,22 @@ in checks that would in some way harm the quality of the codebase.
 Below are instructions for enabling pull request checks from
 the external services.
 
-### BetterCodeHub pull request checks
+### Better Code Hub pull request checks
 
-To enable pull request checks from BetterCodeHub you need to:
+:warning: :exclamation: :warning: You _must_ enable this or
+**you won't be able to ever merge
+into `main`**. As part of the branch protection setup, you have to
+"pass" Better Code Hub's checks, which can't happen if you don't have
+the checks enabled.
+
+To enable pull request checks from Better Code Hub you need to:
 
 1. Go to [Better Code Hub](https://bettercodehub.com) and login using
    your GitHub account.
 2. Choose this semester's organization icon from the set of icons to the
    right of "Your repositories".
 3. That should display all the repositories for this semester, which may
-   be rather a lot towards the end. Scroll or search to find your
+   be rather a lot. Scroll or search to find your
    specific repository.
 4. On the bottom left of your repo's card should be the GitHub pull
    request icon. Click that to enable Better Code Hub pull request checks
@@ -225,20 +231,10 @@ that project.
 
 ### LGTM pull request checks
 
-To enable pull request checks from LGTM you need to:
+LGTM should start doing pull request checks automatically.
 
-1. Go to [LGTM](https://lgtm.com) and login using your GitHub account.
-2. Click "Project lists" in the upper right.
-3. Type/paste the _full repo URL_ into the "Follow a project from a
-   repository host" search bar and press "Follow". That should add your
-   repository to the list of repositories that you're following.
-4. Click the big green button to the right of the listing for your
-   repository to enabled automated PR reviews.
-
-You should then see LGTM checks on your next pull request on
-that project.
-
-LGTM actually injects comments into the code review when a pull request
+By default, LGTM injects comments into the code review whenever a
+pull request
 will either increase or decrease the number of alerts. If your team
 (it should be a group decision) finds those annoying, [you can disable
 them](https://lgtm.com/help/lgtm/managing-automated-code-review#pr-comments).
