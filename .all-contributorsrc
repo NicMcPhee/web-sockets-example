@@ -20,7 +20,8 @@
         "projectManagement",
         "question",
         "test",
-        "tutorial"
+        "tutorial",
+        "a11y"
       ]
     }
   ],
