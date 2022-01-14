@@ -1,0 +1,32 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "floogulinc",
+      "name": "Paul Friederichsen",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1300395?v=4",
+      "profile": "https://floogulinc.com/",
+      "contributions": [
+        "code",
+        "content",
+        "doc",
+        "ideas",
+        "mentoring",
+        "question",
+        "review",
+        "security",
+        "test"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "3601-iteration-template",
+  "projectOwner": "UMM-CSci-3601",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
