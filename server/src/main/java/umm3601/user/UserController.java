@@ -9,9 +9,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
-import com.google.common.collect.ImmutableMap;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Sorts;
 
@@ -33,7 +33,7 @@ public class UserController {
   private static final String COMPANY_KEY = "company";
   private static final String ROLE_KEY = "role";
 
-  static String emailRegex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+  public static final String EMAIL_REGEX = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 
   private final JacksonMongoCollection<User> userCollection;
 
@@ -57,7 +57,7 @@ public class UserController {
 
     try {
       user = userCollection.find(eq("_id", new ObjectId(id))).first();
-    } catch(IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       throw new BadRequestResponse("The requested user id wasn't a legal Mongo Object ID.");
     }
     if (user == null) {
@@ -113,24 +113,59 @@ public class UserController {
    * @param ctx a Javalin HTTP context
    */
   public void addNewUser(Context ctx) {
+    /*
+     * The follow chain of statements uses the Javalin validator system
+     * to verify that instance of `User` provided in this context is
+     * a "legal" user. It checks the following things (in order):
+     *    - The user has a value for the name (`usr.name != null`)
+     *    - The user name is not blank (`usr.name.length > 0`)
+     *    - The provided email is value (matches EMAIL_REGEX)
+     *    - The provided age is > 0
+     *    - The provided role is valid (one of "admin", "editor", or "viewer")
+     *    - A non-blank company is provided
+     */
     User newUser = ctx.bodyValidator(User.class)
-      .check(usr -> usr.name != null && usr.name.length() > 0) //Verify that the user has a name that is not blank
-      .check(usr -> usr.email.matches(emailRegex)) // Verify that the provided email is a valid email
-      .check(usr -> usr.age > 0) // Verify that the provided age is > 0
-      .check(usr -> usr.role.matches("^(admin|editor|viewer)$")) // Verify that the role is one of the valid roles
-      .check(usr -> usr.company != null && usr.company.length() > 0) // Verify that the user has a company that is not blank
+      .check(usr -> usr.name != null && usr.name.length() > 0)
+      .check(usr -> usr.email.matches(EMAIL_REGEX))
+      .check(usr -> usr.age > 0)
+      .check(usr -> usr.role.matches("^(admin|editor|viewer)$"))
+      .check(usr -> usr.company != null && usr.company.length() > 0)
       .get();
 
-    // Generate user avatar (you won't need this part for todos)
-    try {
-      newUser.avatar = "https://gravatar.com/avatar/" + md5(newUser.email) + "?d=identicon";  // generate unique md5 code for identicon
-    } catch (NoSuchAlgorithmException ignored) {
-      newUser.avatar = "https://gravatar.com/avatar/?d=mp";                           // set to mystery person
-    }
+    // Generate a user avatar (you won't need this part for todos)
+    newUser.avatar = generateAvatar(newUser.email);
 
     userCollection.insertOne(newUser);
-    ctx.status(201);
-    ctx.json(ImmutableMap.of("id", newUser._id));
+    // 201 is the HTTP code for when we successfully
+    // create a new resource (a user in this case).
+    // See, e.g., https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+    // for a description of the various response codes.
+    final int createdResponseCode = 201;
+    ctx.status(createdResponseCode);
+    ctx.json(Map.of("id", newUser._id));
+  }
+
+  /**
+   * Utility function to generate an URI that points
+   * at a unique avatar image based on a user's email.
+   *
+   * This uses the service provided by gravatar.com; there
+   * are numerous other similar services that one could
+   * use if one wished.
+   *
+   * @param email the email to generate an avatar for
+   * @return a URI pointing to an avatar image
+   */
+  private String generateAvatar(String email) {
+    String avatar;
+    try {
+      // generate unique md5 code for identicon
+      avatar = "https://gravatar.com/avatar/" + md5(email) + "?d=identicon";
+    } catch (NoSuchAlgorithmException ignored) {
+      // set to mystery person
+      avatar = "https://gravatar.com/avatar/?d=mp";
+    }
+    return avatar;
   }
 
   /**
