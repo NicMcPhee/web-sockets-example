@@ -182,16 +182,33 @@
 
     <!-- Checks for class design                         -->
     <!-- See https://checkstyle.org/config_design.html -->
+    <!-- This only really makes sense if we're building a reasonably
+         sophisticate OO library, and that kind of design really doesn't
+         come up in this class, because the server library (e.g., Javalin)
+         encapsulates all that design work, leaving us to just act around
+         the "leaves" of the design.
     <module name="DesignForExtension"/>
+    -->
     <module name="FinalClass"/>
+    <!-- If everything is static in a class, then it shouldn't have
+         an accessible constructor. This is both subtle and
+         confusing, and not likely to come up much in the class,
+         so we'll just leave it out.
     <module name="HideUtilityClassConstructor"/>
+    -->
     <module name="InterfaceIsType"/>
     <module name="VisibilityModifier"/>
 
     <!-- Miscellaneous other checks.                   -->
     <!-- See https://checkstyle.org/config_misc.html -->
     <module name="ArrayTypeStyle"/>
+    <!-- I (Nic) really likes the *intent* of this rule,
+         but it's really trying to use CheckStyle to fix
+         a mistake in the design of Java. This just confuses
+         students, and requires a ton of extra typing
+         that probably doesn't buy folks much.
     <module name="FinalParameters"/>
+    -->
     <module name="TodoComment"/>
     <module name="UpperEll"/>
 
