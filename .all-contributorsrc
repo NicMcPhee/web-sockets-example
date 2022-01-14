@@ -1,0 +1,36 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "helloworld12321",
+      "name": "Joe Moonan Walbran",
+      "avatar_url": "https://avatars.githubusercontent.com/u/56209343?v=4",
+      "profile": "https://github.com/helloworld12321",
+      "contributions": [
+        "bug",
+        "code",
+        "content",
+        "doc",
+        "ideas",
+        "infra",
+        "maintenance",
+        "mentoring",
+        "projectManagement",
+        "question",
+        "review",
+        "tool",
+        "test"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "3601-iteration-template",
+  "projectOwner": "UMM-CSci-3601",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
