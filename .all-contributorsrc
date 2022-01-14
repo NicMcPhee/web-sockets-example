@@ -45,6 +45,25 @@
         "tool",
         "test"
       ]
+    },
+    {
+      "login": "kklamberty",
+      "name": "K.K. Lamberty",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2751987?v=4",
+      "profile": "https://github.com/kklamberty",
+      "contributions": [
+        "code",
+        "content",
+        "design",
+        "doc",
+        "ideas",
+        "mentoring",
+        "projectManagement",
+        "question",
+        "test",
+        "tutorial",
+        "a11y"
+      ]
     }
   ],
   "contributorsPerLine": 7,
