@@ -95,7 +95,14 @@
   <!--   <property name="fileExtensions" value="java"/> -->
   <!-- </module> -->
 
+  <!-- Allows us to suppress warnings with @SupressWarnings annotations. -->
+  <!-- Requires the "SuppressWarningsHolder" module below in the "TreeWalker" section. -->
+  <module name="SuppressWarningsFilter" />
+
   <module name="TreeWalker">
+    <!-- Allows us to suppress warnings with @SupressWarnings annotations. -->
+    <!-- Also requires the "SuppressWarningsFilter" module above. -->
+    <module name="SuppressWarningsHolder" />
 
     <!-- Checks for Javadoc comments.                     -->
     <!-- See https://checkstyle.org/config_javadoc.html -->
