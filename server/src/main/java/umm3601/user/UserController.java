@@ -120,7 +120,7 @@ public class UserController {
      * a "legal" user. It checks the following things (in order):
      *    - The user has a value for the name (`usr.name != null`)
      *    - The user name is not blank (`usr.name.length > 0`)
-     *    - The provided email is value (matches EMAIL_REGEX)
+     *    - The provided email is valid (matches EMAIL_REGEX)
      *    - The provided age is > 0
      *    - The provided role is valid (one of "admin", "editor", or "viewer")
      *    - A non-blank company is provided
