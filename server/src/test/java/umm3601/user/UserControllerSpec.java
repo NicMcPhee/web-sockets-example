@@ -11,10 +11,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.common.collect.ImmutableMap;
 import com.mockrunner.mock.web.MockHttpServletRequest;
 import com.mockrunner.mock.web.MockHttpServletResponse;
 import com.mongodb.MongoClientSettings;
@@ -254,7 +254,7 @@ public class UserControllerSpec {
 
     String testID = samsId.toHexString();
 
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", ImmutableMap.of("id", testID));
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", Map.of("id", testID));
     userController.getUser(ctx);
 
     assertEquals(200, mockRes.getStatus());
@@ -269,7 +269,7 @@ public class UserControllerSpec {
   @Test
   public void getUserWithBadId() throws IOException {
 
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", ImmutableMap.of("id", "bad"));
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", Map.of("id", "bad"));
 
     assertThrows(BadRequestResponse.class, () -> {
       userController.getUser(ctx);
@@ -280,7 +280,7 @@ public class UserControllerSpec {
   public void getUserWithNonexistentId() throws IOException {
 
     Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id",
-        ImmutableMap.of("id", "58af3a600343927e48e87335"));
+        Map.of("id", "58af3a600343927e48e87335"));
 
     assertThrows(NotFoundResponse.class, () -> {
       userController.getUser(ctx);
@@ -474,7 +474,7 @@ public class UserControllerSpec {
     // User exists before deletion
     assertEquals(1, db.getCollection("users").countDocuments(eq("_id", new ObjectId(testID))));
 
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", ImmutableMap.of("id", testID));
+    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", Map.of("id", testID));
     userController.deleteUser(ctx);
 
     assertEquals(200, mockRes.getStatus());
