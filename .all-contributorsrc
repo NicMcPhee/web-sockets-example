@@ -19,7 +19,10 @@
         "question",
         "review",
         "security",
-        "test"
+        "test",
+        "a11y",
+        "infra",
+        "maintenance"
       ]
     }
   ],
