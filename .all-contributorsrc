@@ -24,6 +24,27 @@
         "infra",
         "maintenance"
       ]
+    },
+    {
+      "login": "helloworld12321",
+      "name": "Joe Moonan Walbran",
+      "avatar_url": "https://avatars.githubusercontent.com/u/56209343?v=4",
+      "profile": "https://github.com/helloworld12321",
+      "contributions": [
+        "bug",
+        "code",
+        "content",
+        "doc",
+        "ideas",
+        "infra",
+        "maintenance",
+        "mentoring",
+        "projectManagement",
+        "question",
+        "review",
+        "tool",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
