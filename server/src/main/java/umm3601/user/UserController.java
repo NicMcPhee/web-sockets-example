@@ -4,6 +4,7 @@ import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.regex;
 
+import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -140,8 +141,10 @@ public class UserController {
     // create a new resource (a user in this case).
     // See, e.g., https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
     // for a description of the various response codes.
-    final int createdResponseCode = 201;
-    ctx.status(createdResponseCode);
+    // The class HttpURLConnection contains named constants with
+    // most, but not all, of the standard HTTP status codes,
+    // including HTTP_CREATED for 201.
+    ctx.status(HttpURLConnection.HTTP_CREATED);
     ctx.json(Map.of("id", newUser._id));
   }
 

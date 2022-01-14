@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -159,8 +160,9 @@ public class UserControllerSpec {
     userController.getUsers(ctx);
 
     // The response status should be 200, i.e., our request
-    // was handled successfully.
-    assertEquals(200, mockRes.getStatus());
+    // was handled successfully. This is a named constant in
+    // the class HttpURLConnection.
+    assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
 
     String result = ctx.resultString();
     assertEquals(db.getCollection("users").countDocuments(), JavalinJson.fromJson(result, User[].class).length);
@@ -177,7 +179,7 @@ public class UserControllerSpec {
 
     userController.getUsers(ctx);
 
-    assertEquals(200, mockRes.getStatus());
+    assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
 
     String result = ctx.resultString();
     User[] resultUsers = JavalinJson.fromJson(result, User[].class);
@@ -213,7 +215,7 @@ public class UserControllerSpec {
     Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
     userController.getUsers(ctx);
 
-    assertEquals(200, mockRes.getStatus());
+    assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
     String result = ctx.resultString();
 
     User[] resultUsers = JavalinJson.fromJson(result, User[].class);
@@ -231,7 +233,7 @@ public class UserControllerSpec {
     Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
     userController.getUsers(ctx);
 
-    assertEquals(200, mockRes.getStatus());
+    assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
     String result = ctx.resultString();
     for (User user : JavalinJson.fromJson(result, User[].class)) {
       assertEquals("viewer", user.role);
@@ -245,7 +247,7 @@ public class UserControllerSpec {
     Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
     userController.getUsers(ctx);
 
-    assertEquals(200, mockRes.getStatus());
+    assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
     String result = ctx.resultString();
     User[] resultUsers = JavalinJson.fromJson(result, User[].class);
 
@@ -264,7 +266,7 @@ public class UserControllerSpec {
     Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", Map.of("id", testID));
     userController.getUser(ctx);
 
-    assertEquals(200, mockRes.getStatus());
+    assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
 
     String result = ctx.resultString();
     User resultUser = JavalinJson.fromJson(result, User.class);
@@ -313,8 +315,8 @@ public class UserControllerSpec {
     userController.addNewUser(ctx);
 
     // Our status should be 201, i.e., our new user was successfully
-    // created.
-    assertEquals(201, mockRes.getStatus());
+    // created. This is a named constant in the class HttpURLConnection.
+    assertEquals(HttpURLConnection.HTTP_CREATED, mockRes.getStatus());
 
     String result = ctx.resultString();
     ObjectMapper jsonMapper = new ObjectMapper();
@@ -484,7 +486,7 @@ public class UserControllerSpec {
     Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", Map.of("id", testID));
     userController.deleteUser(ctx);
 
-    assertEquals(200, mockRes.getStatus());
+    assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
 
     // User is no longer in the database
     assertEquals(0, db.getCollection("users").countDocuments(eq("_id", new ObjectId(testID))));
