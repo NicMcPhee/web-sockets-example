@@ -46,6 +46,9 @@ Instructions on setting up the development environment and working with the code
 From the `server` directory:
 - `./gradlew run` to start the server
 - `./gradlew test` to test the server
+- `./gradlew checkstyleMain` to run Checkstyle on the server Java code in the `src/main` folder
+- `./gradlew checkstyleTest` to run Checkstyle on the server Java code in the `src/test` folder
+- `./gradlew check` will run both the tests and Checkstyle in one command
 
 From the `client` directory:
 - `ng serve` to run the client
