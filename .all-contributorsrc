@@ -1,0 +1,33 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "kklamberty",
+      "name": "K.K. Lamberty",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2751987?v=4",
+      "profile": "https://github.com/kklamberty",
+      "contributions": [
+        "code",
+        "content",
+        "doc",
+        "design",
+        "ideas",
+        "mentoring",
+        "projectManagement",
+        "question",
+        "test",
+        "tutorial"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "3601-iteration-template",
+  "projectOwner": "UMM-CSci-3601",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
