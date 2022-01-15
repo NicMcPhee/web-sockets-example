@@ -87,8 +87,6 @@ This contributors to this project can be seen [here](../../graphs/contributors).
 The project by default has the name "CSCI 3601 Iteration Template". There are a few places you need to change to make this the name you want:
 
 - The title of this README.md
-- [`server/src/main/java/umm3601/Server.java`](server/src/main/java/umm3601/Server.java)
-  - The `appName` variable
 - [`client/src/app/app.component.ts`](client/src/app/app.component.ts)
   - The `title` variable
   - Also the associated unit and E2E tests will need to be changed.
