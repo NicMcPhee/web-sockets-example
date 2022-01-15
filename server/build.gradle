@@ -7,6 +7,9 @@ plugins {
 
   // Apply the Jacoco plugin to add suppport for JUnit test coverage reports.
   id 'jacoco'
+
+  // Apply the checkstyle plugin to check for appropriate Java code style.
+  id 'checkstyle'
 }
 
 // Build and run the project with Java 11
@@ -18,16 +21,13 @@ java {
 
 // In this section you declare where to find the dependencies of your project
 repositories {
-  // Use jcenter for resolving your dependencies.
+  // Use Maven Central for resolving your dependencies.
   // You can declare any Maven/Ivy/file repository here.
-  jcenter()
+  mavenCentral()
 }
 
 // External dependencies that our application utilizes
 dependencies {
-  // Google core libraries for Java, various useful utilities
-  implementation 'com.google.guava:guava:30.1-jre'
-
   // Javalin, a simple web framework for Java
   implementation 'io.javalin:javalin:3.13.3'
 
