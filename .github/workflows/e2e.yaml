@@ -35,10 +35,10 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
 
-    - name: Use Node.js 14
+    - name: Use Node.js 16
       uses: actions/setup-node@v2
       with:
-        node-version: 14
+        node-version: 16
 
     - name: Run e2e tests
       uses: cypress-io/github-action@v2
@@ -46,5 +46,3 @@ jobs:
         start: ${{ github.workspace }}/server/gradlew run -p ${{ github.workspace }}/server/
         command: npm run e2e
         working-directory: ./client
-
-
