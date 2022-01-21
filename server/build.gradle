@@ -7,6 +7,9 @@ plugins {
 
   // Apply the Jacoco plugin to add suppport for JUnit test coverage reports.
   id 'jacoco'
+
+  // Apply the checkstyle plugin to check for appropriate Java code style.
+  id 'checkstyle'
 }
 
 // Build and run the project with Java 11
@@ -18,16 +21,13 @@ java {
 
 // In this section you declare where to find the dependencies of your project
 repositories {
-  // Use jcenter for resolving your dependencies.
+  // Use Maven Central for resolving your dependencies.
   // You can declare any Maven/Ivy/file repository here.
-  jcenter()
+  mavenCentral()
 }
 
 // External dependencies that our application utilizes
 dependencies {
-  // Google core libraries for Java, various useful utilities
-  implementation 'com.google.guava:guava:30.1-jre'
-
   // Javalin, a simple web framework for Java
   implementation 'io.javalin:javalin:3.13.3'
 
@@ -43,17 +43,18 @@ dependencies {
 
   // Jackson support modules for Java 8 datatypes
   implementation 'com.fasterxml.jackson.module:jackson-module-parameter-names:2.12.1'
-  implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.12.1'
+  implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.12.4'
+  implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.4'
   implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.1'
 
   // Simple Logging Facade for Java
   implementation 'org.slf4j:slf4j-simple:1.7.30'
 
   // JUnit Jupiter API for testing.
-  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
+  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
 
   // JUnit Jupiter Engine for testing.
-  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.1'
+  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
 
   testImplementation 'com.mockrunner:mockrunner-servlet:2.0.6'
 }
