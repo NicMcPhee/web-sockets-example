@@ -23,15 +23,14 @@ export class AddUserComponent implements OnInit {
       {type: 'required', message: 'Name is required'},
       {type: 'minlength', message: 'Name must be at least 2 characters long'},
       {type: 'maxlength', message: 'Name cannot be more than 50 characters long'},
-      {type: 'pattern', message: 'Name must contain only numbers and letters'},
       {type: 'existingName', message: 'Name has already been taken'}
     ],
 
     age: [
-      {type: 'pattern', message: 'Age must be a number'},
+      {type: 'required', message: 'Age is required'},
       {type: 'min', message: 'Age must be at least 15'},
       {type: 'max', message: 'Age may not be greater than 200'},
-      {type: 'required', message: 'Age is required'}
+      {type: 'pattern', message: 'Age must be a whole number'}
     ],
 
     email: [
@@ -61,7 +60,6 @@ export class AddUserComponent implements OnInit {
         // very long names. This demonstrates that it's possible, though,
         // to have maximum length limits.
         Validators.maxLength(50),
-        Validators.pattern('^[A-Za-z0-9\\s]+[A-Za-z0-9\\s]+$(\\.0-9+)?'),
         (fc) => {
           if (fc.value.toLowerCase() === 'abc123' || fc.value.toLowerCase() === '123abc') {
             return ({existingName: true});
@@ -74,9 +72,12 @@ export class AddUserComponent implements OnInit {
       // Since this is for a company, we need workers to be old enough to work, and probably not older than 200.
       age: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('^[0-9]+[0-9]?'),
         Validators.min(15),
         Validators.max(200),
+        // In the HTML, we set type="number" on this field. That guarantees that the value of this field is numeric,
+        // but not that it's a whole number. (The user could still type -27.3232, for example.) So, we also need
+        // to include this pattern.
+        Validators.pattern('^[0-9]+$')
       ])),
 
       // We don't care much about what is in the company field, so we just add it here as part of the form
@@ -110,8 +111,8 @@ export class AddUserComponent implements OnInit {
       });
       this.router.navigate(['/users/', newID]);
     }, err => {
-      this.snackBar.open('Failed to add the user', null, {
-        duration: 2000,
+      this.snackBar.open('Failed to add the user', 'OK', {
+        duration: 5000,
       });
     });
   }

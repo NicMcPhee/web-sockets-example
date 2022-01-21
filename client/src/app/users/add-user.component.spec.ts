@@ -1,11 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule, NgForm, ReactiveFormsModule, FormGroup, AbstractControl } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormGroup, AbstractControl } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockUserService } from 'src/testing/user.service.mock';
@@ -15,7 +14,6 @@ import { UserService } from './user.service';
 describe('AddUserComponent', () => {
   let addUserComponent: AddUserComponent;
   let addUserForm: FormGroup;
-  let calledClose: boolean;
   let fixture: ComponentFixture<AddUserComponent>;
 
   beforeEach(waitForAsync(() => {
@@ -39,7 +37,6 @@ describe('AddUserComponent', () => {
   }));
 
   beforeEach(() => {
-    calledClose = false;
     fixture = TestBed.createComponent(AddUserComponent);
     addUserComponent = fixture.componentInstance;
     addUserComponent.ngOnInit();
@@ -101,12 +98,6 @@ describe('AddUserComponent', () => {
       expect(nameControl.hasError('maxlength')).toBeTruthy();
     });
 
-    it('should not allow a name to contain a symbol', () => {
-      nameControl.setValue('bad@email.com');
-      expect(nameControl.valid).toBeFalsy();
-      expect(nameControl.hasError('pattern')).toBeTruthy();
-    });
-
     it('should allow digits in the name', () => {
       nameControl.setValue('Bad2Th3B0ne');
       expect(nameControl.valid).toBeTruthy();
@@ -132,7 +123,7 @@ describe('AddUserComponent', () => {
       ageControl = addUserComponent.addUserForm.controls.age;
     });
 
-    it('should not allow empty names', () => {
+    it('should not allow empty ages', () => {
       ageControl.setValue('');
       expect(ageControl.valid).toBeFalsy();
     });
@@ -148,6 +139,12 @@ describe('AddUserComponent', () => {
       expect(ageControl.hasError('min')).toBeTruthy();
     });
 
+    it('should fail on negative ages', () => {
+      ageControl.setValue('-27');
+      expect(ageControl.valid).toBeFalsy();
+      expect(ageControl.hasError('min')).toBeTruthy();
+    });
+
     // In the real world, you'd want to be pretty careful about
     // setting upper limits on things like ages.
     it('should fail on ages that are too high', () => {
@@ -159,8 +156,8 @@ describe('AddUserComponent', () => {
       expect(ageControl.hasError('max')).toBeTruthy();
     });
 
-    it('should not allow an age to contain non-digits', () => {
-      ageControl.setValue('123x567');
+    it('should not allow an age to contain a decimal point', () => {
+      ageControl.setValue(27.5);
       expect(ageControl.valid).toBeFalsy();
       expect(ageControl.hasError('pattern')).toBeTruthy();
     });
