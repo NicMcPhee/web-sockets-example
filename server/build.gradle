@@ -35,7 +35,7 @@ dependencies {
   implementation 'org.mongodb:mongodb-driver-sync:3.12.7'
 
   // Jackson, a JSON library for Java
-  implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
+  implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.1'
 
   // MongoJack, MongoDB integration for Jackson
   implementation 'org.mongojack:mongojack:3.0.3'
