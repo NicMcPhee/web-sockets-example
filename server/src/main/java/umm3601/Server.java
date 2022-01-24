@@ -8,6 +8,8 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 
+import org.bson.UuidRepresentation;
+
 import io.javalin.Javalin;
 import io.javalin.core.util.RouteOverviewPlugin;
 import io.javalin.http.InternalServerErrorResponse;
@@ -29,6 +31,10 @@ public class Server {
       = MongoClients.create(MongoClientSettings
         .builder()
         .applyToClusterSettings(builder -> builder.hosts(Arrays.asList(new ServerAddress(mongoAddr))))
+        // Old versions of the mongodb-driver-sync package encoded UUID values (universally unique identifiers) in
+        // a non-standard way. This option says to use the standard encoding.
+        // See: https://studio3t.com/knowledge-base/articles/mongodb-best-practices-uuid-data/
+        .uuidRepresentation(UuidRepresentation.STANDARD)
         .build());
 
     // Get the database

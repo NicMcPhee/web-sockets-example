@@ -38,7 +38,7 @@ dependencies {
   implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.1'
 
   // MongoJack, MongoDB integration for Jackson
-  implementation 'org.mongojack:mongojack:3.0.3'
+  implementation 'org.mongojack:mongojack:4.3.0'
   // implementation 'org.mongojack:mongojack:4.0.2'
 
   // Jackson support modules for Java 8 datatypes

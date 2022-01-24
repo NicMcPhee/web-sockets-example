@@ -17,6 +17,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Sorts;
 
 import org.bson.Document;
+import org.bson.UuidRepresentation;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.mongojack.JacksonMongoCollection;
@@ -44,7 +45,11 @@ public class UserController {
    * @param database the database containing user data
    */
   public UserController(MongoDatabase database) {
-    userCollection = JacksonMongoCollection.builder().build(database, "users", User.class);
+    userCollection = JacksonMongoCollection.builder().build(
+        database,
+        "users",
+        User.class,
+        UuidRepresentation.STANDARD);
   }
 
   /**
