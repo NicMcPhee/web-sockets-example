@@ -36,7 +36,6 @@ import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
 import io.javalin.http.util.ContextUtil;
-import io.javalin.plugin.json.JavalinJson;
 
 /**
  * Tests the logic of the UserController
@@ -164,8 +163,8 @@ public class UserControllerSpec {
     // the class HttpURLConnection.
     assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
 
-    String result = ctx.resultString();
-    assertEquals(db.getCollection("users").countDocuments(), JavalinJson.fromJson(result, User[].class).length);
+    User[] users = ctx.bodyAsClass(User[].class); // resultString();
+    assertEquals(db.getCollection("users").countDocuments(), users.length);
   }
 
   @Test
@@ -181,9 +180,7 @@ public class UserControllerSpec {
 
     assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
 
-    String result = ctx.resultString();
-    User[] resultUsers = JavalinJson.fromJson(result, User[].class);
-
+    User[] resultUsers = ctx.bodyAsClass(User[].class);
     assertEquals(2, resultUsers.length); // There should be two users returned
     for (User user : resultUsers) {
       assertEquals(37, user.age); // Every user should be age 37
@@ -216,10 +213,8 @@ public class UserControllerSpec {
     userController.getUsers(ctx);
 
     assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
-    String result = ctx.resultString();
 
-    User[] resultUsers = JavalinJson.fromJson(result, User[].class);
-
+    User[] resultUsers = ctx.bodyAsClass(User[].class);
     assertEquals(2, resultUsers.length); // There should be two users returned
     for (User user : resultUsers) {
       assertEquals("OHMNET", user.company);
@@ -234,8 +229,7 @@ public class UserControllerSpec {
     userController.getUsers(ctx);
 
     assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
-    String result = ctx.resultString();
-    for (User user : JavalinJson.fromJson(result, User[].class)) {
+    for (User user : ctx.bodyAsClass(User[].class)) {
       assertEquals("viewer", user.role);
     }
   }
@@ -248,9 +242,8 @@ public class UserControllerSpec {
     userController.getUsers(ctx);
 
     assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
-    String result = ctx.resultString();
-    User[] resultUsers = JavalinJson.fromJson(result, User[].class);
 
+    User[] resultUsers = ctx.bodyAsClass(User[].class);
     assertEquals(1, resultUsers.length); // There should be one user returned
     for (User user : resultUsers) {
       assertEquals("OHMNET", user.company);
@@ -268,9 +261,7 @@ public class UserControllerSpec {
 
     assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
 
-    String result = ctx.resultString();
-    User resultUser = JavalinJson.fromJson(result, User.class);
-
+    User resultUser = ctx.bodyAsClass(User.class);
     assertEquals(samsId.toHexString(), resultUser._id);
     assertEquals("Sam", resultUser.name);
   }

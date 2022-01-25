@@ -93,7 +93,7 @@ public class UserController {
     List<Bson> filters = new ArrayList<>(); // start with a blank document
 
     if (ctx.queryParamMap().containsKey(AGE_KEY)) {
-        int targetAge = ctx.queryParam(AGE_KEY, Integer.class).get();
+        int targetAge = ctx.queryParamAsClass(AGE_KEY, Integer.class).get();
         filters.add(eq(AGE_KEY, targetAge));
     }
 
@@ -105,8 +105,16 @@ public class UserController {
       filters.add(eq(ROLE_KEY, ctx.queryParam(ROLE_KEY)));
     }
 
-    String sortBy = ctx.queryParam("sortby", "name"); //Sort by sort query param, default is name
-    String sortOrder = ctx.queryParam("sortorder", "asc");
+    String sortBy = ctx.queryParam("sortby");
+    // Sort by name if no `sortby` is specified
+    if (sortBy == null) {
+      sortBy = "name";
+    } // , "name"); //Sort by sort query param, default is name
+    String sortOrder = ctx.queryParam("sortorder");
+    // Sort in ascending order if no `sortorder` is specified
+    if (sortOrder == null) {
+      sortOrder = "asc";
+    } // , "asc");
 
     ctx.json(userCollection.find(filters.isEmpty() ? new Document() : and(filters))
       .sort(sortOrder.equals("desc") ?  Sorts.descending(sortBy) : Sorts.ascending(sortBy))
@@ -131,11 +139,11 @@ public class UserController {
      *    - A non-blank company is provided
      */
     User newUser = ctx.bodyValidator(User.class)
-      .check(usr -> usr.name != null && usr.name.length() > 0)
-      .check(usr -> usr.email.matches(EMAIL_REGEX))
-      .check(usr -> usr.age > 0)
-      .check(usr -> usr.role.matches("^(admin|editor|viewer)$"))
-      .check(usr -> usr.company != null && usr.company.length() > 0)
+      .check(usr -> usr.name != null && usr.name.length() > 0, "User must have a non-empty user name")
+      .check(usr -> usr.email.matches(EMAIL_REGEX), "User must have a legal email")
+      .check(usr -> usr.age > 0, "User's age must be greater than zero")
+      .check(usr -> usr.role.matches("^(admin|editor|viewer)$"), "User must have a legal user role")
+      .check(usr -> usr.company != null && usr.company.length() > 0, "User must have a non-empty company name")
       .get();
 
     // Generate a user avatar (you won't need this part for todos)
