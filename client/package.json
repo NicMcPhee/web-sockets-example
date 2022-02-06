@@ -43,7 +43,7 @@
     "@nrwl/workspace": "^13.5.1",
     "@types/jasmine": "^3.8.2",
     "@types/node": "^16.4.10",
-    "@typescript-eslint/eslint-plugin": "^5.10.1",
+    "@typescript-eslint/eslint-plugin": "^5.10.2",
     "@typescript-eslint/parser": "^5.10.2",
     "cypress": "^6.6.0",
     "cypress-mongo-seeder": "^1.0.8",
