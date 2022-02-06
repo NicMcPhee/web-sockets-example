@@ -13,11 +13,10 @@ describe('App', () => {
     // Before clicking on the button, the sidenav should be hidden
     page.getSidenav()
       .should('be.hidden');
-
-
-    page.getSidenavButton().click()
+    page.getSidenavButton()
       .should('be.visible');
 
+    page.getSidenavButton().click();
     page.getNavLink('Users').click();
     cy.url().should('match', /\/users$/);
     page.getSidenav()
