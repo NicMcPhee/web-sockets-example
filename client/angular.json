@@ -117,8 +117,6 @@
         "e2e": {
           "builder": "@cypress/schematic:cypress",
           "options": {
-            "cypressConfig": "cypress.json",
-            "tsConfig": "cypress/tsconfig.json",
             "devServerTarget": "client:serve"
           },
           "configurations": {
