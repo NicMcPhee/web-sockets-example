@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "cy:open": "cypress open",
-    "docker-build": "npm run build -- --prod"
+    "docker-build": "npm run build"
   },
   "private": true,
   "dependencies": {
