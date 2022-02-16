@@ -1,12 +1,11 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../out-tsc/cypress",
     "types": [
       "cypress",
       "node"
     ],
-    "noEmit": true
+    "sourceMap": false
   },
   "include": [
     "**/*.ts"
