@@ -1,4 +1,4 @@
-import {seedAll} from 'cypress-mongo-seeder';
+import {seedAll} from '@floogulinc/cypress-mongo-seeder';
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
 //
