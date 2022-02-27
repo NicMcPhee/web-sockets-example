@@ -4,17 +4,18 @@ import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.regex;
 
-import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Sorts;
+import com.mongodb.client.result.DeleteResult;
 
 import org.bson.Document;
 import org.bson.UuidRepresentation;
@@ -24,6 +25,7 @@ import org.mongojack.JacksonMongoCollection;
 
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
+import io.javalin.http.HttpCode;
 import io.javalin.http.NotFoundResponse;
 
 /**
@@ -74,16 +76,6 @@ public class UserController {
   }
 
   /**
-   * Delete the user specified by the `id` parameter in the request.
-   *
-   * @param ctx a Javalin HTTP context
-   */
-  public void deleteUser(Context ctx) {
-    String id = ctx.pathParam("id");
-    userCollection.deleteOne(eq("_id", new ObjectId(id)));
-  }
-
-  /**
    * Get a JSON response with a list of all the users.
    *
    * @param ctx a Javalin HTTP context
@@ -105,16 +97,11 @@ public class UserController {
       filters.add(eq(ROLE_KEY, ctx.queryParam(ROLE_KEY)));
     }
 
-    String sortBy = ctx.queryParam("sortby");
-    // Sort by name if no `sortby` is specified
-    if (sortBy == null) {
-      sortBy = "name";
-    } // , "name"); //Sort by sort query param, default is name
-    String sortOrder = ctx.queryParam("sortorder");
-    // Sort in ascending order if no `sortorder` is specified
-    if (sortOrder == null) {
-      sortOrder = "asc";
-    } // , "asc");
+    // Sort the results. Use the `sortby` query param (default "name")
+    // as the field to sort by, and the query param `sortorder` (default
+    // "asc") to specify the sort order.
+    String sortBy = Objects.requireNonNullElse(ctx.queryParam("sortby"), "name");
+    String sortOrder = Objects.requireNonNullElse(ctx.queryParam("sortorder"), "asc");
 
     ctx.json(userCollection.find(filters.isEmpty() ? new Document() : and(filters))
       .sort(sortOrder.equals("desc") ?  Sorts.descending(sortBy) : Sorts.ascending(sortBy))
@@ -150,15 +137,26 @@ public class UserController {
     newUser.avatar = generateAvatar(newUser.email);
 
     userCollection.insertOne(newUser);
+
     // 201 is the HTTP code for when we successfully
     // create a new resource (a user in this case).
     // See, e.g., https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
     // for a description of the various response codes.
-    // The class HttpURLConnection contains named constants with
-    // most, but not all, of the standard HTTP status codes,
-    // including HTTP_CREATED for 201.
-    ctx.status(HttpURLConnection.HTTP_CREATED);
+    ctx.status(HttpCode.CREATED);
     ctx.json(Map.of("id", newUser._id));
+  }
+
+  /**
+   * Delete the user specified by the `id` parameter in the request.
+   *
+   * @param ctx a Javalin HTTP context
+   */
+  public void deleteUser(Context ctx) {
+    String id = ctx.pathParam("id");
+    DeleteResult deleteResult = userCollection.deleteOne(eq("_id", new ObjectId(id)));
+    if (deleteResult.getDeletedCount() != 1) {
+      throw new NotFoundResponse("Was unable to delete ID " + id + "; perhaps illegal ID or an ID for an item not in the system?");
+    }
   }
 
   /**
