@@ -333,7 +333,7 @@ public class UserControllerSpec {
     Context ctx = mockContext("api/users/:id", Map.of("id", testID));
 
     userController.getUser(ctx);
-    User resultUser = returnedSingleUser(ctx); //  ctx.bodyAsClass(User.class);
+    User resultUser = returnedSingleUser(ctx);
 
     assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
     assertEquals(samsId.toHexString(), resultUser._id);
