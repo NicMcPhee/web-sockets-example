@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.mockrunner.mock.web.MockHttpServletRequest;
 import com.mockrunner.mock.web.MockHttpServletResponse;
@@ -27,7 +26,6 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-import org.apache.tools.ant.taskdefs.condition.Http;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterAll;
@@ -234,14 +232,14 @@ public class UserControllerSpec {
     // Create our fake Javalin context
     String path = "api/users";
     Context ctx = mockContext(path);
+
     userController.getUsers(ctx);
+    User[] returnedUsers = returnedUsers(ctx);
 
     // The response status should be 200, i.e., our request
     // was handled successfully (was OK). This is a named constant in
     // the class HttpCode.
     assertEquals(HttpCode.OK.getStatus(), mockRes.getStatus());
-
-    User[] returnedUsers = ctx.bodyAsClass(User[].class);
     assertEquals(
       db.getCollection("users").countDocuments(),
       returnedUsers.length
@@ -250,20 +248,15 @@ public class UserControllerSpec {
 
   @Test
   public void canGetUsersWithAge37() throws IOException {
-
     // Set the query string to test with
     mockReq.setQueryString("age=37");
-
     // Create our fake Javalin context
     Context ctx = mockContext("api/users");
 
     userController.getUsers(ctx);
+    User[] resultUsers = returnedUsers(ctx);
 
     assertEquals(HttpCode.OK.getStatus(), mockRes.getStatus());
-
-    String result = ctx.resultString();
-    User[] resultUsers = javalinJackson.fromJsonString(result, User[].class);
-
     assertEquals(2, resultUsers.length); // There should be two users returned
     for (User user : resultUsers) {
       assertEquals(37, user.age); // Every user should be age 37
@@ -276,7 +269,7 @@ public class UserControllerSpec {
   * we get a reasonable error code back.
   */
   @Test
-  public void respondsAppropriatelyToIllegalAge() {
+  public void respondsAppropriatelyToNonNumericAge() {
 
     mockReq.setQueryString("age=abc");
     Context ctx = mockContext("api/users");
@@ -290,14 +283,13 @@ public class UserControllerSpec {
 
   @Test
   public void canGetUsersWithCompany() throws IOException {
-
     mockReq.setQueryString("company=OHMNET");
     Context ctx = mockContext("api/users");
+
     userController.getUsers(ctx);
+    User[] resultUsers = returnedUsers(ctx);
 
     assertEquals(HttpCode.OK.getStatus(), mockRes.getStatus());
-
-    User[] resultUsers = ctx.bodyAsClass(User[].class);
     assertEquals(2, resultUsers.length); // There should be two users returned
     for (User user : resultUsers) {
       assertEquals("OHMNET", user.company);
@@ -306,28 +298,29 @@ public class UserControllerSpec {
 
   @Test
   public void getUsersByRole() throws IOException {
-
     mockReq.setQueryString("role=viewer");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
+    Context ctx = mockContext("api/users");
+
     userController.getUsers(ctx);
+    User[] resultUsers = returnedUsers(ctx);
 
     assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
-    for (User user : ctx.bodyAsClass(User[].class)) {
+    assertEquals(2, resultUsers.length);
+    for (User user : resultUsers) {
       assertEquals("viewer", user.role);
     }
   }
 
   @Test
   public void getUsersByCompanyAndAge() throws IOException {
-
     mockReq.setQueryString("company=OHMNET&age=37");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
+    Context ctx = mockContext("api/users");
+
     userController.getUsers(ctx);
+    User[] resultUsers = returnedUsers(ctx);
 
     assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
-
-    User[] resultUsers = ctx.bodyAsClass(User[].class);
-    assertEquals(1, resultUsers.length); // There should be one user returned
+    assertEquals(1, resultUsers.length);
     for (User user : resultUsers) {
       assertEquals("OHMNET", user.company);
       assertEquals(37, user.age);
@@ -336,23 +329,20 @@ public class UserControllerSpec {
 
   @Test
   public void getUserWithExistentId() throws IOException {
-
     String testID = samsId.toHexString();
+    Context ctx = mockContext("api/users/:id", Map.of("id", testID));
 
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", Map.of("id", testID));
     userController.getUser(ctx);
+    User resultUser = returnedSingleUser(ctx); //  ctx.bodyAsClass(User.class);
 
     assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
-
-    User resultUser = ctx.bodyAsClass(User.class);
     assertEquals(samsId.toHexString(), resultUser._id);
     assertEquals("Sam", resultUser.name);
   }
 
   @Test
   public void getUserWithBadId() throws IOException {
-
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", Map.of("id", "bad"));
+    Context ctx = mockContext("api/users/:id", Map.of("id", "bad"));
 
     assertThrows(BadRequestResponse.class, () -> {
       userController.getUser(ctx);
@@ -361,9 +351,7 @@ public class UserControllerSpec {
 
   @Test
   public void getUserWithNonexistentId() throws IOException {
-
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id",
-        Map.of("id", "58af3a600343927e48e87335"));
+    Context ctx = mockContext("api/users/:id", Map.of("id", "58af3a600343927e48e87335"));
 
     assertThrows(NotFoundResponse.class, () -> {
       userController.getUser(ctx);
@@ -380,27 +368,27 @@ public class UserControllerSpec {
         + "\"email\": \"test@example.com\","
         + "\"role\": \"viewer\""
         + "}";
-
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
 
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
+    Context ctx = mockContext("api/users");
 
     userController.addNewUser(ctx);
+    String result = ctx.resultString();
+    String id = javalinJackson.fromJsonString(result, ObjectNode.class).get("id").asText();
 
     // Our status should be 201, i.e., our new user was successfully
     // created. This is a named constant in the class HttpURLConnection.
     assertEquals(HttpURLConnection.HTTP_CREATED, mockRes.getStatus());
 
-    String result = ctx.resultString();
-    ObjectMapper jsonMapper = new ObjectMapper();
-    String id = jsonMapper.readValue(result, ObjectNode.class).get("id").asText();
+    // Successfully adding the user should return the newly generated MongoDB ID
+    // for that user.
     assertNotEquals("", id);
-
     assertEquals(1, db.getCollection("users").countDocuments(eq("_id", new ObjectId(id))));
 
-    // verify user was added to the database and the correct ID
+    // Verify that the user was added to the database with the correct ID
     Document addedUser = db.getCollection("users").find(eq("_id", new ObjectId(id))).first();
+
     assertNotNull(addedUser);
     assertEquals("Test User", addedUser.getString("name"));
     assertEquals(25, addedUser.getInteger("age"));
@@ -421,9 +409,10 @@ public class UserControllerSpec {
         + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
-    assertThrows(BadRequestResponse.class, () -> {
+    Context ctx = mockContext("api/users");
+
+    assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
     });
   }
@@ -439,13 +428,15 @@ public class UserControllerSpec {
         + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
-    assertThrows(BadRequestResponse.class, () -> {
+    Context ctx = mockContext("api/users");
+
+    assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
     });
   }
 
+  @Test
   public void add0AgeUser() throws IOException {
     String testNewUser = "{"
         + "\"name\": \"Test User\","
@@ -456,9 +447,10 @@ public class UserControllerSpec {
         + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
-    assertThrows(BadRequestResponse.class, () -> {
+    Context ctx = mockContext("api/users");
+
+    assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
     });
   }
@@ -473,9 +465,10 @@ public class UserControllerSpec {
         + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
-    assertThrows(BadRequestResponse.class, () -> {
+    Context ctx = mockContext("api/users");
+
+    assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
     });
   }
@@ -491,9 +484,10 @@ public class UserControllerSpec {
         + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
-    assertThrows(BadRequestResponse.class, () -> {
+    Context ctx = mockContext("api/users");
+
+    assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
     });
   }
@@ -509,13 +503,15 @@ public class UserControllerSpec {
         + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
-    assertThrows(BadRequestResponse.class, () -> {
+    Context ctx = mockContext("api/users");
+
+    assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
     });
   }
 
+  @Test
   public void addNullCompanyUser() throws IOException {
     String testNewUser = "{"
         + "\"name\": \"Test User\","
@@ -525,9 +521,10 @@ public class UserControllerSpec {
         + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
-    assertThrows(BadRequestResponse.class, () -> {
+    Context ctx = mockContext("api/users");
+
+    assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
     });
   }
@@ -543,9 +540,10 @@ public class UserControllerSpec {
         + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
-    assertThrows(BadRequestResponse.class, () -> {
+    Context ctx = mockContext("api/users");
+
+    assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
     });
   }
@@ -557,7 +555,8 @@ public class UserControllerSpec {
     // User exists before deletion
     assertEquals(1, db.getCollection("users").countDocuments(eq("_id", new ObjectId(testID))));
 
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", Map.of("id", testID));
+    Context ctx = mockContext("api/users/:id", Map.of("id", testID));
+
     userController.deleteUser(ctx);
 
     assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
