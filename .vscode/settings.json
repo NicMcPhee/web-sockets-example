@@ -8,19 +8,20 @@
       "html"
     ],
     "cSpell.words": [
-        "Bson",
-        "CSCI",
+      "Bson",
+      "Checkstyle",
+      "CSCI",
       "Ibmers",
       "invalidemail",
       "invalidrole",
-        "Javalin",
+      "Javalin",
       "notanumber",
       "OHMNET",
       "sams",
       "Servlet",
-        "sidenav",
+      "sidenav",
       "sortorder",
-        "todos"
+      "todos"
     ],
     "angular.enable-experimental-ivy-prompt": false,
 }

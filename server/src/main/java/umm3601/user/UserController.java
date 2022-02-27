@@ -4,17 +4,18 @@ import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.regex;
 
-import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Sorts;
+import com.mongodb.client.result.DeleteResult;
 
 import org.bson.Document;
 import org.bson.UuidRepresentation;
@@ -24,6 +25,7 @@ import org.mongojack.JacksonMongoCollection;
 
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
+import io.javalin.http.HttpCode;
 import io.javalin.http.NotFoundResponse;
 
 /**
@@ -74,43 +76,56 @@ public class UserController {
   }
 
   /**
-   * Delete the user specified by the `id` parameter in the request.
-   *
-   * @param ctx a Javalin HTTP context
-   */
-  public void deleteUser(Context ctx) {
-    String id = ctx.pathParam("id");
-    userCollection.deleteOne(eq("_id", new ObjectId(id)));
-  }
-
-  /**
    * Get a JSON response with a list of all the users.
    *
    * @param ctx a Javalin HTTP context
    */
   public void getUsers(Context ctx) {
+    Bson combinedFilter = constructFilter(ctx);
+    Bson sortingOrder = constructSortingOrder(ctx);
 
+    // All three of the find, sort, and into steps happen "in parallel" inside the
+    // database system. So MongoDB is going to find the users with the specified
+    // properties, return those sorted in the specified manner, and put the
+    // results into an initially empty ArrayList.
+    ArrayList<User> matchingUsers = userCollection
+      .find(combinedFilter)
+      .sort(sortingOrder)
+      .into(new ArrayList<>());
+
+    // Set the JSON body of the response to be the list of users returned by
+    // the database.
+    ctx.json(matchingUsers);
+  }
+
+  private Bson constructFilter(Context ctx) {
     List<Bson> filters = new ArrayList<>(); // start with a blank document
 
     if (ctx.queryParamMap().containsKey(AGE_KEY)) {
-        int targetAge = ctx.queryParam(AGE_KEY, Integer.class).get();
+        int targetAge = ctx.queryParamAsClass(AGE_KEY, Integer.class).get();
         filters.add(eq(AGE_KEY, targetAge));
     }
-
     if (ctx.queryParamMap().containsKey(COMPANY_KEY)) {
       filters.add(regex(COMPANY_KEY,  Pattern.quote(ctx.queryParam(COMPANY_KEY)), "i"));
     }
-
     if (ctx.queryParamMap().containsKey(ROLE_KEY)) {
       filters.add(eq(ROLE_KEY, ctx.queryParam(ROLE_KEY)));
     }
 
-    String sortBy = ctx.queryParam("sortby", "name"); //Sort by sort query param, default is name
-    String sortOrder = ctx.queryParam("sortorder", "asc");
+    // Combine the list of filters into a single filtering document.
+    Bson combinedFilter = filters.isEmpty() ? new Document() : and(filters);
 
-    ctx.json(userCollection.find(filters.isEmpty() ? new Document() : and(filters))
-      .sort(sortOrder.equals("desc") ?  Sorts.descending(sortBy) : Sorts.ascending(sortBy))
-      .into(new ArrayList<>()));
+    return combinedFilter;
+  }
+
+  private Bson constructSortingOrder(Context ctx) {
+    // Sort the results. Use the `sortby` query param (default "name")
+    // as the field to sort by, and the query param `sortorder` (default
+    // "asc") to specify the sort order.
+    String sortBy = Objects.requireNonNullElse(ctx.queryParam("sortby"), "name");
+    String sortOrder = Objects.requireNonNullElse(ctx.queryParam("sortorder"), "asc");
+    Bson sortingOrder = sortOrder.equals("desc") ?  Sorts.descending(sortBy) : Sorts.ascending(sortBy);
+    return sortingOrder;
   }
 
   /**
@@ -131,26 +146,40 @@ public class UserController {
      *    - A non-blank company is provided
      */
     User newUser = ctx.bodyValidator(User.class)
-      .check(usr -> usr.name != null && usr.name.length() > 0)
-      .check(usr -> usr.email.matches(EMAIL_REGEX))
-      .check(usr -> usr.age > 0)
-      .check(usr -> usr.role.matches("^(admin|editor|viewer)$"))
-      .check(usr -> usr.company != null && usr.company.length() > 0)
+      .check(usr -> usr.name != null && usr.name.length() > 0, "User must have a non-empty user name")
+      .check(usr -> usr.email.matches(EMAIL_REGEX), "User must have a legal email")
+      .check(usr -> usr.age > 0, "User's age must be greater than zero")
+      .check(usr -> usr.role.matches("^(admin|editor|viewer)$"), "User must have a legal user role")
+      .check(usr -> usr.company != null && usr.company.length() > 0, "User must have a non-empty company name")
       .get();
 
     // Generate a user avatar (you won't need this part for todos)
     newUser.avatar = generateAvatar(newUser.email);
 
     userCollection.insertOne(newUser);
+
     // 201 is the HTTP code for when we successfully
     // create a new resource (a user in this case).
     // See, e.g., https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
     // for a description of the various response codes.
-    // The class HttpURLConnection contains named constants with
-    // most, but not all, of the standard HTTP status codes,
-    // including HTTP_CREATED for 201.
-    ctx.status(HttpURLConnection.HTTP_CREATED);
+    ctx.status(HttpCode.CREATED);
     ctx.json(Map.of("id", newUser._id));
+  }
+
+  /**
+   * Delete the user specified by the `id` parameter in the request.
+   *
+   * @param ctx a Javalin HTTP context
+   */
+  public void deleteUser(Context ctx) {
+    String id = ctx.pathParam("id");
+    DeleteResult deleteResult = userCollection.deleteOne(eq("_id", new ObjectId(id)));
+    if (deleteResult.getDeletedCount() != 1) {
+      throw new NotFoundResponse(
+        "Was unable to delete ID "
+          + id
+          + "; perhaps illegal ID or an ID for an item not in the system?");
+    }
   }
 
   /**

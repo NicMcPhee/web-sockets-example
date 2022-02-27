@@ -1,6 +1,8 @@
 package umm3601.user;
 
 import static com.mongodb.client.model.Filters.eq;
+import static io.javalin.plugin.json.JsonMapperKt.JSON_MAPPER_KEY;
+import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -11,10 +13,10 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.mockrunner.mock.web.MockHttpServletRequest;
 import com.mockrunner.mock.web.MockHttpServletResponse;
@@ -32,11 +34,15 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import io.javalin.core.JavalinConfig;
+import io.javalin.core.validation.ValidationException;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
+import io.javalin.http.HandlerType;
+import io.javalin.http.HttpCode;
 import io.javalin.http.NotFoundResponse;
 import io.javalin.http.util.ContextUtil;
-import io.javalin.plugin.json.JavalinJson;
+import io.javalin.plugin.json.JavalinJackson;
 
 /**
  * Tests the logic of the UserController
@@ -53,10 +59,28 @@ import io.javalin.plugin.json.JavalinJson;
 @SuppressWarnings({ "MagicNumber" })
 public class UserControllerSpec {
 
+  // Mock requests and responses that will be reset in `setupEach()`
+  // and then (re)used in each of the tests.
+  private MockHttpServletRequest mockReq = new MockHttpServletRequest();
+  private MockHttpServletResponse mockRes = new MockHttpServletResponse();
+
+  // An instance of the controller we're testing that is prepared in
+  // `setupEach()`, and then exercised in the various tests below.
+  private UserController userController;
+
+  // A Mongo object ID that is initialized in `setupEach()` and used
+  // in a few of the tests. It isn't used all that often, though,
+  // which suggests that maybe we should extract the tests that
+  // care about it into their own spec file?
+  private ObjectId samsId;
+
   // The client and database that will be used
   // for all the tests in this spec file.
   private static MongoClient mongoClient;
   private static MongoDatabase db;
+
+  // Used to translate between JSON and POJOs.
+  private static JavalinJackson javalinJackson = new JavalinJackson();
 
   /**
    * Sets up (the connection to the) DB once; that connection and DB will
@@ -75,8 +99,8 @@ public class UserControllerSpec {
     mongoClient = MongoClients.create(
         MongoClientSettings.builder()
             .applyToClusterSettings(builder -> builder.hosts(Arrays.asList(new ServerAddress(mongoAddr))))
-            .build());
-
+            .build()
+    );
     db = mongoClient.getDatabase("test");
   }
 
@@ -85,21 +109,6 @@ public class UserControllerSpec {
     db.drop();
     mongoClient.close();
   }
-
-  // Mock requests and responses that will be reset in `setupEach()`
-  // and then (re)used in each of the tests.
-  private MockHttpServletRequest mockReq = new MockHttpServletRequest();
-  private MockHttpServletResponse mockRes = new MockHttpServletResponse();
-
-  // An instance of the controller we're testing that is prepared in
-  // `setupEach()`, and then exercised in the various tests below.
-  private UserController userController;
-
-  // A Mongo object ID that is initialized in `setupEach()` and used
-  // in a few of the tests. It isn't used all that often, though,
-  // which suggests that maybe we should extract the tests that
-  // care about it into their own spec file?
-  private ObjectId samsId;
 
   @BeforeEach
   public void setupEach() throws IOException {
@@ -152,38 +161,103 @@ public class UserControllerSpec {
     userController = new UserController(db);
   }
 
-  @Test
-  public void getAllUsers() throws IOException {
+  /**
+   * Construct an instance of `Context` using `ContextUtil`, providing
+   * a mock context in Javalin. See `mockContext(String, Map)` for
+   * more details.
+   */
+  private Context mockContext(String path) {
+    return mockContext(path, Collections.emptyMap());
+  }
 
-    // Create our fake Javalin context
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
-    userController.getUsers(ctx);
+  /**
+   * Construct an instance of `Context` using `ContextUtil`, providing a mock
+   * context in Javalin. We need to provide a couple of attributes, which is
+   * the fifth argument, which forces us to also provide the (default) value
+   * for the fourth argument. There are two attributes we need to provide:
+   *
+   *   - One is a `JsonMapper` that is used to translate between POJOs and JSON
+   *     objects. This is needed by almost every test.
+   *   - The other is `maxRequestSize`, which is needed for all the ADD requests,
+   *     since `ContextUtil` checks to make sure that the request isn't "too big".
+   *     Those tests fails if you don't provide a value for `maxRequestSize` for
+   *     it to use in those comparisons.
+   */
+  private Context mockContext(String path, Map<String, String> pathParams) {
+    return ContextUtil.init(
+        mockReq, mockRes,
+        path,
+        pathParams,
+        HandlerType.INVALID,
+        Map.ofEntries(
+          entry(JSON_MAPPER_KEY, javalinJackson),
+          entry(ContextUtil.maxRequestSizeKey,
+                new JavalinConfig().maxRequestSize
+          )
+        )
+      );
+  }
 
-    // The response status should be 200, i.e., our request
-    // was handled successfully. This is a named constant in
-    // the class HttpURLConnection.
-    assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
-
+  /**
+   * A little helper method that assumes that the given context
+   * body contains an array of Users, and extracts and returns
+   * that array.
+   *
+   * @param ctx the `Context` whose body is assumed to contain
+   *  an array of `User`s.
+   * @return the array of `User`s from the given `Context`.
+   */
+  private User[] returnedUsers(Context ctx) {
     String result = ctx.resultString();
-    assertEquals(db.getCollection("users").countDocuments(), JavalinJson.fromJson(result, User[].class).length);
+    User[] users = javalinJackson.fromJsonString(result, User[].class);
+    return users;
+  }
+
+  /**
+   * A little helper method that assumes that the given context
+   * body contains a *single* User, and extracts and returns
+   * that User.
+   *
+   * @param ctx the `Context` whose body is assumed to contain
+   *  a *single* `User`.
+   * @return the `User` extracted from the given `Context`.
+   */
+  private User returnedSingleUser(Context ctx) {
+    String result = ctx.resultString();
+    User user = javalinJackson.fromJsonString(result, User.class);
+    return user;
   }
 
   @Test
-  public void getUsersByAge() throws IOException {
-
-    // Set the query string to test with
-    mockReq.setQueryString("age=37");
-
+  public void canGetAllUsers() throws IOException {
     // Create our fake Javalin context
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
+    String path = "api/users";
+    Context ctx = mockContext(path);
 
     userController.getUsers(ctx);
+    User[] returnedUsers = returnedUsers(ctx);
 
-    assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
+    // The response status should be 200, i.e., our request
+    // was handled successfully (was OK). This is a named constant in
+    // the class HttpCode.
+    assertEquals(HttpCode.OK.getStatus(), mockRes.getStatus());
+    assertEquals(
+      db.getCollection("users").countDocuments(),
+      returnedUsers.length
+    );
+  }
 
-    String result = ctx.resultString();
-    User[] resultUsers = JavalinJson.fromJson(result, User[].class);
+  @Test
+  public void canGetUsersWithAge37() throws IOException {
+    // Set the query string to test with
+    mockReq.setQueryString("age=37");
+    // Create our fake Javalin context
+    Context ctx = mockContext("api/users");
 
+    userController.getUsers(ctx);
+    User[] resultUsers = returnedUsers(ctx);
+
+    assertEquals(HttpCode.OK.getStatus(), mockRes.getStatus());
     assertEquals(2, resultUsers.length); // There should be two users returned
     for (User user : resultUsers) {
       assertEquals(37, user.age); // Every user should be age 37
@@ -196,30 +270,27 @@ public class UserControllerSpec {
    * we get a reasonable error code back.
    */
   @Test
-  public void getUsersWithIllegalAge() {
+  public void respondsAppropriatelyToNonNumericAge() {
 
     mockReq.setQueryString("age=abc");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
+    Context ctx = mockContext("api/users");
 
-    // This should now throw a `BadRequestResponse` exception because
+    // This should now throw a `ValidationException` because
     // our request has an age that can't be parsed to a number.
-    assertThrows(BadRequestResponse.class, () -> {
+    assertThrows(ValidationException.class, () -> {
       userController.getUsers(ctx);
     });
   }
 
   @Test
-  public void getUsersByCompany() throws IOException {
-
+  public void canGetUsersWithCompany() throws IOException {
     mockReq.setQueryString("company=OHMNET");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
+    Context ctx = mockContext("api/users");
+
     userController.getUsers(ctx);
+    User[] resultUsers = returnedUsers(ctx);
 
-    assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
-    String result = ctx.resultString();
-
-    User[] resultUsers = JavalinJson.fromJson(result, User[].class);
-
+    assertEquals(HttpCode.OK.getStatus(), mockRes.getStatus());
     assertEquals(2, resultUsers.length); // There should be two users returned
     for (User user : resultUsers) {
       assertEquals("OHMNET", user.company);
@@ -228,30 +299,29 @@ public class UserControllerSpec {
 
   @Test
   public void getUsersByRole() throws IOException {
-
     mockReq.setQueryString("role=viewer");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
+    Context ctx = mockContext("api/users");
+
     userController.getUsers(ctx);
+    User[] resultUsers = returnedUsers(ctx);
 
     assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
-    String result = ctx.resultString();
-    for (User user : JavalinJson.fromJson(result, User[].class)) {
+    assertEquals(2, resultUsers.length);
+    for (User user : resultUsers) {
       assertEquals("viewer", user.role);
     }
   }
 
   @Test
   public void getUsersByCompanyAndAge() throws IOException {
-
     mockReq.setQueryString("company=OHMNET&age=37");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
+    Context ctx = mockContext("api/users");
+
     userController.getUsers(ctx);
+    User[] resultUsers = returnedUsers(ctx);
 
     assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
-    String result = ctx.resultString();
-    User[] resultUsers = JavalinJson.fromJson(result, User[].class);
-
-    assertEquals(1, resultUsers.length); // There should be one user returned
+    assertEquals(1, resultUsers.length);
     for (User user : resultUsers) {
       assertEquals("OHMNET", user.company);
       assertEquals(37, user.age);
@@ -260,25 +330,20 @@ public class UserControllerSpec {
 
   @Test
   public void getUserWithExistentId() throws IOException {
-
     String testID = samsId.toHexString();
+    Context ctx = mockContext("api/users/{id}", Map.of("id", testID));
 
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", Map.of("id", testID));
     userController.getUser(ctx);
+    User resultUser = returnedSingleUser(ctx);
 
     assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
-
-    String result = ctx.resultString();
-    User resultUser = JavalinJson.fromJson(result, User.class);
-
     assertEquals(samsId.toHexString(), resultUser._id);
     assertEquals("Sam", resultUser.name);
   }
 
   @Test
   public void getUserWithBadId() throws IOException {
-
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", Map.of("id", "bad"));
+    Context ctx = mockContext("api/users/{id}", Map.of("id", "bad"));
 
     assertThrows(BadRequestResponse.class, () -> {
       userController.getUser(ctx);
@@ -287,9 +352,7 @@ public class UserControllerSpec {
 
   @Test
   public void getUserWithNonexistentId() throws IOException {
-
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id",
-        Map.of("id", "58af3a600343927e48e87335"));
+    Context ctx = mockContext("api/users/{id}", Map.of("id", "58af3a600343927e48e87335"));
 
     assertThrows(NotFoundResponse.class, () -> {
       userController.getUser(ctx);
@@ -306,27 +369,27 @@ public class UserControllerSpec {
         + "\"email\": \"test@example.com\","
         + "\"role\": \"viewer\""
         + "}";
-
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
 
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
+    Context ctx = mockContext("api/users");
 
     userController.addNewUser(ctx);
+    String result = ctx.resultString();
+    String id = javalinJackson.fromJsonString(result, ObjectNode.class).get("id").asText();
 
     // Our status should be 201, i.e., our new user was successfully
     // created. This is a named constant in the class HttpURLConnection.
     assertEquals(HttpURLConnection.HTTP_CREATED, mockRes.getStatus());
 
-    String result = ctx.resultString();
-    ObjectMapper jsonMapper = new ObjectMapper();
-    String id = jsonMapper.readValue(result, ObjectNode.class).get("id").asText();
+    // Successfully adding the user should return the newly generated MongoDB ID
+    // for that user.
     assertNotEquals("", id);
-
     assertEquals(1, db.getCollection("users").countDocuments(eq("_id", new ObjectId(id))));
 
-    // verify user was added to the database and the correct ID
+    // Verify that the user was added to the database with the correct ID
     Document addedUser = db.getCollection("users").find(eq("_id", new ObjectId(id))).first();
+
     assertNotNull(addedUser);
     assertEquals("Test User", addedUser.getString("name"));
     assertEquals(25, addedUser.getInteger("age"));
@@ -347,9 +410,10 @@ public class UserControllerSpec {
         + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
-    assertThrows(BadRequestResponse.class, () -> {
+    Context ctx = mockContext("api/users");
+
+    assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
     });
   }
@@ -365,13 +429,15 @@ public class UserControllerSpec {
         + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
-    assertThrows(BadRequestResponse.class, () -> {
+    Context ctx = mockContext("api/users");
+
+    assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
     });
   }
 
+  @Test
   public void add0AgeUser() throws IOException {
     String testNewUser = "{"
         + "\"name\": \"Test User\","
@@ -382,9 +448,10 @@ public class UserControllerSpec {
         + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
-    assertThrows(BadRequestResponse.class, () -> {
+    Context ctx = mockContext("api/users");
+
+    assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
     });
   }
@@ -399,9 +466,10 @@ public class UserControllerSpec {
         + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
-    assertThrows(BadRequestResponse.class, () -> {
+    Context ctx = mockContext("api/users");
+
+    assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
     });
   }
@@ -417,9 +485,10 @@ public class UserControllerSpec {
         + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
-    assertThrows(BadRequestResponse.class, () -> {
+    Context ctx = mockContext("api/users");
+
+    assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
     });
   }
@@ -435,13 +504,15 @@ public class UserControllerSpec {
         + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
-    assertThrows(BadRequestResponse.class, () -> {
+    Context ctx = mockContext("api/users");
+
+    assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
     });
   }
 
+  @Test
   public void addNullCompanyUser() throws IOException {
     String testNewUser = "{"
         + "\"name\": \"Test User\","
@@ -451,9 +522,10 @@ public class UserControllerSpec {
         + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
-    assertThrows(BadRequestResponse.class, () -> {
+    Context ctx = mockContext("api/users");
+
+    assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
     });
   }
@@ -469,9 +541,10 @@ public class UserControllerSpec {
         + "}";
     mockReq.setBodyContent(testNewUser);
     mockReq.setMethod("POST");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
 
-    assertThrows(BadRequestResponse.class, () -> {
+    Context ctx = mockContext("api/users");
+
+    assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
     });
   }
@@ -483,7 +556,8 @@ public class UserControllerSpec {
     // User exists before deletion
     assertEquals(1, db.getCollection("users").countDocuments(eq("_id", new ObjectId(testID))));
 
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users/:id", Map.of("id", testID));
+    Context ctx = mockContext("api/users/{id}", Map.of("id", testID));
+
     userController.deleteUser(ctx);
 
     assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
