@@ -66,7 +66,7 @@
 
       <!-- Card grid view -->
       <div *ngSwitchCase="'card'" fxLayout="row wrap" fxLayoutGap="10px" class="user-cards-container">
-        <app-user-card simple="true" *ngFor="let user of filteredUsers" class="user-card" [user]="user" fxFlex="1 1 280px"></app-user-card>
+        <app-user-card [simple]="true" *ngFor="let user of filteredUsers" class="user-card" [user]="user" fxFlex="1 1 280px"></app-user-card>
       </div>
 
       <!-- List view -->
