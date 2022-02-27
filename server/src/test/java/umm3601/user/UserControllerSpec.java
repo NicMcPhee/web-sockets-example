@@ -1,6 +1,8 @@
 package umm3601.user;
 
 import static com.mongodb.client.model.Filters.eq;
+import static io.javalin.plugin.json.JsonMapperKt.JSON_MAPPER_KEY;
+import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -32,10 +34,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import io.javalin.core.JavalinConfig;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
+import io.javalin.http.HandlerType;
+import io.javalin.http.HttpCode;
 import io.javalin.http.NotFoundResponse;
 import io.javalin.http.util.ContextUtil;
+import io.javalin.plugin.json.JavalinJackson;
 
 /**
  * Tests the logic of the UserController
@@ -52,10 +58,28 @@ import io.javalin.http.util.ContextUtil;
 @SuppressWarnings({ "MagicNumber" })
 public class UserControllerSpec {
 
+  // Mock requests and responses that will be reset in `setupEach()`
+  // and then (re)used in each of the tests.
+  private MockHttpServletRequest mockReq = new MockHttpServletRequest();
+  private MockHttpServletResponse mockRes = new MockHttpServletResponse();
+
+  // An instance of the controller we're testing that is prepared in
+  // `setupEach()`, and then exercised in the various tests below.
+  private UserController userController;
+
+  // A Mongo object ID that is initialized in `setupEach()` and used
+  // in a few of the tests. It isn't used all that often, though,
+  // which suggests that maybe we should extract the tests that
+  // care about it into their own spec file?
+  private ObjectId samsId;
+
   // The client and database that will be used
   // for all the tests in this spec file.
   private static MongoClient mongoClient;
   private static MongoDatabase db;
+
+  // Used to translate between JSON and POJOs.
+  private static JavalinJackson javalinJackson = new JavalinJackson();
 
   /**
    * Sets up (the connection to the) DB once; that connection and DB will
@@ -74,8 +98,8 @@ public class UserControllerSpec {
     mongoClient = MongoClients.create(
         MongoClientSettings.builder()
             .applyToClusterSettings(builder -> builder.hosts(Arrays.asList(new ServerAddress(mongoAddr))))
-            .build());
-
+            .build()
+    );
     db = mongoClient.getDatabase("test");
   }
 
@@ -84,21 +108,6 @@ public class UserControllerSpec {
     db.drop();
     mongoClient.close();
   }
-
-  // Mock requests and responses that will be reset in `setupEach()`
-  // and then (re)used in each of the tests.
-  private MockHttpServletRequest mockReq = new MockHttpServletRequest();
-  private MockHttpServletResponse mockRes = new MockHttpServletResponse();
-
-  // An instance of the controller we're testing that is prepared in
-  // `setupEach()`, and then exercised in the various tests below.
-  private UserController userController;
-
-  // A Mongo object ID that is initialized in `setupEach()` and used
-  // in a few of the tests. It isn't used all that often, though,
-  // which suggests that maybe we should extract the tests that
-  // care about it into their own spec file?
-  private ObjectId samsId;
 
   @BeforeEach
   public void setupEach() throws IOException {
@@ -151,20 +160,60 @@ public class UserControllerSpec {
     userController = new UserController(db);
   }
 
-  @Test
-  public void getAllUsers() throws IOException {
+  /**
+   * Construct an instance of `ContextUtil`, which is essentially
+   * a mock context in Javalin. See `mockContext(String, Map)` for
+   * more details.
+   */
+  private Context mockContext(String path) {
+    return mockContext(path, Map.of());
+  }
 
+  /**
+   * Construct an instance of `ContextUtil`, which is essentially a mock
+   * context in Javalin. We need to provide a couple of attributes, which is
+   * the fifth argument, which forces us to also provide the (default) value
+   * for the fourth argument. There are two attributes we need to provide:
+   *
+   *   - One is a `JsonMapper` that is used to translate between POJOs and JSON
+   *     objects. This is needed by almost every test.
+   *   - The other is `maxRequestSize`, which is needed for all the ADD requests,
+   *     since `ContextUtil` checks to make sure that the request isn't "too big".
+   *     Those tests fails if you don't provide a value for `maxRequestSize` for
+   *     it to use in those comparisons.
+   */
+  private Context mockContext(String path, Map<String, String> pathParams) {
+    return ContextUtil.init(
+        mockReq, mockRes,
+        path,
+        pathParams,
+        HandlerType.INVALID,
+        Map.ofEntries(
+          entry(JSON_MAPPER_KEY, javalinJackson),
+          entry(ContextUtil.maxRequestSizeKey,
+                new JavalinConfig().maxRequestSize
+          )
+        )
+      );
+  }
+
+  @Test
+  public void canGetAllUsers() throws IOException {
     // Create our fake Javalin context
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
+    String path = "api/users";
+    Context ctx = mockContext(path);
     userController.getUsers(ctx);
 
     // The response status should be 200, i.e., our request
-    // was handled successfully. This is a named constant in
-    // the class HttpURLConnection.
-    assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
+    // was handled successfully (was OK). This is a named constant in
+    // the class HttpCode.
+    assertEquals(HttpCode.OK.getStatus(), mockRes.getStatus());
 
-    User[] users = ctx.bodyAsClass(User[].class); // resultString();
-    assertEquals(db.getCollection("users").countDocuments(), users.length);
+    User[] returnedUsers = ctx.bodyAsClass(User[].class);
+    assertEquals(
+      db.getCollection("users").countDocuments(),
+      returnedUsers.length
+    );
   }
 
   @Test
