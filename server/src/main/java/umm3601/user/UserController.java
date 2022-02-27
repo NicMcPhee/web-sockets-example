@@ -81,31 +81,8 @@ public class UserController {
    * @param ctx a Javalin HTTP context
    */
   public void getUsers(Context ctx) {
-
-    List<Bson> filters = new ArrayList<>(); // start with a blank document
-
-    if (ctx.queryParamMap().containsKey(AGE_KEY)) {
-        int targetAge = ctx.queryParamAsClass(AGE_KEY, Integer.class).get();
-        filters.add(eq(AGE_KEY, targetAge));
-    }
-
-    if (ctx.queryParamMap().containsKey(COMPANY_KEY)) {
-      filters.add(regex(COMPANY_KEY,  Pattern.quote(ctx.queryParam(COMPANY_KEY)), "i"));
-    }
-
-    if (ctx.queryParamMap().containsKey(ROLE_KEY)) {
-      filters.add(eq(ROLE_KEY, ctx.queryParam(ROLE_KEY)));
-    }
-
-    // Combine the list of filters into a single filtering document.
-    Bson combinedFilter = filters.isEmpty() ? new Document() : and(filters);
-
-    // Sort the results. Use the `sortby` query param (default "name")
-    // as the field to sort by, and the query param `sortorder` (default
-    // "asc") to specify the sort order.
-    String sortBy = Objects.requireNonNullElse(ctx.queryParam("sortby"), "name");
-    String sortOrder = Objects.requireNonNullElse(ctx.queryParam("sortorder"), "asc");
-    Bson sortingOrder = sortOrder.equals("desc") ?  Sorts.descending(sortBy) : Sorts.ascending(sortBy);
+    Bson combinedFilter = constructFilter(ctx);
+    Bson sortingOrder = constructSortingOrder(ctx);
 
     // All three of the find, sort, and into steps happen "in parallel" inside the
     // database system. So MongoDB is going to find the users with the specified
@@ -119,6 +96,36 @@ public class UserController {
     // Set the JSON body of the response to be the list of users returned by
     // the database.
     ctx.json(matchingUsers);
+  }
+
+  private Bson constructFilter(Context ctx) {
+    List<Bson> filters = new ArrayList<>(); // start with a blank document
+
+    if (ctx.queryParamMap().containsKey(AGE_KEY)) {
+        int targetAge = ctx.queryParamAsClass(AGE_KEY, Integer.class).get();
+        filters.add(eq(AGE_KEY, targetAge));
+    }
+    if (ctx.queryParamMap().containsKey(COMPANY_KEY)) {
+      filters.add(regex(COMPANY_KEY,  Pattern.quote(ctx.queryParam(COMPANY_KEY)), "i"));
+    }
+    if (ctx.queryParamMap().containsKey(ROLE_KEY)) {
+      filters.add(eq(ROLE_KEY, ctx.queryParam(ROLE_KEY)));
+    }
+
+    // Combine the list of filters into a single filtering document.
+    Bson combinedFilter = filters.isEmpty() ? new Document() : and(filters);
+
+    return combinedFilter;
+  }
+
+  private Bson constructSortingOrder(Context ctx) {
+    // Sort the results. Use the `sortby` query param (default "name")
+    // as the field to sort by, and the query param `sortorder` (default
+    // "asc") to specify the sort order.
+    String sortBy = Objects.requireNonNullElse(ctx.queryParam("sortby"), "name");
+    String sortOrder = Objects.requireNonNullElse(ctx.queryParam("sortorder"), "asc");
+    Bson sortingOrder = sortOrder.equals("desc") ?  Sorts.descending(sortBy) : Sorts.ascending(sortBy);
+    return sortingOrder;
   }
 
   /**
