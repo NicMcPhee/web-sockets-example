@@ -199,6 +199,36 @@ public class UserControllerSpec {
       );
   }
 
+  /**
+   * A little helper method that assumes that the given context
+   * body contains an array of Users, and extracts and returns
+   * that array.
+   *
+   * @param ctx the `Context` whose body is assumed to contain
+   *  an array of `User`s.
+   * @return the array of `User`s from the given `Context`.
+   */
+  private User[] returnedUsers(Context ctx) {
+    String result = ctx.resultString();
+    User[] users = javalinJackson.fromJsonString(result, User[].class);
+    return users;
+  }
+
+  /**
+   * A little helper method that assumes that the given context
+   * body contains a *single* User, and extracts and returns
+   * that User.
+   *
+   * @param ctx the `Context` whose body is assumed to contain
+   *  a *single* `User`.
+   * @return the `User` extracted from the given `Context`.
+   */
+  private User returnedSingleUser(Context ctx) {
+    String result = ctx.resultString();
+    User user = javalinJackson.fromJsonString(result, User.class);
+    return user;
+  }
+
   @Test
   public void canGetAllUsers() throws IOException {
     // Create our fake Javalin context
