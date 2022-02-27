@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -166,7 +167,7 @@ public class UserControllerSpec {
    * more details.
    */
   private Context mockContext(String path) {
-    return mockContext(path, Map.of());
+    return mockContext(path, Collections.emptyMap());
   }
 
   /**
