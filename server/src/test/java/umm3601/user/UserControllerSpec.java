@@ -331,7 +331,7 @@ public class UserControllerSpec {
   @Test
   public void getUserWithExistentId() throws IOException {
     String testID = samsId.toHexString();
-    Context ctx = mockContext("api/users/:id", Map.of("id", testID));
+    Context ctx = mockContext("api/users/{id}", Map.of("id", testID));
 
     userController.getUser(ctx);
     User resultUser = returnedSingleUser(ctx);
@@ -343,7 +343,7 @@ public class UserControllerSpec {
 
   @Test
   public void getUserWithBadId() throws IOException {
-    Context ctx = mockContext("api/users/:id", Map.of("id", "bad"));
+    Context ctx = mockContext("api/users/{id}", Map.of("id", "bad"));
 
     assertThrows(BadRequestResponse.class, () -> {
       userController.getUser(ctx);
@@ -352,7 +352,7 @@ public class UserControllerSpec {
 
   @Test
   public void getUserWithNonexistentId() throws IOException {
-    Context ctx = mockContext("api/users/:id", Map.of("id", "58af3a600343927e48e87335"));
+    Context ctx = mockContext("api/users/{id}", Map.of("id", "58af3a600343927e48e87335"));
 
     assertThrows(NotFoundResponse.class, () -> {
       userController.getUser(ctx);
@@ -556,7 +556,7 @@ public class UserControllerSpec {
     // User exists before deletion
     assertEquals(1, db.getCollection("users").countDocuments(eq("_id", new ObjectId(testID))));
 
-    Context ctx = mockContext("api/users/:id", Map.of("id", testID));
+    Context ctx = mockContext("api/users/{id}", Map.of("id", testID));
 
     userController.deleteUser(ctx);
 
