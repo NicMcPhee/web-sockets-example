@@ -265,10 +265,10 @@ public class UserControllerSpec {
   }
 
   /**
-  * Test that if the user sends a request with an illegal value in
-  * the age field (i.e., something that can't be parsed to a number)
-  * we get a reasonable error code back.
-  */
+   * Test that if the user sends a request with an illegal value in
+   * the age field (i.e., something that can't be parsed to a number)
+   * we get a reasonable error code back.
+   */
   @Test
   public void respondsAppropriatelyToNonNumericAge() {
 
