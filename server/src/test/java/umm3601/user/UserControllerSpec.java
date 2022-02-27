@@ -27,6 +27,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
+import org.apache.tools.ant.taskdefs.condition.Http;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterAll;
@@ -35,6 +36,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.javalin.core.JavalinConfig;
+import io.javalin.core.validation.ValidationException;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HandlerType;
@@ -217,19 +219,21 @@ public class UserControllerSpec {
   }
 
   @Test
-  public void getUsersByAge() throws IOException {
+  public void canGetUsersWithAge37() throws IOException {
 
     // Set the query string to test with
     mockReq.setQueryString("age=37");
 
     // Create our fake Javalin context
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
+    Context ctx = mockContext("api/users");
 
     userController.getUsers(ctx);
 
-    assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
+    assertEquals(HttpCode.OK.getStatus(), mockRes.getStatus());
 
-    User[] resultUsers = ctx.bodyAsClass(User[].class);
+    String result = ctx.resultString();
+    User[] resultUsers = javalinJackson.fromJsonString(result, User[].class);
+
     assertEquals(2, resultUsers.length); // There should be two users returned
     for (User user : resultUsers) {
       assertEquals(37, user.age); // Every user should be age 37
@@ -237,31 +241,31 @@ public class UserControllerSpec {
   }
 
   /**
-   * Test that if the user sends a request with an illegal value in
-   * the age field (i.e., something that can't be parsed to a number)
-   * we get a reasonable error code back.
-   */
+  * Test that if the user sends a request with an illegal value in
+  * the age field (i.e., something that can't be parsed to a number)
+  * we get a reasonable error code back.
+  */
   @Test
-  public void getUsersWithIllegalAge() {
+  public void respondsAppropriatelyToIllegalAge() {
 
     mockReq.setQueryString("age=abc");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
+    Context ctx = mockContext("api/users");
 
-    // This should now throw a `BadRequestResponse` exception because
+    // This should now throw a `ValidationException` because
     // our request has an age that can't be parsed to a number.
-    assertThrows(BadRequestResponse.class, () -> {
+    assertThrows(ValidationException.class, () -> {
       userController.getUsers(ctx);
     });
   }
 
   @Test
-  public void getUsersByCompany() throws IOException {
+  public void canGetUsersWithCompany() throws IOException {
 
     mockReq.setQueryString("company=OHMNET");
-    Context ctx = ContextUtil.init(mockReq, mockRes, "api/users");
+    Context ctx = mockContext("api/users");
     userController.getUsers(ctx);
 
-    assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
+    assertEquals(HttpCode.OK.getStatus(), mockRes.getStatus());
 
     User[] resultUsers = ctx.bodyAsClass(User[].class);
     assertEquals(2, resultUsers.length); // There should be two users returned
