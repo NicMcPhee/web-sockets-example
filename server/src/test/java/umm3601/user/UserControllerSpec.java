@@ -162,7 +162,7 @@ public class UserControllerSpec {
   }
 
   /**
-   * Construct an instance of `ContextUtil`, which is essentially
+   * Construct an instance of `Context` using `ContextUtil`, providing
    * a mock context in Javalin. See `mockContext(String, Map)` for
    * more details.
    */
@@ -171,7 +171,7 @@ public class UserControllerSpec {
   }
 
   /**
-   * Construct an instance of `ContextUtil`, which is essentially a mock
+   * Construct an instance of `Context` using `ContextUtil`, providing a mock
    * context in Javalin. We need to provide a couple of attributes, which is
    * the fifth argument, which forces us to also provide the (default) value
    * for the fourth argument. There are two attributes we need to provide:
