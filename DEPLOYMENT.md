@@ -33,9 +33,10 @@ specifically to the VPSs hosted by DigitalOcean and all the features which that
 entails.
 
 We will be using a tool called Docker to help with the deployment process.
-Docker is a tool for creating and running "containers."
-Containers allow a developer to package up an application with all of the parts it needs,
-such as libraries and other dependencies, and deploy it as one package.
+Docker is a tool for creating and running _software containers_.
+Containers allow a developer to package up an application with all of
+the parts it needs,
+such as libraries and other dependencies, and deploy it as a single unit.
 We will use Docker to separate our app into three containers:
 One for the Java server, one for hosting the client files, and one for the database.
 
@@ -48,9 +49,9 @@ One for the Java server, one for hosting the client files, and one for the datab
 ## Step 1: Creating an account
 
 - Go to [Digital Ocean](https://www.digitalocean.com).
-- You *can* create an account without adding billing information.
-- You *cannot* create any droplets without "activating" your account (by adding billing info).
-- You *do* get $100 of free credit for D.O. through [the Github StudentPack](https://education.github.com/pack). Be sure to redeem it.
+- You _can_ create an account without adding billing information.
+- You _cannot_ create any droplets without "activating" your account (by adding billing info).
+- You _do_ get $100 of free credit for D.O. through [the Github StudentPack](https://education.github.com/pack). Be sure to redeem it.
 
 ## Step 2: Creating a droplet
 
@@ -120,4 +121,4 @@ There are many more commands and options for `docker-compose`. They are all docu
 
 ## Using a custom domain
 
-If you have bought a domain for your project and would like to use it, set its DNS A record to the IP of your droplet. Stop and remove your containers with `docker-compose down` and then you can use `nano` or similar to edit the `.env` file and change `APP_HOST` to the domain you wish to use. After that use `docker-compose up -d` to start it up again.
+If you have purchased a domain for your project and would like to use it, set its DNS A record to the IP of your droplet. Stop and remove your containers with `docker-compose down` and then you can use `nano` or similar to edit the `.env` file and change `APP_HOST` to the domain you wish to use. After that use `docker-compose up -d` to start it up again.
