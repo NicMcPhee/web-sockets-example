@@ -1,3 +1,5 @@
+# CSCI 3601 Iteration Template <!-- omit in toc -->
+
 !["Broken" badge to remind us to fix the URLs on the "real" badges](https://img.shields.io/badge/FIX_BADGES-Badges_below_need_to_be_updated-red)
 
 > **Make sure you update the links for the badges below so they point
@@ -8,7 +10,6 @@
 >
 > Feel free to remove the badge above and this text when you've
 > dealt with that.
-# CSCI 3601 Iteration Template <!-- omit in toc -->
 
 [![Server Build Status](../../actions/workflows/server.yml/badge.svg)](../../actions/workflows/server.yml)
 [![Client Build Status](../../actions/workflows/client.yaml/badge.svg)](../../actions/workflows/client.yaml)
@@ -26,9 +27,13 @@
 
 This is your starter code for Iteration 1.
 
-There are a number of pieces in this production template to help you get started. As you work on your project, you should replace some of these pieces with elements of your project and remove whatever you don't need (e.g., markdown files, JSON data files, or any remnants of the labs). We include, for example, the users parts of the
-previous labs. These are almost certainly not relevant to your project
-and should be removed once you've started.
+There are a number of elements of this production template that you don't need
+(or even want down the road), but are provided as examples to help you get started.
+As you work on your project, you should replace some of these pieces with
+elements of your project and _remove whatever you don't need_ (e.g., markdown
+files, JSON data files, or any remnants of the labs). We include, for example,
+the `User` parts of the previous labs. These are almost certainly not relevant
+to your project and should be removed once you've started.
 
 :exclamation: You should remove this sentence and the text above, and
 replace them with least an elevator pitch description of your project so that
@@ -41,6 +46,7 @@ Instructions on setting up the development environment and working with the code
 ### Common commands
 
 From the `server` directory:
+
 - `./gradlew run` to start the server
 - `./gradlew test` to test the server
 - `./gradlew checkstyleMain` to run Checkstyle on the server Java code in the `src/main` folder
@@ -48,11 +54,15 @@ From the `server` directory:
 - `./gradlew check` will run both the tests and Checkstyle in one command
 
 From the `client` directory:
+
 - `ng serve` to run the client
 - `ng test` to test the client
+  - Or `ng test --no-watch --code-coverage` to run the client tests once and
+    also compute the code coverage.
 - `ng e2e` and `ng e2e --watch` to run end-to-end tests
 
 From the `database` directory:
+
 - `./mongoseed.sh` (or `.\mongoseed.bat` on Windows) to seed the database
 
 ## [Deployment](DEPLOYMENT.md)
@@ -86,7 +96,7 @@ This contributors to this project can be seen [here](../../graphs/contributors).
 
 The project by default has the name "CSCI 3601 Iteration Template". There are a few places you need to change to make this the name you want:
 
-- The title of this README.md
+- The title in this README.md
 - [`client/src/app/app.component.ts`](client/src/app/app.component.ts)
   - The `title` variable
   - Also the associated unit and E2E tests will need to be changed.
