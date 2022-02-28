@@ -64,6 +64,25 @@
         "tutorial",
         "a11y"
       ]
+    },
+    {
+      "login": "NicMcPhee",
+      "name": "Nic McPhee",
+      "avatar_url": "https://avatars.githubusercontent.com/u/302297?v=4",
+      "profile": "http://www.morris.umn.edu/~mcphee",
+      "contributions": [
+        "infra",
+        "test",
+        "bug",
+        "content",
+        "doc",
+        "design",
+        "maintenance",
+        "projectManagement",
+        "question",
+        "review",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
