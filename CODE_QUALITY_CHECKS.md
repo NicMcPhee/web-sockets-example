@@ -14,31 +14,31 @@
 
 There are numerous tools designed to monitor the "quality" (defined
 in various ways) of your code and provide feedback on weak spots and
-opportunities for improvement. We have a few of these configured to work
+opportunities for improvement. We have several of these configured to work
 with your project repository, providing you with feedback in two forms:
 
-* Badges (at the top of [README.md](README.md))
-* Pull request checks
+- Badges (at the top of [README.md](README.md))
+- Pull request checks
 
 Unfortunately these badges and checks need to be (re)configured
 every time you or GitHub Classroom makes a new repository. This is
 
-* Every time GitHub Classroom creates a new repo from our starter code
-* Every time a group forks or copies a repository from one iteration to another
+- Every time GitHub Classroom creates a new repo from our starter code
+- Every time a group forks or copies a repository from one iteration to another
 
 Here's a checklist of actions you'll need to take for each
 new repository:
 
-* [ ] Fix Better Code Hub badge
-* [ ] Fix LGTM badge(s)
-* [ ] Enable PR checks for Better Code Hub
-* [ ] Enable PR checks for LGTM
+- [ ] Fix Better Code Hub badge
+- [ ] Fix LGTM badge(s)
+- [ ] Enable PR checks for Better Code Hub
+- [ ] Enable PR checks for LGTM
 
 This document includes:
 
-* Descriptions of the analysis tools we're currently using
-* Info on how to configure the badges
-* Info on how to enable the pull request checks
+- Descriptions of the analysis tools we're currently using
+- Info on how to configure the badges
+- Info on how to enable the pull request checks
 
 ## What analysis tools are we using and why?
 
@@ -56,13 +56,13 @@ actually aware of.
 
 Code analysis tools can help make sure that at least a variety of
 automatic checks happen on each pull request (PR). Then if a PR would
-introduce a problem or in some other way "lower" the quality of the
+introduce a problem or in some other way lower the quality of the
 code, everyone would know it and have a chance to address it before
 that PR is merged in.
 
 Badges also provide a nice visual indication of the health of the code
 base. This can be useful for getting a quick sense of the state of the
-project, as well as "advertising" that you care about quality and are
+project, as well as advertising that you care about quality and are
 making an effort to maintain the quality of your codebase.
 
 There are quite a few code analysis tools out there; we're using two
@@ -71,14 +71,10 @@ are pretty "user friendly": [Better Code Hub](https://bettercodehub.com/) and [L
 claims that these are the "best", however, and feel free to
 explore others, sharing cool things that you discover.
 
-Some other services:
-
-* [CodeScene](https://codescene.io/) provides quite sophisticated analyses of your codebase,
-  but it's not trivial to make sense of the huge amount of information
-  that it provides.
-* [Codacy](https://www.codacy.com/) is cool in that it understands a _lot_ of languages
-  and notations, but it's defaults can be quite "noisy" and it's not
-  trivial to reconfigure.
+As an example of another service, [CodeScene](https://codescene.io/)
+provides quite sophisticated analyses of your codebase, but it's not
+trivial to make sense of the huge amount of information
+that it provides.
 
 ### Better Code Hub
 
@@ -86,7 +82,7 @@ Some other services:
 checking 10 particular properties. Many of these are different versions
 of "keep things simple", although there are also architecture-level
 checks. They have a check on testing that doesn't make any particular
-sense to me; you should probably rely on your test coverages instead
+sense to us; you should probably rely on your test coverages instead
 of their "Automate Tests" check.
 
 If you fail one of their checks, you can open up that check on their web
@@ -167,13 +163,15 @@ of this string:
 UMM-CSci-3601/3601-iteration-template
 ```
 
-This tells those services to include the badges for the `3601-iteration-template` repository in the `UMM-CSci-3601` organization. You need to update both the organization and the repository name so they match the "name" of your repository up
-at the top of your repository page.
+This tells those services to include the badges for the
+`3601-iteration-template` repository in the `UMM-CSci-3601` organization.
+You need to update both the organization and the repository name so they match
+the "name" of your repository up at the top of your repository page.
 
-* The organization should be changed to whatever the GitHub
+- The organization should be changed to whatever the GitHub
   organization is for this semester's course. This is probably
-  something like `UMM-CSci-3601-S21`.
-* The repository is whatever name you've given your repository,
+  something like `UMM-CSci-3601-S22`.
+- The repository is whatever name you've given your repository,
   like `it-1-stupendous-wombats`.
 
 You then need to change all the instances of
@@ -185,7 +183,7 @@ UMM-CSci-3601/3601-iteration-template
 so they match the name of your repository, e.g.,
 
 ```text
-UMM-CSci-3601-S21/it-1-stupendous-wombats
+UMM-CSci-3601-S22/it-1-stupendous-wombats
 ```
 
 Once all those are updated, then the badges should point to the
