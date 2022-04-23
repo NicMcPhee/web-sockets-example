@@ -150,7 +150,7 @@ describe('User service: ', () => {
       user => expect(user).toBe(targetUser)
     );
 
-    const expectedUrl: string = userService.userUrl + '/' + targetId;
+    const expectedUrl = `${userService.userUrl}/${targetId}`;
     const req = httpTestingController.expectOne(expectedUrl);
     expect(req.request.method).toEqual('GET');
     req.flush(targetUser);

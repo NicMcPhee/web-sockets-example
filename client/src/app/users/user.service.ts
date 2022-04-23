@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class UserService {
-  readonly userUrl: string = environment.apiUrl + 'users';
+  readonly userUrl: string = `${environment.apiUrl}users`;
 
   constructor(private httpClient: HttpClient) {
   }
@@ -31,7 +31,7 @@ export class UserService {
   }
 
   getUserById(id: string): Observable<User> {
-    return this.httpClient.get<User>(this.userUrl + '/' + id);
+    return this.httpClient.get<User>(`${this.userUrl}/${id}`);
   }
 
   filterUsers(users: User[], filters: { name?: string; company?: string }): User[] {
