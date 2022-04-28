@@ -107,7 +107,7 @@ export class AddUserComponent implements OnInit {
   submitForm() {
     this.userService.addUser(this.addUserForm.value).subscribe(newID => {
       this.snackBar.open(
-        `Added User ${this.addUserForm.value.name}`,
+        `Added user ${this.addUserForm.value.name}`,
         null,
         { duration: 2000 }
       );
