@@ -105,7 +105,7 @@ describe('Add user', () => {
       cy.get('.user-card-email').should('have.text', user.email);
 
       // We should see the confirmation message at the bottom of the screen
-      cy.get('.mat-simple-snackbar').should('contain', `Added User ${user.name}`);
+      cy.get('.mat-simple-snackbar').should('contain', `Added user ${user.name}`);
     });
 
     it('Should fail with no company', () => {
