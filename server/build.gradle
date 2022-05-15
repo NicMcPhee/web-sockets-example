@@ -29,16 +29,16 @@ repositories {
 // External dependencies that our application utilizes
 dependencies {
   // Javalin, a simple web framework for Java
-  implementation 'io.javalin:javalin:4.4.0'
+  implementation 'io.javalin:javalin:4.5.0'
 
   // Mongo DB Driver for Java
-  implementation 'org.mongodb:mongodb-driver-sync:4.5.1'
+  implementation 'org.mongodb:mongodb-driver-sync:4.6.0'
 
   // Jackson, a JSON library for Java
   implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.2.2'
 
   // MongoJack, MongoDB integration for Jackson
-  implementation 'org.mongojack:mongojack:4.3.0'
+  implementation 'org.mongojack:mongojack:4.5.0'
 
   // Jackson support modules for Java 8 datatypes
   implementation 'com.fasterxml.jackson.module:jackson-module-parameter-names:2.13.2'
