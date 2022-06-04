@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { User } from './user';
@@ -12,7 +12,7 @@ import { UserService } from './user.service';
 })
 export class AddUserComponent implements OnInit {
 
-  addUserForm: FormGroup;
+  addUserForm: UntypedFormGroup;
 
   user: User;
 
@@ -44,7 +44,7 @@ export class AddUserComponent implements OnInit {
     ]
   };
 
-  constructor(private fb: FormBuilder, private userService: UserService, private snackBar: MatSnackBar, private router: Router) {
+  constructor(private fb: UntypedFormBuilder, private userService: UserService, private snackBar: MatSnackBar, private router: Router) {
   }
 
   createForms() {
@@ -52,7 +52,7 @@ export class AddUserComponent implements OnInit {
     // add user form validations
     this.addUserForm = this.fb.group({
       // We allow alphanumeric input and limit the length for name.
-      name: new FormControl('', Validators.compose([
+      name: new UntypedFormControl('', Validators.compose([
         Validators.required,
         Validators.minLength(2),
         // In the real world you'd want to be very careful about having
@@ -70,7 +70,7 @@ export class AddUserComponent implements OnInit {
       ])),
 
       // Since this is for a company, we need workers to be old enough to work, and probably not older than 200.
-      age: new FormControl('', Validators.compose([
+      age: new UntypedFormControl('', Validators.compose([
         Validators.required,
         Validators.min(15),
         Validators.max(200),
@@ -82,16 +82,16 @@ export class AddUserComponent implements OnInit {
 
       // We don't care much about what is in the company field, so we just add it here as part of the form
       // without any particular validation.
-      company: new FormControl(),
+      company: new UntypedFormControl(),
 
       // We don't need a special validator just for our app here, but there is a default one for email.
       // We will require the email, though.
-      email: new FormControl('', Validators.compose([
+      email: new UntypedFormControl('', Validators.compose([
         Validators.required,
         Validators.email,
       ])),
 
-      role: new FormControl('viewer', Validators.compose([
+      role: new UntypedFormControl('viewer', Validators.compose([
         Validators.required,
         Validators.pattern('^(admin|editor|viewer)$'),
       ])),
