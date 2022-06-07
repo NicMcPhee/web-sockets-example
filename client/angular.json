@@ -128,7 +128,6 @@
       }
     }
   },
-  "defaultProject": "client",
   "cli": {
     "analytics": false
   }
