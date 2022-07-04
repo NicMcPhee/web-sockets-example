@@ -21,7 +21,6 @@ const checkAddUserButtonState = () => {
   });
 };
 
-
 const checkInvalidInputs = () => {
   it('Should show error messages for invalid inputs', () => {
     // Before doing anything there shouldn't be an error
@@ -79,6 +78,35 @@ const addUserSetup = () => {
   checkInvalidInputs();
 };
 
+const checkAddFailsWithoutCompany = () => {
+  it('Should fail with no company', () => {
+    const user: User = {
+      _id: null,
+      name: 'Test User',
+      age: 30,
+      company: null,
+      email: 'test@example.com',
+      role: 'editor'
+    };
+
+    page.addUser(user);
+
+    // We should get an error message
+    cy.get('.mat-simple-snackbar').should('contain', `Failed to add the user`);
+
+    // We should have stayed on the new user page
+    cy.url()
+      .should('not.match', /\/users\/[0-9a-fA-F]{24}$/)
+      .should('match', /\/users\/new$/);
+
+    // The things we entered in the form should still be there
+    page.getFormField('name').should('have.value', user.name);
+    page.getFormField('age').should('have.value', user.age);
+    page.getFormField('email').should('have.value', user.email);
+    page.getFormField('role').should('contain', 'Editor');
+  });
+};
+
 const addNewUser = () => {
   describe('Successfully adding a new user', () => {
 
@@ -113,33 +141,6 @@ const addNewUser = () => {
       // We should see the confirmation message at the bottom of the screen
       cy.get('.mat-simple-snackbar').should('contain', `Added user ${user.name}`);
     });
-
-    it('Should fail with no company', () => {
-      const user: User = {
-        _id: null,
-        name: 'Test User',
-        age: 30,
-        company: null, // The company being set to null means nothing will be typed for it
-        email: 'test@example.com',
-        role: 'editor'
-      };
-
-      page.addUser(user);
-
-      // We should get an error message
-      cy.get('.mat-simple-snackbar').should('contain', `Failed to add the user`);
-
-      // We should have stayed on the new user page
-      cy.url()
-        .should('not.match', /\/users\/[0-9a-fA-F]{24}$/)
-        .should('match', /\/users\/new$/);
-
-      // The things we entered in the form should still be there
-      page.getFormField('name').should('have.value', user.name);
-      page.getFormField('age').should('have.value', user.age);
-      page.getFormField('email').should('have.value', user.email);
-      page.getFormField('role').should('contain', 'Editor');
-    });
   });
 };
 
@@ -150,8 +151,6 @@ describe('Add user', () => {
   });
 
   addUserSetup();
+  checkAddFailsWithoutCompany();
   addNewUser();
 });
-
-
-
