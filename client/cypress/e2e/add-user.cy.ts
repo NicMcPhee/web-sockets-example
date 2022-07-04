@@ -3,11 +3,7 @@ import { AddUserPage } from '../support/add-user.po';
 
 const page = new AddUserPage();
 
-const addUserSetup = () => {
-  it('Should have the correct title', () => {
-    page.getTitle().should('have.text', 'New User');
-  });
-
+const checkAddUserButtonState = () => {
   it('Should enable and disable the add user button', () => {
     // ADD USER button should be disabled until all the necessary fields
     // are filled. Once the last (`#emailField`) is filled, then the button should
@@ -23,7 +19,10 @@ const addUserSetup = () => {
     // all the required fields have valid input, then it should be enabled
     page.addUserButton().should('be.enabled');
   });
+};
 
+
+const checkInvalidInputs = () => {
   it('Should show error messages for invalid inputs', () => {
     // Before doing anything there shouldn't be an error
     cy.get('[data-test=nameError]').should('not.exist');
@@ -69,6 +68,15 @@ const addUserSetup = () => {
     page.getFormField('email').clear().type('user@example.com').blur();
     cy.get('[data-test=emailError]').should('not.exist');
   });
+};
+
+const addUserSetup = () => {
+  it('Should have the correct title', () => {
+    page.getTitle().should('have.text', 'New User');
+  });
+
+  checkAddUserButtonState();
+  checkInvalidInputs();
 };
 
 const addNewUser = () => {
@@ -142,6 +150,8 @@ describe('Add user', () => {
   });
 
   addUserSetup();
-
   addNewUser();
 });
+
+
+
