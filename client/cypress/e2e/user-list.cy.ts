@@ -63,24 +63,7 @@ const checkFilters = () => {
   });
 };
 
-describe('User list', () => {
-
-  before(() => {
-    cy.task('seed:database');
-  });
-
-  beforeEach(() => {
-    page.navigateTo();
-  });
-
-  it('Should show 10 users in both card and list view', () => {
-    page.getUserCards().should('have.length', 10);
-    page.changeView('list');
-    page.getUserListItems().should('have.length', 10);
-  });
-
-  checkFilters();
-
+const checkViewHandling = () => {
   it('Should change the view', () => {
     // Choose the view type "List"
     page.changeView('list');
@@ -114,6 +97,26 @@ describe('User list', () => {
       cy.wrap(el).find('.user-list-role').should('contain', 'viewer');
     });
   });
+};
+
+describe('User list', () => {
+
+  before(() => {
+    cy.task('seed:database');
+  });
+
+  beforeEach(() => {
+    page.navigateTo();
+  });
+
+  it('Should show 10 users in both card and list view', () => {
+    page.getUserCards().should('have.length', 10);
+    page.changeView('list');
+    page.getUserListItems().should('have.length', 10);
+  });
+
+  checkFilters();
+  checkViewHandling();
 
   it('Should click view profile on a user and go to the right URL', () => {
     page.getUserCards().first().then((card) => {
