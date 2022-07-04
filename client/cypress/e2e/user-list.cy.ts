@@ -2,22 +2,7 @@ import { UserListPage } from '../support/user-list.po';
 
 const page = new UserListPage();
 
-describe('User list', () => {
-
-  before(() => {
-    cy.task('seed:database');
-  });
-
-  beforeEach(() => {
-    page.navigateTo();
-  });
-
-  it('Should show 10 users in both card and list view', () => {
-    page.getUserCards().should('have.length', 10);
-    page.changeView('list');
-    page.getUserListItems().should('have.length', 10);
-  });
-
+const checkFilters = () => {
   it('Should type something in the name filter and check that it returned correct elements', () => {
     // Filter for user 'Lynn Ferguson'
     cy.get('[data-test=userNameInput]').type('Lynn Ferguson');
@@ -28,8 +13,7 @@ describe('User list', () => {
     });
 
     // (We check this two ways to show multiple ways to check this)
-    page.getUserCards().find('.user-card-name').each(el =>
-      expect(el.text()).to.equal('Lynn Ferguson')
+    page.getUserCards().find('.user-card-name').each(el => expect(el.text()).to.equal('Lynn Ferguson')
     );
   });
 
@@ -77,6 +61,25 @@ describe('User list', () => {
       .should('not.contain.text', 'Connie Stewart')
       .should('not.contain.text', 'Lynn Ferguson');
   });
+};
+
+describe('User list', () => {
+
+  before(() => {
+    cy.task('seed:database');
+  });
+
+  beforeEach(() => {
+    page.navigateTo();
+  });
+
+  it('Should show 10 users in both card and list view', () => {
+    page.getUserCards().should('have.length', 10);
+    page.changeView('list');
+    page.getUserListItems().should('have.length', 10);
+  });
+
+  checkFilters();
 
   it('Should change the view', () => {
     // Choose the view type "List"
