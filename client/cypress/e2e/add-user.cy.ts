@@ -1,13 +1,9 @@
 import { User } from 'src/app/users/user';
 import { AddUserPage } from '../support/add-user.po';
 
-describe('Add user', () => {
-  const page = new AddUserPage();
+const page = new AddUserPage();
 
-  beforeEach(() => {
-    page.navigateTo();
-  });
-
+const addUserSetup = () => {
   it('Should have the correct title', () => {
     page.getTitle().should('have.text', 'New User');
   });
@@ -73,8 +69,10 @@ describe('Add user', () => {
     page.getFormField('email').clear().type('user@example.com').blur();
     cy.get('[data-test=emailError]').should('not.exist');
   });
+};
 
-  describe('Adding a new user', () => {
+const addNewUser = () => {
+  describe('Successfully adding a new user', () => {
 
     beforeEach(() => {
       cy.task('seed:database');
@@ -135,5 +133,15 @@ describe('Add user', () => {
       page.getFormField('role').should('contain', 'Editor');
     });
   });
+};
 
+describe('Add user', () => {
+
+  beforeEach(() => {
+    page.navigateTo();
+  });
+
+  addUserSetup();
+
+  addNewUser();
 });
