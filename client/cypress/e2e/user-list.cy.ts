@@ -2,7 +2,22 @@ import { UserListPage } from '../support/user-list.po';
 
 const page = new UserListPage();
 
-const checkFilters = () => {
+describe('User list', () => {
+
+  before(() => {
+    cy.task('seed:database');
+  });
+
+  beforeEach(() => {
+    page.navigateTo();
+  });
+
+  it('Should show 10 users in both card and list view', () => {
+    page.getUserCards().should('have.length', 10);
+    page.changeView('list');
+    page.getUserListItems().should('have.length', 10);
+  });
+
   it('Should type something in the name filter and check that it returned correct elements', () => {
     // Filter for user 'Lynn Ferguson'
     cy.get('[data-test=userNameInput]').type('Lynn Ferguson');
@@ -13,7 +28,8 @@ const checkFilters = () => {
     });
 
     // (We check this two ways to show multiple ways to check this)
-    page.getUserCards().find('.user-card-name').each(el => expect(el.text()).to.equal('Lynn Ferguson')
+    page.getUserCards().find('.user-card-name').each(el =>
+      expect(el.text()).to.equal('Lynn Ferguson')
     );
   });
 
@@ -61,9 +77,7 @@ const checkFilters = () => {
       .should('not.contain.text', 'Connie Stewart')
       .should('not.contain.text', 'Lynn Ferguson');
   });
-};
 
-const checkViewHandling = () => {
   it('Should change the view', () => {
     // Choose the view type "List"
     page.changeView('list');
@@ -97,26 +111,6 @@ const checkViewHandling = () => {
       cy.wrap(el).find('.user-list-role').should('contain', 'viewer');
     });
   });
-};
-
-describe('User list', () => {
-
-  before(() => {
-    cy.task('seed:database');
-  });
-
-  beforeEach(() => {
-    page.navigateTo();
-  });
-
-  it('Should show 10 users in both card and list view', () => {
-    page.getUserCards().should('have.length', 10);
-    page.changeView('list');
-    page.getUserListItems().should('have.length', 10);
-  });
-
-  checkFilters();
-  checkViewHandling();
 
   it('Should click view profile on a user and go to the right URL', () => {
     page.getUserCards().first().then((card) => {
