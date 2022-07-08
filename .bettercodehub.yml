@@ -15,8 +15,9 @@ languages:
       - client/src/environments/.*\.ts
     exclude:
       - client/src/app/.*\.spec\.ts
+      - client/cypress/.*\.ts
   test:
     include:
       - client/src/app/.*\.spec\.ts
-      - client/e2e/.*\.ts
+      - client/cypress/.*\.ts
       - client/src/testing/.*\.ts
