@@ -7,6 +7,11 @@ updates:
     time: "12:00"
     timezone: America/Chicago
   open-pull-requests-limit: 20
+  ignore:
+    - dependency-name: '@types/node'
+      update-types:
+        - 'version-update:semver-major'
+        - 'version-update:semver-minor'
 - package-ecosystem: gradle
   directory: "/server"
   schedule:
