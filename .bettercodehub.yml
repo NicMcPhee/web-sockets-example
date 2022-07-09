@@ -17,6 +17,9 @@ languages:
       - client/src/app/.*\.spec\.ts
       - client/cypress/e2e/.*\.cy\.ts
       - client/cypress/support/.*\.po\.ts
+      - client/cypress/e2e/add-user.cy.ts
+      - client/cypress/e2e/user-list.cy.ts
+      - client/cypress/e2e/app.cy.ts
   test:
     include:
       - client/src/app/.*\.spec\.ts
