@@ -12,4 +12,7 @@ jobs:
         uses: fast-facts/ng-update@v1.0.0
         with:
           base-branch: main
+          project-path: ./client/
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+          pr-title: Update Angular Dependencies
+          pr-branch-prefix: ng-update-
