@@ -52,7 +52,7 @@ dependencies {
   testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
 
   // JUnit Jupiter Engine for testing.
-  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.1'
 
   testImplementation 'com.mockrunner:mockrunner-servlet:2.0.6'
 }
