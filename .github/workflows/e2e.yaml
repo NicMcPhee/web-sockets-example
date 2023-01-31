@@ -41,7 +41,7 @@ jobs:
         node-version: 16
 
     - name: Run e2e tests
-      uses: cypress-io/github-action@v4
+      uses: cypress-io/github-action@v5
       with:
         start: ${{ github.workspace }}/server/gradlew run -p ${{ github.workspace }}/server/
         command: npm run e2e
