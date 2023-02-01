@@ -32,6 +32,10 @@
     // https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker
     "streetsidesoftware.code-spell-checker",
 
+    // Thunder Client
+    // "https://www.thunderclient.com/"
+    "rangav.vscode-thunder-client",
+
     // ESLint
     // https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
     "dbaeumer.vscode-eslint",
