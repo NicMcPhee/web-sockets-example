@@ -5,9 +5,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { AppModule } from './app.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatCardModule } from '@angular/material/card';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatListModule } from '@angular/material/list';
+import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
 
 describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {

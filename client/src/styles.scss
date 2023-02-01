@@ -6,7 +6,16 @@
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat.core();
+// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
+//  The following line adds:
+//    1. Default typography styles for all components
+//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
+//  If you specify typography styles for the components you use elsewhere, you should delete this line.
+//  If you don't need the default component typographies but still want the hierarchy styles,
+//  you can delete this line and instead use:
+//    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
+@include mat.all-legacy-component-typographies();
+@include mat.legacy-core();
 
 
 // This is to be able to theme parts of the app dynamically depending on theme (right now: light or dark)
@@ -72,7 +81,7 @@ $dark-theme: mat.define-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
 
 // Sets up the theming for built in material components with the light theme
-@include mat.all-component-themes($light-theme);
+@include mat.all-legacy-component-themes($light-theme);
 
 // Sets up theming for our custom components with the light theme
 @include app-theming($light-theme);
@@ -91,7 +100,7 @@ body {
 // you can also make this a normal class and add it to body or html dynamically.
 @media (prefers-color-scheme: dark) {
   // Sets up the theming for built in material components with the light theme
-  @include mat.all-component-themes($dark-theme);
+  @include mat.all-legacy-component-themes($dark-theme);
   // Sets up theming for our custom components with the light theme
   @include app-theming($dark-theme);
 }
