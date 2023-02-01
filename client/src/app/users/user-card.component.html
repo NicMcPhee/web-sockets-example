@@ -1,4 +1,4 @@
-<mat-card class="user-card" *ngIf="this.user">
+<mat-card appearance="outlined" class="user-card" *ngIf="this.user">
   <mat-card-header>
     <img mat-card-avatar [src]="this.user.avatar" class="user-avatar" *ngIf="this.user.avatar">
     <mat-card-title class="user-card-name">{{ this.user.name }}</mat-card-title>
