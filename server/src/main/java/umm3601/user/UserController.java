@@ -25,7 +25,7 @@ import org.mongojack.JacksonMongoCollection;
 
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
-import io.javalin.http.HttpCode;
+import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
 
 /**
@@ -162,7 +162,7 @@ public class UserController {
     // create a new resource (a user in this case).
     // See, e.g., https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
     // for a description of the various response codes.
-    ctx.status(HttpCode.CREATED);
+    ctx.status(HttpStatus.CREATED);
     ctx.json(Map.of("id", newUser._id));
   }
 
