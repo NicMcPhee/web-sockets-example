@@ -1,7 +1,7 @@
 package umm3601.user;
 
 import static com.mongodb.client.model.Filters.eq;
-import static io.javalin.plugin.json.JsonMapperKt.JSON_MAPPER_KEY;
+import static io.javalin.json.JsonMapperKt.JSON_MAPPER_KEY;
 import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -34,15 +34,15 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import io.javalin.core.JavalinConfig;
-import io.javalin.core.validation.ValidationException;
+import io.javalin.config.JavalinConfig;
+import io.javalin.validation.ValidationException;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HandlerType;
-import io.javalin.http.HttpCode;
+import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
 import io.javalin.http.util.ContextUtil;
-import io.javalin.plugin.json.JavalinJackson;
+import io.javalin.json.JavalinJackson;
 
 /**
  * Tests the logic of the UserController
@@ -191,8 +191,8 @@ public class UserControllerSpec {
         HandlerType.INVALID,
         Map.ofEntries(
           entry(JSON_MAPPER_KEY, javalinJackson),
-          entry(ContextUtil.maxRequestSizeKey,
-                new JavalinConfig().maxRequestSize
+          entry(ContextUtil.class.getField(maxRequestSize),
+                new JavalinConfig().http.maxRequestSize
           )
         )
       );
@@ -208,7 +208,7 @@ public class UserControllerSpec {
    * @return the array of `User`s from the given `Context`.
    */
   private User[] returnedUsers(Context ctx) {
-    String result = ctx.resultString();
+    String result = ctx.result();
     User[] users = javalinJackson.fromJsonString(result, User[].class);
     return users;
   }
@@ -223,7 +223,7 @@ public class UserControllerSpec {
    * @return the `User` extracted from the given `Context`.
    */
   private User returnedSingleUser(Context ctx) {
-    String result = ctx.resultString();
+    String result = ctx.result();
     User user = javalinJackson.fromJsonString(result, User.class);
     return user;
   }
@@ -239,8 +239,8 @@ public class UserControllerSpec {
 
     // The response status should be 200, i.e., our request
     // was handled successfully (was OK). This is a named constant in
-    // the class HttpCode.
-    assertEquals(HttpCode.OK.getStatus(), mockRes.getStatus());
+    // the class HttpStatus.
+    assertEquals(HttpStatus.OK, mockRes.getStatus());
     assertEquals(
       db.getCollection("users").countDocuments(),
       returnedUsers.length
@@ -257,7 +257,7 @@ public class UserControllerSpec {
     userController.getUsers(ctx);
     User[] resultUsers = returnedUsers(ctx);
 
-    assertEquals(HttpCode.OK.getStatus(), mockRes.getStatus());
+    assertEquals(HttpStatus.OK, mockRes.getStatus());
     assertEquals(2, resultUsers.length); // There should be two users returned
     for (User user : resultUsers) {
       assertEquals(37, user.age); // Every user should be age 37
@@ -290,7 +290,7 @@ public class UserControllerSpec {
     userController.getUsers(ctx);
     User[] resultUsers = returnedUsers(ctx);
 
-    assertEquals(HttpCode.OK.getStatus(), mockRes.getStatus());
+    assertEquals(HttpStatus.OK, mockRes.getStatus());
     assertEquals(2, resultUsers.length); // There should be two users returned
     for (User user : resultUsers) {
       assertEquals("OHMNET", user.company);
@@ -375,7 +375,7 @@ public class UserControllerSpec {
     Context ctx = mockContext("api/users");
 
     userController.addNewUser(ctx);
-    String result = ctx.resultString();
+    String result = ctx.result();
     String id = javalinJackson.fromJsonString(result, ObjectNode.class).get("id").asText();
 
     // Our status should be 201, i.e., our new user was successfully
