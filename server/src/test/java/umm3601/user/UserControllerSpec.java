@@ -1,5 +1,8 @@
 package umm3601.user;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static com.mongodb.client.model.Filters.eq;
 import static io.javalin.json.JsonMapperKt.JSON_MAPPER_KEY;
 import static java.util.Map.entry;
@@ -14,6 +17,7 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,9 +34,11 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 import io.javalin.config.JavalinConfig;
 import io.javalin.validation.ValidationException;
@@ -58,6 +64,8 @@ import io.javalin.json.JavalinJackson;
 // flag as a problem) make more sense.
 @SuppressWarnings({ "MagicNumber" })
 public class UserControllerSpec {
+
+  private Context ctx = mock(Context.class);
 
   // Mock requests and responses that will be reset in `setupEach()`
   // and then (re)used in each of the tests.
@@ -275,11 +283,12 @@ public class UserControllerSpec {
     mockReq.setQueryString("age=abc");
     Context ctx = mockContext("api/users");
 
-    // This should now throw a `ValidationException` because
+    // This should now throw a `BadRequestResponse` exception because
     // our request has an age that can't be parsed to a number.
-    assertThrows(ValidationException.class, () -> {
+    Throwable exception = Assertions.assertThrows(BadRequestResponse.class, () -> {
       userController.getUsers(ctx);
     });
+    assertEquals("Specified age '" + "abc" + "' can't be parsed to an integer", exception.getMessage());
   }
 
   @Test
