@@ -29,7 +29,7 @@ export class UserListPage {
    * @param viewType Which view type to change to: "card" or "list".
    */
   changeView(viewType: 'card' | 'list') {
-    return cy.get(`[data-test=viewTypeRadio] .mat-radio-button[value="${viewType}"]`).click();
+    return cy.get(`[data-test=viewTypeRadio] mat-radio-button[value="${viewType}"]`).click();
   }
 
   /**

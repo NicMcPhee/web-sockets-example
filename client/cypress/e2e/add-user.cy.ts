@@ -105,7 +105,7 @@ describe('Add user', () => {
       cy.get('.user-card-email').should('have.text', user.email);
 
       // We should see the confirmation message at the bottom of the screen
-      cy.get('.mat-simple-snackbar').should('contain', `Added user ${user.name}`);
+      cy.get('mat-mdc-simple-snackbar').should('contain', `Added user ${user.name}`);
     });
 
     it('Should fail with no company', () => {
@@ -121,7 +121,7 @@ describe('Add user', () => {
       page.addUser(user);
 
       // We should get an error message
-      cy.get('.mat-simple-snackbar').should('contain', `Failed to add the user`);
+      cy.get('mat-mdc-simple-snackbar').should('contain', `Failed to add the user`);
 
       // We should have stayed on the new user page
       cy.url()
