@@ -36,6 +36,7 @@ public class UserController {
   private static final String AGE_KEY = "age";
   private static final String COMPANY_KEY = "company";
   private static final String ROLE_KEY = "role";
+  private static final int REASONABLE_AGE_LIMIT = 150;
 
   public static final String EMAIL_REGEX = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 
@@ -104,7 +105,7 @@ public class UserController {
     if (ctx.queryParamMap().containsKey(AGE_KEY)) {
       int targetAge = ctx.queryParamAsClass(AGE_KEY, Integer.class)
         .check(it -> it > 0, "User's age must be greater than zero")
-        .check(it -> it < 150, "User's age must be less than 150")
+        .check(it -> it < REASONABLE_AGE_LIMIT, "User's age must be less than " + REASONABLE_AGE_LIMIT)
         .get();
       filters.add(eq(AGE_KEY, targetAge));
     }
@@ -155,7 +156,7 @@ public class UserController {
       .check(usr -> usr.name != null && usr.name.length() > 0, "User must have a non-empty user name")
       .check(usr -> usr.email.matches(EMAIL_REGEX), "User must have a legal email")
       .check(usr -> usr.age > 0, "User's age must be greater than zero")
-      .check(usr -> usr.age < 150, "User's age must be less than 150")
+      .check(usr -> usr.age < REASONABLE_AGE_LIMIT, "User's age must be less than " + REASONABLE_AGE_LIMIT)
       .check(usr -> usr.role.matches("^(admin|editor|viewer)$"), "User must have a legal user role")
       .check(usr -> usr.company != null && usr.company.length() > 0, "User must have a non-empty company name")
       .get();
