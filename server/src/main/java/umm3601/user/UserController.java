@@ -102,14 +102,20 @@ public class UserController {
     List<Bson> filters = new ArrayList<>(); // start with a blank document
 
     if (ctx.queryParamMap().containsKey(AGE_KEY)) {
-        int targetAge = ctx.queryParamAsClass(AGE_KEY, Integer.class).get();
-        filters.add(eq(AGE_KEY, targetAge));
+      int targetAge = ctx.queryParamAsClass(AGE_KEY, Integer.class)
+        .check(it -> it > 0, "User's age must be greater than zero")
+        .check(it -> it < 150, "User's age must be less than 150")
+        .get();
+      filters.add(eq(AGE_KEY, targetAge));
     }
     if (ctx.queryParamMap().containsKey(COMPANY_KEY)) {
       filters.add(regex(COMPANY_KEY,  Pattern.quote(ctx.queryParam(COMPANY_KEY)), "i"));
     }
     if (ctx.queryParamMap().containsKey(ROLE_KEY)) {
-      filters.add(eq(ROLE_KEY, ctx.queryParam(ROLE_KEY)));
+      String role = ctx.queryParamAsClass(ROLE_KEY, String.class)
+        .check(it -> it.matches("^(admin|editor|viewer)$"), "User must have a legal user role")
+        .get();
+      filters.add(eq(ROLE_KEY, role));
     }
 
     // Combine the list of filters into a single filtering document.
@@ -149,6 +155,7 @@ public class UserController {
       .check(usr -> usr.name != null && usr.name.length() > 0, "User must have a non-empty user name")
       .check(usr -> usr.email.matches(EMAIL_REGEX), "User must have a legal email")
       .check(usr -> usr.age > 0, "User's age must be greater than zero")
+      .check(usr -> usr.age < 150, "User's age must be less than 150")
       .check(usr -> usr.role.matches("^(admin|editor|viewer)$"), "User must have a legal user role")
       .check(usr -> usr.company != null && usr.company.length() > 0, "User must have a non-empty company name")
       .get();
