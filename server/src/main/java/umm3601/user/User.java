@@ -43,4 +43,10 @@ public class User {
     User other = (User) obj;
     return _id.equals(other._id);
   }
+
+  @Override
+  public int hashCode() {
+    // This means that equal Users will hash the same, which is good.
+    return _id.hashCode();
+  }
 }
