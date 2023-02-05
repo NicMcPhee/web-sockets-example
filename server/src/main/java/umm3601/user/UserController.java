@@ -75,6 +75,7 @@ public class UserController {
       throw new NotFoundResponse("The requested user was not found");
     } else {
       ctx.json(user);
+      ctx.status(HttpStatus.OK);
     }
   }
 
