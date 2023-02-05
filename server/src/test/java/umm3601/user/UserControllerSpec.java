@@ -38,7 +38,7 @@ import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
-import io.javalin.json.JavalinJackson;
+//import io.javalin.json.JavalinJackson;
 
 /**
  * Tests the logic of the UserController
@@ -54,11 +54,6 @@ import io.javalin.json.JavalinJackson;
 // flag as a problem) make more sense.
 @SuppressWarnings({ "MagicNumber" })
 public class UserControllerSpec {
-
-  // Mock requests and responses that will be reset in `setupEach()`
-  // and then (re)used in each of the tests.
-  //private MockHttpServletRequest mockReq = new MockHttpServletRequest();
-  //private MockHttpServletResponse mockRes = new MockHttpServletResponse();
 
   // An instance of the controller we're testing that is prepared in
   // `setupEach()`, and then exercised in the various tests below.
@@ -76,7 +71,7 @@ public class UserControllerSpec {
   private static MongoDatabase db;
 
   // Used to translate between JSON and POJOs.
-  private static JavalinJackson javalinJackson = new JavalinJackson();
+  //private static JavalinJackson javalinJackson = new JavalinJackson();
 
   @Mock
   private Context ctx;
@@ -114,9 +109,7 @@ public class UserControllerSpec {
 
   @BeforeEach
   public void setupEach() throws IOException {
-    // Reset our mock request and response objects
-    //mockReq.resetAll();
-    //mockRes.resetAll();
+    // Reset our mock context and argument captor (declared with Mockito annotations @Mock and @Captor)
     MockitoAnnotations.openMocks(this);
 
     // Setup database
