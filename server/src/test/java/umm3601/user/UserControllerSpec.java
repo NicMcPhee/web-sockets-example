@@ -1,19 +1,12 @@
 package umm3601.user;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static com.mongodb.client.model.Filters.eq;
-import static io.javalin.json.JsonMapperKt.JSON_MAPPER_KEY;
-import static java.util.Map.entry;
+//import static com.mongodb.client.model.Filters.eq;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,9 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.mockrunner.mock.web.MockHttpServletRequest;
-import com.mockrunner.mock.web.MockHttpServletResponse;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
@@ -43,14 +33,11 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import io.javalin.config.JavalinConfig;
 import io.javalin.validation.ValidationException;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
-import io.javalin.http.HandlerType;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
-// import io.javalin.http.util.ContextUtil;
 import io.javalin.json.JavalinJackson;
 
 /**
@@ -177,36 +164,6 @@ public class UserControllerSpec {
     userController = new UserController(db);
   }
 
-  /**
-   * A little helper method that assumes that the given context
-   * body contains an array of Users, and extracts and returns
-   * that array.
-   *
-   * @param ctx the `Context` whose body is assumed to contain
-   *  an array of `User`s.
-   * @return the array of `User`s from the given `Context`.
-   */
-  private User[] returnedUsers(Context ctx) {
-    String result = ctx.result();
-    User[] users = javalinJackson.fromJsonString(result, User[].class);
-    return users;
-  }
-
-  /**
-   * A little helper method that assumes that the given context
-   * body contains a *single* User, and extracts and returns
-   * that User.
-   *
-   * @param ctx the `Context` whose body is assumed to contain
-   *  a *single* `User`.
-   * @return the `User` extracted from the given `Context`.
-   */
-  private User returnedSingleUser(Context ctx) {
-    String result = ctx.result();
-    User user = javalinJackson.fromJsonString(result, User.class);
-    return user;
-  }
-
   @Test
   public void canGetAllUsers() throws IOException {
     // When something asks the (mocked) context for the queryParamMap,
@@ -237,7 +194,7 @@ public class UserControllerSpec {
   //   queryParams.put("age", Arrays.asList(new String[] {"37"}));
   //   when(ctx.queryParamMap()).thenReturn(queryParams);
 
-  //   System.out.println(queryParams);
+
   //   userController.getUsers(ctx);
 
   //   verify(ctx).json(userArrayListCaptor.capture());
