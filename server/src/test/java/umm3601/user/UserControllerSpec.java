@@ -319,41 +319,40 @@ public class UserControllerSpec {
   // @Test
   // public void addUser() throws IOException {
 
-  //   String testNewUser = "{"
-  //       + "\"name\": \"Test User\","
-  //       + "\"age\": 25,"
-  //       + "\"company\": \"testers\","
-  //       + "\"email\": \"test@example.com\","
-  //       + "\"role\": \"viewer\""
-  //       + "}";
-  //   mockReq.setBodyContent(testNewUser);
-  //   mockReq.setMethod("POST");
+  //   // I could use help understanding how the JsonMapper might be used
+  //   BodyValidator<User> bv = new BodyValidator<>(null, User.class, new JsonMapper() {
+  //   });
 
-  //   Context ctx = mockContext("api/users");
+  //   // attempting to make a body validator, but really this is just a bunch of separate validators right now
+  //   Validator<String> validateName = Validator.create(String.class, "Test User", "name");
+  //   Validator<Integer> validateAge = Validator.create(Integer.class, "25", "age");
+  //   Validator<String> validateCompany = Validator.create(String.class, "testers", "company");
+  //   Validator<String> validateEmail = Validator.create(String.class, "test@example.com", "email");
+  //   Validator<String> validateRole = Validator.create(String.class, "viewer", "role");
+  //   Validator<?>[] validators= {validateName, validateAge, validateCompany, validateEmail, validateRole};
+
+  //   when(ctx.bodyValidator(User.class)).thenReturn(bv);
+  //   when(ctx.formParamMap()).thenReturn(null);
 
   //   userController.addNewUser(ctx);
-  //   String result = ctx.result();
-  //   String id = javalinJackson.fromJsonString(result, ObjectNode.class).get("id").asText();
 
-  //   // Our status should be 201, i.e., our new user was successfully
-  //   // created. This is a named constant in the class HttpURLConnection.
-  //   assertEquals(HttpURLConnection.HTTP_CREATED, mockRes.getStatus());
+  //   ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+  //   verify(ctx).json(userCaptor.capture());
 
-  //   // Successfully adding the user should return the newly generated MongoDB ID
-  //   // for that user.
-  //   assertNotEquals("", id);
-  //   assertEquals(1, db.getCollection("users").countDocuments(eq("_id", new ObjectId(id))));
+  //   // Our status should be 201, i.e., our new user was successfully created.
+  //   verify(ctx).status(HttpStatus.CREATED);
 
   //   // Verify that the user was added to the database with the correct ID
-  //   Document addedUser = db.getCollection("users").find(eq("_id", new ObjectId(id))).first();
+  //   //Document addedUser = db.getCollection("users").find(eq("_id", new ObjectId(userCaptor.getValue()._id))).first();
 
-  //   assertNotNull(addedUser);
-  //   assertEquals("Test User", addedUser.getString("name"));
-  //   assertEquals(25, addedUser.getInteger("age"));
-  //   assertEquals("testers", addedUser.getString("company"));
-  //   assertEquals("test@example.com", addedUser.getString("email"));
-  //   assertEquals("viewer", addedUser.getString("role"));
-  //   assertTrue(addedUser.containsKey("avatar"));
+  //   // Successfully adding the user should return the newly generated, non-empty MongoDB ID for that user.
+  //   assertNotEquals("", userCaptor.getValue()._id);
+  //   assertEquals("Test User", userCaptor.getValue().name);
+  //   assertEquals(25, userCaptor.getValue().age);
+  //   assertEquals("testers", userCaptor.getValue().company);
+  //   assertEquals("test@example.com", userCaptor.getValue().email);
+  //   assertEquals("viewer", userCaptor.getValue().role);
+  //   assertNotNull(userCaptor.getValue().avatar);
   // }
 
   // @Test
