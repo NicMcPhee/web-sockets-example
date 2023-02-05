@@ -2,8 +2,10 @@ package umm3601.user;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-//import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.eq;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
@@ -32,13 +34,14 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import io.javalin.validation.BodyValidator;
 import io.javalin.validation.ValidationException;
 import io.javalin.validation.Validator;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
-//import io.javalin.json.JavalinJackson;
+import io.javalin.json.JavalinJackson;
 
 /**
  * Tests the logic of the UserController
@@ -71,13 +74,19 @@ public class UserControllerSpec {
   private static MongoDatabase db;
 
   // Used to translate between JSON and POJOs.
-  //private static JavalinJackson javalinJackson = new JavalinJackson();
+  private static JavalinJackson javalinJackson = new JavalinJackson();
 
   @Mock
   private Context ctx;
 
   @Captor
   private ArgumentCaptor<ArrayList<User>> userArrayListCaptor;
+
+  @Captor
+  private ArgumentCaptor<User> userCaptor;
+
+  @Captor
+  private ArgumentCaptor<Map<String, String>> mapCaptor;
 
   /**
    * Sets up (the connection to the) DB once; that connection and DB will
@@ -325,8 +334,6 @@ public class UserControllerSpec {
 
     userController.getUser(ctx);
 
-    ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
-
     verify(ctx).json(userCaptor.capture());
     verify(ctx).status(HttpStatus.OK);
     assertEquals("Sam", userCaptor.getValue().name);
@@ -356,44 +363,39 @@ public class UserControllerSpec {
     assertEquals("The requested user was not found", exception.getMessage());
   }
 
-  // @Test
-  // public void addUser() throws IOException {
+  @Test
+  public void addUser() throws IOException {
+    String testNewUser = "{"
+        + "\"name\": \"Test User\","
+        + "\"age\": 25,"
+        + "\"company\": \"testers\","
+        + "\"email\": \"test@example.com\","
+        + "\"role\": \"viewer\""
+        + "}";
 
-  //   // I could use help understanding how the JsonMapper might be used
-  //   BodyValidator<User> bv = new BodyValidator<>(null, User.class, new JsonMapper() {
-  //   });
+    when(ctx.bodyValidator(User.class))
+      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
-  //   // attempting to make a body validator, but really this is just a bunch of separate validators right now
-  //   Validator<String> validateName = Validator.create(String.class, "Test User", "name");
-  //   Validator<Integer> validateAge = Validator.create(Integer.class, "25", "age");
-  //   Validator<String> validateCompany = Validator.create(String.class, "testers", "company");
-  //   Validator<String> validateEmail = Validator.create(String.class, "test@example.com", "email");
-  //   Validator<String> validateRole = Validator.create(String.class, "viewer", "role");
-  //   Validator<?>[] validators= {validateName, validateAge, validateCompany, validateEmail, validateRole};
+    userController.addNewUser(ctx);
 
-  //   when(ctx.bodyValidator(User.class)).thenReturn(bv);
-  //   when(ctx.formParamMap()).thenReturn(null);
+    verify(ctx).json(mapCaptor.capture());
 
-  //   userController.addNewUser(ctx);
+    // Our status should be 201, i.e., our new user was successfully created.
+    verify(ctx).status(HttpStatus.CREATED);
 
-  //   ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
-  //   verify(ctx).json(userCaptor.capture());
+    //Verify that the user was added to the database with the correct ID
+    Document addedUser = db.getCollection("users")
+      .find(eq("_id", new ObjectId(mapCaptor.getValue().get("id")))).first();
 
-  //   // Our status should be 201, i.e., our new user was successfully created.
-  //   verify(ctx).status(HttpStatus.CREATED);
-
-  //   Verify that the user was added to the database with the correct ID
-  //   Document addedUser = db.getCollection("users").find(eq("_id", new ObjectId(userCaptor.getValue()._id))).first();
-
-  //   // Successfully adding the user should return the newly generated, non-empty MongoDB ID for that user.
-  //   assertNotEquals("", userCaptor.getValue()._id);
-  //   assertEquals("Test User", userCaptor.getValue().name);
-  //   assertEquals(25, userCaptor.getValue().age);
-  //   assertEquals("testers", userCaptor.getValue().company);
-  //   assertEquals("test@example.com", userCaptor.getValue().email);
-  //   assertEquals("viewer", userCaptor.getValue().role);
-  //   assertNotNull(userCaptor.getValue().avatar);
-  // }
+    // Successfully adding the user should return the newly generated, non-empty MongoDB ID for that user.
+    assertNotEquals("", addedUser.get("_id"));
+    assertEquals("Test User", addedUser.get("name"));
+    assertEquals(25, addedUser.get("age"));
+    assertEquals("testers", addedUser.get("company"));
+    assertEquals("test@example.com", addedUser.get("email"));
+    assertEquals("viewer", addedUser.get("role"));
+    assertNotNull(addedUser.get("avatar"));
+  }
 
   // @Test
   // public void addInvalidEmailUser() throws IOException {

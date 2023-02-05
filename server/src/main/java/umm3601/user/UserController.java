@@ -175,12 +175,12 @@ public class UserController {
 
     userCollection.insertOne(newUser);
 
+    ctx.json(Map.of("id", newUser._id));
     // 201 is the HTTP code for when we successfully
     // create a new resource (a user in this case).
     // See, e.g., https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
     // for a description of the various response codes.
     ctx.status(HttpStatus.CREATED);
-    ctx.json(Map.of("id", newUser._id));
   }
 
   /**
