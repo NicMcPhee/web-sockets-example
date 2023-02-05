@@ -26,6 +26,9 @@ from [Lab 0](https://github.com/UMM-CSci-3601/intro-to-git) including:
 - [Javalin Documentation](https://javalin.io/documentation)
 - [Javalin Tutorials](https://javalin.io/tutorials/)
   - [Testing Javalin Applications](https://javalin.io/tutorials/testing)
+- [Thunder Client](https://www.thunderclient.com)
+- [Thunder Client VS Code Extension](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client)
+- [Thunder Client for testing your API](https://github.com/rangav/thunder-client-support)
 
 ## MongoDB (database)
 
