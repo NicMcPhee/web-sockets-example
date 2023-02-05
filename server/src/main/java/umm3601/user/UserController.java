@@ -97,6 +97,7 @@ public class UserController {
     // Set the JSON body of the response to be the list of users returned by
     // the database.
     ctx.json(matchingUsers);
+    ctx.status(HttpStatus.OK);
   }
 
   private Bson constructFilter(Context ctx) {
