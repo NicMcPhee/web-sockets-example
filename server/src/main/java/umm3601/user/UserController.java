@@ -192,11 +192,13 @@ public class UserController {
     String id = ctx.pathParam("id");
     DeleteResult deleteResult = userCollection.deleteOne(eq("_id", new ObjectId(id)));
     if (deleteResult.getDeletedCount() != 1) {
+      ctx.status(HttpStatus.NOT_FOUND);
       throw new NotFoundResponse(
         "Was unable to delete ID "
           + id
           + "; perhaps illegal ID or an ID for an item not in the system?");
     }
+    ctx.status(HttpStatus.OK);
   }
 
   /**
