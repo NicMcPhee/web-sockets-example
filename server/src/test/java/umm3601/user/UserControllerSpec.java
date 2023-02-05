@@ -329,19 +329,22 @@ public class UserControllerSpec {
     assertEquals(samsId.toHexString(), userCaptor.getValue()._id);
   }
 
-  // @Test
-  // public void getUserWithBadId() throws IOException {
-  //   Context ctx = mockContext("api/users/{id}", Map.of("id", "bad"));
+  @Test
+  public void getUserWithBadId() throws IOException {
+    when(ctx.pathParam("id")).thenReturn("bad");
 
-  //   assertThrows(BadRequestResponse.class, () -> {
-  //     userController.getUser(ctx);
-  //   });
-  // }
+    Throwable exception = assertThrows(BadRequestResponse.class, () -> {
+      userController.getUser(ctx);
+    });
+
+    assertEquals("The requested user id wasn't a legal Mongo Object ID.", exception.getMessage());
+  }
 
   // @Test
   // public void getUserWithNonexistentId() throws IOException {
   //   Context ctx = mockContext("api/users/{id}", Map.of("id", "58af3a600343927e48e87335"));
-
+    //String id = "588935f5c668650dc77df581";
+    //db.getCollection("users")
   //   assertThrows(NotFoundResponse.class, () -> {
   //     userController.getUser(ctx);
   //   });
