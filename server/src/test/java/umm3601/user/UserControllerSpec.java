@@ -382,8 +382,8 @@ public class UserControllerSpec {
   //   // Our status should be 201, i.e., our new user was successfully created.
   //   verify(ctx).status(HttpStatus.CREATED);
 
-  //   // Verify that the user was added to the database with the correct ID
-  //   //Document addedUser = db.getCollection("users").find(eq("_id", new ObjectId(userCaptor.getValue()._id))).first();
+  //   Verify that the user was added to the database with the correct ID
+  //   Document addedUser = db.getCollection("users").find(eq("_id", new ObjectId(userCaptor.getValue()._id))).first();
 
   //   // Successfully adding the user should return the newly generated, non-empty MongoDB ID for that user.
   //   assertNotEquals("", userCaptor.getValue()._id);
