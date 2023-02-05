@@ -24,7 +24,6 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,6 +33,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import io.javalin.validation.ValidationException;
+import io.javalin.validation.Validator;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
@@ -192,43 +192,45 @@ public class UserControllerSpec {
     assertEquals(db.getCollection("users").countDocuments(), userArrayListCaptor.getValue().size());
   }
 
-  // @Test
-  // public void canGetUsersWithAge37() throws IOException {
-  //   // Add a query param map to the context that maps "age" to "37".
-  //   Map<String, List<String>> queryParams = new HashMap<>();
-  //   queryParams.put("age", Arrays.asList(new String[] {"37"}));
-  //   when(ctx.queryParamMap()).thenReturn(queryParams);
+  @Test
+  public void canGetUsersWithAge37() throws IOException {
+    // Add a query param map to the context that maps "age" to "37".
+    Map<String, List<String>> queryParams = new HashMap<>();
+    queryParams.put("age", Arrays.asList(new String[] {"37"}));
+    when(ctx.queryParamMap()).thenReturn(queryParams);
+    when(ctx.queryParamAsClass("age", Integer.class))
+      .thenReturn(Validator.create(Integer.class, "37", "age"));
 
+    userController.getUsers(ctx);
 
-  //   userController.getUsers(ctx);
+    verify(ctx).json(userArrayListCaptor.capture());
+    verify(ctx).status(HttpStatus.OK);
+    assertEquals(2, userArrayListCaptor.getValue().size());
+  }
 
-  //   verify(ctx).json(userArrayListCaptor.capture());
-  //   verify(ctx).status(HttpStatus.OK);
-  //   assertEquals(2, userArrayListCaptor.getValue().size());
-  // }
+  /**
+   * Test that if the user sends a request with an illegal value in
+   * the age field (i.e., something that can't be parsed to a number)
+   * we get a reasonable error code back.
+   */
+  @Test
+  public void respondsAppropriatelyToNonNumericAge() {
+    Map<String, List<String>> queryParams = new HashMap<>();
+    queryParams.put("age", Arrays.asList(new String[] {"bad"}));
+    when(ctx.queryParamMap()).thenReturn(queryParams);
+    when(ctx.queryParamAsClass("age", Integer.class))
+      .thenReturn(Validator.create(Integer.class, "bad", "age"));
 
-  // /**
-  //  * Test that if the user sends a request with an illegal value in
-  //  * the age field (i.e., something that can't be parsed to a number)
-  //  * we get a reasonable error code back.
-  //  */
-  // @Test
-  // public void respondsAppropriatelyToNonNumericAge() {
-
-  //   mockReq.setQueryString("age=abc");
-  //   Context ctx = mockContext("api/users");
-
-  //   // This should now throw a `BadRequestResponse` exception because
-  //   // our request has an age that can't be parsed to a number.
-  //   Throwable exception = Assertions.assertThrows(BadRequestResponse.class, () -> {
-  //     userController.getUsers(ctx);
-  //   });
-  //   assertEquals("Specified age '" + "abc" + "' can't be parsed to an integer", exception.getMessage());
-  // }
+    // This should now throw a `ValidationException` because
+    // our request has an age that can't be parsed to a number,
+    // but I don't yet know how to make the message be anything specific
+    assertThrows(ValidationException.class, () -> {
+      userController.getUsers(ctx);
+    });
+  }
 
   @Test
   public void canGetUsersWithCompany() throws IOException {
-
     Map<String, List<String>> queryParams = new HashMap<>();
     queryParams.put("company", Arrays.asList(new String[] {"OHMNET"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
@@ -245,20 +247,20 @@ public class UserControllerSpec {
     }
   }
 
-  // @Test
-  // public void getUsersByRole() throws IOException {
-  //   mockReq.setQueryString("role=viewer");
-  //   Context ctx = mockContext("api/users");
+  @Test
+  public void getUsersByRole() throws IOException {
+    Map<String, List<String>> queryParams = new HashMap<>();
+    queryParams.put("role", Arrays.asList(new String[] {"viewer"}));
+    when(ctx.queryParamMap()).thenReturn(queryParams);
+    when(ctx.queryParamAsClass("role", String.class))
+      .thenReturn(Validator.create(String.class, "viewer", "role"));
 
-  //   userController.getUsers(ctx);
-  //   User[] resultUsers = returnedUsers(ctx);
+    userController.getUsers(ctx);
 
-  //   assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
-  //   assertEquals(2, resultUsers.length);
-  //   for (User user : resultUsers) {
-  //     assertEquals("viewer", user.role);
-  //   }
-  // }
+    verify(ctx).json(userArrayListCaptor.capture());
+    verify(ctx).status(HttpStatus.OK);
+    assertEquals(2, userArrayListCaptor.getValue().size());
+  }
 
   // @Test
   // public void getUsersByCompanyAndAge() throws IOException {
@@ -302,15 +304,17 @@ public class UserControllerSpec {
     assertEquals("The requested user id wasn't a legal Mongo Object ID.", exception.getMessage());
   }
 
-  // @Test
-  // public void getUserWithNonexistentId() throws IOException {
-  //   Context ctx = mockContext("api/users/{id}", Map.of("id", "58af3a600343927e48e87335"));
-    //String id = "588935f5c668650dc77df581";
-    //db.getCollection("users")
-  //   assertThrows(NotFoundResponse.class, () -> {
-  //     userController.getUser(ctx);
-  //   });
-  // }
+  @Test
+  public void getUserWithNonexistentId() throws IOException {
+    String id = "588935f5c668650dc77df581";
+    when(ctx.pathParam("id")).thenReturn(id);
+
+    Throwable exception = assertThrows(NotFoundResponse.class, () -> {
+      userController.getUser(ctx);
+    });
+
+    assertEquals("The requested user was not found", exception.getMessage());
+  }
 
   // @Test
   // public void addUser() throws IOException {
