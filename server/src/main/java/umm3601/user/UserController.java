@@ -57,7 +57,8 @@ public class UserController {
   }
 
   /**
-   * Get the single user specified by the `id` parameter in the request.
+   * Set the JSON body of the response to be the single user
+   * specified by the `id` parameter in the request
    *
    * @param ctx a Javalin HTTP context
    */
@@ -78,7 +79,8 @@ public class UserController {
   }
 
   /**
-   * Get a JSON response with a list of all the users.
+   * Set the JSON body of the response to be a list of all the users returned from the database
+   * that match any requested filters and ordering
    *
    * @param ctx a Javalin HTTP context
    */
@@ -95,9 +97,12 @@ public class UserController {
       .sort(sortingOrder)
       .into(new ArrayList<>());
 
-    // Set the JSON body of the response to be the list of users returned by
-    // the database.
+    // Set the JSON body of the response to be the list of users returned by the database.
+    // According to the Javalin documentation (https://javalin.io/documentation#context),
+    // this calls result(jsonString), and also sets content type to json
     ctx.json(matchingUsers);
+
+    // Explicitly set the context status to OK
     ctx.status(HttpStatus.OK);
   }
 
@@ -138,7 +143,8 @@ public class UserController {
   }
 
   /**
-   * Get a JSON response with a list of all the users.
+   * Add a new user using information from the context
+   * (as long as the information gives "legal" values to User fields)
    *
    * @param ctx a Javalin HTTP context
    */
