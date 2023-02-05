@@ -170,20 +170,25 @@ public class UserControllerSpec {
     // it will return an empty map (since there are no query params in this case where we want all users)
     when(ctx.queryParamMap()).thenReturn(Collections.emptyMap());
 
-    // Now, go ahead and ask the userController to getUsers (which will, indeed, ask the context for its queryParamMap)
+    // Now, go ahead and ask the userController to getUsers
+    // (which will, indeed, ask the context for its queryParamMap)
     userController.getUsers(ctx);
 
-    // We are going to capture an argument to a function, and the type of that argument will be of type ArrayList<User>
-    // (we said so earlier using a Mockito annotation like this: @Captor, private ArgumentCaptor<ArrayList<User>> userArrayListCaptor;)
-    // We only want to declare that captor once and let the annotation help us accomplish reassignment of the value for the captor
-    // We reset the values of our annotated declarations using the command `MockitoAnnotations.openMocks(this);` in our @BeforeEach
+    // We are going to capture an argument to a function, and the type of that argument will be
+    // of type ArrayList<User> (we said so earlier using a Mockito annotation like this):
+    // @Captor
+    // private ArgumentCaptor<ArrayList<User>> userArrayListCaptor;
+    // We only want to declare that captor once and let the annotation
+    // help us accomplish reassignment of the value for the captor
+    // We reset the values of our annotated declarations using the command
+    // `MockitoAnnotations.openMocks(this);` in our @BeforeEach
 
     // Specifically, we want to pay attention to the ArrayList<User> that is passed as input
     // when ctx.json is called --- what is the argument that was passed? We capture it and can refer to it later
     verify(ctx).json(userArrayListCaptor.capture());
     verify(ctx).status(HttpStatus.OK);
 
-    // We then check that the database collection holds the same number of documents as the size of the captured List<User>
+    // Check that the database collection holds the same number of documents as the size of the captured List<User>
     assertEquals(db.getCollection("users").countDocuments(), userArrayListCaptor.getValue().size());
   }
 
