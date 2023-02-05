@@ -314,18 +314,20 @@ public class UserControllerSpec {
   //   }
   // }
 
-  // @Test
-  // public void getUserWithExistentId() throws IOException {
-  //   String testID = samsId.toHexString();
-  //   Context ctx = mockContext("api/users/{id}", Map.of("id", testID));
+  @Test
+  public void getUserWithExistentId() throws IOException {
+    String id = samsId.toHexString();
+    when(ctx.pathParam("id")).thenReturn(id);
 
-  //   userController.getUser(ctx);
-  //   User resultUser = returnedSingleUser(ctx);
+    userController.getUser(ctx);
 
-  //   assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
-  //   assertEquals(samsId.toHexString(), resultUser._id);
-  //   assertEquals("Sam", resultUser.name);
-  // }
+    ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+
+    verify(ctx).json(userCaptor.capture());
+    verify(ctx).status(HttpStatus.OK);
+    assertEquals("Sam", userCaptor.getValue().name);
+    assertEquals(samsId.toHexString(), userCaptor.getValue()._id);
+  }
 
   // @Test
   // public void getUserWithBadId() throws IOException {
