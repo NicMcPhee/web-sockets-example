@@ -38,6 +38,7 @@ public class UserController {
   private static final String ROLE_KEY = "role";
   private static final int REASONABLE_AGE_LIMIT = 150;
 
+  private static final String ROLE_REGEX = "^(admin|editor|viewer)$";
   public static final String EMAIL_REGEX = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 
   private final JacksonMongoCollection<User> userCollection;
@@ -115,7 +116,7 @@ public class UserController {
     }
     if (ctx.queryParamMap().containsKey(ROLE_KEY)) {
       String role = ctx.queryParamAsClass(ROLE_KEY, String.class)
-        .check(it -> it.matches("^(admin|editor|viewer)$"), "User must have a legal user role")
+        .check(it -> it.matches(ROLE_REGEX), "User must have a legal user role")
         .get();
       filters.add(eq(ROLE_KEY, role));
     }
@@ -158,7 +159,7 @@ public class UserController {
       .check(usr -> usr.email.matches(EMAIL_REGEX), "User must have a legal email")
       .check(usr -> usr.age > 0, "User's age must be greater than zero")
       .check(usr -> usr.age < REASONABLE_AGE_LIMIT, "User's age must be less than " + REASONABLE_AGE_LIMIT)
-      .check(usr -> usr.role.matches("^(admin|editor|viewer)$"), "User must have a legal user role")
+      .check(usr -> usr.role.matches(ROLE_REGEX), "User must have a legal user role")
       .check(usr -> usr.company != null && usr.company.length() > 0, "User must have a non-empty company name")
       .get();
 
