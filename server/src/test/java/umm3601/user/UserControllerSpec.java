@@ -372,12 +372,10 @@ public class UserControllerSpec {
         + "\"email\": \"test@example.com\","
         + "\"role\": \"viewer\""
         + "}";
-
     when(ctx.bodyValidator(User.class))
       .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
     userController.addNewUser(ctx);
-
     verify(ctx).json(mapCaptor.capture());
 
     // Our status should be 201, i.e., our new user was successfully created.
@@ -397,171 +395,194 @@ public class UserControllerSpec {
     assertNotNull(addedUser.get("avatar"));
   }
 
-  // @Test
-  // public void addInvalidEmailUser() throws IOException {
-  //   String testNewUser = "{"
-  //       + "\"name\": \"Test User\","
-  //       + "\"age\": 25,"
-  //       + "\"company\": \"testers\","
-  //       + "\"email\": \"invalidemail\","
-  //       + "\"role\": \"viewer\""
-  //       + "}";
-  //   mockReq.setBodyContent(testNewUser);
-  //   mockReq.setMethod("POST");
+  @Test
+  public void addInvalidEmailUser() throws IOException {
+    String testNewUser = "{"
+        + "\"name\": \"Test User\","
+        + "\"age\": 25,"
+        + "\"company\": \"testers\","
+        + "\"email\": \"invalidemail\","
+        + "\"role\": \"viewer\""
+        + "}";
+    when(ctx.bodyValidator(User.class))
+      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
-  //   Context ctx = mockContext("api/users");
+    assertThrows(ValidationException.class, () -> {
+      userController.addNewUser(ctx);
+    });
 
-  //   assertThrows(ValidationException.class, () -> {
-  //     userController.addNewUser(ctx);
-  //   });
-  // }
+    // Our status should be 400, because our request contained information that didn't validate.
+    // However, I'm not yet sure how to test the specifics about validation problems encountered.
+    // verify(ctx).status(HttpStatus.BAD_REQUEST);
+  }
 
-  // @Test
-  // public void addInvalidAgeUser() throws IOException {
-  //   String testNewUser = "{"
-  //       + "\"name\": \"Test User\","
-  //       + "\"age\": \"notanumber\","
-  //       + "\"company\": \"testers\","
-  //       + "\"email\": \"test@example.com\","
-  //       + "\"role\": \"viewer\""
-  //       + "}";
-  //   mockReq.setBodyContent(testNewUser);
-  //   mockReq.setMethod("POST");
+  @Test
+  public void addInvalidAgeUser() throws IOException {
+    String testNewUser = "{"
+        + "\"name\": \"Test User\","
+        + "\"age\": \"notanumber\","
+        + "\"company\": \"testers\","
+        + "\"email\": \"test@example.com\","
+        + "\"role\": \"viewer\""
+        + "}";
+    when(ctx.bodyValidator(User.class))
+      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
-  //   Context ctx = mockContext("api/users");
+    assertThrows(ValidationException.class, () -> {
+      userController.addNewUser(ctx);
+    });
+  }
 
-  //   assertThrows(ValidationException.class, () -> {
-  //     userController.addNewUser(ctx);
-  //   });
-  // }
+  @Test
+  public void add0AgeUser() throws IOException {
+    String testNewUser = "{"
+        + "\"name\": \"Test User\","
+        + "\"age\": 0,"
+        + "\"company\": \"testers\","
+        + "\"email\": \"test@example.com\","
+        + "\"role\": \"viewer\""
+        + "}";
+    when(ctx.bodyValidator(User.class))
+      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
-  // @Test
-  // public void add0AgeUser() throws IOException {
-  //   String testNewUser = "{"
-  //       + "\"name\": \"Test User\","
-  //       + "\"age\": 0,"
-  //       + "\"company\": \"testers\","
-  //       + "\"email\": \"test@example.com\","
-  //       + "\"role\": \"viewer\""
-  //       + "}";
-  //   mockReq.setBodyContent(testNewUser);
-  //   mockReq.setMethod("POST");
+    assertThrows(ValidationException.class, () -> {
+      userController.addNewUser(ctx);
+    });
+  }
 
-  //   Context ctx = mockContext("api/users");
+  @Test
+  public void add150AgeUser() throws IOException {
+    String testNewUser = "{"
+        + "\"name\": \"Test User\","
+        + "\"age\": 150,"
+        + "\"company\": \"testers\","
+        + "\"email\": \"test@example.com\","
+        + "\"role\": \"viewer\""
+        + "}";
+    when(ctx.bodyValidator(User.class))
+      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
-  //   assertThrows(ValidationException.class, () -> {
-  //     userController.addNewUser(ctx);
-  //   });
-  // }
+    assertThrows(ValidationException.class, () -> {
+      userController.addNewUser(ctx);
+    });
+  }
 
-  // @Test
-  // public void addNullNameUser() throws IOException {
-  //   String testNewUser = "{"
-  //       + "\"age\": 25,"
-  //       + "\"company\": \"testers\","
-  //       + "\"email\": \"test@example.com\","
-  //       + "\"role\": \"viewer\""
-  //       + "}";
-  //   mockReq.setBodyContent(testNewUser);
-  //   mockReq.setMethod("POST");
+  @Test
+  public void addNullNameUser() throws IOException {
+    String testNewUser = "{"
+        + "\"age\": 25,"
+        + "\"company\": \"testers\","
+        + "\"email\": \"test@example.com\","
+        + "\"role\": \"viewer\""
+        + "}";
+    when(ctx.bodyValidator(User.class))
+      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
-  //   Context ctx = mockContext("api/users");
+    assertThrows(ValidationException.class, () -> {
+      userController.addNewUser(ctx);
+    });
+  }
 
-  //   assertThrows(ValidationException.class, () -> {
-  //     userController.addNewUser(ctx);
-  //   });
-  // }
+  @Test
+  public void addInvalidNameUser() throws IOException {
+    String testNewUser = "{"
+        + "\"name\": \"\","
+        + "\"age\": 25,"
+        + "\"company\": \"testers\","
+        + "\"email\": \"test@example.com\","
+        + "\"role\": \"viewer\""
+        + "}";
+    when(ctx.bodyValidator(User.class))
+      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
-  // @Test
-  // public void addInvalidNameUser() throws IOException {
-  //   String testNewUser = "{"
-  //       + "\"name\": \"\","
-  //       + "\"age\": 25,"
-  //       + "\"company\": \"testers\","
-  //       + "\"email\": \"test@example.com\","
-  //       + "\"role\": \"viewer\""
-  //       + "}";
-  //   mockReq.setBodyContent(testNewUser);
-  //   mockReq.setMethod("POST");
+    assertThrows(ValidationException.class, () -> {
+      userController.addNewUser(ctx);
+    });
+  }
 
-  //   Context ctx = mockContext("api/users");
+  @Test
+  public void addInvalidRoleUser() throws IOException {
+    String testNewUser = "{"
+        + "\"name\": \"Test User\","
+        + "\"age\": 25,"
+        + "\"company\": \"testers\","
+        + "\"email\": \"test@example.com\","
+        + "\"role\": \"invalidrole\""
+        + "}";
+    when(ctx.bodyValidator(User.class))
+      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
-  //   assertThrows(ValidationException.class, () -> {
-  //     userController.addNewUser(ctx);
-  //   });
-  // }
+    assertThrows(ValidationException.class, () -> {
+      userController.addNewUser(ctx);
+    });
+  }
 
-  // @Test
-  // public void addInvalidRoleUser() throws IOException {
-  //   String testNewUser = "{"
-  //       + "\"name\": \"Test User\","
-  //       + "\"age\": 25,"
-  //       + "\"company\": \"testers\","
-  //       + "\"email\": \"test@example.com\","
-  //       + "\"role\": \"invalidrole\""
-  //       + "}";
-  //   mockReq.setBodyContent(testNewUser);
-  //   mockReq.setMethod("POST");
+  @Test
+  public void addNullCompanyUser() throws IOException {
+    String testNewUser = "{"
+        + "\"name\": \"Test User\","
+        + "\"age\": 25,"
+        + "\"email\": \"test@example.com\","
+        + "\"role\": \"viewer\""
+        + "}";
+    when(ctx.bodyValidator(User.class))
+      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
-  //   Context ctx = mockContext("api/users");
+    assertThrows(ValidationException.class, () -> {
+      userController.addNewUser(ctx);
+    });
+  }
 
-  //   assertThrows(ValidationException.class, () -> {
-  //     userController.addNewUser(ctx);
-  //   });
-  // }
+  @Test
+  public void addInvalidCompanyUser() throws IOException {
+    String testNewUser = "{"
+        + "\"name\": \"\","
+        + "\"age\": 25,"
+        + "\"company\": \"\","
+        + "\"email\": \"test@example.com\","
+        + "\"role\": \"viewer\""
+        + "}";
+    when(ctx.bodyValidator(User.class))
+      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
-  // @Test
-  // public void addNullCompanyUser() throws IOException {
-  //   String testNewUser = "{"
-  //       + "\"name\": \"Test User\","
-  //       + "\"age\": 25,"
-  //       + "\"email\": \"test@example.com\","
-  //       + "\"role\": \"viewer\""
-  //       + "}";
-  //   mockReq.setBodyContent(testNewUser);
-  //   mockReq.setMethod("POST");
+    assertThrows(ValidationException.class, () -> {
+      userController.addNewUser(ctx);
+    });
+  }
 
-  //   Context ctx = mockContext("api/users");
+  @Test
+  public void deleteFoundUser() throws IOException {
+    String testID = samsId.toHexString();
+    when(ctx.pathParam("id")).thenReturn(testID);
 
-  //   assertThrows(ValidationException.class, () -> {
-  //     userController.addNewUser(ctx);
-  //   });
-  // }
+    // User exists before deletion
+    assertEquals(1, db.getCollection("users").countDocuments(eq("_id", new ObjectId(testID))));
 
-  // @Test
-  // public void addInvalidCompanyUser() throws IOException {
-  //   String testNewUser = "{"
-  //       + "\"name\": \"\","
-  //       + "\"age\": 25,"
-  //       + "\"company\": \"\","
-  //       + "\"email\": \"test@example.com\","
-  //       + "\"role\": \"viewer\""
-  //       + "}";
-  //   mockReq.setBodyContent(testNewUser);
-  //   mockReq.setMethod("POST");
+    userController.deleteUser(ctx);
 
-  //   Context ctx = mockContext("api/users");
+    verify(ctx).status(HttpStatus.OK);
 
-  //   assertThrows(ValidationException.class, () -> {
-  //     userController.addNewUser(ctx);
-  //   });
-  // }
+    // User is no longer in the database
+    assertEquals(0, db.getCollection("users").countDocuments(eq("_id", new ObjectId(testID))));
+  }
 
-  // @Test
-  // public void deleteUser() throws IOException {
-  //   String testID = samsId.toHexString();
+  @Test
+  public void tryToDeleteNotFoundUser() throws IOException {
+    String testID = samsId.toHexString();
+    when(ctx.pathParam("id")).thenReturn(testID);
 
-  //   // User exists before deletion
-  //   assertEquals(1, db.getCollection("users").countDocuments(eq("_id", new ObjectId(testID))));
+    userController.deleteUser(ctx);
+    // User is no longer in the database
+    assertEquals(0, db.getCollection("users").countDocuments(eq("_id", new ObjectId(testID))));
 
-  //   Context ctx = mockContext("api/users/{id}", Map.of("id", testID));
+    assertThrows(NotFoundResponse.class, () -> {
+      userController.deleteUser(ctx);
+    });
 
-  //   userController.deleteUser(ctx);
+    verify(ctx).status(HttpStatus.NOT_FOUND);
 
-  //   assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
-
-  //   // User is no longer in the database
-  //   assertEquals(0, db.getCollection("users").countDocuments(eq("_id", new ObjectId(testID))));
-  // }
+    // User is still not in the database
+    assertEquals(0, db.getCollection("users").countDocuments(eq("_id", new ObjectId(testID))));
+  }
 
 }
