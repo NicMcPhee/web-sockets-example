@@ -22,7 +22,7 @@ the `User` parts of the previous labs. These are almost certainly not relevant
 to your project and should be removed once you've started.
 
 :exclamation: You should remove this sentence and the text above, and
-replace them with least an elevator pitch description of your project so that
+replace them with at least an elevator pitch description of your project so that
 if someone comes to this repo they'll know what the project is about.
 
 ## [Development](DEVELOPMENT.md)
@@ -37,7 +37,7 @@ From the `server` directory:
 - `./gradlew test` to test the server
 - `./gradlew checkstyleMain` to run Checkstyle on the server Java code in the `src/main` folder
 - `./gradlew checkstyleTest` to run Checkstyle on the server Java code in the `src/test` folder
-- `./gradlew check` will run both the tests and Checkstyle in one command
+- `./gradlew check` will run the tests, run the Checkstyle, and generate coverage reports in one command
 
 From the `client` directory:
 
@@ -61,7 +61,7 @@ Additional resources on tooling and techniques are in [the resources list](RESOU
 
 ## Contributors
 
-This contributors to this project can be seen [here](../../graphs/contributors).
+The contributors to this project can be seen [here](../../graphs/contributors).
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
