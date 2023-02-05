@@ -222,6 +222,48 @@ public class UserControllerSpec {
     });
   }
 
+  /**
+   * Test that if the user sends a request with an illegal value in
+   * the age field (i.e., too big of a number)
+   * we get a reasonable error code back.
+   */
+  @Test
+  public void respondsAppropriatelyToTooLargeNumberAge() {
+    Map<String, List<String>> queryParams = new HashMap<>();
+    queryParams.put("age", Arrays.asList(new String[] {"151"}));
+    when(ctx.queryParamMap()).thenReturn(queryParams);
+    when(ctx.queryParamAsClass("age", Integer.class))
+      .thenReturn(Validator.create(Integer.class, "151", "age"));
+
+    // This should now throw a `ValidationException` because
+    // our request has an age that is larger than 150, which isn't allowed,
+    // but I don't yet know how to make the message be anything specific
+    assertThrows(ValidationException.class, () -> {
+      userController.getUsers(ctx);
+    });
+  }
+
+/**
+   * Test that if the user sends a request with an illegal value in
+   * the age field (i.e., too small of a number)
+   * we get a reasonable error code back.
+   */
+  @Test
+  public void respondsAppropriatelyToTooSmallNumberAge() {
+    Map<String, List<String>> queryParams = new HashMap<>();
+    queryParams.put("age", Arrays.asList(new String[] {"-1"}));
+    when(ctx.queryParamMap()).thenReturn(queryParams);
+    when(ctx.queryParamAsClass("age", Integer.class))
+      .thenReturn(Validator.create(Integer.class, "-1", "age"));
+
+    // This should now throw a `ValidationException` because
+    // our request has an age that is smaller than 0, which isn't allowed,
+    // but I don't yet know how to make the message be anything specific
+    assertThrows(ValidationException.class, () -> {
+      userController.getUsers(ctx);
+    });
+  }
+
   @Test
   public void canGetUsersWithCompany() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
@@ -255,21 +297,26 @@ public class UserControllerSpec {
     assertEquals(2, userArrayListCaptor.getValue().size());
   }
 
-  // @Test
-  // public void getUsersByCompanyAndAge() throws IOException {
-  //   mockReq.setQueryString("company=OHMNET&age=37");
-  //   Context ctx = mockContext("api/users");
+  @Test
+  public void getUsersByCompanyAndAge() throws IOException {
+    Map<String, List<String>> queryParams = new HashMap<>();
+    queryParams.put("company", Arrays.asList(new String[] {"OHMNET"}));
+    queryParams.put("age", Arrays.asList(new String[] {"37"}));
+    when(ctx.queryParamMap()).thenReturn(queryParams);
+    when(ctx.queryParam("company")).thenReturn("OHMNET");
+    when(ctx.queryParamAsClass("age", Integer.class))
+      .thenReturn(Validator.create(Integer.class, "37", "age"));
 
-  //   userController.getUsers(ctx);
-  //   User[] resultUsers = returnedUsers(ctx);
+    userController.getUsers(ctx);
 
-  //   assertEquals(HttpURLConnection.HTTP_OK, mockRes.getStatus());
-  //   assertEquals(1, resultUsers.length);
-  //   for (User user : resultUsers) {
-  //     assertEquals("OHMNET", user.company);
-  //     assertEquals(37, user.age);
-  //   }
-  // }
+    verify(ctx).json(userArrayListCaptor.capture());
+    verify(ctx).status(HttpStatus.OK);
+    assertEquals(1, userArrayListCaptor.getValue().size());
+    for (User user : userArrayListCaptor.getValue()) {
+      assertEquals("OHMNET", user.company);
+      assertEquals(37, user.age);
+    }
+  }
 
   @Test
   public void getUserWithExistentId() throws IOException {
