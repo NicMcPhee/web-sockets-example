@@ -232,19 +232,17 @@ public class UserControllerSpec {
 
   // @Test
   // public void canGetUsersWithAge37() throws IOException {
-  //   // Set the query string to test with
-  //   mockReq.setQueryString("age=37");
-  //   // Create our fake Javalin context
-  //   Context ctx = mockContext("api/users");
+  //   // Add a query param map to the context that maps "age" to "37".
+  //   Map<String, List<String>> queryParams = new HashMap<>();
+  //   queryParams.put("age", Arrays.asList(new String[] {"37"}));
+  //   when(ctx.queryParamMap()).thenReturn(queryParams);
 
+  //   System.out.println(queryParams);
   //   userController.getUsers(ctx);
-  //   User[] resultUsers = returnedUsers(ctx);
 
-  //   assertEquals(HttpStatus.OK, mockRes.getStatus());
-  //   assertEquals(2, resultUsers.length); // There should be two users returned
-  //   for (User user : resultUsers) {
-  //     assertEquals(37, user.age); // Every user should be age 37
-  //   }
+  //   verify(ctx).json(userArrayListCaptor.capture());
+  //   verify(ctx).status(HttpStatus.OK);
+  //   assertEquals(2, userArrayListCaptor.getValue().size());
   // }
 
   // /**
@@ -266,20 +264,24 @@ public class UserControllerSpec {
   //   assertEquals("Specified age '" + "abc" + "' can't be parsed to an integer", exception.getMessage());
   // }
 
-  // @Test
-  // public void canGetUsersWithCompany() throws IOException {
-  //   mockReq.setQueryString("company=OHMNET");
-  //   Context ctx = mockContext("api/users");
+  @Test
+  public void canGetUsersWithCompany() throws IOException {
 
-  //   userController.getUsers(ctx);
-  //   User[] resultUsers = returnedUsers(ctx);
+    Map<String, List<String>> queryParams = new HashMap<>();
+    queryParams.put("company", Arrays.asList(new String[] {"OHMNET"}));
+    when(ctx.queryParamMap()).thenReturn(queryParams);
+    when(ctx.queryParam("company")).thenReturn("OHMNET");
 
-  //   assertEquals(HttpStatus.OK, mockRes.getStatus());
-  //   assertEquals(2, resultUsers.length); // There should be two users returned
-  //   for (User user : resultUsers) {
-  //     assertEquals("OHMNET", user.company);
-  //   }
-  // }
+    userController.getUsers(ctx);
+
+    verify(ctx).json(userArrayListCaptor.capture());
+    verify(ctx).status(HttpStatus.OK);
+
+    // Confirm that all the users passed to `json` work for OHMNET.
+    for (User user : userArrayListCaptor.getValue()) {
+      assertEquals("OHMNET", user.company);
+    }
+  }
 
   // @Test
   // public void getUsersByRole() throws IOException {
