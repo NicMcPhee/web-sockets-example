@@ -49,23 +49,19 @@ describe('User list', () => {
     // Filter for companies that contain 'ti'
     cy.get('[data-test=userCompanyInput]').type('ti');
 
-    page.getUserCards().should('have.lengthOf.above', 0);
+    page.getUserCards().should('have.lengthOf', 2);
 
-    // Go through each of the cards that are being shown and get the companies
-    page.getUserCards().find('.user-card-company')
-      // We should see these companies
-      .should('contain.text', 'MOMENTIA')
-      .should('contain.text', 'KINETICUT')
-      // We shouldn't see these companies
-      .should('not.contain.text', 'DATAGENE')
-      .should('not.contain.text', 'OHMNET');
+    // Each user card's company name should include the text we are filtering by
+    page.getUserCards().each(e => {
+      cy.wrap(e).find('.user-card-company').should('include.text', 'TI');
+    });
   });
 
   it('Should type something in the age filter and check that it returned correct elements', () => {
     // Filter for users of age '27'
     cy.get('[data-test=userAgeInput]').type('27');
 
-    page.getUserCards().should('have.lengthOf.above', 0);
+    page.getUserCards().should('have.lengthOf', 3);
 
     // Go through each of the cards that are being shown and get the names
     page.getUserCards().find('.user-card-name')
