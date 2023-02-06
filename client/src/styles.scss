@@ -112,3 +112,37 @@ body {
 .mat-mdc-unelevated-button {
   text-transform: uppercase;
 }
+
+// https://github.com/angular/flex-layout/issues/1426 post by "anisabboud" 11-4-2022
+// Flex row/col + grid.
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+.grid {
+  display: grid;
+}
+
+// Flex-wrap utils.
+.flex-wrap {
+  flex-wrap: wrap;
+}  // Mostly used with flex-row, when wrapping is desired.
+
+.flex-col-xs {
+  @media screen and (max-width: 599px) {
+    flex-direction: column;
+  }
+}  // Switch from flex-row to flex-col on mobile.
+
+// Gap.
+.gap-4 { gap: 4px; }
+.gap-8 { gap: 8px; }
+.gap-10 { gap: 10px; }
+
+// Flex/grow/shrink properties https://developer.mozilla.org/en-US/docs/Web/CSS/flex.
+.flex-1 { flex: 1 }  // Same as flex: 1 1 0 (grow, shrink, basis 0). Has similar effect to width: 100%;
+.flex-grow { flex-grow: 1; }  // Same as flex: 1 1 auto (grow, shrink, basis auto). For spacer, etc.
