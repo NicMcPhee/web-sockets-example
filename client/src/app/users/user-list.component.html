@@ -75,9 +75,9 @@
           <mat-nav-list class="user-nav-list">
             <h3 mat-subheader>Users</h3>
             <a mat-list-item *ngFor="let user of this.filteredUsers" [routerLink]="['/users', user._id]" class="user-list-item">
-              <img matListAvatar [src]="user.avatar" *ngIf="this.user.avatar">
-              <h3 matLine class="user-list-name"> {{user.name}} </h3>
-              <p matLine class="user-list-role"> {{user.role}} </p>
+              <img matListItemAvatar [src]="user.avatar" *ngIf="this.user.avatar">
+              <span matListItemTitle mat-line class="user-list-name"> {{user.name}} </span>
+              <span matListItemLine class="user-list-role"> {{user.role}} </span>
             </a>
           </mat-nav-list>
         </mat-card-content>
