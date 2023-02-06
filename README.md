@@ -37,7 +37,7 @@ From the `server` directory:
 - `./gradlew test` to test the server
 - `./gradlew checkstyleMain` to run Checkstyle on the server Java code in the `src/main` folder
 - `./gradlew checkstyleTest` to run Checkstyle on the server Java code in the `src/test` folder
-- `./gradlew check` will run the tests, run the Checkstyle, and generate coverage reports in one command
+- `./gradlew check` will run the tests, run the Checkstyle checks, and generate coverage reports in one command
 
 From the `client` directory:
 
