@@ -11,7 +11,7 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.UuidRepresentation;
 
 import io.javalin.Javalin;
-import io.javalin.core.util.RouteOverviewPlugin;
+import io.javalin.plugin.bundled.RouteOverviewPlugin;
 import io.javalin.http.InternalServerErrorResponse;
 import umm3601.user.UserController;
 
@@ -44,7 +44,7 @@ public class Server {
     UserController userController = new UserController(database);
 
     Javalin server = Javalin.create(config ->
-      config.registerPlugin(new RouteOverviewPlugin("/api"))
+      config.plugins.register(new RouteOverviewPlugin("/api"))
     );
     /*
      * We want to shut the `mongoClient` down if the server either

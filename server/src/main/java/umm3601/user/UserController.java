@@ -25,7 +25,7 @@ import org.mongojack.JacksonMongoCollection;
 
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
-import io.javalin.http.HttpCode;
+import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
 
 /**
@@ -36,7 +36,9 @@ public class UserController {
   private static final String AGE_KEY = "age";
   private static final String COMPANY_KEY = "company";
   private static final String ROLE_KEY = "role";
+  private static final int REASONABLE_AGE_LIMIT = 150;
 
+  private static final String ROLE_REGEX = "^(admin|editor|viewer)$";
   public static final String EMAIL_REGEX = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 
   private final JacksonMongoCollection<User> userCollection;
@@ -55,7 +57,8 @@ public class UserController {
   }
 
   /**
-   * Get the single user specified by the `id` parameter in the request.
+   * Set the JSON body of the response to be the single user
+   * specified by the `id` parameter in the request
    *
    * @param ctx a Javalin HTTP context
    */
@@ -72,11 +75,13 @@ public class UserController {
       throw new NotFoundResponse("The requested user was not found");
     } else {
       ctx.json(user);
+      ctx.status(HttpStatus.OK);
     }
   }
 
   /**
-   * Get a JSON response with a list of all the users.
+   * Set the JSON body of the response to be a list of all the users returned from the database
+   * that match any requested filters and ordering
    *
    * @param ctx a Javalin HTTP context
    */
@@ -93,23 +98,33 @@ public class UserController {
       .sort(sortingOrder)
       .into(new ArrayList<>());
 
-    // Set the JSON body of the response to be the list of users returned by
-    // the database.
+    // Set the JSON body of the response to be the list of users returned by the database.
+    // According to the Javalin documentation (https://javalin.io/documentation#context),
+    // this calls result(jsonString), and also sets content type to json
     ctx.json(matchingUsers);
+
+    // Explicitly set the context status to OK
+    ctx.status(HttpStatus.OK);
   }
 
   private Bson constructFilter(Context ctx) {
     List<Bson> filters = new ArrayList<>(); // start with a blank document
 
     if (ctx.queryParamMap().containsKey(AGE_KEY)) {
-        int targetAge = ctx.queryParamAsClass(AGE_KEY, Integer.class).get();
-        filters.add(eq(AGE_KEY, targetAge));
+      int targetAge = ctx.queryParamAsClass(AGE_KEY, Integer.class)
+        .check(it -> it > 0, "User's age must be greater than zero")
+        .check(it -> it < REASONABLE_AGE_LIMIT, "User's age must be less than " + REASONABLE_AGE_LIMIT)
+        .get();
+      filters.add(eq(AGE_KEY, targetAge));
     }
     if (ctx.queryParamMap().containsKey(COMPANY_KEY)) {
       filters.add(regex(COMPANY_KEY,  Pattern.quote(ctx.queryParam(COMPANY_KEY)), "i"));
     }
     if (ctx.queryParamMap().containsKey(ROLE_KEY)) {
-      filters.add(eq(ROLE_KEY, ctx.queryParam(ROLE_KEY)));
+      String role = ctx.queryParamAsClass(ROLE_KEY, String.class)
+        .check(it -> it.matches(ROLE_REGEX), "User must have a legal user role")
+        .get();
+      filters.add(eq(ROLE_KEY, role));
     }
 
     // Combine the list of filters into a single filtering document.
@@ -129,7 +144,8 @@ public class UserController {
   }
 
   /**
-   * Get a JSON response with a list of all the users.
+   * Add a new user using information from the context
+   * (as long as the information gives "legal" values to User fields)
    *
    * @param ctx a Javalin HTTP context
    */
@@ -149,7 +165,8 @@ public class UserController {
       .check(usr -> usr.name != null && usr.name.length() > 0, "User must have a non-empty user name")
       .check(usr -> usr.email.matches(EMAIL_REGEX), "User must have a legal email")
       .check(usr -> usr.age > 0, "User's age must be greater than zero")
-      .check(usr -> usr.role.matches("^(admin|editor|viewer)$"), "User must have a legal user role")
+      .check(usr -> usr.age < REASONABLE_AGE_LIMIT, "User's age must be less than " + REASONABLE_AGE_LIMIT)
+      .check(usr -> usr.role.matches(ROLE_REGEX), "User must have a legal user role")
       .check(usr -> usr.company != null && usr.company.length() > 0, "User must have a non-empty company name")
       .get();
 
@@ -158,12 +175,12 @@ public class UserController {
 
     userCollection.insertOne(newUser);
 
+    ctx.json(Map.of("id", newUser._id));
     // 201 is the HTTP code for when we successfully
     // create a new resource (a user in this case).
     // See, e.g., https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
     // for a description of the various response codes.
-    ctx.status(HttpCode.CREATED);
-    ctx.json(Map.of("id", newUser._id));
+    ctx.status(HttpStatus.CREATED);
   }
 
   /**
@@ -175,11 +192,13 @@ public class UserController {
     String id = ctx.pathParam("id");
     DeleteResult deleteResult = userCollection.deleteOne(eq("_id", new ObjectId(id)));
     if (deleteResult.getDeletedCount() != 1) {
+      ctx.status(HttpStatus.NOT_FOUND);
       throw new NotFoundResponse(
         "Was unable to delete ID "
           + id
           + "; perhaps illegal ID or an ID for an item not in the system?");
     }
+    ctx.status(HttpStatus.OK);
   }
 
   /**

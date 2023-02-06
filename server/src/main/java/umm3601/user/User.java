@@ -34,4 +34,19 @@ public class User {
   public String email;
   public String avatar;
   public String role;
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof User)) {
+      return false;
+    }
+    User other = (User) obj;
+    return _id.equals(other._id);
+  }
+
+  @Override
+  public int hashCode() {
+    // This means that equal Users will hash the same, which is good.
+    return _id.hashCode();
+  }
 }

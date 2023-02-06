@@ -6,6 +6,15 @@
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
+// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
+//  The following line adds:
+//    1. Default typography styles for all components
+//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
+//  If you specify typography styles for the components you use elsewhere, you should delete this line.
+//  If you don't need the default component typographies but still want the hierarchy styles,
+//  you can delete this line and instead use:
+//    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
+@include mat.all-component-typographies();
 @include mat.core();
 
 
@@ -33,13 +42,13 @@
   .drawer-list-item-active {
     background-color: change-color(mat.get-color-from-palette($primary), $alpha: 0.15) !important;
     color: mat.get-color-from-palette($primary) !important;
-    .mat-list-icon {
+    .mat-mdc-list-item-icon {
       color: mat.get-color-from-palette($primary) !important;
     }
   }
 
   .sidenav-list {
-    .mat-list-icon {
+    .mat-mdc-list-item-icon {
       color: mat.get-color-from-palette($foreground, icon);
       margin-right: 16px;
     }
@@ -97,9 +106,9 @@ body {
 }
 
 // Use uppercase text on buttons
-.mat-button,
-.mat-raised-button,
-.mat-stroked-button,
-.mat-flat-button {
+.mat-mdc-button,
+.mat-mdc-raised-button,
+.mat-mdc-outlined-button,
+.mat-mdc-unelevated-button {
   text-transform: uppercase;
 }

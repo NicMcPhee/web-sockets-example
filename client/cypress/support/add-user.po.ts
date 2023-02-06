@@ -24,6 +24,10 @@ export class AddUserPage {
     return cy.get(`mat-form-field [formcontrolname=${fieldName}]`);
   }
 
+  getSnackBar() {
+    return cy.get('.mat-mdc-simple-snack-bar');
+  }
+
   addUser(newUser: User) {
     this.getFormField('name').type(newUser.name);
     this.getFormField('age').type(newUser.age.toString());

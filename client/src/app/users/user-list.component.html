@@ -1,7 +1,7 @@
 <div fxLayout="row">
   <div fxFlex fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10">
 
-    <mat-card class="search-card">
+    <mat-card appearance="outlined" class="search-card">
       <mat-card-title class="user-list-title">Users</mat-card-title>
       <mat-card-content fxLayout="column" >
 
@@ -70,7 +70,7 @@
       </div>
 
       <!-- List view -->
-      <mat-card *ngSwitchCase="'list'">
+      <mat-card appearance="outlined" *ngSwitchCase="'list'">
         <mat-card-content>
           <mat-nav-list class="user-nav-list">
             <h3 mat-subheader>Users</h3>
