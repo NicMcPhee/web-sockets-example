@@ -12,6 +12,7 @@ import { map } from 'rxjs/operators';
 @Injectable()
 export class UserService {
   // The URL for the users part of the server API.
+  readonly userUrl: string = `${environment.apiUrl}users`;
 
   // The private `HttpClient` is *injected* into the service
   // by the Angular framework. This allows the system to create
@@ -70,6 +71,7 @@ export class UserService {
    * @returns an `Observable` containing the resulting user.
    */
   getUserById(id: string): Observable<User> {
+    // The input to get could also be written as (this.userUrl + '/' + id)
     return this.httpClient.get<User>(`${this.userUrl}/${id}`);
   }
 
