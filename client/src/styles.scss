@@ -6,6 +6,8 @@
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
+@include mat.core();
+
 // TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
 //  The following line adds:
 //    1. Default typography styles for all components
@@ -15,8 +17,6 @@
 //  you can delete this line and instead use:
 //    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
 @include mat.all-component-typographies();
-@include mat.core();
-
 
 // This is to be able to theme parts of the app dynamically depending on theme (right now: light or dark)
 // You can put styles in this mixin and the theme variables will refer to the actual theme being used (light or dark)
@@ -113,6 +113,7 @@ body {
   text-transform: uppercase;
 }
 
+/////////// Remove flex-layout and replace with CSS ////////////////////
 // https://github.com/angular/flex-layout/issues/1426 post by "anisabboud" 11-4-2022
 // Flex row/col + grid.
 .flex-row {
