@@ -5,7 +5,8 @@ import { UserService } from '../app/users/user.service';
 
 /**
  * A "mock" version of the `UserService` that can be used to test components
- * without having to create an actual service.
+ * without having to create an actual service. It needs to be `Injectable` since
+ * that's how services are typically provided to components.
  */
 @Injectable()
 export class MockUserService extends UserService {
@@ -44,7 +45,12 @@ export class MockUserService extends UserService {
   }
 
   getUsers(filters: { role?: UserRole; age?: number; company?: string }): Observable<User[]> {
-    // Just return the test users regardless of what filters are passed in
+    // Our goal here isn't to test (and thus rewrite) the service, so we'll
+    // keep it simple and just return the test users regardless of what
+    // filters are passed in.
+    //
+    // The `of()` function converts a regular object or value into an
+    // `Observable` of that object or value.
     return of(MockUserService.testUsers);
   }
 
