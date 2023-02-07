@@ -74,6 +74,8 @@ describe('User service: ', () => {
     const req = httpTestingController.expectOne(userService.userUrl);
     // Check that the request made to that URL was a GET request.
     expect(req.request.method).toEqual('GET');
+    // Check that the request had no query parameters.
+    expect(req.request.params.keys().length).toBe(0);
     // Specify the content of the response to that request. This
     // triggers the subscribe above, which leads to that check
     // actually being performed.
@@ -106,7 +108,7 @@ describe('User service: ', () => {
       users => expect(users).toBe(testUsers)
     );
 
-    // Specify that (exactly) one request will be made to the specified URL with the role parameter.
+    // Specify that (exactly) one request will be made to the specified URL with the age parameter.
     const req = httpTestingController.expectOne(
       (request) => request.url.startsWith(userService.userUrl) && request.params.has('age')
     );
@@ -114,7 +116,7 @@ describe('User service: ', () => {
     // Check that the request made to that URL was a GET request.
     expect(req.request.method).toEqual('GET');
 
-    // Check that the role parameter was 'admin'
+    // Check that the age parameter was '25'
     expect(req.request.params.get('age')).toEqual('25');
 
     req.flush(testUsers);
@@ -126,7 +128,7 @@ describe('User service: ', () => {
       users => expect(users).toBe(testUsers)
     );
 
-    // Specify that (exactly) one request will be made to the specified URL with the role parameter.
+    // Specify that (exactly) one request will be made to the specified URL with the role, company, and age parameters.
     const req = httpTestingController.expectOne(
       (request) => request.url.startsWith(userService.userUrl)
         && request.params.has('role') && request.params.has('company') && request.params.has('age')
@@ -135,7 +137,7 @@ describe('User service: ', () => {
     // Check that the request made to that URL was a GET request.
     expect(req.request.method).toEqual('GET');
 
-    // Check that the role parameters are correct
+    // Check that the role, company, and age parameters are correct
     expect(req.request.params.get('role')).toEqual('editor');
     expect(req.request.params.get('company')).toEqual('IBM');
     expect(req.request.params.get('age')).toEqual('37');
