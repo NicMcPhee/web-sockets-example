@@ -62,10 +62,9 @@ export class UserListPage {
    */
   selectRole(value: UserRole) {
     // Find and click the drop down
-    return cy.get('[data-test=userRoleSelect]').click()
-      // Select and click the desired value from the resulting menu
-      .get(`mat-option[value="${value}"]`).click();
-      // NOTE: THIS CHAINING MIGHT BE FRAGILE (due to a 'click' followed by a 'get')
+    cy.get('[data-test=userRoleSelect]').click();
+    // Select and click the desired value from the resulting menu
+    return cy.get(`mat-option[value="${value}"]`).click();
   }
 
   addUserButton() {
