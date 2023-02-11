@@ -118,8 +118,8 @@ public class UserController {
       filters.add(eq(AGE_KEY, targetAge));
     }
     if (ctx.queryParamMap().containsKey(COMPANY_KEY)) {
-      filters.add(regex(COMPANY_KEY,  Pattern.quote(ctx.queryParam(COMPANY_KEY)), "i"));
-    }
+      Pattern pattern = Pattern.compile(ctx.queryParam(COMPANY_KEY), Pattern.CASE_INSENSITIVE);
+      filters.add(regex(COMPANY_KEY, pattern));    }
     if (ctx.queryParamMap().containsKey(ROLE_KEY)) {
       String role = ctx.queryParamAsClass(ROLE_KEY, String.class)
         .check(it -> it.matches(ROLE_REGEX), "User must have a legal user role")
