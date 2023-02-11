@@ -20,7 +20,7 @@ export class UserListComponent implements OnInit, OnDestroy  {
   public userRole: UserRole;
   public userCompany: string;
   public viewType: 'card' | 'list' = 'card';
-  getUsersSub: Subscription;
+  getUsersSubscription: Subscription;
 
 
   // Inject the UserService into this component.
@@ -34,15 +34,28 @@ export class UserListComponent implements OnInit, OnDestroy  {
   }
 
   getUsersFromServer(): void {
-    this.unsub();
-    this.getUsersSub = this.userService.getUsers({
+    this.unsubscribeConditionally();
+    // A user-list-component has a getUsersSubscription (which is a subscription)
+    // that is paying attention to userService.getUsers (which is an Observable<User[]>)
+    // (for more on Observable, see: https://reactivex.io/documentation/observable.html)
+    // and we are specifically watching for role and age whenever the User[] gets updated
+    this.getUsersSubscription = this.userService.getUsers({
       role: this.userRole,
       age: this.userAge
-    }).subscribe(returnedUsers => {
-      this.serverFilteredUsers = returnedUsers;
-      this.updateFilter();
-    }, err => {
-      console.log(err);
+    })
+    .subscribe({
+      // Next time we see a change in the Observable<User[]>,
+      // refer to that User[] as returnedUsers here and do the steps in the {}
+      next: (returnedUsers) => {
+        // First, update the array of serverFilteredUsers
+        this.serverFilteredUsers = returnedUsers;
+        // Then update the filters for our client-side filtering as described in this method
+        this.updateFilter();
+      },
+      // If we observe an error in that Observable, put it in the console so we can learn more
+      error: (e) => console.error(e),
+      // Once the observable has completed successfully
+      complete: () => console.log('Users were filtered on the server') //this WAS console.info, but that wasn't allowed here
     });
   }
 
@@ -60,12 +73,16 @@ export class UserListComponent implements OnInit, OnDestroy  {
   }
 
   ngOnDestroy(): void {
-    this.unsub();
+    // When we destroy the user-list-component, unsubscribe from that Observable<User[]>
+    // This unsubscribing action allows the Observable to stop emitting events
+    // if we were the only ones paying attention (if all of the followers stop following, no need to tell us)
+    this.unsubscribeConditionally();
   }
 
-  unsub(): void {
-    if (this.getUsersSub) {
-      this.getUsersSub.unsubscribe();
+  unsubscribeConditionally(): void {
+    if (this.getUsersSubscription) {
+      this.getUsersSubscription.unsubscribe();
     }
   }
+
 }
