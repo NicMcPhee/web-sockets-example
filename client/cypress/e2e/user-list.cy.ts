@@ -12,6 +12,10 @@ describe('User list', () => {
     page.navigateTo();
   });
 
+  it('Should have the correct title', () => {
+    page.getUserTitle().should('have.text', 'Users');
+  });
+
   it('Should show 10 users in both card and list view', () => {
     page.getUserCards().should('have.length', 10);
     page.changeView('list');
