@@ -5,10 +5,33 @@ export class UserListPage {
     return cy.visit('/users');
   }
 
-  getUserCards() {
+  /**
+   * Gets the title of the app when visiting the `/users` page.
+   *
+   * @returns the value of the element with the ID `.user-list-title`
+   */
+  getUserTitle() {
+    return cy.get('.user-list-title');
+  }
+
+  /**
+   * Get all the `app-user-card` DOM elements. This will be
+   * empty if we're using the list view of the users.
+   *
+   * @returns an iterable (`Cypress.Chainable`) containing all
+   *   the `app-user-card` DOM elements.
+   */
+   getUserCards() {
     return cy.get('.user-cards-container app-user-card');
   }
 
+  /**
+   * Get all the `.user-list-item` DOM elements. This will
+   * be empty if we're using the card view of the users.
+   *
+   * @returns an iterable (`Cypress.Chainable`) containing all
+   *   the `.user-list-item` DOM elements.
+   */
   getUserListItems() {
     return cy.get('.user-nav-list .user-list-item');
   }
@@ -39,9 +62,9 @@ export class UserListPage {
    */
   selectRole(value: UserRole) {
     // Find and click the drop down
-    return cy.get('[data-test=userRoleSelect]').click()
-      // Select and click the desired value from the resulting menu
-      .get(`mat-option[value="${value}"]`).click();
+    cy.get('[data-test=userRoleSelect]').click();
+    // Select and click the desired value from the resulting menu
+    return cy.get(`mat-option[value="${value}"]`).click();
   }
 
   addUserButton() {

@@ -17,6 +17,7 @@
     ],
     "useDefineForClassFields": false
   },
+  "exclude": ["./cypress.config.ts"],
   "angularCompilerOptions": {
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
