@@ -53,22 +53,22 @@ const MATERIAL_MODULES: any[] = [
 
 @NgModule({
   declarations: [
-    AddUserComponent,
     AppComponent,
     HomeComponent,
-    UserCardComponent,
     UserListComponent,
+    UserCardComponent,
     UserProfileComponent,
+    AddUserComponent,
   ],
   imports: [
+    BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    BrowserModule,
     FormsModule,
-    HttpClientModule,
-    LayoutModule,
-    MATERIAL_MODULES,
     ReactiveFormsModule,
+    HttpClientModule,
+    MATERIAL_MODULES,
+    LayoutModule,
   ],
   providers: [
     UserService
