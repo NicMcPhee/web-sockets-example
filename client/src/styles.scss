@@ -8,28 +8,20 @@
 // Be sure that you only ever include this mixin once!
 @include mat.core();
 
-// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
-//  The following line adds:
-//    1. Default typography styles for all components
-//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
-//  If you specify typography styles for the components you use elsewhere, you should delete this line.
-//  If you don't need the default component typographies but still want the hierarchy styles,
-//  you can delete this line and instead use:
-//    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
-@include mat.all-component-typographies();
-
 // This is to be able to theme parts of the app dynamically depending on theme (right now: light or dark)
 // You can put styles in this mixin and the theme variables will refer to the actual theme being used (light or dark)
 @mixin app-theming($theme) {
+  $color-config: mat.get-color-config($theme);
+  
   // Extract the palettes you need from the theme definition.
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
+  $primary: map-get($color-config, primary);
+  $accent: map-get($color-config, accent);
+  $warn: map-get($color-config, warn);
 
-  $background: map-get($theme, background);
-  $foreground: map-get($theme, foreground);
+  $background: map-get($color-config, background);
+  $foreground: map-get($color-config, foreground);
 
-  $is-dark: map-get($theme, is-dark);
+  $is-dark: map-get($color-confige, is-dark);
 
   // Define any styles affected by the theme.
 
@@ -61,9 +53,9 @@
 
 $light-primary: mat.define-palette(mat.$indigo-palette, 500); // 500 is the base hue of a Material color
 
- // The 200 here makes the indigo color lighter
- // Material Design dark themes should use a desaturated versions of primary and accent colors
- // See: https://material.io/design/color/dark-theme.html
+// The 200 here makes the indigo color lighter
+// Material Design dark themes should use a desaturated versions of primary and accent colors
+// See: https://material.io/design/color/dark-theme.html
 $dark-primary: mat.define-palette(mat.$indigo-palette, 200);
 
 $light-accent: mat.define-palette(mat.$pink-palette, A200);
@@ -73,12 +65,29 @@ $dark-accent: mat.define-palette(mat.$pink-palette, A100);
 $light-warn: mat.define-palette(mat.$red-palette); // Without a hue given, it defaults to 500
 $dark-warn: mat.define-palette(mat.$red-palette, 300);
 
-// Create the theme object for a light theme (a Sass map containing all of the palettes).
-$light-theme: mat.define-light-theme($light-primary, $light-accent, $light-warn);
+$typography-config: mat.define-typography-config();
 
-// Create the theme object for a dark theme (a Sass map containing all of the palettes).
-$dark-theme: mat.define-dark-theme($dark-primary, $dark-accent, $dark-warn);
+// Create the theme object for a light theme
+// We include typography and density information here because it is the default theme
+$light-theme: mat.define-light-theme((
+  color: (
+    primary: $light-primary,
+    accent: $light-accent,
+    warn: $light-warn
+  ),
+  typography: $typography-config,
+  density: 0,
+));
 
+// Create the theme object for a dark theme
+// No typography and density needed because this theme will be on top of the default light theme
+$dark-theme: mat.define-dark-theme((
+  color: (
+    primary: $dark-primary,
+    accent: $dark-accent,
+    warn: $dark-warn
+  ),
+));
 
 // Sets up the theming for built in material components with the light theme
 @include mat.all-component-themes($light-theme);
@@ -99,9 +108,9 @@ body {
 // If you don't want to apply dark theme automatically,
 // you can also make this a normal class and add it to body or html dynamically.
 @media (prefers-color-scheme: dark) {
-  // Sets up the theming for built in material components with the light theme
-  @include mat.all-component-themes($dark-theme);
-  // Sets up theming for our custom components with the light theme
+  // Sets up the theming for built in material components with the dark theme
+  @include mat.all-component-colors($dark-theme);
+  // Sets up theming for our custom components with the dark theme
   @include app-theming($dark-theme);
 }
 
