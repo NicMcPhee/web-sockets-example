@@ -20,6 +20,7 @@ import { UserCardComponent } from './user-card.component';
 import { UserListComponent } from './user-list.component';
 import { UserService } from './user.service';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 const COMMON_IMPORTS: any[] = [
   FormsModule,
@@ -35,6 +36,7 @@ const COMMON_IMPORTS: any[] = [
   MatDividerModule,
   MatRadioModule,
   MatIconModule,
+  MatSnackBarModule,
   BrowserAnimationsModule,
   RouterTestingModule,
 ];
@@ -54,10 +56,25 @@ describe('User list', () => {
     });
   });
 
+  // This constructs the `userList` (declared
+  // above) that will be used throughout the tests.
   beforeEach(waitForAsync(() => {
+  // Compile all the components in the test bed
+  // so that everything's ready to go.
     TestBed.compileComponents().then(() => {
+      /* Create a fixture of the UserListComponent. That
+       * allows us to get an instance of the component
+       * (userList, below) that we can control in
+       * the tests.
+       */
       fixture = TestBed.createComponent(UserListComponent);
       userList = fixture.componentInstance;
+      /* Tells Angular to sync the data bindings between
+       * the model and the DOM. This ensures, e.g., that the
+       * `userList` component actually requests the list
+       * of users from the `MockUserService` so that it's
+       * up to date before we start running tests on it.
+       */
       fixture.detectChanges();
     });
   }));
