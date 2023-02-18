@@ -95,6 +95,10 @@ $dark-theme: mat.define-dark-theme((
 // Sets up theming for our custom components with the light theme
 @include app-theming($light-theme);
 
+// Include basic typography classes
+// see https://material.angular.io/guide/typography#using-typography-styles-in-your-application
+@include mat.typography-hierarchy($typography-config);
+
 html, body {
   height: 100%;
 }
@@ -102,7 +106,6 @@ html, body {
 body {
   margin: 0;
 }
-
 
 // This media query detects if the user has dark-mode turned on on their OS or browser
 // If you don't want to apply dark theme automatically,
