@@ -31,7 +31,7 @@ Thunder client, in addition to testing `GET` requests, that test API output, can
 Starting with an empty database (dropped table without reseeding), the client has an empty list.
 ![Empty User List](https://user-images.githubusercontent.com/32685970/218516124-da1252d3-f38f-4600-8af4-2853f6cc2bfb.png)
 
-Then, if we go to ThunderClient, and create a new request (as described above), we have the following: (setting the destination URL to our server at `http://localhost:4567`.)
+Then, if we go to ThunderClient, and create a new request (as described above), we have the following: (setting the destination URL to our server at `http://localhost:4567`).
 ![New request window](https://user-images.githubusercontent.com/32685970/218516615-75bb0dd4-d1d5-4f76-93da-69040c190709.png)
 In this case, we're going to query `http://localhost:4567/api/users` with a `POST` request.
 Once the request window is open, go to the left of the entry URL, and set the request method to `POST`.
@@ -53,4 +53,4 @@ We can verify that this actually added the user like we intended by loading the 
 ![New user profile](https://user-images.githubusercontent.com/32685970/218518573-ce0242ff-d82a-4007-a085-33cf798a5937.png)
 
 ### Using `PUT` Requests instead of `POST`
-To use a `PUT` request instead of a `POST` request, change the request type in ThunderClient, and make sure that the route you're sending the request to is setup to handle a `PUT` request, otherwise the process is the same, where you add a request body then expect a different response.
+To use a `PUT` request instead of a `POST` request, change the request type in ThunderClient, and make sure that the route you're sending the request to is setup to handle a `PUT` request. Otherwise the process is the same, where you add a request body then expect a different response.
