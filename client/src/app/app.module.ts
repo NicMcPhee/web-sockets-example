@@ -32,7 +32,7 @@ import { UserCardComponent } from './users/user-card.component';
 import { UserProfileComponent } from './users/user-profile.component';
 import { AddUserComponent } from './users/add-user.component';
 
-const MATERIAL_MODULES: any[] = [
+const MATERIAL_MODULES: unknown[] = [
   MatListModule,
   MatButtonModule,
   MatIconModule,

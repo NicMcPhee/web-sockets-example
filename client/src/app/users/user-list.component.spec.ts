@@ -22,7 +22,7 @@ import { UserService } from './user.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-const COMMON_IMPORTS: any[] = [
+const COMMON_IMPORTS: unknown[] = [
   FormsModule,
   MatCardModule,
   MatFormFieldModule,
