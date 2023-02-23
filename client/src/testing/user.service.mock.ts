@@ -44,12 +44,12 @@ export class MockUserService extends UserService {
     super(null);
   }
 
-  getUsers(filters: { role?: UserRole; age?: number; company?: string }): Observable<User[]> {
+  getUsers(_filters: { role?: UserRole; age?: number; company?: string }): Observable<User[]> {
     // Our goal here isn't to test (and thus rewrite) the service, so we'll
     // keep it simple and just return the test users regardless of what
     // filters are passed in.
     //
-    console.log(`There were filters passed to a mock service: ${filters}`);
+    // console.log(`There were filters passed to a mock service: ${filters}`);
     // The `of()` function converts a regular object or value into an
     // `Observable` of that object or value.
     return of(MockUserService.testUsers);
