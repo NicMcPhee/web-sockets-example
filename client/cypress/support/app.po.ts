@@ -1,21 +1,28 @@
 export class AppPage {
+
+  private readonly baseUrl = '/';
+  private readonly titleSelector = '.app-title';
+  private readonly sideNavButton = '.sidenav-button';
+  private readonly sideNav = '.sidenav';
+  private readonly sideNavOption = '[routerlink] > .mdc-list-item__content';
+
   navigateTo() {
-    return cy.visit('/');
+    return cy.visit(this.baseUrl);
   }
 
   getAppTitle() {
-    return cy.get('.app-title');
+    return cy.get(this.titleSelector);
   }
 
   getSidenavButton() {
-    return cy.get('.sidenav-button');
+    return cy.get(this.sideNavButton);
   }
 
   getSidenav() {
-    return cy.get('.sidenav');
+    return cy.get(this.sideNav);
   }
 
-  getNavLink(navOption: ' Home ' | ' Users ') {
-    return cy.contains('[routerlink] > .mdc-list-item__content', `${navOption}`);
+  getNavLink(navOption: 'Home' | 'Users') {
+    return cy.contains(this.sideNavOption, `${navOption}`);
   }
 }

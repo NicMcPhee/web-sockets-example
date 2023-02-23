@@ -55,7 +55,7 @@ import org.junit.jupiter.api.Test;
 // also a lot of "magic strings" that Checkstyle doesn't actually
 // flag as a problem) make more sense.
 @SuppressWarnings({"MagicNumber"})
-public class MongoSpec {
+class MongoSpec {
 
   private MongoCollection<Document> userDocuments;
 
@@ -63,7 +63,7 @@ public class MongoSpec {
   private static MongoDatabase db;
 
   @BeforeAll
-  public static void setupDB() {
+  static void setupDB() {
     String mongoAddr = System.getenv().getOrDefault("MONGO_ADDR", "localhost");
 
     mongoClient = MongoClients.create(
@@ -76,13 +76,13 @@ public class MongoSpec {
   }
 
   @AfterAll
-  public static void teardown() {
+  static void teardown() {
     db.drop();
     mongoClient.close();
   }
 
   @BeforeEach
-  public void clearAndPopulateDB() {
+  void clearAndPopulateDB() {
     userDocuments = db.getCollection("users");
     userDocuments.drop();
     List<Document> testUsers = new ArrayList<>();
@@ -120,28 +120,28 @@ public class MongoSpec {
   }
 
   @Test
-  public void shouldBeThreeUsers() {
+  void shouldBeThreeUsers() {
     FindIterable<Document> documents = userDocuments.find();
     int numberOfUsers = countUsers(documents);
     assertEquals(3, numberOfUsers, "Should be 3 total users");
   }
 
   @Test
-  public void shouldBeOneChris() {
+  void shouldBeOneChris() {
     FindIterable<Document> documents = userDocuments.find(eq("name", "Chris"));
     int numberOfUsers = countUsers(documents);
     assertEquals(1, numberOfUsers, "Should be 1 Chris");
   }
 
   @Test
-  public void shouldBeTwoOver25() {
+  void shouldBeTwoOver25() {
     FindIterable<Document> documents = userDocuments.find(gt("age", 25));
     int numberOfUsers = countUsers(documents);
     assertEquals(2, numberOfUsers, "Should be 2 over 25");
   }
 
   @Test
-  public void over25SortedByName() {
+  void over25SortedByName() {
     FindIterable<Document> documents
       = userDocuments.find(gt("age", 25))
       .sort(Sorts.ascending("name"));
@@ -152,7 +152,7 @@ public class MongoSpec {
   }
 
   @Test
-  public void over25AndIbmers() {
+  void over25AndIbmers() {
     FindIterable<Document> documents
       = userDocuments.find(and(gt("age", 25),
       eq("company", "IBM")));
@@ -162,7 +162,7 @@ public class MongoSpec {
   }
 
   @Test
-  public void justNameAndEmail() {
+  void justNameAndEmail() {
     FindIterable<Document> documents
       = userDocuments.find().projection(fields(include("name", "email")));
     List<Document> docs = intoList(documents);
@@ -174,7 +174,7 @@ public class MongoSpec {
   }
 
   @Test
-  public void justNameAndEmailNoId() {
+  void justNameAndEmailNoId() {
     FindIterable<Document> documents
       = userDocuments.find()
       .projection(fields(include("name", "email"), excludeId()));
@@ -187,7 +187,7 @@ public class MongoSpec {
   }
 
   @Test
-  public void justNameAndEmailNoIdSortedByCompany() {
+  void justNameAndEmailNoIdSortedByCompany() {
     FindIterable<Document> documents
       = userDocuments.find()
       .sort(Sorts.ascending("company"))
@@ -201,7 +201,7 @@ public class MongoSpec {
   }
 
   @Test
-  public void ageCounts() {
+  void ageCounts() {
     AggregateIterable<Document> documents
       = userDocuments.aggregate(
       Arrays.asList(
@@ -226,7 +226,7 @@ public class MongoSpec {
   }
 
   @Test
-  public void averageAge() {
+  void averageAge() {
     AggregateIterable<Document> documents
       = userDocuments.aggregate(
       Arrays.asList(
