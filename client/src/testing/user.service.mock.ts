@@ -47,6 +47,7 @@ export class MockUserService extends UserService {
     super(null);
   }
 
+  // skipqc: JS-0105
   getUsers(_filters: { role?: UserRole; age?: number; company?: string }): Observable<User[]> {
     // Our goal here isn't to test (and thus rewrite) the service, so we'll
     // keep it simple and just return the test users regardless of what
@@ -57,6 +58,7 @@ export class MockUserService extends UserService {
     return of(MockUserService.testUsers);
   }
 
+  // skipqc: JS-0105
   getUserById(id: string): Observable<User> {
     // If the specified ID is for one of the test users,
     // return that user, otherwise return `null` so
