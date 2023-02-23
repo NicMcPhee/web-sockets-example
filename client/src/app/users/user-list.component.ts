@@ -79,7 +79,7 @@ export class UserListComponent implements OnInit, OnDestroy  {
         console.error('We couldn\'t get the list of users; the server might be down');
       },
       // Once the observable has completed successfully
-      complete: () => console.log('Users were filtered on the server') //this WAS console.info, but that wasn't allowed here
+      // complete: () => console.log('Users were filtered on the server') //this WAS console.info, but that wasn't allowed here
     });
   }
 
