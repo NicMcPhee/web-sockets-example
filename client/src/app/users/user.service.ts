@@ -94,7 +94,7 @@ export class UserService {
    * @param filters the map of key-value pairs used for the filtering
    * @returns an array of `Users` matching the given filters
    */
-  filterUsers(users: User[], filters: { name?: string; company?: string }): User[] {
+  filterUsers(users: User[], filters: { name?: string; company?: string }): User[] { // skipcq: JS-0105
     let filteredUsers = users;
 
     // Filter by name
