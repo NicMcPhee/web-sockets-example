@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import {seedAll} from '@floogulinc/cypress-mongo-seeder';
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
