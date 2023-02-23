@@ -54,7 +54,7 @@ import org.junit.jupiter.api.Test;
 // also a lot of "magic strings" that Checkstyle doesn't actually
 // flag as a problem) make more sense.
 @SuppressWarnings({"MagicNumber"})
-public class MongoSpec {
+class MongoSpec {
 
   private MongoCollection<Document> userDocuments;
 
@@ -62,7 +62,7 @@ public class MongoSpec {
   private static MongoDatabase db;
 
   @BeforeAll
-  public static void setupDB() {
+  static void setupDB() {
     String mongoAddr = System.getenv().getOrDefault("MONGO_ADDR", "localhost");
 
     mongoClient = MongoClients.create(
@@ -75,13 +75,13 @@ public class MongoSpec {
   }
 
   @AfterAll
-  public static void teardown() {
+  static void teardown() {
     db.drop();
     mongoClient.close();
   }
 
   @BeforeEach
-  public void clearAndPopulateDB() {
+  void clearAndPopulateDB() {
     userDocuments = db.getCollection("users");
     userDocuments.drop();
     List<Document> testUsers = new ArrayList<>();
@@ -119,21 +119,21 @@ public class MongoSpec {
   }
 
   @Test
-  public void shouldBeThreeUsers() {
+  void shouldBeThreeUsers() {
     FindIterable<Document> documents = userDocuments.find();
     int numberOfUsers = countUsers(documents);
     assertEquals(3, numberOfUsers, "Should be 3 total users");
   }
 
   @Test
-  public void shouldBeOneChris() {
+  void shouldBeOneChris() {
     FindIterable<Document> documents = userDocuments.find(eq("name", "Chris"));
     int numberOfUsers = countUsers(documents);
     assertEquals(1, numberOfUsers, "Should be 1 Chris");
   }
 
   @Test
-  public void shouldBeTwoOver25() {
+  void shouldBeTwoOver25() {
     FindIterable<Document> documents = userDocuments.find(gt("age", 25));
     int numberOfUsers = countUsers(documents);
     assertEquals(2, numberOfUsers, "Should be 2 over 25");

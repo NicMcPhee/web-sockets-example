@@ -9,10 +9,16 @@ import { map } from 'rxjs/operators';
  * Service that provides the interface for getting information
  * about `Users` from the server.
  */
-@Injectable()
+@Injectable({
+  providedIn: `root`
+})
 export class UserService {
   // The URL for the users part of the server API.
   readonly userUrl: string = `${environment.apiUrl}users`;
+
+  private readonly roleKey = 'role';
+  private readonly ageKey = 'age';
+  private readonly companyKey = 'company';
 
   // The private `HttpClient` is *injected* into the service
   // by the Angular framework. This allows the system to create
@@ -48,13 +54,13 @@ export class UserService {
     let httpParams: HttpParams = new HttpParams();
     if (filters) {
       if (filters.role) {
-        httpParams = httpParams.set('role', filters.role);
+        httpParams = httpParams.set(this.roleKey, filters.role);
       }
       if (filters.age) {
-        httpParams = httpParams.set('age', filters.age.toString());
+        httpParams = httpParams.set(this.ageKey, filters.age.toString());
       }
       if (filters.company) {
-        httpParams = httpParams.set('company', filters.company);
+        httpParams = httpParams.set(this.companyKey, filters.company);
       }
     }
     // Send the HTTP GET request with the given URL and parameters.
@@ -88,7 +94,7 @@ export class UserService {
    * @param filters the map of key-value pairs used for the filtering
    * @returns an array of `Users` matching the given filters
    */
-  filterUsers(users: User[], filters: { name?: string; company?: string }): User[] {
+  filterUsers(users: User[], filters: { name?: string; company?: string }): User[] { // skipcq: JS-0105
     let filteredUsers = users;
 
     // Filter by name
