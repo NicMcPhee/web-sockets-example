@@ -12,7 +12,7 @@ export class UserCardComponent implements OnInit {
   @Input() simple ? = false;
 
   ngOnInit(): void {
-    // do nothing, but the presence of this function makes other things work, skipqc: JS-0604
+    // do nothing, but the presence of this function makes other things work, skipcq: JS-0604
   }
 
 }
