@@ -105,17 +105,23 @@ export class AddUserComponent implements OnInit {
 
 
   submitForm() {
-    this.userService.addUser(this.addUserForm.value).subscribe(newID => {
-      this.snackBar.open(
-        `Added user ${this.addUserForm.value.name}`,
-        null,
-        { duration: 2000 }
-      );
-      this.router.navigate(['/users/', newID]);
-    }, err => {
-      this.snackBar.open('Failed to add the user', 'OK', {
-        duration: 5000,
-      });
+    this.userService.addUser(this.addUserForm.value).subscribe({
+      next: (newID) => {
+        this.snackBar.open(
+          `Added user ${this.addUserForm.value.name}`,
+          null,
+          { duration: 2000 }
+        );
+        this.router.navigate(['/users/', newID]);
+      },
+      error: err => {
+        this.snackBar.open(
+          'Failed to add the user',
+          'OK',
+          { duration: 5000 }
+        );
+      },
+      // complete: () => console.log('Add user completes!')
     });
   }
 
