@@ -70,9 +70,6 @@ const MATERIAL_MODULES: unknown[] = [
     MATERIAL_MODULES,
     LayoutModule,
   ],
-  providers: [
-    UserService
-  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
