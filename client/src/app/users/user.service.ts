@@ -4,14 +4,13 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { User, UserRole } from './user';
 import { map } from 'rxjs/operators';
-import { AppModule } from '../app.module';
 
 /**
  * Service that provides the interface for getting information
  * about `Users` from the server.
  */
 @Injectable({
-  providedIn: AppModule
+  providedIn: `root`
 })
 export class UserService {
   // The URL for the users part of the server API.
