@@ -17,6 +17,10 @@ export class UserService {
   // The URL for the users part of the server API.
   readonly userUrl: string = `${environment.apiUrl}users`;
 
+  private readonly roleKey = 'role';
+  private readonly ageKey = 'age';
+  private readonly companyKey = 'company';
+
   // The private `HttpClient` is *injected* into the service
   // by the Angular framework. This allows the system to create
   // only one `HttpClient` and share that across all services
@@ -51,13 +55,13 @@ export class UserService {
     let httpParams: HttpParams = new HttpParams();
     if (filters) {
       if (filters.role) {
-        httpParams = httpParams.set('role', filters.role);
+        httpParams = httpParams.set(this.roleKey, filters.role);
       }
       if (filters.age) {
-        httpParams = httpParams.set('age', filters.age.toString());
+        httpParams = httpParams.set(this.ageKey, filters.age.toString());
       }
       if (filters.company) {
-        httpParams = httpParams.set('company', filters.company);
+        httpParams = httpParams.set(this.companyKey, filters.company);
       }
     }
     // Send the HTTP GET request with the given URL and parameters.
