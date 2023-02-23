@@ -198,10 +198,10 @@ public class UserControllerSpec {
   public void canGetUsersWithAge37() throws IOException {
     // Add a query param map to the context that maps "age" to "37".
     Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put("age", Arrays.asList(new String[] {"37"}));
+    queryParams.put(UserController.AGE_KEY, Arrays.asList(new String[] {"37"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParamAsClass("age", Integer.class))
-      .thenReturn(Validator.create(Integer.class, "37", "age"));
+    when(ctx.queryParamAsClass(UserController.AGE_KEY, Integer.class))
+      .thenReturn(Validator.create(Integer.class, "37", UserController.AGE_KEY));
 
     userController.getUsers(ctx);
 
@@ -218,10 +218,10 @@ public class UserControllerSpec {
   @Test
   public void respondsAppropriatelyToNonNumericAge() {
     Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put("age", Arrays.asList(new String[] {"bad"}));
+    queryParams.put(UserController.AGE_KEY, Arrays.asList(new String[] {"bad"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParamAsClass("age", Integer.class))
-      .thenReturn(Validator.create(Integer.class, "bad", "age"));
+    when(ctx.queryParamAsClass(UserController.AGE_KEY, Integer.class))
+      .thenReturn(Validator.create(Integer.class, "bad", UserController.AGE_KEY));
 
     // This should now throw a `ValidationException` because
     // our request has an age that can't be parsed to a number,
@@ -239,10 +239,10 @@ public class UserControllerSpec {
   @Test
   public void respondsAppropriatelyToTooLargeNumberAge() {
     Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put("age", Arrays.asList(new String[] {"151"}));
+    queryParams.put(UserController.AGE_KEY, Arrays.asList(new String[] {"151"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParamAsClass("age", Integer.class))
-      .thenReturn(Validator.create(Integer.class, "151", "age"));
+    when(ctx.queryParamAsClass(UserController.AGE_KEY, Integer.class))
+      .thenReturn(Validator.create(Integer.class, "151", UserController.AGE_KEY));
 
     // This should now throw a `ValidationException` because
     // our request has an age that is larger than 150, which isn't allowed,
@@ -260,10 +260,10 @@ public class UserControllerSpec {
   @Test
   public void respondsAppropriatelyToTooSmallNumberAge() {
     Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put("age", Arrays.asList(new String[] {"-1"}));
+    queryParams.put(UserController.AGE_KEY, Arrays.asList(new String[] {"-1"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParamAsClass("age", Integer.class))
-      .thenReturn(Validator.create(Integer.class, "-1", "age"));
+    when(ctx.queryParamAsClass(UserController.AGE_KEY, Integer.class))
+      .thenReturn(Validator.create(Integer.class, "-1", UserController.AGE_KEY));
 
     // This should now throw a `ValidationException` because
     // our request has an age that is smaller than 0, which isn't allowed,
@@ -312,10 +312,10 @@ public class UserControllerSpec {
   @Test
   public void getUsersByRole() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put("role", Arrays.asList(new String[] {"viewer"}));
+    queryParams.put(UserController.ROLE_KEY, Arrays.asList(new String[] {"viewer"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParamAsClass("role", String.class))
-      .thenReturn(Validator.create(String.class, "viewer", "role"));
+    when(ctx.queryParamAsClass(UserController.ROLE_KEY, String.class))
+      .thenReturn(Validator.create(String.class, "viewer", UserController.ROLE_KEY));
 
     userController.getUsers(ctx);
 
@@ -327,12 +327,12 @@ public class UserControllerSpec {
   @Test
   public void getUsersByCompanyAndAge() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put("company", Arrays.asList(new String[] {"OHMNET"}));
-    queryParams.put("age", Arrays.asList(new String[] {"37"}));
+    queryParams.put(UserController.COMPANY_KEY, Arrays.asList(new String[] {"OHMNET"}));
+    queryParams.put(UserController.AGE_KEY, Arrays.asList(new String[] {"37"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParam("company")).thenReturn("OHMNET");
-    when(ctx.queryParamAsClass("age", Integer.class))
-      .thenReturn(Validator.create(Integer.class, "37", "age"));
+    when(ctx.queryParam(UserController.COMPANY_KEY)).thenReturn("OHMNET");
+    when(ctx.queryParamAsClass(UserController.AGE_KEY, Integer.class))
+      .thenReturn(Validator.create(Integer.class, "37", UserController.AGE_KEY));
 
     userController.getUsers(ctx);
 
@@ -406,10 +406,10 @@ public class UserControllerSpec {
     // Successfully adding the user should return the newly generated, non-empty MongoDB ID for that user.
     assertNotEquals("", addedUser.get("_id"));
     assertEquals("Test User", addedUser.get("name"));
-    assertEquals(25, addedUser.get("age"));
-    assertEquals("testers", addedUser.get("company"));
+    assertEquals(25, addedUser.get(UserController.AGE_KEY));
+    assertEquals("testers", addedUser.get(UserController.COMPANY_KEY));
     assertEquals("test@example.com", addedUser.get("email"));
-    assertEquals("viewer", addedUser.get("role"));
+    assertEquals("viewer", addedUser.get(UserController.ROLE_KEY));
     assertNotNull(addedUser.get("avatar"));
   }
 
