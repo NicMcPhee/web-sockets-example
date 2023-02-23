@@ -11,8 +11,6 @@ export class UserCardComponent implements OnInit {
   @Input() user: User;
   @Input() simple ? = false;
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 
