@@ -34,7 +34,7 @@ import io.javalin.http.NotFoundResponse;
 public class UserController {
 
   private static final String AGE_KEY = "age";
-  private static final String COMPANY_KEY = "company";
+  static final String COMPANY_KEY = "company";
   private static final String ROLE_KEY = "role";
   private static final int REASONABLE_AGE_LIMIT = 150;
 

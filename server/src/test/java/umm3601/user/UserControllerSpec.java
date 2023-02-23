@@ -276,9 +276,27 @@ public class UserControllerSpec {
   @Test
   public void canGetUsersWithCompany() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put("company", Arrays.asList(new String[] {"OHMNET"}));
+    queryParams.put(UserController.COMPANY_KEY, Arrays.asList(new String[] {"OHMNET"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParam("company")).thenReturn("OHMNET");
+    when(ctx.queryParam(UserController.COMPANY_KEY)).thenReturn("OHMNET");
+
+    userController.getUsers(ctx);
+
+    verify(ctx).json(userArrayListCaptor.capture());
+    verify(ctx).status(HttpStatus.OK);
+
+    // Confirm that all the users passed to `json` work for OHMNET.
+    for (User user : userArrayListCaptor.getValue()) {
+      assertEquals("OHMNET", user.company);
+    }
+  }
+
+  @Test
+  public void canGetUsersWithCompanyLowercase() throws IOException {
+    Map<String, List<String>> queryParams = new HashMap<>();
+    queryParams.put(UserController.COMPANY_KEY, Arrays.asList(new String[] {"ohm"}));
+    when(ctx.queryParamMap()).thenReturn(queryParams);
+    when(ctx.queryParam(UserController.COMPANY_KEY)).thenReturn("ohm");
 
     userController.getUsers(ctx);
 
