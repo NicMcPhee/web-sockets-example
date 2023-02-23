@@ -116,7 +116,7 @@ export class AddUserComponent implements OnInit {
       },
       error: err => {
         this.snackBar.open(
-          'Failed to add the user',
+          `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`,
           'OK',
           { duration: 5000 }
         );
