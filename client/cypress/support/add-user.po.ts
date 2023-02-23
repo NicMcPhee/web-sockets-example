@@ -29,11 +29,11 @@ export class AddUserPage {
     // Find and click the drop down
     return select.click()
       // Select and click the desired value from the resulting menu
-      .get(this.dropDownSelector + `[value="${value}"]`).click();
+      .get(`${this.dropDownSelector}[value="${value}"]`).click();
   }
 
   getFormField(fieldName: string) {
-    return cy.get(this.formFieldSelector + ` [formcontrolname=${fieldName}]`);
+    return cy.get(`${this.formFieldSelector} [formcontrolname=${fieldName}]`);
   }
 
   getSnackBar() {

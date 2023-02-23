@@ -62,7 +62,7 @@ export class UserListPage {
    * @param viewType Which view type to change to: "card" or "list".
    */
   changeView(viewType: 'card' | 'list') {
-    return cy.get(this.radioButtonSelector + `[value="${viewType}"]`).click();
+    return cy.get(`${this.radioButtonSelector}[value="${viewType}"]`).click();
   }
 
   /**
@@ -74,7 +74,7 @@ export class UserListPage {
     // Find and click the drop down
     cy.get(this.userRoleDropdownSelector).click();
     // Select and click the desired value from the resulting menu
-    return cy.get(this.dropdownOptionSelector + `[value="${value}"]`).click();
+    return cy.get(`${this.dropdownOptionSelector}[value="${value}"]`).click();
   }
 
   addUserButton() {
