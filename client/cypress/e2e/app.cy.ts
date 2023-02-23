@@ -22,6 +22,7 @@ describe('App', () => {
     page.getSidenav()
       .should('be.hidden');
 
+    // Try to navigate to Home
     page.getSidenavButton().click();
     page.getNavLink('Home').click();
     cy.url().should('match', /^https?:\/\/[^/]+\/?$/);
