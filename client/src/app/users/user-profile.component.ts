@@ -49,7 +49,10 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       // associated resources (like memory) are cleaned up.
       takeUntil(this.ngUnsubscribe)
     ).subscribe({
-      next: user => this.user = user,
+      next: user => {
+        this.user = user;
+        return user;
+      },
       error: _err => {
         this.snackBar.open('Problem loading the user – try again', 'OK', {
           duration: 5000,
