@@ -118,7 +118,7 @@ public class UserController {
       filters.add(eq(AGE_KEY, targetAge));
     }
     if (ctx.queryParamMap().containsKey(COMPANY_KEY)) {
-      Pattern pattern = Pattern.compile(ctx.queryParam(COMPANY_KEY), Pattern.CASE_INSENSITIVE);
+      Pattern pattern = Pattern.compile(Pattern.quote(ctx.queryParam(COMPANY_KEY)), Pattern.CASE_INSENSITIVE);
       filters.add(regex(COMPANY_KEY, pattern));
     }
     if (ctx.queryParamMap().containsKey(ROLE_KEY)) {
