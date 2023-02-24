@@ -11,7 +11,7 @@
               <mat-label>Name</mat-label>
               <input matInput placeholder="Name" formControlName="name"
                     required>
-              <mat-error *ngIf="formControlHasError('name')">
+              <mat-error *ngIf="formControlHasError('name')" data-test="nameError">
                 {{getErrorMessage('name')}}
               </mat-error>
             </mat-form-field>
@@ -20,7 +20,7 @@
               <mat-label>Age</mat-label>
               <input matInput type="number" placeholder="Age"
                     formControlName="age" required>
-              <mat-error *ngIf="formControlHasError('age')">
+              <mat-error *ngIf="formControlHasError('age')" data-test="ageError">
                 {{getErrorMessage('age')}}
               </mat-error>
             </mat-form-field>
@@ -35,7 +35,7 @@
               <mat-label>Email</mat-label>
               <input matInput placeholder="Email"
                     formControlName="email" required>
-              <mat-error *ngIf="formControlHasError('email')">
+              <mat-error *ngIf="formControlHasError('email')" data-test="emailError">
                 {{getErrorMessage('email')}}
               </mat-error>
             </mat-form-field>
@@ -47,7 +47,7 @@
                 <mat-option value="editor">Editor</mat-option>
                 <mat-option value="viewer">Viewer</mat-option>
               </mat-select>
-              <mat-error *ngIf="formControlHasError('role')">
+              <mat-error *ngIf="formControlHasError('role')" data-test="roleError">
                 {{getErrorMessage('role')}}
               </mat-error>
             </mat-form-field>
