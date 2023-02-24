@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import {seedAll} from '@floogulinc/cypress-mongo-seeder';
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
@@ -18,9 +19,9 @@ const mongoDb = process.env.MONGO_DB || 'dev';
 const mongoUri = `mongodb://${mongoHost}/${mongoDb}`;
 const dbSeedDir = '../database/seed';
 
-const pluginConfig: Cypress.PluginConfig = (on, config) => {
+const pluginConfig: Cypress.PluginConfig = (on, _config) => {
   // `on` is used to hook into various events Cypress emits
-  // `config` is the resolved Cypress config
+  // `_config` is the resolved Cypress config
   on('task', {
     'seed:database': (drop = true) => seedAll(mongoUri, dbSeedDir, drop),
   });

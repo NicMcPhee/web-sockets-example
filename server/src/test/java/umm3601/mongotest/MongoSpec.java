@@ -16,7 +16,6 @@ import java.util.List;
 
 import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerAddress;
-import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -55,7 +54,7 @@ import org.junit.jupiter.api.Test;
 // also a lot of "magic strings" that Checkstyle doesn't actually
 // flag as a problem) make more sense.
 @SuppressWarnings({"MagicNumber"})
-public class MongoSpec {
+class MongoSpec {
 
   private MongoCollection<Document> userDocuments;
 
@@ -63,7 +62,7 @@ public class MongoSpec {
   private static MongoDatabase db;
 
   @BeforeAll
-  public static void setupDB() {
+  static void setupDB() {
     String mongoAddr = System.getenv().getOrDefault("MONGO_ADDR", "localhost");
 
     mongoClient = MongoClients.create(
@@ -76,13 +75,13 @@ public class MongoSpec {
   }
 
   @AfterAll
-  public static void teardown() {
+  static void teardown() {
     db.drop();
     mongoClient.close();
   }
 
   @BeforeEach
-  public void clearAndPopulateDB() {
+  void clearAndPopulateDB() {
     userDocuments = db.getCollection("users");
     userDocuments.drop();
     List<Document> testUsers = new ArrayList<>();
@@ -120,52 +119,52 @@ public class MongoSpec {
   }
 
   @Test
-  public void shouldBeThreeUsers() {
+  void shouldBeThreeUsers() {
     FindIterable<Document> documents = userDocuments.find();
     int numberOfUsers = countUsers(documents);
     assertEquals(3, numberOfUsers, "Should be 3 total users");
   }
 
   @Test
-  public void shouldBeOneChris() {
+  void shouldBeOneChris() {
     FindIterable<Document> documents = userDocuments.find(eq("name", "Chris"));
     int numberOfUsers = countUsers(documents);
     assertEquals(1, numberOfUsers, "Should be 1 Chris");
   }
 
   @Test
-  public void shouldBeTwoOver25() {
+  void shouldBeTwoOver25() {
     FindIterable<Document> documents = userDocuments.find(gt("age", 25));
     int numberOfUsers = countUsers(documents);
     assertEquals(2, numberOfUsers, "Should be 2 over 25");
   }
 
   @Test
-  public void over25SortedByName() {
-    FindIterable<Document> documents
+  void over25SortedByName() {
+    List<Document> docs
       = userDocuments.find(gt("age", 25))
-      .sort(Sorts.ascending("name"));
-    List<Document> docs = intoList(documents);
+      .sort(Sorts.ascending("name"))
+      .into(new ArrayList<>());
     assertEquals(2, docs.size(), "Should be 2");
     assertEquals("Jamie", docs.get(0).get("name"), "First should be Jamie");
     assertEquals("Pat", docs.get(1).get("name"), "Second should be Pat");
   }
 
   @Test
-  public void over25AndIbmers() {
-    FindIterable<Document> documents
+  void over25AndIbmers() {
+    List<Document> docs
       = userDocuments.find(and(gt("age", 25),
-      eq("company", "IBM")));
-    List<Document> docs = intoList(documents);
+      eq("company", "IBM")))
+      .into(new ArrayList<>());
     assertEquals(1, docs.size(), "Should be 1");
     assertEquals("Pat", docs.get(0).get("name"), "First should be Pat");
   }
 
   @Test
-  public void justNameAndEmail() {
-    FindIterable<Document> documents
-      = userDocuments.find().projection(fields(include("name", "email")));
-    List<Document> docs = intoList(documents);
+  void justNameAndEmail() {
+    List<Document> docs
+      = userDocuments.find().projection(fields(include("name", "email")))
+      .into(new ArrayList<>());
     assertEquals(3, docs.size(), "Should be 3");
     assertEquals("Chris", docs.get(0).get("name"), "First should be Chris");
     assertNotNull(docs.get(0).get("email"), "First should have email");
@@ -174,11 +173,11 @@ public class MongoSpec {
   }
 
   @Test
-  public void justNameAndEmailNoId() {
-    FindIterable<Document> documents
+  void justNameAndEmailNoId() {
+    List<Document> docs
       = userDocuments.find()
-      .projection(fields(include("name", "email"), excludeId()));
-    List<Document> docs = intoList(documents);
+      .projection(fields(include("name", "email"), excludeId()))
+      .into(new ArrayList<>());
     assertEquals(3, docs.size(), "Should be 3");
     assertEquals("Chris", docs.get(0).get("name"), "First should be Chris");
     assertNotNull(docs.get(0).get("email"), "First should have email");
@@ -187,12 +186,12 @@ public class MongoSpec {
   }
 
   @Test
-  public void justNameAndEmailNoIdSortedByCompany() {
-    FindIterable<Document> documents
+  void justNameAndEmailNoIdSortedByCompany() {
+    List<Document> docs
       = userDocuments.find()
       .sort(Sorts.ascending("company"))
-      .projection(fields(include("name", "email"), excludeId()));
-    List<Document> docs = intoList(documents);
+      .projection(fields(include("name", "email"), excludeId()))
+      .into(new ArrayList<>());
     assertEquals(3, docs.size(), "Should be 3");
     assertEquals("Jamie", docs.get(0).get("name"), "First should be Jamie");
     assertNotNull(docs.get(0).get("email"), "First should have email");
@@ -201,8 +200,8 @@ public class MongoSpec {
   }
 
   @Test
-  public void ageCounts() {
-    AggregateIterable<Document> documents
+  void ageCounts() {
+    List<Document> docs
       = userDocuments.aggregate(
       Arrays.asList(
         /*
@@ -216,8 +215,7 @@ public class MongoSpec {
           Accumulators.sum("ageCount", 1)),
         Aggregates.sort(Sorts.ascending("_id"))
       )
-    );
-    List<Document> docs = intoList(documents);
+    ).into(new ArrayList<>()); //Attempts to coerce the resulting AggregateIterable object into an ArrayList.
     assertEquals(2, docs.size(), "Should be two distinct ages");
     assertEquals(25, docs.get(0).get("_id"));
     assertEquals(1, docs.get(0).get("ageCount"));
@@ -226,15 +224,14 @@ public class MongoSpec {
   }
 
   @Test
-  public void averageAge() {
-    AggregateIterable<Document> documents
+  void averageAge() {
+    List<Document> docs
       = userDocuments.aggregate(
       Arrays.asList(
         Aggregates.group("$company",
           Accumulators.avg("averageAge", "$age")),
         Aggregates.sort(Sorts.ascending("_id"))
-      ));
-    List<Document> docs = intoList(documents);
+      )).into(new ArrayList<>());
     assertEquals(3, docs.size(), "Should be three companies");
 
     assertEquals("Frogs, Inc.", docs.get(0).get("_id"));
