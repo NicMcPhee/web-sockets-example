@@ -12,7 +12,7 @@
 // You can put styles in this mixin and the theme variables will refer to the actual theme being used (light or dark)
 @mixin app-theming($theme) {
   $color-config: mat.get-color-config($theme);
-  
+
   // Extract the palettes you need from the theme definition.
   $primary: map-get($color-config, primary);
   $accent: map-get($color-config, accent);
@@ -151,10 +151,8 @@ body {
   }
 }  // Switch from flex-row to flex-col on mobile.
 
-// Gap.
-.gap-4 { gap: 4px; }
+// Gap
 .gap-8 { gap: 8px; }
-.gap-10 { gap: 10px; }
 
 // Flex/grow/shrink properties https://developer.mozilla.org/en-US/docs/Web/CSS/flex.
 .flex-1 { flex: 1 }  // Same as flex: 1 1 0 (grow, shrink, basis 0). Has similar effect to width: 100%;

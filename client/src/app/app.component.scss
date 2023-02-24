@@ -22,8 +22,12 @@
 
 
 .main-content {
-  margin: 24px;
+  margin: auto;
+  padding: 24px;
   @media (max-width: 599px) {
-    margin: 16px;
+    padding: 16px;
   }
+
+  // adds padding to the main content container on larger screens (above 1280px wide)
+  max-width: 1280px;
 }

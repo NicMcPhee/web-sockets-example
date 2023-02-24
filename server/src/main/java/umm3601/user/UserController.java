@@ -33,11 +33,11 @@ import io.javalin.http.NotFoundResponse;
  */
 public class UserController {
 
-  private static final String AGE_KEY = "age";
-  private static final String COMPANY_KEY = "company";
-  private static final String ROLE_KEY = "role";
-  private static final int REASONABLE_AGE_LIMIT = 150;
+  static final String AGE_KEY = "age";
+  static final String COMPANY_KEY = "company";
+  static final String ROLE_KEY = "role";
 
+  private static final int REASONABLE_AGE_LIMIT = 150;
   private static final String ROLE_REGEX = "^(admin|editor|viewer)$";
   public static final String EMAIL_REGEX = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 
@@ -118,7 +118,8 @@ public class UserController {
       filters.add(eq(AGE_KEY, targetAge));
     }
     if (ctx.queryParamMap().containsKey(COMPANY_KEY)) {
-      filters.add(regex(COMPANY_KEY,  Pattern.quote(ctx.queryParam(COMPANY_KEY)), "i"));
+      Pattern pattern = Pattern.compile(Pattern.quote(ctx.queryParam(COMPANY_KEY)), Pattern.CASE_INSENSITIVE);
+      filters.add(regex(COMPANY_KEY, pattern));
     }
     if (ctx.queryParamMap().containsKey(ROLE_KEY)) {
       String role = ctx.queryParamAsClass(ROLE_KEY, String.class)

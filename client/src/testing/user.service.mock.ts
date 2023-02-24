@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { AppComponent } from 'src/app/app.component';
 import { User, UserRole } from '../app/users/user';
 import { UserService } from '../app/users/user.service';
 
@@ -8,7 +9,9 @@ import { UserService } from '../app/users/user.service';
  * without having to create an actual service. It needs to be `Injectable` since
  * that's how services are typically provided to components.
  */
-@Injectable()
+@Injectable({
+  providedIn: AppComponent
+})
 export class MockUserService extends UserService {
   static testUsers: User[] = [
     {
@@ -44,7 +47,8 @@ export class MockUserService extends UserService {
     super(null);
   }
 
-  getUsers(filters: { role?: UserRole; age?: number; company?: string }): Observable<User[]> {
+  // skipcq: JS-0105
+  getUsers(_filters: { role?: UserRole; age?: number; company?: string }): Observable<User[]> {
     // Our goal here isn't to test (and thus rewrite) the service, so we'll
     // keep it simple and just return the test users regardless of what
     // filters are passed in.
@@ -54,15 +58,19 @@ export class MockUserService extends UserService {
     return of(MockUserService.testUsers);
   }
 
+  // skipcq: JS-0105
   getUserById(id: string): Observable<User> {
-    // If the specified ID is for the first test user,
+    // If the specified ID is for one of the test users,
     // return that user, otherwise return `null` so
     // we can test illegal user requests.
     if (id === MockUserService.testUsers[0]._id) {
       return of(MockUserService.testUsers[0]);
+    } else if (id === MockUserService.testUsers[1]._id) {
+      return of(MockUserService.testUsers[1]);
+    } else if (id === MockUserService.testUsers[2]._id) {
+      return of(MockUserService.testUsers[2]);
     } else {
       return of(null);
     }
   }
-
 }
