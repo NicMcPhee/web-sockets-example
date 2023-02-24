@@ -140,7 +140,7 @@ class MongoSpec {
   }
 
   @Test
-  public void over25SortedByName() {
+  void over25SortedByName() {
     List<Document> docs
       = userDocuments.find(gt("age", 25))
       .sort(Sorts.ascending("name"))
@@ -151,7 +151,7 @@ class MongoSpec {
   }
 
   @Test
-  public void over25AndIbmers() {
+  void over25AndIbmers() {
     List<Document> docs
       = userDocuments.find(and(gt("age", 25),
       eq("company", "IBM")))
@@ -161,7 +161,7 @@ class MongoSpec {
   }
 
   @Test
-  public void justNameAndEmail() {
+  void justNameAndEmail() {
     List<Document> docs
       = userDocuments.find().projection(fields(include("name", "email")))
       .into(new ArrayList<>());
@@ -173,7 +173,7 @@ class MongoSpec {
   }
 
   @Test
-  public void justNameAndEmailNoId() {
+  void justNameAndEmailNoId() {
     List<Document> docs
       = userDocuments.find()
       .projection(fields(include("name", "email"), excludeId()))
@@ -186,7 +186,7 @@ class MongoSpec {
   }
 
   @Test
-  public void justNameAndEmailNoIdSortedByCompany() {
+  void justNameAndEmailNoIdSortedByCompany() {
     List<Document> docs
       = userDocuments.find()
       .sort(Sorts.ascending("company"))
@@ -200,7 +200,7 @@ class MongoSpec {
   }
 
   @Test
-  public void ageCounts() {
+  void ageCounts() {
     List<Document> docs
       = userDocuments.aggregate(
       Arrays.asList(
@@ -224,7 +224,7 @@ class MongoSpec {
   }
 
   @Test
-  public void averageAge() {
+  void averageAge() {
     List<Document> docs
       = userDocuments.aggregate(
       Arrays.asList(
