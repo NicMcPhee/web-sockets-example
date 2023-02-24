@@ -10,9 +10,7 @@ import { UserService } from './user.service';
   templateUrl: './add-user.component.html',
   styleUrls: ['./add-user.component.scss']
 })
-export class AddUserComponent implements OnInit {
-
-  //addUserForm: UntypedFormGroup;
+export class AddUserComponent {
 
   addUserForm = new FormGroup({
     // We allow alphanumeric input and limit the length for name.
@@ -93,34 +91,29 @@ export class AddUserComponent implements OnInit {
   constructor(private userService: UserService, private snackBar: MatSnackBar, private router: Router) {
   }
 
-  formControlHasError(controlName: string) {
+  formControlHasError(controlName: string): boolean {
     return this.addUserForm.get(controlName).invalid &&
       (this.addUserForm.get(controlName).dirty || this.addUserForm.get(controlName).touched);
   }
 
-  getErrorMessage(name: keyof typeof this.addUserValidationMessages) {
-    for(const validationMessage of this.addUserValidationMessages[name]) {
-      if (this.addUserForm.get(name).hasError(validationMessage.type)) {
-        return validationMessage.message;
+  getErrorMessage(name: keyof typeof this.addUserValidationMessages): string {
+    for(const {type, message} of this.addUserValidationMessages[name]) {
+      if (this.addUserForm.get(name).hasError(type)) {
+        return message;
       }
     }
+    return 'Unknown error';
   }
-
-
-
-  ngOnInit() {
-  }
-
 
   submitForm() {
     this.userService.addUser(this.addUserForm.value).subscribe({
-      next: (newID) => {
+      next: (newId) => {
         this.snackBar.open(
           `Added user ${this.addUserForm.value.name}`,
           null,
           { duration: 2000 }
         );
-        this.router.navigate(['/users/', newID]);
+        this.router.navigate(['/users/', newId]);
       },
       error: err => {
         this.snackBar.open(
