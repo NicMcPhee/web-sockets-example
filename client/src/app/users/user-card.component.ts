@@ -11,9 +11,9 @@ export class UserCardComponent implements OnInit {
   @Input() user: User;
   @Input() simple ? = false;
 
-  constructor() { }
-
+  // skipcq
   ngOnInit(): void {
+    // do nothing, but the presence of this function makes other things work, skipcq: JS-0604
   }
 
 }
