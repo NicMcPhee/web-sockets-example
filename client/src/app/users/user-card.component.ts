@@ -6,14 +6,9 @@ import { User } from './user';
   templateUrl: './user-card.component.html',
   styleUrls: ['./user-card.component.scss']
 })
-export class UserCardComponent implements OnInit {
+export class UserCardComponent {
 
   @Input() user: User;
   @Input() simple ? = false;
-
-  // skipcq
-  ngOnInit(): void {
-    // do nothing, but the presence of this function makes other things work, skipcq: JS-0604
-  }
 
 }
