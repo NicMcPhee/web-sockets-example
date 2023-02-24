@@ -39,7 +39,6 @@ describe('AddUserComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddUserComponent);
     addUserComponent = fixture.componentInstance;
-    addUserComponent.ngOnInit();
     fixture.detectChanges();
     addUserForm = addUserComponent.addUserForm;
     expect(addUserForm).toBeDefined();
