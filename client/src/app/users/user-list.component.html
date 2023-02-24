@@ -1,11 +1,13 @@
 <div class="flex-row">
-  <div class="flex-1" fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10">
+  <div class="flex-1">
 
-    <mat-card appearance="outlined" class="search-card">
-      <mat-card-title class="user-list-title">Users</mat-card-title>
-      <mat-card-content class="flex-col" >
+    <mat-card class="search-card">
+      <mat-card-header>
+        <mat-card-title class="user-list-title">Users</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
 
-        <div class="flex-row gap-10 flex-wrap">
+        <div class="flex-row gap-8 flex-wrap">
           <!-- Examples of filtering in Angular -->
 
           <mat-form-field class="input-field">
@@ -23,7 +25,7 @@
           </mat-form-field>
         </div>
 
-        <div class="flex-row gap-10 flex-wrap">
+        <div class="flex-row gap-8 flex-wrap">
           <!-- Examples of filtering on the server -->
 
           <mat-form-field class="input-field">
@@ -46,7 +48,7 @@
         </div>
 
         <br>
-        <div class="flex-row gap-10 flex-wrap">
+        <div class="flex-row gap-8 flex-wrap">
           <label>View type: </label>
           <mat-radio-group aria-label="View type" [(ngModel)]="viewType" data-test="viewTypeRadio">
             <mat-radio-button value="card">Card</mat-radio-button>
@@ -60,17 +62,17 @@
 </div>
 
 <div class="flex-row">
-  <div class="flex-1" fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" *ngIf="serverFilteredUsers; else usersError" >
+  <div class="flex-1" *ngIf="serverFilteredUsers; else usersError" >
     <!-- Switch between card and list view based on the viewType variable, set above in the mar-radio-group -->
     <div [ngSwitch]="viewType">
 
       <!-- Card grid view -->
-      <div *ngSwitchCase="'card'" class="user-cards-container flex-row gap-10 flex-wrap">
-        <app-user-card [simple]="true" *ngFor="let user of filteredUsers" class="user-card" [user]="user" fxFlex="1 1 280px"></app-user-card>
+      <div *ngSwitchCase="'card'" class="user-cards-container flex-row gap-8 flex-wrap">
+        <app-user-card [simple]="true" *ngFor="let user of filteredUsers" class="user-card" [user]="user" ></app-user-card>
       </div>
 
       <!-- List view -->
-      <mat-card appearance="outlined" *ngSwitchCase="'list'">
+      <mat-card *ngSwitchCase="'list'">
         <mat-card-content>
           <mat-nav-list class="user-nav-list">
             <h3 mat-subheader>Users</h3>
@@ -88,7 +90,7 @@
 
   <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
   <ng-template #usersError>
-    <div class="flex-1" fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" class="user-error">
+    <div class="flex-1" class="user-error">
       <mat-error>
         There was a problem loading the users. Possibly the server is down or perhaps there are network
         issues.
