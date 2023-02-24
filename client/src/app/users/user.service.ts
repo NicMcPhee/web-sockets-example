@@ -112,7 +112,7 @@ export class UserService {
     return filteredUsers;
   }
 
-  addUser(newUser: User): Observable<string> {
+  addUser(newUser: Partial<User>): Observable<string> {
     // Send post request to add a new user with the user data as the body.
     return this.httpClient.post<{id: string}>(this.userUrl, newUser).pipe(map(res => res.id));
   }
