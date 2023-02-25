@@ -121,7 +121,7 @@ describe('Add user', () => {
       page.addUser(user);
 
       // We should get an error message
-      page.getSnackBar().should('contain', `Failed to add the user`);
+      page.getSnackBar().should('contain', `Problem contacting the server – Error Code:`);
 
       // We should have stayed on the new user page
       cy.url()

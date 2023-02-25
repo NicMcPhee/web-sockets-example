@@ -17,6 +17,7 @@ describe('AddUserComponent', () => {
   let fixture: ComponentFixture<AddUserComponent>;
 
   beforeEach(waitForAsync(() => {
+    TestBed.overrideProvider(UserService, { useValue: new MockUserService() });
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
@@ -30,7 +31,6 @@ describe('AddUserComponent', () => {
         RouterTestingModule
       ],
       declarations: [AddUserComponent],
-      providers: [{ provide: UserService, useValue: new MockUserService() }]
     }).compileComponents().catch(error => {
       expect(error).toBeNull();
     });
@@ -39,7 +39,6 @@ describe('AddUserComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddUserComponent);
     addUserComponent = fixture.componentInstance;
-    addUserComponent.ngOnInit();
     fixture.detectChanges();
     addUserForm = addUserComponent.addUserForm;
     expect(addUserForm).toBeDefined();
