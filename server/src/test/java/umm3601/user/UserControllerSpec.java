@@ -1,5 +1,6 @@
 package umm3601.user;
 
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static com.mongodb.client.model.Filters.eq;
@@ -16,6 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
 import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
@@ -29,7 +33,9 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatcher;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -208,6 +214,34 @@ class UserControllerSpec {
     verify(ctx).json(userArrayListCaptor.capture());
     verify(ctx).status(HttpStatus.OK);
     assertEquals(2, userArrayListCaptor.getValue().size());
+  }
+
+  @Test
+  void canGetUsersWithAge37Redux() throws JsonMappingException, JsonProcessingException {
+    // When the controller calls `ctx.queryParamMap`, return the expected map for an
+    // "?age=37" query.
+    when(ctx.queryParamMap()).thenReturn(Map.of(UserController.AGE_KEY, List.of("37")));
+    // When the controller calls `ctx.queryParamAsClass() to get the value associated with
+    // the "age" key, return an appropriate Validator.
+    Validator<Integer> validator = Validator.create(Integer.class, "37", UserController.AGE_KEY);
+    when(ctx.queryParamAsClass(UserController.AGE_KEY, Integer.class)).thenReturn(validator);
+
+    // Call the method under test.
+    userController.getUsers(ctx);
+
+    // Verify that `getUsers` included a call to `ctx.status(HttpStatus.OK)` at some point.
+    verify(ctx).status(HttpStatus.OK);
+
+    // Verify that `ctx.json()` is called with a `List` of `User`s.
+    // Each of those `User`s should have age 37.
+    verify(ctx).json(argThat(new ArgumentMatcher<List<User>>() {
+      public boolean matches(List<User> users) {
+        for (User user : users) {
+          assertEquals(37, user.age);
+        }
+        return true;
+      }
+    }));
   }
 
   /**
