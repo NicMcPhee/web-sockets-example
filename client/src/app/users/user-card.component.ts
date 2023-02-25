@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { User } from './user';
 
 @Component({
@@ -9,6 +9,6 @@ import { User } from './user';
 export class UserCardComponent {
 
   @Input() user: User;
-  @Input() simple ? = false;
+  @Input() simple?: boolean = false;
 
 }
