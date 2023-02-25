@@ -8,7 +8,7 @@ import { User } from './user';
 import { UserCardComponent } from './user-card.component';
 import { UserProfileComponent } from './user-profile.component';
 import { UserService } from './user.service';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
