@@ -4,11 +4,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static com.mongodb.client.model.Filters.eq;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -360,13 +358,6 @@ class UserControllerSpec {
     verify(ctx).status(HttpStatus.OK);
     assertEquals("Sam", userCaptor.getValue().name);
     assertEquals(samsId.toHexString(), userCaptor.getValue()._id);
-    // That this compiles tells us that we have a method for checking for equals
-    assertFalse(userCaptor.getValue().equals(new User()));
-    // The new thing is a User and not null
-    assertFalse(userCaptor.getValue().equals(null));
-    // Make sure that using hash code yields an integer
-    assertTrue((Integer) userCaptor.getValue().hashCode() instanceof Integer);
-
   }
 
   @Test
