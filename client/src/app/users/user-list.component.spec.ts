@@ -100,6 +100,12 @@ describe('User list', () => {
   });
 });
 
+/*
+ * This test is a little odd, but illustrates how we can use stubs
+ * to create mock objects (a service in this case) that be used for
+ * testing. Here we set up the mock UserService (userServiceStub) so that
+ * _always_ fails (throws an exception) when you request a set of users.
+ */
 describe('Misbehaving User List', () => {
   let userList: UserListComponent;
   let fixture: ComponentFixture<UserListComponent>;
@@ -113,10 +119,10 @@ describe('Misbehaving User List', () => {
     // stub UserService for test purposes
     userServiceStub = {
       getUsers: () => new Observable(observer => {
-        observer.error('Error-prone observable');
+        observer.error('getUsers() Observer generates an error');
       }),
       getUsersFiltered: () => new Observable(observer => {
-        observer.error('Error-prone observable');
+        observer.error('getUsersFiltered() Observer generates an error');
       })
     };
 
@@ -129,6 +135,8 @@ describe('Misbehaving User List', () => {
     });
   });
 
+  // Construct the `userList` used for the testing in the `it` statement
+  // below.
   beforeEach(waitForAsync(() => {
     TestBed.compileComponents().then(() => {
       fixture = TestBed.createComponent(UserListComponent);
@@ -138,7 +146,10 @@ describe('Misbehaving User List', () => {
   }));
 
   it('generates an error if we don\'t set up a UserListService', () => {
-    // Since the observer throws an error, we don't expect users to be defined.
+    // Since calling either getUsers() or getUsersFiltered() return
+    // Observables that then throw exceptions, we don't expect the component
+    // to be able to get a list of users, and serverFilteredUsers should
+    // be undefined.
     expect(userList.serverFilteredUsers).toBeUndefined();
   });
 });
