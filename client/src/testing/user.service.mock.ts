@@ -67,8 +67,8 @@ export class MockUserService extends UserService {
       return of(MockUserService.testUsers[0]);
     } else if (id === MockUserService.testUsers[1]._id) {
       return of(MockUserService.testUsers[1]);
-    } else if (id === MockUserService.testUsers[2]._id) {
-      return of(MockUserService.testUsers[2]);
+    // } else if (id === MockUserService.testUsers[2]._id) {
+    //  return of(MockUserService.testUsers[2]);
     } else {
       return of(null);
     }
