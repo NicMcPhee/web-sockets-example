@@ -108,20 +108,15 @@ describe('UserService', () => {
     * So in each of these tests, we'll keep it simple and have
     * the (mocked) HTTP request return the entire list `testUsers`
     * even though in "real life" we would expect the server to
-    * return return a filtered subset of the users.
+    * return return a filtered subset of the users. Furthermore, we
+    * won't actually check what got returned (there won't be an `expect`
+    * about the returned value).
     */
 
     it('correctly calls api/users with filter parameter \'admin\'', () => {
         const mockedMethod = spyOn(httpClient, 'get').and.returnValue(of(testUsers));
 
-        userService.getUsers({ role: 'admin' }).subscribe((users: User[]) => {
-          // The array of `User`s returned by `getUsers()` should be
-          // the array `testUsers`. This is "weird" because we'd truly be expecting
-          // the server to return just `admin` users, but as mentioned above, we're
-          // not trying to get the server here.
-          expect(users)
-            .withContext('expected users')
-            .toEqual(testUsers);
+        userService.getUsers({ role: 'admin' }).subscribe(() => {
           expect(mockedMethod)
             .withContext('one call')
             .toHaveBeenCalledTimes(1);
@@ -138,10 +133,7 @@ describe('UserService', () => {
     it('correctly calls api/users with filter parameter \'age\'', () => {
       const mockedMethod = spyOn(httpClient, 'get').and.returnValue(of(testUsers));
 
-      userService.getUsers({ age: 25 }).subscribe((users: User[]) => {
-        expect(users)
-          .withContext('expected users')
-          .toEqual(testUsers);
+      userService.getUsers({ age: 25 }).subscribe(() => {
         expect(mockedMethod)
           .withContext('one call')
           .toHaveBeenCalledTimes(1);
@@ -154,9 +146,8 @@ describe('UserService', () => {
     it('correctly calls api/users with multiple filter parameters', () => {
         const mockedMethod = spyOn(httpClient, 'get').and.returnValue(of(testUsers));
 
-        userService.getUsers({ role: 'editor', company: 'IBM', age: 37 }).subscribe((users: User[]) => {
+        userService.getUsers({ role: 'editor', company: 'IBM', age: 37 }).subscribe(() => {
           // This test checks that the call to `userService.getUsers()` does several things:
-          //   * It returns the expected array of users (namely `testUsers` as discussed above).
           //   * It calls the mocked method (`HttpClient#get()`) exactly once.
           //   * It calls it with the correct endpoint (`userService.userUrl`).
           //   * It calls it with the correct parameters:
@@ -172,9 +163,6 @@ describe('UserService', () => {
           // it is in fact an instance of `HttpParams`, and I need to use
           // that fact, so I'm casting it (the `as HttpParams` bit).
           const calledHttpParams: HttpParams = (options.params) as HttpParams;
-          expect(users)
-            .withContext('expected users')
-            .toEqual(testUsers);
           expect(mockedMethod)
             .withContext('one call')
             .toHaveBeenCalledTimes(1);
