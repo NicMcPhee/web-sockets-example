@@ -228,7 +228,7 @@ describe('UserService', () => {
           .toHaveBeenCalledTimes(1);
         expect(mockedMethod)
           .withContext('talks to the correct endpoint')
-          .toHaveBeenCalledWith(userService.userUrl + '/' + targetId);
+          .toHaveBeenCalledWith(`${userService.userUrl}/${targetId}`);
       });
     }));
   });
@@ -295,7 +295,7 @@ describe('UserService', () => {
       // paying attention to what is returned (undefined) didn't work well here,
       // but I'm putting something in here to remind us to look into that
       userService.addUser(testUsers[1]).subscribe((returnedString) => {
-        console.log('The thing returned was:' + returnedString);
+        console.log(`The thing returned was: ${returnedString}`);
         expect(mockedMethod)
           .withContext('one call')
           .toHaveBeenCalledTimes(1);
