@@ -36,6 +36,7 @@ public class UserController {
   static final String AGE_KEY = "age";
   static final String COMPANY_KEY = "company";
   static final String ROLE_KEY = "role";
+  static final String SORT_ORDER_KEY = "sortorder";
 
   private static final int REASONABLE_AGE_LIMIT = 150;
   private static final String ROLE_REGEX = "^(admin|editor|viewer)$";

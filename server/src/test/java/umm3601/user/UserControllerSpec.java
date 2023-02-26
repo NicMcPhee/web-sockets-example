@@ -311,8 +311,10 @@ class UserControllerSpec {
   void canGetUsersWithCompany() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
     queryParams.put(UserController.COMPANY_KEY, Arrays.asList(new String[] {"OHMNET"}));
+    queryParams.put(UserController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
     when(ctx.queryParam(UserController.COMPANY_KEY)).thenReturn("OHMNET");
+    when(ctx.queryParam(UserController.SORT_ORDER_KEY)).thenReturn("desc");
 
     userController.getUsers(ctx);
 
