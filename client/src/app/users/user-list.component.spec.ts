@@ -112,7 +112,6 @@ describe('Misbehaving User List', () => {
 
   let userServiceStub: {
     getUsers: () => Observable<User[]>;
-    getUsersFiltered: () => Observable<User[]>;
   };
 
   beforeEach(() => {
@@ -121,9 +120,6 @@ describe('Misbehaving User List', () => {
       getUsers: () => new Observable(observer => {
         observer.error('getUsers() Observer generates an error');
       }),
-      getUsersFiltered: () => new Observable(observer => {
-        observer.error('getUsersFiltered() Observer generates an error');
-      })
     };
 
     TestBed.configureTestingModule({
