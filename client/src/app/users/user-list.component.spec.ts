@@ -142,10 +142,26 @@ describe('Misbehaving User List', () => {
   }));
 
   it('generates an error if we don\'t set up a UserListService', () => {
+    const mockedMethod = spyOn(userList, 'getUsersFromServer').and.callThrough();
     // Since calling either getUsers() or getUsersFiltered() return
     // Observables that then throw exceptions, we don't expect the component
     // to be able to get a list of users, and serverFilteredUsers should
     // be undefined.
-    expect(userList.serverFilteredUsers).toBeUndefined();
+    expect(userList.serverFilteredUsers)
+      .withContext(`service can't give values to the list if it's not there`)
+      .toBeUndefined();
+    //expect(fixture.detectChanges)
+    //  .withContext('will generate an error if the fixture updates')
+    //  .toThrow(anError);
+    expect(userList.getUsersFromServer)
+      .withContext('will generate the right error if we try to getUsersFromServer')
+      .toThrow();
+    expect(mockedMethod)
+      .withContext('will be called')
+      .toHaveBeenCalled();
+    expect(userList.errMsg)
+      .withContext('the error message will be')
+      .toContain('Problem contacting the server – Error Code:');
+      console.log(userList.errMsg);
   });
 });
