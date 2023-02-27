@@ -198,14 +198,14 @@ describe('UserService', () => {
     });
   });
 
-  describe('When getUserByID() is given an ID', () => {
-   /* We really don't care what `getUserByID()` returns. Since all the
-    * interesting work is happening on the server, `getUserByID()`
+  describe('When getUserById() is given an ID', () => {
+   /* We really don't care what `getUserById()` returns. Since all the
+    * interesting work is happening on the server, `getUserById()`
     * is really just a "pass through" that returns whatever it receives,
     * without any "post processing" or manipulation. The test in this
     * `describe` confirms that the HTTP request is properly formed
     * and sent out in the world, but we don't _really_ care about
-    * what `getUserByID()` returns as long as it's what the HTTP
+    * what `getUserById()` returns as long as it's what the HTTP
     * request returns.
     *
     * So in this test, we'll keep it simple and have
