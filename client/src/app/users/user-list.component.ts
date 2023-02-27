@@ -32,6 +32,7 @@ export class UserListComponent implements OnInit, OnDestroy  {
   public userCompany: string;
   public viewType: 'card' | 'list' = 'card';
 
+  errMsg = '';
   private ngUnsubscribe = new Subject<void>();
 
 
@@ -72,14 +73,13 @@ export class UserListComponent implements OnInit, OnDestroy  {
       },
       // If we observe an error in that Observable, put that message in a snackbar so we can learn more
       error: (err) => {
-        let message = '';
         if (err.error instanceof ErrorEvent) {
-          message = `Problem in the client – Error: ${err.error.message}`;
+          this.errMsg = `Problem in the client – Error: ${err.error.message}`;
         } else {
-          message = `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`;
+          this.errMsg = `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`;
         }
         this.snackBar.open(
-          message,
+          this.errMsg,
           'OK',
           // The message will disappear after 6 seconds.
           { duration: 6000 });
