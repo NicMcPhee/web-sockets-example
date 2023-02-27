@@ -60,15 +60,14 @@ export class MockUserService extends UserService {
 
   // skipcq: JS-0105
   getUserById(id: string): Observable<User> {
-    // If the specified ID is for one of the test users,
+    // If the specified ID is for one of the first two test users,
     // return that user, otherwise return `null` so
     // we can test illegal user requests.
+    // If you need more, just add those in too.
     if (id === MockUserService.testUsers[0]._id) {
       return of(MockUserService.testUsers[0]);
     } else if (id === MockUserService.testUsers[1]._id) {
       return of(MockUserService.testUsers[1]);
-    } else if (id === MockUserService.testUsers[2]._id) {
-      return of(MockUserService.testUsers[2]);
     } else {
       return of(null);
     }

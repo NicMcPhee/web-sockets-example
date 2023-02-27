@@ -1,5 +1,6 @@
 <div class="flex-row">
-  <div class="flex-1">
+  <div class="flex-1" *ngIf="user; else loading">
     <app-user-card [user]="this.user"></app-user-card>
   </div>
 </div>
+<ng-template #loading>Loading User Profile data...</ng-template>
