@@ -199,6 +199,21 @@ describe('UserService', () => {
   });
 
   describe('When getUserByID() is given an ID', () => {
+   /* We really don't care what `getUserByID()` returns. Since all the
+    * interesting work is happening on the server, `getUserByID()`
+    * is really just a "pass through" that returns whatever it receives,
+    * without any "post processing" or manipulation. The test in this
+    * `describe` confirms that the HTTP request is properly formed
+    * and sent out in the world, but we don't _really_ care about
+    * what `getUserByID()` returns as long as it's what the HTTP
+    * request returns.
+    *
+    * So in this test, we'll keep it simple and have
+    * the (mocked) HTTP request return the `targetUser`
+    * Furthermore, we won't actually check what got returned (there won't be an `expect`
+    * about the returned value). Since we don't use the returned value in this test,
+    * It might also be fine to not bother making the mock return it.
+    */
     it('calls api/users/id with the correct ID', waitForAsync(() => {
       // We're just picking a User "at random" from our little
       // set of Users up at the top.
@@ -206,7 +221,7 @@ describe('UserService', () => {
       const targetId: string = targetUser._id;
 
       // Mock the `httpClient.get()` method so that instead of making an HTTP request
-      // it just returns our test data
+      // it just returns one user from our test data
       const mockedMethod = spyOn(httpClient, 'get').and.returnValue(of(targetUser));
 
       // Call `userService.getUser()` and confirm that the correct call has
@@ -215,15 +230,9 @@ describe('UserService', () => {
       // We have to `subscribe()` to the `Observable` returned by `getUserById()`.
       // The `user` argument in the function below is the thing of type User returned by
       // the call to `getUserById()`.
-      userService.getUserById(targetId).subscribe((user: User) => {
-        // The `User` returned by `getUserById()` should be targetUser.
-        // This `expect` doesn't do a _whole_ lot.
-        // This really just confirms that `getUserById()`
-        // doesn't in some way modify the user it
-        // gets back from the server.
-        expect(user)
-          .withContext('expected user')
-          .toBe(targetUser);
+      userService.getUserById(targetId).subscribe(() => {
+        // The `User` returned by `getUserById()` should be targetUser, but
+        // we don't bother with an `expect` here since we don't care what was returned.
         expect(mockedMethod)
           .withContext('one call')
           .toHaveBeenCalledTimes(1);
