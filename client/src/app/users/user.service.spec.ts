@@ -61,6 +61,23 @@ describe('UserService', () => {
   });
 
   describe('When getUsers() is called with no parameters', () => {
+   /* We really don't care what `getUsers()` returns. Since all the
+    * filtering (when there is any) is happening on the server,
+    * `getUsers()` is really just a "pass through" that returns whatever it receives,
+    * without any "post processing" or manipulation. The test in this
+    * `describe` confirms that the HTTP request is properly formed
+    * and sent out in the world, but we don't _really_ care about
+    * what `getUsers()` returns as long as it's what the HTTP
+    * request returns.
+    *
+    * So in this test, we'll keep it simple and have
+    * the (mocked) HTTP request return the entire list `testUsers`
+    * even though in "real life" we would expect the server to
+    * return return a filtered subset of the users. Furthermore, we
+    * won't actually check what got returned (there won't be an `expect`
+    * about the returned value). Since we don't use the returned value in this test,
+    * It might also be fine to not bother making the mock return it.
+    */
     it('calls `api/users`', waitForAsync(() => {
       // Mock the `httpClient.get()` method, so that instead of making an HTTP request,
       // it just returns our test data.
@@ -72,12 +89,7 @@ describe('UserService', () => {
       // We have to `subscribe()` to the `Observable` returned by `getUsers()`.
       // The `users` argument in the function is the array of Users returned by
       // the call to `getUsers()`.
-      userService.getUsers().subscribe((users: User[]) => {
-        // The array of `User`s returned by `getUsers()` should be
-        // the array `testUsers`.
-        expect(users)
-          .withContext('expected users')
-          .toEqual(testUsers);
+      userService.getUsers().subscribe(() => {
         // The mocked method (`httpClient.get()`) should have been called
         // exactly one time.
         expect(mockedMethod)
@@ -95,7 +107,8 @@ describe('UserService', () => {
 
   describe('When getUsers() is called with parameters, it correctly forms the HTTP request (Javalin/Server filtering)', () => {
     /*
-    * We really don't care what `getUsers()` returns in the cases
+    * As in the test of `getUsers()` that takes in no filters in the params,
+    * we really don't care what `getUsers()` returns in the cases
     * where the filtering is happening on the server. Since all the
     * filtering is happening on the server, `getUsers()` is really
     * just a "pass through" that returns whatever it receives, without
