@@ -41,7 +41,7 @@ dependencies {
   implementation 'org.mongojack:mongojack:4.8.0'
 
   // Jackson support modules for Java 8 datatypes
-  implementation 'com.fasterxml.jackson.module:jackson-module-parameter-names:2.14.2'
+  implementation 'com.fasterxml.jackson.module:jackson-module-parameter-names:2.15.1'
   implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.14.2'
   implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2'
 
