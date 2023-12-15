@@ -13,7 +13,6 @@ export class ActivatedRouteStub {
   private subject = new ReplaySubject<ParamMap>(1);
 
   /** The mock paramMap observable */
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   readonly paramMap = this.subject.asObservable();
 
   constructor(initialParams?: Params) {

@@ -334,7 +334,7 @@ class UserControllerSpec {
   }
 
   @Test
-  public void canGetUsersWithCompanyLowercase() throws IOException {
+  void canGetUsersWithCompanyLowercase() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
     queryParams.put(UserController.COMPANY_KEY, Arrays.asList(new String[] {"ohm"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
