@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -38,6 +39,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import io.javalin.validation.BodyValidator;
@@ -645,4 +647,31 @@ class UserControllerSpec {
     assertEquals(0, db.getCollection("users").countDocuments(eq("_id", new ObjectId(testID))));
   }
 
+  @Test
+  public void testGenerateAvatar() throws NoSuchAlgorithmException {
+    // Arrange
+    String email = "test@example.com";
+    UserController controller = Mockito.spy(userController);
+    when(controller.md5(email)).thenReturn("md5hash");
+
+    // Act
+    String avatar = controller.generateAvatar(email);
+
+    // Assert
+    assertEquals("https://gravatar.com/avatar/md5hash?d=identicon", avatar);
+  }
+
+  @Test
+  public void testGenerateAvatarWithException() throws NoSuchAlgorithmException {
+    // Arrange
+    String email = "test@example.com";
+    UserController controller = Mockito.spy(userController);
+    when(controller.md5(email)).thenThrow(NoSuchAlgorithmException.class);
+
+    // Act
+    String avatar = controller.generateAvatar(email);
+
+    // Assert
+    assertEquals("https://gravatar.com/avatar/?d=mp", avatar);
+  }
 }

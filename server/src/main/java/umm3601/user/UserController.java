@@ -214,7 +214,7 @@ public class UserController {
    * @param email the email to generate an avatar for
    * @return a URI pointing to an avatar image
    */
-  private String generateAvatar(String email) {
+  String generateAvatar(String email) {
     String avatar;
     try {
       // generate unique md5 code for identicon
