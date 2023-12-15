@@ -664,7 +664,7 @@ class UserControllerSpec {
    * @throws NoSuchAlgorithmException
    */
   @Test
-  public void testGenerateAvatar() throws NoSuchAlgorithmException {
+  void testGenerateAvatar() throws NoSuchAlgorithmException {
     // Arrange
     String email = "test@example.com";
     UserController controller = Mockito.spy(userController);
@@ -696,7 +696,7 @@ class UserControllerSpec {
    * @throws NoSuchAlgorithmException
    */
   @Test
-  public void testGenerateAvatarWithException() throws NoSuchAlgorithmException {
+  void testGenerateAvatarWithException() throws NoSuchAlgorithmException {
     // Arrange
     String email = "test@example.com";
     UserController controller = Mockito.spy(userController);
