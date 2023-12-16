@@ -305,7 +305,6 @@ describe('UserService', () => {
       // paying attention to what is returned (undefined) didn't work well here,
       // but I'm putting something in here to remind us to look into that
       userService.addUser(testUsers[1]).subscribe((returnedString) => {
-        console.log(`The thing returned was: ${returnedString}`);
         expect(mockedMethod)
           .withContext('one call')
           .toHaveBeenCalledTimes(1);
