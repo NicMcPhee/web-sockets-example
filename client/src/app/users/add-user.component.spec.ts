@@ -259,7 +259,7 @@ describe('AddUserComponent', () => {
       // The type statement is needed to ensure that `controlName` isn't just any
       // random string, but rather one of the keys of the `addUserValidationMessages`
       // map in the component.
-      let controlName: keyof typeof addUserComponent.addUserValidationMessages = 'name';
+      const controlName: keyof typeof addUserComponent.addUserValidationMessages = 'name';
       addUserComponent.addUserForm.get(controlName).setErrors({'unknown': true});
       expect(addUserComponent.getErrorMessage(controlName)).toEqual('Unknown error');
     });
@@ -270,8 +270,6 @@ describe('AddUserComponent#submitForm()', () => {
   let component: AddUserComponent;
   let fixture: ComponentFixture<AddUserComponent>;
   let userService: UserService;
-  let httpTestingController: HttpTestingController;
-  let router: Router;
   let location: Location;
 
   beforeEach(() => {
@@ -299,9 +297,12 @@ describe('AddUserComponent#submitForm()', () => {
     fixture = TestBed.createComponent(AddUserComponent);
     component = fixture.componentInstance;
     userService = TestBed.inject(UserService);
-    router = TestBed.inject(Router);
     location = TestBed.inject(Location);
-    httpTestingController = TestBed.inject(HttpTestingController);
+    // We need to inject the router and the HttpTestingController, but
+    // never need to use them. So, we can just inject them into the TestBed
+    // and ignore the returned values.
+    TestBed.inject(Router);
+    TestBed.inject(HttpTestingController);
     fixture.detectChanges();
   });
 
@@ -361,7 +362,7 @@ describe('AddUserComponent#submitForm()', () => {
   // nature of navigation.
   it('should call addUser() and handle error response', () => {
     // Save the original path so we can check that it doesn't change.
-    let path = location.path();
+    const path = location.path();
     // A canned error response to be returned by the spy.
     const errorResponse = { status: 500, message: 'Server error' };
     // "Spy" on the `.addUser()` method in the user service. Here we basically
