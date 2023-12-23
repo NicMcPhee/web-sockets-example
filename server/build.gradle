@@ -34,16 +34,8 @@ dependencies {
   // Mongo DB Driver for Java
   implementation 'org.mongodb:mongodb-driver-sync:4.11.1'
 
-  // Jackson, a JSON library for Java
-  implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.1'
-
   // MongoJack, MongoDB integration for Jackson
   implementation 'org.mongojack:mongojack:4.8.1'
-
-  // Jackson support modules for Java 8 datatypes
-  implementation 'com.fasterxml.jackson.module:jackson-module-parameter-names:2.15.1'
-  implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.14.2'
-  implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.1'
 
   // Simple Logging Facade for Java
   implementation 'org.slf4j:slf4j-simple:2.0.9'
