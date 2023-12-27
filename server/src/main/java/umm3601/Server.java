@@ -25,8 +25,8 @@ public class Server {
 
     // Get the MongoDB address and database name from environment variables and
     // if they aren't set, use the defaults of "localhost" and "dev".
-    String mongoAddr = System.getenv().getOrDefault("MONGO_ADDR", "localhost");
-    String databaseName = System.getenv().getOrDefault("MONGO_DB", "dev");
+    String mongoAddr = getEnvOrDefault("MONGO_ADDR", "localhost");
+    String databaseName = getEnvOrDefault("MONGO_DB", "dev");
 
     // Set up the MongoDB client
     MongoClient mongoClient = server.configureDatabase(mongoAddr, databaseName);
@@ -43,6 +43,16 @@ public class Server {
     server.setupUserRoutes(javalin, userController);
 
     javalin.start(SERVER_PORT);
+  /**
+   * Get the value of an environment variable, or return a default value if it's not set.
+   *
+   * @param envName The name of the environment variable to get
+   * @param defaultValue The default value to use if the environment variable isn't set
+   *
+   * @return The value of the environment variable, or the default value if it's not set
+   */
+  private static String getEnvOrDefault(String envName, String defaultValue) {
+    return System.getenv().getOrDefault(envName, defaultValue);
   }
 
   /**
