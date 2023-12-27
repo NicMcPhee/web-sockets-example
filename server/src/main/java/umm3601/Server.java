@@ -36,6 +36,12 @@ public class Server {
 
     Javalin javalin = server.configureJavalin(mongoClient, database);
 
+    // Get the user controller.
+    // GROUPS SHOULD CREATE THEIR OWN CONTROLLER AND ROUTES FOR WHATEVER
+    // DATA THEY'RE WORKING WITH.
+    UserController userController = new UserController(database);
+    server.setupUserRoutes(javalin, userController);
+
     javalin.start(SERVER_PORT);
   }
 
@@ -50,6 +56,10 @@ public class Server {
    *
    * This sets both the `mongoClient` and `database` fields
    * so they can be used when setting up the Javalin server.
+   *
+   * @param mongoAddr The address of the MongoDB server
+   * @param databaseName The name of the database to use
+   * @return The MongoDB client object
    */
   private MongoClient configureDatabase(String mongoAddr, String databaseName) {
     // Setup the MongoDB client object with the information we set earlier
@@ -66,9 +76,20 @@ public class Server {
   }
 
   private Javalin configureJavalin(MongoClient mongoClient, MongoDatabase database) {
-    // Initialize dependencies
-    UserController userController = new UserController(database);
-
+    /*
+     * Create a Javalin server instance. We're using the "create" method
+     * rather than the "start" method here because we want to set up some
+     * things before the server actually starts. If we used "start" it would
+     * start the server immediately and we wouldn't be able to do things like
+     * set up routes. We'll call the "start" method later to actually start
+     * the server.
+     *
+     * `plugins.register(new RouteOverviewPlugin("/api"))` adds
+     * a helpful endpoint for us to use during development. In particular
+     * `http://localhost:4567/api` shows all of the available endpoints and
+     * what HTTP methods they use. (Replace `localhost` and `4567` with whatever server
+     * and  port you're actually using, if they are different.)
+     */
     Javalin server = Javalin.create(config ->
       config.plugins.register(new RouteOverviewPlugin("/api"))
     );
@@ -85,19 +106,6 @@ public class Server {
     });
     Runtime.getRuntime().addShutdownHook(new Thread(server::stop));
 
-    // List users, filtered using query parameters
-    server.get("/api/users", userController::getUsers);
-
-    // Get the specified user
-    server.get("/api/users/{id}", userController::getUser);
-
-    // Delete the specified user
-    server.delete("/api/users/{id}", userController::deleteUser);
-
-    // Add new user with the user info being in the JSON body
-    // of the HTTP request
-    server.post("/api/users", userController::addNewUser);
-
     // This catches any uncaught exceptions thrown in the server
     // code and turns them into a 500 response ("Internal Server
     // Error Response"). In general you'll like to *never* actually
@@ -112,5 +120,44 @@ public class Server {
     });
 
     return server;
+  }
+
+  /**
+   * Setup routes for the `user` collection endpoints.
+   *
+   * These endpoints are:
+   *   - `GET /api/users?age=NUMBER&company=STRING&name=STRING`
+   *      - List users, filtered using query parameters
+   *      - `age`, `company`, and `name` are optional query parameters
+   *   - `GET /api/users/:id`
+   *       - Get the specified user
+   *   - `DELETE /api/users/:id`
+   *      - Delete the specified user
+   *   - `POST /api/users`
+   *      - Create a new user
+   *      - The user info is in the JSON body of the HTTP request
+   *
+   * The `userController` parameter is an instance of `UserController` which
+   * has methods that handle the different endpoints.
+   *
+   * GROUPS SHOULD CREATE THEIR OWN CONTROLLERS AND ROUTES FOR WHATEVER
+   * DATA THEY'RE WORKING WITH.
+   *
+   * @param server The Javalin server instance
+   * @param userController The controller that handles the user endpoints
+   */
+  private void setupUserRoutes(Javalin server, UserController userController) {
+    // List users, filtered using query parameters
+    server.get("/api/users", userController::getUsers);
+
+    // Get the specified user
+    server.get("/api/users/{id}", userController::getUser);
+
+    // Delete the specified user
+    server.delete("/api/users/{id}", userController::deleteUser);
+
+    // Add new user with the user info being in the JSON body
+    // of the HTTP request
+    server.post("/api/users", userController::addNewUser);
   }
 }
