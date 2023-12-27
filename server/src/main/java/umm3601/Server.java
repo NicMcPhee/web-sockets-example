@@ -93,18 +93,9 @@ public class Server {
     Javalin server = Javalin.create(config ->
       config.plugins.register(new RouteOverviewPlugin("/api"))
     );
-    /*
-     * We want to shut the `mongoClient` down if the server either
-     * fails to start, or when it's shutting down for whatever reason.
-     * Since the mongClient needs to be available throughout the
-     * life of the server, the only way to do this is to wait for
-     * these events and close it then.
-     */
-    server.events(event -> {
-      event.serverStartFailed(mongoClient::close);
-      event.serverStopped(mongoClient::close);
-    });
-    Runtime.getRuntime().addShutdownHook(new Thread(server::stop));
+
+    // Configure the MongoDB client and the Javalin server to shut down gracefully.
+    configureShutdowns(mongoClient, server);
 
     // This catches any uncaught exceptions thrown in the server
     // code and turns them into a 500 response ("Internal Server
@@ -120,6 +111,31 @@ public class Server {
     });
 
     return server;
+  }
+
+  /**
+   * Configure the server and the MongoDB client to shut down gracefully.
+   *
+   * @param mongoClient The MongoDB client
+   * @param server The Javalin server instance
+   */
+  private void configureShutdowns(MongoClient mongoClient, Javalin server) {
+    /*
+     * We want the server to shut down gracefully if we kill it
+     * or if the JVM dies for some reason.
+     */
+    Runtime.getRuntime().addShutdownHook(new Thread(server::stop));
+    /*
+     * We want to shut the `mongoClient` down if the server either
+     * fails to start, or when it's shutting down for whatever reason.
+     * Since the mongClient needs to be available throughout the
+     * life of the server, the only way to do this is to wait for
+     * these events and close it then.
+     */
+    server.events(event -> {
+      event.serverStartFailed(mongoClient::close);
+      event.serverStopped(mongoClient::close);
+    });
   }
 
   /**
