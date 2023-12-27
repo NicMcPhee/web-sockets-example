@@ -17,29 +17,55 @@ import umm3601.user.UserController;
 
 public class Server {
 
+  // The port that the server should run on.
   private static final int SERVER_PORT = 4567;
 
   public static void main(String[] args) {
+    Server server = new Server();
 
     // Get the MongoDB address and database name from environment variables and
     // if they aren't set, use the defaults of "localhost" and "dev".
     String mongoAddr = System.getenv().getOrDefault("MONGO_ADDR", "localhost");
     String databaseName = System.getenv().getOrDefault("MONGO_DB", "dev");
 
-    // Setup the MongoDB client object with the information we set earlier
-    MongoClient mongoClient
-      = MongoClients.create(MongoClientSettings
-        .builder()
-        .applyToClusterSettings(builder -> builder.hosts(Arrays.asList(new ServerAddress(mongoAddr))))
-        // Old versions of the mongodb-driver-sync package encoded UUID values (universally unique identifiers) in
-        // a non-standard way. This option says to use the standard encoding.
-        // See: https://studio3t.com/knowledge-base/articles/mongodb-best-practices-uuid-data/
-        .uuidRepresentation(UuidRepresentation.STANDARD)
-        .build());
+    // Set up the MongoDB client
+    MongoClient mongoClient = server.configureDatabase(mongoAddr, databaseName);
 
     // Get the database
     MongoDatabase database = mongoClient.getDatabase(databaseName);
 
+    Javalin javalin = server.configureJavalin(mongoClient, database);
+
+    javalin.start(SERVER_PORT);
+  }
+
+  /**
+   * Setup the MongoDB database connection.
+   *
+   * This "wires up" the database using either system environment variables
+   * or default values. If you're running the server locally without any environment
+   * variables set, this will connect to the `dev` database running on your computer
+   * (`localhost`). If you're running the server on Digital Ocean using our setup
+   * script, this will connect to the production database running on server.
+   *
+   * This sets both the `mongoClient` and `database` fields
+   * so they can be used when setting up the Javalin server.
+   */
+  private MongoClient configureDatabase(String mongoAddr, String databaseName) {
+    // Setup the MongoDB client object with the information we set earlier
+    MongoClient mongoClient = MongoClients.create(MongoClientSettings
+      .builder()
+      .applyToClusterSettings(builder -> builder.hosts(Arrays.asList(new ServerAddress(mongoAddr))))
+      // Old versions of the mongodb-driver-sync package encoded UUID values (universally unique identifiers) in
+      // a non-standard way. This option says to use the standard encoding.
+      // See: https://studio3t.com/knowledge-base/articles/mongodb-best-practices-uuid-data/
+      .uuidRepresentation(UuidRepresentation.STANDARD)
+      .build());
+
+    return mongoClient;
+  }
+
+  private Javalin configureJavalin(MongoClient mongoClient, MongoDatabase database) {
     // Initialize dependencies
     UserController userController = new UserController(database);
 
@@ -58,8 +84,6 @@ public class Server {
       event.serverStopped(mongoClient::close);
     });
     Runtime.getRuntime().addShutdownHook(new Thread(server::stop));
-
-    server.start(SERVER_PORT);
 
     // List users, filtered using query parameters
     server.get("/api/users", userController::getUsers);
@@ -86,5 +110,7 @@ public class Server {
     server.exception(Exception.class, (e, ctx) -> {
       throw new InternalServerErrorResponse(e.toString());
     });
+
+    return server;
   }
 }
