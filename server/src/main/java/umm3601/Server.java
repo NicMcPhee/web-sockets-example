@@ -20,29 +20,36 @@ public class Server {
   // The port that the server should run on.
   private static final int SERVER_PORT = 4567;
 
-  public static void main(String[] args) {
-    Server server = new Server();
+  private final MongoClient mongoClient;
+  private final UserController userController;
 
+  public static void main(String[] args) {
     // Get the MongoDB address and database name from environment variables and
     // if they aren't set, use the defaults of "localhost" and "dev".
     String mongoAddr = getEnvOrDefault("MONGO_ADDR", "localhost");
     String databaseName = getEnvOrDefault("MONGO_DB", "dev");
 
     // Set up the MongoDB client
-    MongoClient mongoClient = server.configureDatabase(mongoAddr, databaseName);
-
+    MongoClient mongoClient = configureDatabase(mongoAddr, databaseName);
     // Get the database
     MongoDatabase database = mongoClient.getDatabase(databaseName);
-
-    Javalin javalin = server.configureJavalin(mongoClient, database);
-
     // Get the user controller.
     // GROUPS SHOULD CREATE THEIR OWN CONTROLLER AND ROUTES FOR WHATEVER
     // DATA THEY'RE WORKING WITH.
     UserController userController = new UserController(database);
-    server.setupUserRoutes(javalin, userController);
 
-    javalin.start(SERVER_PORT);
+    // Construct the server
+    Server server = new Server(mongoClient, userController);
+
+    // Start the server
+    server.startServer();
+  }
+
+  public Server(MongoClient mongoClient, UserController userController) {
+    this.mongoClient = mongoClient;
+    this.userController = userController;
+  }
+
   /**
    * Get the value of an environment variable, or return a default value if it's not set.
    *
@@ -71,7 +78,7 @@ public class Server {
    * @param databaseName The name of the database to use
    * @return The MongoDB client object
    */
-  private MongoClient configureDatabase(String mongoAddr, String databaseName) {
+  private static MongoClient configureDatabase(String mongoAddr, String databaseName) {
     // Setup the MongoDB client object with the information we set earlier
     MongoClient mongoClient = MongoClients.create(MongoClientSettings
       .builder()
@@ -85,7 +92,16 @@ public class Server {
     return mongoClient;
   }
 
-  private Javalin configureJavalin(MongoClient mongoClient, MongoDatabase database) {
+private void startServer() {
+    Javalin javalin = configureJavalin();
+    // Setup the routes for the `UserController`.
+    // GROUPS SHOULD CREATE THEIR OWN CONTROLLER(S) AND ROUTES FOR WHATEVER
+    // DATA THEY'RE WORKING WITH.
+    setupRoutes(javalin);
+    javalin.start(SERVER_PORT);
+  }
+
+  private Javalin configureJavalin() {
     /*
      * Create a Javalin server instance. We're using the "create" method
      * rather than the "start" method here because we want to set up some
@@ -105,7 +121,7 @@ public class Server {
     );
 
     // Configure the MongoDB client and the Javalin server to shut down gracefully.
-    configureShutdowns(mongoClient, server);
+    configureShutdowns(server);
 
     // This catches any uncaught exceptions thrown in the server
     // code and turns them into a 500 response ("Internal Server
@@ -129,7 +145,7 @@ public class Server {
    * @param mongoClient The MongoDB client
    * @param server The Javalin server instance
    */
-  private void configureShutdowns(MongoClient mongoClient, Javalin server) {
+  private void configureShutdowns(Javalin server) {
     /*
      * We want the server to shut down gracefully if we kill it
      * or if the JVM dies for some reason.
