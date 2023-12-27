@@ -23,6 +23,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.mongojack.JacksonMongoCollection;
 
+import io.javalin.Javalin;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
@@ -33,6 +34,8 @@ import io.javalin.http.NotFoundResponse;
  */
 public class UserController {
 
+  private static final String API_USERS = "/api/users";
+  private static final String API_USER_BY_ID = "/api/users/{id}";
   static final String AGE_KEY = "age";
   static final String COMPANY_KEY = "company";
   static final String ROLE_KEY = "role";
@@ -241,5 +244,44 @@ public class UserController {
       result.append(String.format("%02x", b));
     }
     return result.toString();
+  }
+
+  /**
+   * Setup routes for the `user` collection endpoints.
+   *
+   * These endpoints are:
+   *   - `GET /api/users?age=NUMBER&company=STRING&name=STRING`
+   *      - List users, filtered using query parameters
+   *      - `age`, `company`, and `name` are optional query parameters
+   *   - `GET /api/users/:id`
+   *       - Get the specified user
+   *   - `DELETE /api/users/:id`
+   *      - Delete the specified user
+   *   - `POST /api/users`
+   *      - Create a new user
+   *      - The user info is in the JSON body of the HTTP request
+   *
+   * The `userController` parameter is an instance of `UserController` which
+   * has methods that handle the different endpoints.
+   *
+   * GROUPS SHOULD CREATE THEIR OWN CONTROLLERS AND ROUTES FOR WHATEVER
+   * DATA THEY'RE WORKING WITH.
+   *
+   * @param server The Javalin server instance
+   * @param userController The controller that handles the user endpoints
+   */
+  public void setupUserRoutes(Javalin server) {
+    // List users, filtered using query parameters
+    server.get(API_USERS, this::getUsers);
+
+    // Get the specified user
+    server.get(API_USER_BY_ID, this::getUser);
+
+    // Delete the specified user
+    server.delete(API_USER_BY_ID, this::deleteUser);
+
+    // Add new user with the user info being in the JSON body
+    // of the HTTP request
+    server.post(API_USERS, this::addNewUser);
   }
 }

@@ -139,41 +139,15 @@ public class Server {
   }
 
   /**
-   * Setup routes for the `user` collection endpoints.
-   *
-   * These endpoints are:
-   *   - `GET /api/users?age=NUMBER&company=STRING&name=STRING`
-   *      - List users, filtered using query parameters
-   *      - `age`, `company`, and `name` are optional query parameters
-   *   - `GET /api/users/:id`
-   *       - Get the specified user
-   *   - `DELETE /api/users/:id`
-   *      - Delete the specified user
-   *   - `POST /api/users`
-   *      - Create a new user
-   *      - The user info is in the JSON body of the HTTP request
-   *
-   * The `userController` parameter is an instance of `UserController` which
-   * has methods that handle the different endpoints.
-   *
-   * GROUPS SHOULD CREATE THEIR OWN CONTROLLERS AND ROUTES FOR WHATEVER
-   * DATA THEY'RE WORKING WITH.
+   * Setup routes for the server.
    *
    * @param server The Javalin server instance
-   * @param userController The controller that handles the user endpoints
    */
-  private void setupUserRoutes(Javalin server, UserController userController) {
-    // List users, filtered using query parameters
-    server.get("/api/users", userController::getUsers);
-
-    // Get the specified user
-    server.get("/api/users/{id}", userController::getUser);
-
-    // Delete the specified user
-    server.delete("/api/users/{id}", userController::deleteUser);
-
-    // Add new user with the user info being in the JSON body
-    // of the HTTP request
-    server.post("/api/users", userController::addNewUser);
+  private void setupRoutes(Javalin server) {
+    // Setup routes for the `user` collection endpoints.
+    // GROUPS SHOULD REMOVE REFERENCES TO THE `user` COLLECTION
+    // AND REPLACE THEM WITH WHATEVER DATA THEY'RE WORKING WITH.
+    userController.setupUserRoutes(server);
+    // Add setup methods for other controllers here...
   }
 }
