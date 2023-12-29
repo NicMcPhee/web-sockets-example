@@ -45,7 +45,7 @@ public class Server {
 
     // Get the controllers for the server; you'll add your own controllers
     // in `getControllers` as you create them.
-    Controller[] controllers = getControllers(database);
+    final Controller[] controllers = getControllers(database);
 
     // Construct the server
     Server server = new Server(mongoClient, controllers);
@@ -76,7 +76,7 @@ public class Server {
    * @param mongoClient The MongoDB client object used to access to the database
    * @param controllers The controllers for the server
    */
-  public Server(MongoClient mongoClient, Controller[] controllers) {
+  public Server(MongoClient mongoClient, final Controller[] controllers) {
     this.mongoClient = mongoClient;
     this.controllers = controllers;
   }
