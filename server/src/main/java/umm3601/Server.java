@@ -21,7 +21,11 @@ public class Server {
   private static final int SERVER_PORT = 4567;
 
   private final MongoClient mongoClient;
-  private final UserController userController;
+
+  // The `controllers` field is an array of all the controllers for the server.
+  // You should add your own controllers to this array (in `getControllers()`)
+  // as you create them.
+  private final Controller[] controllers;
 
   public static void main(String[] args) {
     // Get the MongoDB address and database name from environment variables and
@@ -33,21 +37,43 @@ public class Server {
     MongoClient mongoClient = configureDatabase(mongoAddr, databaseName);
     // Get the database
     MongoDatabase database = mongoClient.getDatabase(databaseName);
-    // Get the user controller.
-    // GROUPS SHOULD CREATE THEIR OWN CONTROLLER AND ROUTES FOR WHATEVER
-    // DATA THEY'RE WORKING WITH.
-    UserController userController = new UserController(database);
+
+    // Get the controllers for the server; you'll add your own controllers
+    // in `getControllers` as you create them.
+    Controller[] controllers = getControllers(database);
 
     // Construct the server
-    Server server = new Server(mongoClient, userController);
+    Server server = new Server(mongoClient, controllers);
 
     // Start the server
     server.startServer();
   }
 
-  public Server(MongoClient mongoClient, UserController userController) {
+  /**
+   * Get the controllers for the server. You'll add your own controllers
+   * here as you create them.
+   *
+   * @param database The MongoDB database object used by the controllers
+   *               to access the database.
+   * @return An array of controllers for the server.
+   */
+  private static Controller[] getControllers(MongoDatabase database) {
+    Controller[] controllers = new Controller[] {
+      new UserController(database)
+    };
+    return controllers;
+  }
+
+  /**
+   * Construct a `Server` object that we'll use (via `startServer()`) to configure
+   * and start the server.
+   *
+   * @param mongoClient The MongoDB client object used to access to the database
+   * @param controllers The controllers for the server
+   */
+  public Server(MongoClient mongoClient, Controller[] controllers) {
     this.mongoClient = mongoClient;
-    this.userController = userController;
+    this.controllers = controllers;
   }
 
   /**
@@ -92,11 +118,15 @@ public class Server {
     return mongoClient;
   }
 
-private void startServer() {
+  /**
+   * Configure and start the server.
+   *
+   * This configures and starts the Javalin server, which will start listening for HTTP requests.
+   * It also sets up the server to shut down gracefully if it's killed or if the
+   * JVM is shut down.
+   */
+  private void startServer() {
     Javalin javalin = configureJavalin();
-    // Setup the routes for the `UserController`.
-    // GROUPS SHOULD CREATE THEIR OWN CONTROLLER(S) AND ROUTES FOR WHATEVER
-    // DATA THEY'RE WORKING WITH.
     setupRoutes(javalin);
     javalin.start(SERVER_PORT);
   }
@@ -170,10 +200,9 @@ private void startServer() {
    * @param server The Javalin server instance
    */
   private void setupRoutes(Javalin server) {
-    // Setup routes for the `user` collection endpoints.
-    // GROUPS SHOULD REMOVE REFERENCES TO THE `user` COLLECTION
-    // AND REPLACE THEM WITH WHATEVER DATA THEY'RE WORKING WITH.
-    userController.setupRoutes(server);
-    // Add setup methods for other controllers here...
+    // Add the routes for all the controllers in the `controllers` array.
+    for (Controller controller : controllers) {
+      controller.addRoutes(server);
+    }
   }
 }

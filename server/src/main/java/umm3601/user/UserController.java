@@ -29,10 +29,12 @@ import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
 
+import umm3601.Controller;
+
 /**
  * Controller that manages requests for info about users.
  */
-public class UserController {
+public class UserController implements Controller {
 
   private static final String API_USERS = "/api/users";
   private static final String API_USER_BY_ID = "/api/users/{id}";
@@ -270,7 +272,7 @@ public class UserController {
    * @param server The Javalin server instance
    * @param userController The controller that handles the user endpoints
    */
-  public void setupRoutes(Javalin server) {
+  public void addRoutes(Javalin server) {
     // List users, filtered using query parameters
     server.get(API_USERS, this::getUsers);
 
