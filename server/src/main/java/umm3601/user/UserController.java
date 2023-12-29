@@ -270,7 +270,7 @@ public class UserController {
    * @param server The Javalin server instance
    * @param userController The controller that handles the user endpoints
    */
-  public void setupUserRoutes(Javalin server) {
+  public void setupRoutes(Javalin server) {
     // List users, filtered using query parameters
     server.get(API_USERS, this::getUsers);
 

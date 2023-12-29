@@ -173,7 +173,7 @@ private void startServer() {
     // Setup routes for the `user` collection endpoints.
     // GROUPS SHOULD REMOVE REFERENCES TO THE `user` COLLECTION
     // AND REPLACE THEM WITH WHATEVER DATA THEY'RE WORKING WITH.
-    userController.setupUserRoutes(server);
+    userController.setupRoutes(server);
     // Add setup methods for other controllers here...
   }
 }
