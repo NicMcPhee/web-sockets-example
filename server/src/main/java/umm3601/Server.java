@@ -13,13 +13,18 @@ import org.bson.UuidRepresentation;
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.RouteOverviewPlugin;
 import io.javalin.http.InternalServerErrorResponse;
+
 import umm3601.user.UserController;
 
+/**
+ * The class used to configure and start a Javalin server.
+ */
 public class Server {
 
   // The port that the server should run on.
   private static final int SERVER_PORT = 4567;
 
+  // The `mongoClient` field is used to access the MongoDB
   private final MongoClient mongoClient;
 
   // The `controllers` field is an array of all the controllers for the server.
@@ -131,6 +136,18 @@ public class Server {
     javalin.start(SERVER_PORT);
   }
 
+  /**
+   * Configure the Javalin server. This includes
+   *
+   * - Adding a route overview plugin to make it easier to see what routes
+   *   are available.
+   * - Setting it up to shut down racefully if it's killed or if the
+   *   JVM is shut down.
+   * - Setting up a handler for uncaught exceptions to return an HTTP 500
+   *   error.
+   *
+   * @return The Javalin server instance
+   */
   private Javalin configureJavalin() {
     /*
      * Create a Javalin server instance. We're using the "create" method
