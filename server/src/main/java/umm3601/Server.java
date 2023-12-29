@@ -30,7 +30,7 @@ public class Server {
   // The `controllers` field is an array of all the controllers for the server.
   // You should add your own controllers to this array (in `getControllers()`)
   // as you create them.
-  private final Controller[] controllers;
+  private Controller[] controllers;
 
   public static void main(String[] args) {
     // Get the MongoDB address and database name from environment variables and
@@ -76,9 +76,14 @@ public class Server {
    * @param mongoClient The MongoDB client object used to access to the database
    * @param controllers The controllers for the server
    */
-  public Server(MongoClient mongoClient, final Controller[] controllers) {
+  public Server(MongoClient mongoClient, Controller[] controllers) {
     this.mongoClient = mongoClient;
-    this.controllers = controllers;
+    // This is what is known as a "defensive copy". We make a copy of
+    // the array so that if the caller modifies the array after passing
+    // it in, we don't have to worry about it. If we didn't do this,
+    // the caller could modify the array after passing it in, and then
+    // we'd be using the modified array without realizing it.
+    this.controllers = Arrays.copyOf(controllers, controllers.length);
   }
 
   /**
