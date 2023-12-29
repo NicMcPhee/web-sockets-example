@@ -263,11 +263,12 @@ public class UserController implements Controller {
    *      - Create a new user
    *      - The user info is in the JSON body of the HTTP request
    *
-   * The `userController` parameter is an instance of `UserController` which
-   * has methods that handle the different endpoints.
-   *
-   * GROUPS SHOULD CREATE THEIR OWN CONTROLLERS AND ROUTES FOR WHATEVER
-   * DATA THEY'RE WORKING WITH.
+   * GROUPS SHOULD CREATE THEIR OWN CONTROLLERS THAT IMPLEMENT THE
+   * `Controller` INTERFACE FOR WHATEVER DATA THEY'RE WORKING WITH.
+   * You'll then implement the `addRoutes` method for that controller,
+   * which will set up the routes for that data. The `Server#setupRoutes`
+   * method will then call `addRoutes` for each controller, which will
+   * add the routes for that controller's data.
    *
    * @param server The Javalin server instance
    * @param userController The controller that handles the user endpoints

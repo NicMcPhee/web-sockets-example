@@ -64,6 +64,8 @@ public class Server {
    */
   private static Controller[] getControllers(MongoDatabase database) {
     Controller[] controllers = new Controller[] {
+      // You would add additional controllers here, as you create them.
+      // You can also remove this UserController once you don't need it.
       new UserController(database)
     };
     return controllers;
