@@ -6,15 +6,12 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
 
 import org.bson.UuidRepresentation;
 
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.RouteOverviewPlugin;
 import io.javalin.http.InternalServerErrorResponse;
-
-import umm3601.user.UserController;
 
 /**
  * The class used to configure and start a Javalin server.
@@ -31,45 +28,6 @@ public class Server {
   // You should add your own controllers to this array (in `getControllers()`)
   // as you create them.
   private Controller[] controllers;
-
-  public static void main(String[] args) {
-    // Get the MongoDB address and database name from environment variables and
-    // if they aren't set, use the defaults of "localhost" and "dev".
-    String mongoAddr = getEnvOrDefault("MONGO_ADDR", "localhost");
-    String databaseName = getEnvOrDefault("MONGO_DB", "dev");
-
-    // Set up the MongoDB client
-    MongoClient mongoClient = configureDatabase(mongoAddr, databaseName);
-    // Get the database
-    MongoDatabase database = mongoClient.getDatabase(databaseName);
-
-    // Get the controllers for the server; you'll add your own controllers
-    // in `getControllers` as you create them.
-    final Controller[] controllers = getControllers(database);
-
-    // Construct the server
-    Server server = new Server(mongoClient, controllers);
-
-    // Start the server
-    server.startServer();
-  }
-
-  /**
-   * Get the controllers for the server. You'll add your own controllers
-   * here as you create them.
-   *
-   * @param database The MongoDB database object used by the controllers
-   *               to access the database.
-   * @return An array of controllers for the server.
-   */
-  private static Controller[] getControllers(MongoDatabase database) {
-    Controller[] controllers = new Controller[] {
-      // You would add additional controllers here, as you create them.
-      // You can also remove this UserController once you don't need it.
-      new UserController(database)
-    };
-    return controllers;
-  }
 
   /**
    * Construct a `Server` object that we'll use (via `startServer()`) to configure
@@ -89,18 +47,6 @@ public class Server {
   }
 
   /**
-   * Get the value of an environment variable, or return a default value if it's not set.
-   *
-   * @param envName The name of the environment variable to get
-   * @param defaultValue The default value to use if the environment variable isn't set
-   *
-   * @return The value of the environment variable, or the default value if it's not set
-   */
-  private static String getEnvOrDefault(String envName, String defaultValue) {
-    return System.getenv().getOrDefault(envName, defaultValue);
-  }
-
-  /**
    * Setup the MongoDB database connection.
    *
    * This "wires up" the database using either system environment variables
@@ -111,12 +57,11 @@ public class Server {
    *
    * This sets both the `mongoClient` and `database` fields
    * so they can be used when setting up the Javalin server.
+ * @param mongoAddr The address of the MongoDB server
    *
-   * @param mongoAddr The address of the MongoDB server
-   * @param databaseName The name of the database to use
    * @return The MongoDB client object
    */
-  private static MongoClient configureDatabase(String mongoAddr, String databaseName) {
+  static MongoClient configureDatabase(String mongoAddr) {
     // Setup the MongoDB client object with the information we set earlier
     MongoClient mongoClient = MongoClients.create(MongoClientSettings
       .builder()
@@ -137,7 +82,7 @@ public class Server {
    * It also sets up the server to shut down gracefully if it's killed or if the
    * JVM is shut down.
    */
-  private void startServer() {
+  void startServer() {
     Javalin javalin = configureJavalin();
     setupRoutes(javalin);
     javalin.start(SERVER_PORT);
@@ -148,7 +93,7 @@ public class Server {
    *
    * - Adding a route overview plugin to make it easier to see what routes
    *   are available.
-   * - Setting it up to shut down racefully if it's killed or if the
+   * - Setting it up to shut down gracefully if it's killed or if the
    *   JVM is shut down.
    * - Setting up a handler for uncaught exceptions to return an HTTP 500
    *   error.
