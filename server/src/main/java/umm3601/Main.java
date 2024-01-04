@@ -18,12 +18,13 @@ public class Main {
     // Get the database
     MongoDatabase database = mongoClient.getDatabase(databaseName);
 
-    // Get the controllers for the server; you'll add your own controllers
-    // in `getControllers` as you create them.
-    final Controller[] controllers = Main.getControllers(database);
+    // The implementations of `AddsRoutes` used for the server. These will presumably
+    // be one or more controllers, each of which implements the `AddsRoutes` interface.
+    // You'll add your own controllers in `getRouteAdders` as you create them.
+    final AddsRoutes[] routeAdders = Main.getRouteAdders(database);
 
     // Construct the server
-    Server server = new Server(mongoClient, controllers);
+    Server server = new Server(mongoClient, routeAdders);
 
     // Start the server
     server.startServer();
@@ -42,16 +43,21 @@ public class Main {
   }
 
   /**
-   * Get the controllers for the server. You'll add your own controllers
-   * here as you create them.
+   * Get the implementations of `AddsRoutes` used for the server.
+   *
+   * These will presumably be one or more controllers, each of which
+   * implements the `AddsRoutes` interface. You'll add your own controllers
+   * in `getRouteAdders` as you create them.
    *
    * @param database The MongoDB database object used by the controllers
    *               to access the database.
-   * @return An array of controllers for the server.
+   * @return An array of implementations of `AddRoutes` for the server.
    */
-  static Controller[] getControllers(MongoDatabase database) {
-    Controller[] controllers = new Controller[] {
-      // You would add additional controllers here, as you create them.
+  static AddsRoutes[] getRouteAdders(MongoDatabase database) {
+    AddsRoutes[] controllers = new AddsRoutes[] {
+      // You would add additional controllers here, as you create them,
+      // although you need to make sure that your new controllers implement
+      // the `AddsRoutes` interface.
       // You can also remove this UserController once you don't need it.
       new UserController(database)
     };

@@ -29,12 +29,12 @@ import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
 
-import umm3601.Controller;
+import umm3601.AddsRoutes;
 
 /**
  * Controller that manages requests for info about users.
  */
-public class UserController implements Controller {
+public class UserController implements AddsRoutes {
 
   private static final String API_USERS = "/api/users";
   private static final String API_USER_BY_ID = "/api/users/{id}";
