@@ -214,7 +214,7 @@ public class UserController {
    * @param email the email to generate an avatar for
    * @return a URI pointing to an avatar image
    */
-  private String generateAvatar(String email) {
+  String generateAvatar(String email) {
     String avatar;
     try {
       // generate unique md5 code for identicon
@@ -231,7 +231,6 @@ public class UserController {
    *
    * @param str the string to generate a md5 for
    */
-  @SuppressWarnings("lgtm[java/weak-cryptographic-algorithm]")
   public String md5(String str) throws NoSuchAlgorithmException {
     MessageDigest md = MessageDigest.getInstance("MD5");
     byte[] hashInBytes = md.digest(str.toLowerCase().getBytes(StandardCharsets.UTF_8));
