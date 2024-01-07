@@ -24,25 +24,25 @@ public class Server {
   // The `mongoClient` field is used to access the MongoDB
   private final MongoClient mongoClient;
 
-  // The `routeAdders` field is an array of all the `AddsRoutes` implementations
+  // The `controllers` field is an array of all the `Controller` implementations
   // for the server. This is used to add routes to the server.
-  private AddsRoutes[] routeAdders;
+  private Controller[] controllers;
 
   /**
    * Construct a `Server` object that we'll use (via `startServer()`) to configure
    * and start the server.
    *
    * @param mongoClient The MongoDB client object used to access to the database
-   * @param routeAdders The implementations of `AddRoutes` used for this server
+   * @param controllers The implementations of `Controller` used for this server
    */
-  public Server(MongoClient mongoClient, AddsRoutes[] routeAdders) {
+  public Server(MongoClient mongoClient, Controller[] controllers) {
     this.mongoClient = mongoClient;
     // This is what is known as a "defensive copy". We make a copy of
     // the array so that if the caller modifies the array after passing
     // it in, we don't have to worry about it. If we didn't do this,
     // the caller could modify the array after passing it in, and then
     // we'd be using the modified array without realizing it.
-    this.routeAdders = Arrays.copyOf(routeAdders, routeAdders.length);
+    this.controllers = Arrays.copyOf(controllers, controllers.length);
   }
 
   /**
@@ -168,10 +168,10 @@ public class Server {
    * @param server The Javalin server instance
    */
   private void setupRoutes(Javalin server) {
-    // Add the routes for all the implements of `AddRoutes` in the
-    // `routeAdders` array.
-    for (AddsRoutes routeAdder : routeAdders) {
-      routeAdder.addRoutes(server);
+    // Add the routes for all the implementations of `Controller` in the
+    // `controllers` array.
+    for (Controller controller : controllers) {
+      controller.addRoutes(server);
     }
   }
 }

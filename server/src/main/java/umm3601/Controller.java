@@ -12,9 +12,9 @@ import io.javalin.Javalin;
  * routes without starting the server (except that the inability to compare
  * lambdas in fact makes this very hard to test).
  *
- * Any "controller" class that provides routes for the Javalin server
+ * Any controller class that provides routes for the Javalin server
  * must implement this interface since the `Server` class
- * is just handled an array of `Controller` objects in its constructor. This
+ * is just handed an array of `Controller` objects in its constructor. This
  * allows us to add routes to the server without having to modify the `Server`,
  * and without having the server know about any specific controller implementations.
  *
@@ -23,7 +23,7 @@ import io.javalin.Javalin;
  * you implement also implement this interface, providing their own `addRoutes()`
  * method.
  */
-public interface AddsRoutes {
+public interface Controller {
   /**
    * Add routes to the server.
    *
