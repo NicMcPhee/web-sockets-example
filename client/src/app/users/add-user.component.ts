@@ -88,7 +88,10 @@ export class AddUserComponent {
     ]
   };
 
-  constructor(private userService: UserService, private snackBar: MatSnackBar, private router: Router) {
+  constructor(
+    private userService: UserService,
+    private snackBar: MatSnackBar,
+    private router: Router) {
   }
 
   formControlHasError(controlName: string): boolean {
@@ -122,7 +125,6 @@ export class AddUserComponent {
           { duration: 5000 }
         );
       },
-      // complete: () => console.log('Add user completes!')
     });
   }
 
