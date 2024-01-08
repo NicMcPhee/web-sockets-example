@@ -56,7 +56,7 @@ public class Server {
    *
    * This sets both the `mongoClient` and `database` fields
    * so they can be used when setting up the Javalin server.
- * @param mongoAddr The address of the MongoDB server
+   * @param mongoAddr The address of the MongoDB server
    *
    * @return The MongoDB client object
    */
@@ -168,7 +168,7 @@ public class Server {
    * @param server The Javalin server instance
    */
   private void setupRoutes(Javalin server) {
-    // Add the routes for all the implementations of `Controller` in the
+    // Add the routes for each of the implementations of `Controller` in the
     // `controllers` array.
     for (Controller controller : controllers) {
       controller.addRoutes(server);
