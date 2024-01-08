@@ -297,15 +297,17 @@ describe('UserService', () => {
 
   describe('Adding a user using `addUser()`', () => {
     it('talks to the right endpoint and is called once', waitForAsync(() => {
-      // Mock the `httpClient.addUser()` method, so that instead of making an HTTP request,
-      // it just returns our test data.
-      const USER_ID = 'pat_id';
-      const mockedMethod = spyOn(httpClient, 'post').and.returnValue(of(USER_ID));
+      const user_id = 'pat_id';
+      const expected_http_response = { id: user_id } ;
 
-      // paying attention to what is returned (undefined) didn't work well here,
-      // but I'm putting something in here to remind us to look into that
-      userService.addUser(testUsers[1]).subscribe((returnedString) => {
-        console.log(`The thing returned was: ${returnedString}`);
+      // Mock the `httpClient.addUser()` method, so that instead of making an HTTP request,
+      // it just returns our expected HTTP response.
+      const mockedMethod = spyOn(httpClient, 'post')
+        .and
+        .returnValue(of(expected_http_response));
+
+      userService.addUser(testUsers[1]).subscribe((new_user_id) => {
+        expect(new_user_id).toBe(user_id);
         expect(mockedMethod)
           .withContext('one call')
           .toHaveBeenCalledTimes(1);

@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -38,6 +39,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import io.javalin.validation.BodyValidator;
@@ -645,4 +647,65 @@ class UserControllerSpec {
     assertEquals(0, db.getCollection("users").countDocuments(eq("_id", new ObjectId(testID))));
   }
 
+  /**
+   * Test that the `generateAvatar` method works as expected.
+   *
+   * To test this code, we need to mock out the `md5()` method so we
+   * can control what it returns. This way we don't have to figure
+   * out what the actual md5 hash of a particular email address is.
+   *
+   * The use of `Mockito.spy()` essentially allows us to override
+   * the `md5()` method, while leaving the rest of the user controller
+   * "as is". This is a nice way to test a method that depends on
+   * an internal method that we don't want to test (`md5()` in this case).
+   *
+   * This code was suggested by GitHub CoPilot.
+   *
+   * @throws NoSuchAlgorithmException
+   */
+  @Test
+  void testGenerateAvatar() throws NoSuchAlgorithmException {
+    // Arrange
+    String email = "test@example.com";
+    UserController controller = Mockito.spy(userController);
+    when(controller.md5(email)).thenReturn("md5hash");
+
+    // Act
+    String avatar = controller.generateAvatar(email);
+
+    // Assert
+    assertEquals("https://gravatar.com/avatar/md5hash?d=identicon", avatar);
+  }
+
+  /**
+   * Test that the `generateAvatar` throws a `NoSuchAlgorithmException`
+   * if it can't find the `md5` hashing algortihm.
+   *
+   * To test this code, we need to mock out the `md5()` method so we
+   * can control what it returns. In particular, we want `.md5()` to
+   * throw a `NoSuchAlgorithmException`, which we can't do without
+   * mocking `.md5()` (since the algorithm does actually exist).
+   *
+   * The use of `Mockito.spy()` essentially allows us to override
+   * the `md5()` method, while leaving the rest of the user controller
+   * "as is". This is a nice way to test a method that depends on
+   * an internal method that we don't want to test (`md5()` in this case).
+   *
+   * This code was suggested by GitHub CoPilot.
+   *
+   * @throws NoSuchAlgorithmException
+   */
+  @Test
+  void testGenerateAvatarWithException() throws NoSuchAlgorithmException {
+    // Arrange
+    String email = "test@example.com";
+    UserController controller = Mockito.spy(userController);
+    when(controller.md5(email)).thenThrow(NoSuchAlgorithmException.class);
+
+    // Act
+    String avatar = controller.generateAvatar(email);
+
+    // Assert
+    assertEquals("https://gravatar.com/avatar/?d=mp", avatar);
+  }
 }
