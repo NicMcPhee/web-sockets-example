@@ -54,7 +54,7 @@ dependencies {
 
 application {
   // Define the main class for the application
-  mainClass = 'umm3601.Server'
+  mainClass = 'umm3601.Main'
 }
 
 test {
@@ -79,12 +79,12 @@ jacocoTestReport {
   }
 
   afterEvaluate {
-    // This excludes the `Server` class from the coverage report. We don't
-    // have any good way to test the `Server` class directory (we'd have
+    // This excludes the `Main` class from the coverage report. We don't
+    // have any good way to test the `Main` class (we'd have
     // to somehow fake incoming HTTP requests), so we are just
     // leaving it out of the coverage report and the coverage limits.
     classDirectories.setFrom(files(classDirectories.files.collect {
-      fileTree(dir: it, exclude: 'umm3601/Server.class')
+      fileTree(dir: it, exclude: ['umm3601/Main.class', 'umm3601/Server.class'])
     }))
   }
 }
@@ -98,7 +98,7 @@ jacocoTestCoverageVerification {
     rule {
       // We are looking at the entire bundle overall, i.e.,
       // 80% of all instructions across all the Java files
-      // (except Server.java) need to be covered.
+      // (except Main.java) need to be covered.
       element = 'BUNDLE'
 
       // 80% of instructions should be covered
@@ -127,13 +127,13 @@ jacocoTestCoverageVerification {
     }
   }
 
-  // This excludes the `Server` class from coverage verification. We don't
-  // have any good way to test the `Server` class directory (we'd have
+  // This excludes the `Main` class from coverage verification. We don't
+  // have any good way to test the `Main` class (we'd have
   // to somehow fake incoming HTTP requests), so we are just
   // leaving it out of the coverage report and the coverage limits.
   afterEvaluate {
     classDirectories.setFrom(files(classDirectories.files.collect {
-      fileTree(dir: it, exclude: 'umm3601/Server.class')
+      fileTree(dir: it, exclude: ['umm3601/Main.class', 'umm3601/Server.class'])
     }))
   }
 }
