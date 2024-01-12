@@ -150,9 +150,6 @@ describe('Misbehaving User List', () => {
     expect(userList.serverFilteredUsers)
       .withContext('service can\'t give values to the list if it\'s not there')
       .toBeUndefined();
-    //expect(fixture.detectChanges)
-    //  .withContext('will generate an error if the fixture updates')
-    //  .toThrow(anError);
     expect(userList.getUsersFromServer)
       .withContext('will generate the right error if we try to getUsersFromServer')
       .toThrow();
