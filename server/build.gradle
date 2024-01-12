@@ -12,10 +12,10 @@ plugins {
   id 'checkstyle'
 }
 
-// Build and run the project with Java 11
+// Build and run the project with Java 21
 java {
   toolchain {
-    languageVersion = JavaLanguageVersion.of(11)
+    languageVersion = JavaLanguageVersion.of(21)
   }
 }
 
@@ -46,6 +46,9 @@ dependencies {
   // JUnit Jupiter Engine for testing.
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
 
+  // JUnit Platform Launcher for testing.
+  testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
   // Mockito for testing
   testImplementation 'org.mockito:mockito-core:5.8.0'
 
@@ -75,7 +78,7 @@ jacocoTestReport {
     // This isn't strictly necessary, but the default reports
     // location is buried pretty deep in the build directory,
     // so this makes it easier to find.
-    html.destination file("${buildDir}/jacocoHtml")
+    html.outputLocation = file("${buildDir}/jacocoHtml")
   }
 
   afterEvaluate {
