@@ -13,7 +13,7 @@ import { map, switchMap, takeUntil } from 'rxjs/operators';
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
   user: User;
-  error: { help: string, message: string };
+  error: { help: string, httpResponse: string, message: string };
 
   // This `Subject` will only ever emit one (empty) value when
   // `ngOnDestroy()` is called, i.e., when this component is
@@ -57,7 +57,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       error: _err => {
         this.error = {
           help: 'There was a problem loading the user – try again.',
-          message: _err.message
+          httpResponse: _err.message,
+          message: _err.error ? _err.error.title : '',
         };
       }
       /*
