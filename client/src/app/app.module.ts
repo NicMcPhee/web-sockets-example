@@ -51,24 +51,22 @@ const MATERIAL_MODULES: any[] = [
 ];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    UserListComponent,
-    UserCardComponent,
-    UserProfileComponent,
-    AddUserComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    MATERIAL_MODULES,
-    LayoutModule,
-  ],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        MATERIAL_MODULES,
+        LayoutModule,
+        HomeComponent,
+        UserListComponent,
+        UserCardComponent,
+        UserProfileComponent,
+        AddUserComponent,
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
