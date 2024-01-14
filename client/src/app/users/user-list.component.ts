@@ -3,6 +3,20 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
 import { User, UserRole } from './user';
 import { UserService } from './user.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
+import { MatListModule } from '@angular/material/list';
+import { UserCardComponent } from './user-card.component';
+import { NgIf, NgSwitch, NgSwitchCase, NgFor } from '@angular/common';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
 
 /**
  * A component that displays a list of users, either as a grid
@@ -15,10 +29,12 @@ import { UserService } from './user.service';
  * makes the most sense to do the filtering.
  */
 @Component({
-  selector: 'app-user-list-component',
-  templateUrl: 'user-list.component.html',
-  styleUrls: ['./user-list.component.scss'],
-  providers: []
+    selector: 'app-user-list-component',
+    templateUrl: 'user-list.component.html',
+    styleUrls: ['./user-list.component.scss'],
+    providers: [],
+    standalone: true,
+    imports: [MatCardModule, MatFormFieldModule, MatInputModule, FormsModule, MatSelectModule, MatOptionModule, MatRadioModule, NgIf, NgSwitch, NgSwitchCase, NgFor, UserCardComponent, MatListModule, RouterLink, MatButtonModule, MatTooltipModule, MatIconModule]
 })
 
 export class UserListComponent implements OnInit, OnDestroy  {
