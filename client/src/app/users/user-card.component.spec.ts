@@ -10,12 +10,12 @@ describe('UserCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         BrowserAnimationsModule,
-        MatCardModule
-      ],
-      declarations: [ UserCardComponent ]
-    })
+        MatCardModule,
+        UserCardComponent
+    ]
+})
     .compileComponents();
   }));
 

@@ -48,12 +48,11 @@ describe('User list', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [COMMON_IMPORTS],
-      declarations: [UserListComponent, UserCardComponent],
-      // providers:    [ UserService ]  // NO! Don't provide the real service!
-      // Provide a test-double instead
-      providers: [{ provide: UserService, useValue: new MockUserService() }]
-    });
+    imports: [COMMON_IMPORTS, UserListComponent, UserCardComponent],
+    // providers:    [ UserService ]  // NO! Don't provide the real service!
+    // Provide a test-double instead
+    providers: [{ provide: UserService, useValue: new MockUserService() }]
+});
   });
 
   // This constructs the `userList` (declared
@@ -123,12 +122,11 @@ describe('Misbehaving User List', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [COMMON_IMPORTS],
-      declarations: [UserListComponent],
-      // providers:    [ UserService ]  // NO! Don't provide the real service!
-      // Provide a test-double instead
-      providers: [{ provide: UserService, useValue: userServiceStub }]
-    });
+    imports: [COMMON_IMPORTS, UserListComponent],
+    // providers:    [ UserService ]  // NO! Don't provide the real service!
+    // Provide a test-double instead
+    providers: [{ provide: UserService, useValue: userServiceStub }]
+});
   });
 
   // Construct the `userList` used for the testing in the `it` statement

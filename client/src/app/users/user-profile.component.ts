@@ -5,11 +5,15 @@ import { User } from './user';
 import { UserService } from './user.service';
 import { Subject } from 'rxjs';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
+import { UserCardComponent } from './user-card.component';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-user-profile',
-  templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.scss']
+    selector: 'app-user-profile',
+    templateUrl: './user-profile.component.html',
+    styleUrls: ['./user-profile.component.scss'],
+    standalone: true,
+    imports: [NgIf, UserCardComponent]
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
   user: User;
