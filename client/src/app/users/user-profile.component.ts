@@ -13,6 +13,7 @@ import { map, switchMap, takeUntil } from 'rxjs/operators';
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
   user: User;
+  error: { help: string, message: string };
 
   // This `Subject` will only ever emit one (empty) value when
   // `ngOnDestroy()` is called, i.e., when this component is
@@ -54,9 +55,10 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         return user;
       },
       error: _err => {
-        this.snackBar.open('Problem loading the user – try again', 'OK', {
-          duration: 5000,
-        });
+        this.error = {
+          help: 'There was a problem loading the user – try again.',
+          message: _err.message
+        };
       }
       /*
        * You can uncomment the line that starts with `complete` below to use that console message
