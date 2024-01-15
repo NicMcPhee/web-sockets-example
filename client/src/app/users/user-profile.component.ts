@@ -6,7 +6,7 @@ import { UserService } from './user.service';
 import { Subject } from 'rxjs';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
 import { UserCardComponent } from './user-card.component';
-import { NgIf } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
@@ -14,7 +14,7 @@ import { MatCardModule } from '@angular/material/card';
     templateUrl: './user-profile.component.html',
     styleUrls: ['./user-profile.component.scss'],
     standalone: true,
-    imports: [NgIf, UserCardComponent, MatCardModule]
+    imports: [UserCardComponent, MatCardModule]
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
   user: User;
