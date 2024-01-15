@@ -7,7 +7,7 @@ import { UserService } from './user.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import { NgIf } from '@angular/common';
+
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
@@ -17,7 +17,7 @@ import { MatCardModule } from '@angular/material/card';
     templateUrl: './add-user.component.html',
     styleUrls: ['./add-user.component.scss'],
     standalone: true,
-    imports: [FormsModule, ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, NgIf, MatSelectModule, MatOptionModule, MatButtonModule]
+    imports: [FormsModule, ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatOptionModule, MatButtonModule]
 })
 export class AddUserComponent {
 

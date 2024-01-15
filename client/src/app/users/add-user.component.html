@@ -1,7 +1,7 @@
 <div class="flex-row">
   <div class="flex-1">
     <form [formGroup]="addUserForm" (ngSubmit)="submitForm();">
-    <mat-card class="add-user-card">
+      <mat-card class="add-user-card">
         <mat-card-header>
           <mat-card-title class="add-user-title">New User</mat-card-title>
         </mat-card-header>
@@ -10,19 +10,23 @@
             <mat-form-field>
               <mat-label>Name</mat-label>
               <input matInput formControlName="name"
-                    required>
-              <mat-error *ngIf="formControlHasError('name')" data-test="nameError">
-                {{getErrorMessage('name')}}
-              </mat-error>
+                required>
+              @if (formControlHasError('name')) {
+                <mat-error data-test="nameError">
+                  {{getErrorMessage('name')}}
+                </mat-error>
+              }
             </mat-form-field>
 
             <mat-form-field>
               <mat-label>Age</mat-label>
               <input matInput type="number"
-                    formControlName="age" required>
-              <mat-error *ngIf="formControlHasError('age')" data-test="ageError">
-                {{getErrorMessage('age')}}
-              </mat-error>
+                formControlName="age" required>
+              @if (formControlHasError('age')) {
+                <mat-error data-test="ageError">
+                  {{getErrorMessage('age')}}
+                </mat-error>
+              }
             </mat-form-field>
 
             <mat-form-field>
@@ -34,10 +38,12 @@
             <mat-form-field>
               <mat-label>Email</mat-label>
               <input matInput type="email"
-                    formControlName="email" required>
-              <mat-error *ngIf="formControlHasError('email')" data-test="emailError">
-                {{getErrorMessage('email')}}
-              </mat-error>
+                formControlName="email" required>
+              @if (formControlHasError('email')) {
+                <mat-error data-test="emailError">
+                  {{getErrorMessage('email')}}
+                </mat-error>
+              }
             </mat-form-field>
 
             <mat-form-field>
@@ -47,9 +53,11 @@
                 <mat-option value="editor">Editor</mat-option>
                 <mat-option value="viewer">Viewer</mat-option>
               </mat-select>
-              <mat-error *ngIf="formControlHasError('role')" data-test="roleError">
-                {{getErrorMessage('role')}}
-              </mat-error>
+              @if (formControlHasError('role')) {
+                <mat-error data-test="roleError">
+                  {{getErrorMessage('role')}}
+                </mat-error>
+              }
             </mat-form-field>
           </div>
 
@@ -62,11 +70,11 @@
             [disabled]="!addUserForm.valid"
             type="submit"
             data-test="confirmAddUserButton"
-          >
+            >
             ADD USER
           </button>
         </mat-card-actions>
-    </mat-card>
-  </form>
+      </mat-card>
+    </form>
   </div>
 </div>
