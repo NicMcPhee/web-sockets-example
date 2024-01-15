@@ -14,7 +14,7 @@ import { UserService } from './user.service';
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
   let fixture: ComponentFixture<UserProfileComponent>;
-  let mockUserService = new MockUserService();
+  const mockUserService = new MockUserService();
   const chrisId = 'chris_id';
   const activatedRoute: ActivatedRouteStub = new ActivatedRouteStub({
     // Using the constructor here lets us try that branch in `activated-route-stub.ts`
@@ -81,6 +81,8 @@ describe('UserProfileComponent', () => {
   });
 
   it('should set error data on observable error', () => {
+    activatedRoute.setParamMap({ id: chrisId });
+
     const mockError = { message: 'Test Error', error: { title: 'Error Title' } };
 
     // const errorResponse = { status: 500, message: 'Server error' };
