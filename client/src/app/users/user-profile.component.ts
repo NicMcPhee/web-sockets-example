@@ -63,7 +63,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         this.error = {
           help: 'There was a problem loading the user – try again.',
           httpResponse: _err.message,
-          message: _err.error ? _err.error.title : '',
+          message: _err.error?.title,
         };
       }
       /*
