@@ -15,10 +15,11 @@ describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
   let fixture: ComponentFixture<UserProfileComponent>;
   let mockUserService = new MockUserService();
+  const chrisId = 'chris_id';
   const activatedRoute: ActivatedRouteStub = new ActivatedRouteStub({
     // Using the constructor here lets us try that branch in `activated-route-stub.ts`
     // and then we can choose a new parameter map in the tests if we choose
-    id : 'chris_id'
+    id : chrisId
   });
 
   beforeEach(waitForAsync(() => {
@@ -86,7 +87,7 @@ describe('UserProfileComponent', () => {
     // "Spy" on the `.addUser()` method in the user service. Here we basically
     // intercept any calls to that method and return the error response
     // defined above.
-    const addUserSpy = spyOn(mockUserService, 'getUserById')
+    const getUserSpy = spyOn(mockUserService, 'getUserById')
       .and
       .returnValue(throwError(() => mockError));
 
@@ -99,5 +100,6 @@ describe('UserProfileComponent', () => {
       httpResponse: mockError.message,
       message: mockError.error.title,
     });
+    expect(getUserSpy).toHaveBeenCalledWith(chrisId);
   });
 });
