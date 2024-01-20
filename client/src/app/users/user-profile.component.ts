@@ -5,14 +5,20 @@ import { User } from './user';
 import { UserService } from './user.service';
 import { Subject } from 'rxjs';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
+import { UserCardComponent } from './user-card.component';
+
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
-  selector: 'app-user-profile',
-  templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.scss']
+    selector: 'app-user-profile',
+    templateUrl: './user-profile.component.html',
+    styleUrls: ['./user-profile.component.scss'],
+    standalone: true,
+    imports: [UserCardComponent, MatCardModule]
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
   user: User;
+  error: { help: string, httpResponse: string, message: string };
 
   // This `Subject` will only ever emit one (empty) value when
   // `ngOnDestroy()` is called, i.e., when this component is
@@ -54,9 +60,11 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         return user;
       },
       error: _err => {
-        this.snackBar.open('Problem loading the user – try again', 'OK', {
-          duration: 5000,
-        });
+        this.error = {
+          help: 'There was a problem loading the user – try again.',
+          httpResponse: _err.message,
+          message: _err.error?.title,
+        };
       }
       /*
        * You can uncomment the line that starts with `complete` below to use that console message

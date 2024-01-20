@@ -13,14 +13,14 @@
           <mat-form-field class="input-field">
             <mat-label>Name</mat-label>
             <input matInput data-test="userNameInput" placeholder="Filter by name"
-            [(ngModel)]="userName" (input)="updateFilter()">
+              [(ngModel)]="userName" (input)="updateFilter()">
             <mat-hint>Filtered on client</mat-hint>
           </mat-form-field>
 
           <mat-form-field class="input-field">
             <mat-label>Company</mat-label>
             <input matInput data-test="userCompanyInput" placeholder="Filter by company"
-            [(ngModel)]="userCompany" (input)="updateFilter()">
+              [(ngModel)]="userCompany" (input)="updateFilter()">
             <mat-hint>Filtered on client</mat-hint>
           </mat-form-field>
         </div>
@@ -31,7 +31,7 @@
           <mat-form-field class="input-field">
             <mat-label>Age</mat-label>
             <input matInput data-test="userAgeInput" type="number" placeholder="Filter by age"
-            min="0" max="200" [(ngModel)]="userAge" (input)="getUsersFromServer()">
+              min="0" max="200" [(ngModel)]="userAge" (input)="getUsersFromServer()">
             <mat-hint>Filtered on server</mat-hint>
           </mat-form-field>
 
@@ -48,61 +48,71 @@
         </div>
 
         <br>
-        <div class="flex-row gap-8 flex-wrap">
-          <label>View type: </label>
-          <mat-radio-group aria-label="View type" [(ngModel)]="viewType" data-test="viewTypeRadio">
-            <mat-radio-button value="card">Card</mat-radio-button>
-            <mat-radio-button value="list">List</mat-radio-button>
-          </mat-radio-group>
-        </div>
+          <div class="flex-row gap-8 flex-wrap">
+            <label>View type: </label>
+            <mat-radio-group aria-label="View type" [(ngModel)]="viewType" data-test="viewTypeRadio">
+              <mat-radio-button value="card">Card</mat-radio-button>
+              <mat-radio-button value="list">List</mat-radio-button>
+            </mat-radio-group>
+          </div>
 
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div>
-
-<div class="flex-row">
-  <div class="flex-1" *ngIf="serverFilteredUsers; else usersError" >
-    <!-- Switch between card and list view based on the viewType variable, set above in the mar-radio-group -->
-    <div [ngSwitch]="viewType">
-
-      <!-- Card grid view -->
-      <div *ngSwitchCase="'card'" class="user-cards-container flex-row gap-8 flex-wrap">
-        <app-user-card [simple]="true" *ngFor="let user of filteredUsers" class="user-card" [user]="user" ></app-user-card>
-      </div>
-
-      <!-- List view -->
-      <mat-card *ngSwitchCase="'list'">
-        <mat-card-content>
-          <mat-nav-list class="user-nav-list">
-            <h3 mat-subheader>Users</h3>
-            <a mat-list-item *ngFor="let user of this.filteredUsers" [routerLink]="['/users', user._id]" class="user-list-item">
-              <img matListItemAvatar [src]="user.avatar" *ngIf="this.user.avatar">
-              <span matListItemTitle mat-line class="user-list-name"> {{user.name}} </span>
-              <span matListItemLine class="user-list-role"> {{user.role}} </span>
-            </a>
-          </mat-nav-list>
         </mat-card-content>
       </mat-card>
-
     </div>
   </div>
 
-  <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
-  <ng-template #usersError>
-    <div class="flex-1" class="user-error">
-      <mat-error>
-        There was a problem loading the users. Possibly the server is down or perhaps there are network
-        issues.
-      </mat-error>
-      <mat-error>
-        Please wait a bit and try again or start the server.
-      </mat-error>
-    </div>
-  </ng-template>
+  <div class="flex-row">
+    @if (serverFilteredUsers) {
+      <div class="flex-1" >
+        <!-- Switch between card and list view based on the viewType variable, set above in the mar-radio-group -->
+        <div>
+          @switch (viewType) {
+            <!-- Card grid view -->
+            @case ('card') {
+              <div class="user-cards-container flex-row gap-8 flex-wrap">
+                @for (user of filteredUsers; track user) {
+                  <app-user-card [simple]="true" class="user-card" [user]="user" ></app-user-card>
+                }
+              </div>
+            }
+            <!-- List view -->
+            @case ('list') {
+              <mat-card>
+                <mat-card-content>
+                  <mat-nav-list class="user-nav-list">
+                    <h3 mat-subheader>Users</h3>
+                    @for (user of this.filteredUsers; track user) {
+                      <a mat-list-item [routerLink]="['/users', user._id]" class="user-list-item">
+                        @if (this.user.avatar) {
+                          <img matListItemAvatar [src]="user.avatar">
+                        }
+                        <span matListItemTitle mat-line class="user-list-name"> {{user.name}} </span>
+                        <span matListItemLine class="user-list-role"> {{user.role}} </span>
+                      </a>
+                    }
+                  </mat-nav-list>
+                </mat-card-content>
+              </mat-card>
+            }
+          }
+        </div>
+      </div>
+    } @else {
+      <div class="flex-1" class="user-error">
+        <mat-error>
+          There was a problem loading the users. Possibly the server is down or perhaps there are network
+          issues.
+        </mat-error>
+        <mat-error>
+          Please wait a bit and try again or start the server.
+        </mat-error>
+      </div>
+    }
 
-</div>
+    <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
 
-<button mat-fab class="add-user-fab" matTooltip="Add User" matTooltipPosition="left" routerLink="/users/new" data-test="addUserButton">
+  </div>
+
+  <button mat-fab class="add-user-fab" matTooltip="Add User" matTooltipPosition="left" routerLink="/users/new" data-test="addUserButton">
     <mat-icon class="md-24" aria-label="Add User">add</mat-icon>
-</button>
+  </button>

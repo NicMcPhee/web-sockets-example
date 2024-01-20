@@ -11,19 +11,17 @@ import { MatListModule } from '@angular/material/list';
 describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         BrowserAnimationsModule,
         RouterTestingModule,
         MatToolbarModule,
         MatIconModule,
         MatSidenavModule,
         MatCardModule,
-        MatListModule
-      ],
-      declarations: [
+        MatListModule,
         AppComponent
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   it('should create the app', () => {
