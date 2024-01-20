@@ -7,6 +7,11 @@
   }
 }
 
+// Capitalize the user role when displaying it in the user card.
+.user-card-role {
+  text-transform: capitalize;
+}
+
 .user-card-email {
   display: block; /* Make it a block-level element */
   color: inherit; /* Inherit the text color from the parent element */
