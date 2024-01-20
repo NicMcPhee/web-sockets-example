@@ -25,9 +25,8 @@
       <mat-list-item>
         <mat-icon matListItemIcon>mail</mat-icon>
         <p matListItemTitle>Email</p>
-        <p matListItemLine class="user-card-email">
-         <a href="mailto:{{this.user.email}}" class="user-card-email">{{this.user.email}}</a>
-        </p>
+        <p matListItemLine class="user-card-email">{{this.user.email}}</p>
+        <a href="mailto:{{this.user.email}}" matListItemMeta mat-icon-button><mat-icon>open_in_new</mat-icon></a>
       </mat-list-item>
     </mat-list>
   </mat-card-content>
