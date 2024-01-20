@@ -8,23 +8,23 @@
     <mat-list>
       <mat-list-item>
         <mat-icon matListItemIcon>dataset</mat-icon>
-        <h3 matListItemTitle>Role</h3>
-        <p matListItemLine class="user-card-role">
-         {{ this.user.role }}
-        </p>
+        <p matListItemTitle>Role</p>
+        <!--
+          We had to put both the `role` and `age` entries on a single line. Otherwise
+          we got an annoying leading space in front of the values.
+         -->
+        <p matListItemLine class="user-card-role">{{ this.user.role }}</p>
       </mat-list-item>
       <mat-divider [inset]=true></mat-divider>
       <mat-list-item>
         <mat-icon matListItemIcon>schedule</mat-icon>
-        <h3 matListItemTitle>Age</h3>
-        <p matListItemLine class="user-card-age">
-         {{ this.user.age }}
-        </p>
+        <p matListItemTitle>Age</p>
+        <p matListItemLine class="user-card-age">{{ this.user.age }}</p>
       </mat-list-item>
       <mat-divider [inset]=true></mat-divider>
       <mat-list-item>
         <mat-icon matListItemIcon>mail</mat-icon>
-        <h3 matListItemTitle>Email</h3>
+        <p matListItemTitle>Email</p>
         <p matListItemLine class="user-card-email">
          <a href="mailto:{{this.user.email}}" class="user-card-email">{{this.user.email}}</a>
         </p>
