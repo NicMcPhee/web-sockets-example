@@ -427,13 +427,15 @@ class UserControllerSpec {
 
   @Test
   void addUser() throws IOException {
-    String testNewUser = "{"
-        + "\"name\": \"Test User\","
-        + "\"age\": 25,"
-        + "\"company\": \"testers\","
-        + "\"email\": \"test@example.com\","
-        + "\"role\": \"viewer\""
-        + "}";
+    String testNewUser = """
+        {
+          "name": "Test User",
+          "age": 25,
+          "company": "testers",
+          "email": "test@example.com",
+          "role": "viewer"
+        }
+        """;
     when(ctx.bodyValidator(User.class))
       .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
@@ -459,13 +461,15 @@ class UserControllerSpec {
 
   @Test
   void addInvalidEmailUser() throws IOException {
-    String testNewUser = "{"
-        + "\"name\": \"Test User\","
-        + "\"age\": 25,"
-        + "\"company\": \"testers\","
-        + "\"email\": \"invalidemail\","
-        + "\"role\": \"viewer\""
-        + "}";
+    String testNewUser = """
+        {
+          "name": "Test User",
+          "age": 25,
+          "company": "testers",
+          "email": "invalidemail",
+          "role": "viewer"
+        }
+        """;
     when(ctx.bodyValidator(User.class))
       .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
@@ -480,13 +484,14 @@ class UserControllerSpec {
 
   @Test
   void addInvalidAgeUser() throws IOException {
-    String testNewUser = "{"
-        + "\"name\": \"Test User\","
-        + "\"age\": \"notanumber\","
-        + "\"company\": \"testers\","
-        + "\"email\": \"test@example.com\","
-        + "\"role\": \"viewer\""
-        + "}";
+    String testNewUser = """
+        {
+          "name": "Test User",
+          "age": "notanumber",
+          "company": "testers",
+          "email": test@example.com",
+          "role": "viewer"
+        """;
     when(ctx.bodyValidator(User.class))
       .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
@@ -497,13 +502,15 @@ class UserControllerSpec {
 
   @Test
   void add0AgeUser() throws IOException {
-    String testNewUser = "{"
-        + "\"name\": \"Test User\","
-        + "\"age\": 0,"
-        + "\"company\": \"testers\","
-        + "\"email\": \"test@example.com\","
-        + "\"role\": \"viewer\""
-        + "}";
+    String testNewUser = """
+        {
+          "name": "Test User",
+          "age": 0,
+          "company": "testers",
+          "email": "test@example.com",
+          "role": "viewer"
+        }
+        """;
     when(ctx.bodyValidator(User.class))
       .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
@@ -514,13 +521,15 @@ class UserControllerSpec {
 
   @Test
   void add150AgeUser() throws IOException {
-    String testNewUser = "{"
-        + "\"name\": \"Test User\","
-        + "\"age\": 150,"
-        + "\"company\": \"testers\","
-        + "\"email\": \"test@example.com\","
-        + "\"role\": \"viewer\""
-        + "}";
+    String testNewUser = """
+        {
+          "name": "Test User",
+          "age": 150,
+          "company": "testers",
+          "email": "test@example.com",
+          "role": "viewer"
+        }
+        """;
     when(ctx.bodyValidator(User.class))
       .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
@@ -531,12 +540,14 @@ class UserControllerSpec {
 
   @Test
   void addNullNameUser() throws IOException {
-    String testNewUser = "{"
-        + "\"age\": 25,"
-        + "\"company\": \"testers\","
-        + "\"email\": \"test@example.com\","
-        + "\"role\": \"viewer\""
-        + "}";
+    String testNewUser = """
+        {
+          "age": 25,
+          "company": "testers",
+          "email": "test@example.com",
+          "role": "viewer"
+        }
+        """;
     when(ctx.bodyValidator(User.class))
       .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
@@ -547,13 +558,15 @@ class UserControllerSpec {
 
   @Test
   void addInvalidNameUser() throws IOException {
-    String testNewUser = "{"
-        + "\"name\": \"\","
-        + "\"age\": 25,"
-        + "\"company\": \"testers\","
-        + "\"email\": \"test@example.com\","
-        + "\"role\": \"viewer\""
-        + "}";
+    String testNewUser = """
+        {
+          "name": "",
+          "age": 25,
+          "company": "testers",
+          "email": "test@example.com",
+          "role": "viewer"
+        }
+        """;
     when(ctx.bodyValidator(User.class))
       .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
@@ -564,13 +577,15 @@ class UserControllerSpec {
 
   @Test
   void addInvalidRoleUser() throws IOException {
-    String testNewUser = "{"
-        + "\"name\": \"Test User\","
-        + "\"age\": 25,"
-        + "\"company\": \"testers\","
-        + "\"email\": \"test@example.com\","
-        + "\"role\": \"invalidrole\""
-        + "}";
+    String testNewUser = """
+        {
+          "name": "Test User",
+          "age": 25,
+          "company": "testers",
+          "email": "test@example.com",
+          "role": "invalidrole"
+        }
+        """;
     when(ctx.bodyValidator(User.class))
       .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
@@ -581,12 +596,14 @@ class UserControllerSpec {
 
   @Test
   void addNullCompanyUser() throws IOException {
-    String testNewUser = "{"
-        + "\"name\": \"Test User\","
-        + "\"age\": 25,"
-        + "\"email\": \"test@example.com\","
-        + "\"role\": \"viewer\""
-        + "}";
+    String testNewUser = """
+        {
+          "name": "Test User",
+          "age": 25,
+          "email": "test@example.com",
+          "role": "viewer"
+        }
+        """;
     when(ctx.bodyValidator(User.class))
       .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
@@ -597,13 +614,15 @@ class UserControllerSpec {
 
   @Test
   void addInvalidCompanyUser() throws IOException {
-    String testNewUser = "{"
-        + "\"name\": \"\","
-        + "\"age\": 25,"
-        + "\"company\": \"\","
-        + "\"email\": \"test@example.com\","
-        + "\"role\": \"viewer\""
-        + "}";
+    String testNewUser = """
+        {
+          "name": "",
+          "age": 25,
+          "company": "",
+          "email": "test@example.com",
+          "role": "viewer"
+        }
+        """;
     when(ctx.bodyValidator(User.class))
       .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
