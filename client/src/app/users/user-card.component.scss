@@ -6,3 +6,12 @@
     font-size: 1em;
   }
 }
+
+.user-card-email {
+  display: block; /* Make it a block-level element */
+  color: inherit; /* Inherit the text color from the parent element */
+  text-decoration: none; /* Remove default underline */
+  padding: 0; /* Reset padding */
+  margin: 0; /* Reset margin */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
