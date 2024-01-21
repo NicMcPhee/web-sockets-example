@@ -3,6 +3,8 @@ import { User } from './user';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({
@@ -10,7 +12,7 @@ import { MatCardModule } from '@angular/material/card';
     templateUrl: './user-card.component.html',
     styleUrls: ['./user-card.component.scss'],
     standalone: true,
-    imports: [MatCardModule, MatButtonModule, RouterLink]
+    imports: [MatCardModule, MatButtonModule, MatListModule, MatIconModule, RouterLink]
 })
 export class UserCardComponent {
 
