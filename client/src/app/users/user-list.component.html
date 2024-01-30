@@ -84,7 +84,7 @@
                     @for (user of this.filteredUsers; track user) {
                       <a mat-list-item [routerLink]="['/users', user._id]" class="user-list-item">
                         @if (this.user.avatar) {
-                          <img matListItemAvatar [src]="user.avatar">
+                          <img matListItemAvatar [src]="user.avatar" alt="Avatar for {{ user.name }}">
                         }
                         <span matListItemTitle mat-line class="user-list-name"> {{user.name}} </span>
                         <span matListItemLine class="user-list-role"> {{user.role}} </span>
