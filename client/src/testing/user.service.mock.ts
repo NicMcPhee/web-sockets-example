@@ -48,6 +48,9 @@ export class MockUserService extends UserService {
   }
 
   // skipcq: JS-0105
+  // It's OK that the `_filters` argument isn't used here, so we'll disable
+  // this warning for just his function.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getUsers(_filters: { role?: UserRole; age?: number; company?: string }): Observable<User[]> {
     // Our goal here isn't to test (and thus rewrite) the service, so we'll
     // keep it simple and just return the test users regardless of what
