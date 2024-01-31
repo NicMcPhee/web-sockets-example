@@ -489,8 +489,9 @@ class UserControllerSpec {
           "name": "Test User",
           "age": "notanumber",
           "company": "testers",
-          "email": test@example.com",
+          "email": "test@example.com",
           "role": "viewer"
+        }
         """;
     when(ctx.bodyValidator(User.class))
       .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
