@@ -70,7 +70,7 @@
             <!-- Card grid view -->
             @case ('card') {
               <div class="user-cards-container flex-row gap-8 flex-wrap">
-                @for (user of filteredUsers; track user) {
+                @for (user of filteredUsers; track user._id) {
                   <app-user-card [simple]="true" class="user-card" [user]="user" ></app-user-card>
                 }
               </div>
@@ -81,7 +81,7 @@
                 <mat-card-content>
                   <mat-nav-list class="user-nav-list">
                     <h3 mat-subheader>Users</h3>
-                    @for (user of this.filteredUsers; track user) {
+                    @for (user of this.filteredUsers; track user._id) {
                       <a mat-list-item [routerLink]="['/users', user._id]" class="user-list-item">
                         @if (this.user.avatar) {
                           <img matListItemAvatar [src]="user.avatar" alt="Avatar for {{ user.name }}">
