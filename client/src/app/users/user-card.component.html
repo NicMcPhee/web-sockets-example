@@ -37,10 +37,8 @@
     }
     @if (this.simple) {
       <mat-card-actions>
-        @if (this.simple) {
-          <button mat-button data-test="viewProfileButton" [routerLink]="['/users', this.user._id]">View Profile</button>
-        }
+        <button mat-button data-test="viewProfileButton" [routerLink]="['/users', this.user._id]">View Profile</button>
       </mat-card-actions>
     }
-  </mat-card>
+</mat-card>
 }
