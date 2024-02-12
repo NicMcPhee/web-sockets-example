@@ -24,9 +24,9 @@
     "@angular/platform-browser": "^17.1.2",
     "@angular/platform-browser-dynamic": "^17.1.2",
     "@angular/router": "^17.1.2",
-    "rxjs": "~7.8.0",
+    "rxjs": "^7.8.0",
     "tslib": "^2.4.0",
-    "zone.js": "~0.14.3"
+    "zone.js": "^0.14.3"
   },
   "devDependencies": {
     "@angular-devkit/architect": "^0.1701.2",
@@ -42,13 +42,13 @@
     "@cypress/schematic": "^2.5.1",
     "@floogulinc/cypress-mongo-seeder": "^1.1.1",
     "@types/jasmine": "^5.1.4",
-    "@types/node": "^18.19.6",
-    "@typescript-eslint/eslint-plugin": "^6.18.1",
-    "@typescript-eslint/parser": "^6.18.1",
-    "cypress": "^13.6.2",
-    "eslint": "^8.53.0",
+    "@types/node": "^20.11.16",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "cypress": "^13.6.4",
+    "eslint": "^8.56.0",
     "eslint-plugin-import": "2.29.1",
-    "eslint-plugin-jsdoc": "^48.0.4",
+    "eslint-plugin-jsdoc": "^48.0.5",
     "eslint-plugin-prefer-arrow": "1.2.3",
     "jasmine-core": "^5.1.1",
     "jasmine-spec-reporter": "~7.0.0",
@@ -58,6 +58,6 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "^2.1.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.3"
   }
 }
