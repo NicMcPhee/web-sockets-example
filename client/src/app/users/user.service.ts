@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { User, UserRole } from './user';
+import { Company } from '../company-list/company';
 
 /**
  * Service that provides the interface for getting information
@@ -110,6 +111,10 @@ export class UserService {
     }
 
     return filteredUsers;
+  }
+
+  getCompanies(): Observable<Company[]> {
+    return this.httpClient.get<Company[]>(`${environment.apiUrl}usersByCompany`);
   }
 
   addUser(newUser: Partial<User>): Observable<string> {
