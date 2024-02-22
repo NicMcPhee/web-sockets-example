@@ -12,10 +12,10 @@ plugins {
   id 'checkstyle'
 }
 
-// Build and run the project with Java 21
+// Build and run the project with Java 17
 java {
   toolchain {
-    languageVersion = JavaLanguageVersion.of(21)
+    languageVersion = JavaLanguageVersion.of(17)
   }
 }
 
