@@ -187,10 +187,8 @@ There are a lot of neat things you can do here like inspect each test and find w
 
 ### GitHub Actions
 
-There are thrseverale GitHub Actions workflows set up in the repo:
+There are several GitHub Actions workflows set up in the repo:
 
 - [Server Java](../../actions/workflows/server.yml) - JUnit tests for the server (`gradle-build`)
 - [Client Angular](../../actions/workflows/client.yaml) - Karma tests (`ng-test`) and ESLint linting (`ng-lint`) for the client
 - [End to End](../../actions/workflows/e2e.yaml) - Cypress tests for end-to-end testing
-
-There are badges above that show the status of these checks on the main branch.

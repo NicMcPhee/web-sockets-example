@@ -76,7 +76,13 @@ One for the Java server, one for hosting the client files, and one for the datab
 ## Step 3: Setting up your droplet and running your project
 
 - SSH to your droplet by running ``ssh root@[droplet ip here]`` (using the IP of your droplet) and enter the password you set.
-- When you first log in it'll tell you if there are any updates available. If there are, you can run `apt update` and then `apt upgrade` to apply the updates.
+- When you first log in it'll tell you if there are any updates available. Don't feel
+  like you hae to do these updates; they should start you off with a pretty up-to-date
+  system. If if you want to upgrade your system, you can run `apt update` and then
+  `apt upgrade` to apply the updates. There could be some odd questions along the
+  way, though, so be prepared to have to do some homework to figure out what
+  reasonable responses might be.
+- Install `docker-compose` with the command `apt install docker-compose`.
 - `git clone` your repository
 - `cd` into the newly created directory
 - run `./setupdroplet.sh` to go through the initial setup steps
@@ -85,6 +91,10 @@ One for the Java server, one for hosting the client files, and one for the datab
 - To build and start your server, run `docker-compose up -d`
   - The `-d` means detached and you can then run `docker-compose logs` to see the output at any time.
   - To stop the containers, run `docker-compose stop`
+  - This is going to take a while. You're downloading 3/8ths of the Internet, and
+    building everything on a fairly lightweight machine. You shouldn't have to do
+    this all that often, but using a higher tier (i.e., more expensive) droplet
+    will speed the process up.
 
 ## Common tasks
 
