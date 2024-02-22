@@ -15,9 +15,12 @@
       "es2020",
       "dom"
     ],
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "skipLibCheck": true
   },
-  "exclude": ["./cypress.config.ts"],
+  "exclude": [
+    "./cypress.config.ts"
+  ],
   "angularCompilerOptions": {
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
