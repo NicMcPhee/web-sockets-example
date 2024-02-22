@@ -1,13 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { User } from './user';
-import { UserService } from './user.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subject } from 'rxjs';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
+import { User } from './user';
 import { UserCardComponent } from './user-card.component';
-
-import { MatCardModule } from '@angular/material/card';
+import { UserService } from './user.service';
 
 @Component({
     selector: 'app-user-profile',
