@@ -450,7 +450,7 @@ class UserControllerSpec {
   private ArgumentCaptor<ArrayList<UserByCompany>> userByCompanyListCaptor;
 
   @Test
-  public void testGetUsersGroupedByCompany() {
+  void testGetUsersGroupedByCompany() {
     when(ctx.queryParam("sortBy")).thenReturn("company");
     when(ctx.queryParam("sortOrder")).thenReturn("asc");
     userController.getUsersGroupedByCompany(ctx);
@@ -487,7 +487,7 @@ class UserControllerSpec {
   }
 
   @Test
-  public void testGetUsersGroupedByCompanyDescending() {
+  void testGetUsersGroupedByCompanyDescending() {
     when(ctx.queryParam("sortBy")).thenReturn("company");
     when(ctx.queryParam("sortOrder")).thenReturn("desc");
     userController.getUsersGroupedByCompany(ctx);
@@ -516,7 +516,7 @@ class UserControllerSpec {
   }
 
   @Test
-  public void testGetUsersGroupedByCompanyOrderedByCount() {
+  void testGetUsersGroupedByCompanyOrderedByCount() {
     when(ctx.queryParam("sortBy")).thenReturn("count");
     when(ctx.queryParam("sortOrder")).thenReturn("asc");
     userController.getUsersGroupedByCompany(ctx);
