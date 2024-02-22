@@ -33,9 +33,9 @@ from [Lab 0](https://github.com/UMM-CSci-3601/intro-to-git) including:
 ## MongoDB (database)
 
 - [The MongoDB Manual](https://docs.mongodb.com/manual/)
-  - [The MongoDB v3.6 Manual](https://docs.mongodb.com/v3.6/)
+  - [The MongoDB v5 Manual](https://www.mongodb.com/docs/v5.0/)
 - [MongoDB Java Drivers](https://mongodb.github.io/mongo-java-driver/)
-  - [MongoDB Driver 3.12 Documentation](https://mongodb.github.io/mongo-java-driver/3.12/driver/)
+  - [MongoDB Driver 4.11 Documentation](https://mongodb.github.io/mongo-java-driver/4.11/)
 - [MongoJack](https://mongojack.org/)
 - [JSON Generator](https://next.json-generator.com/) for generating
   seed data for testing
@@ -57,9 +57,11 @@ Here are some useful resources to explore:
 
 - [The Angular accessibility guide](https://angular.io/guide/accessibility)
 - [The U of MN's accessibility info for web developers](https://accessibility.umn.edu/core-skills-web-developers)
-- Firefox has a built-in accessibility checker in the
-  "Web Developer" tools
-- [axe browser extensions](https://www.deque.com/axe/browser-extensions/)
+- Firefox has [a built-in accessibility checker in the
+  "Web Developer" tools](https://firefox-source-docs.mozilla.org/devtools-user/accessibility_inspector/)
+  - The article "[Use Firefox for accessibility testing](https://www.a11yproject.com/posts/using-firefox-for-accessibility-testing/)"
+    has additional details.
+- [axe browser extensions for checking accessibility](https://www.deque.com/axe/browser-extensions/)
 - [The WAVE accessibility analyzer](https://wave.webaim.org/)
   - [WAVE browser extensions](https://wave.webaim.org/extension/)
 - NoCoffee: A browser extension that simulates a variety of visual impairments
