@@ -13,22 +13,21 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Sorts;
-import com.mongodb.client.result.DeleteResult;
-
 import org.bson.Document;
 import org.bson.UuidRepresentation;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.mongojack.JacksonMongoCollection;
 
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Sorts;
+import com.mongodb.client.result.DeleteResult;
+
 import io.javalin.Javalin;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
-
 import umm3601.Controller;
 
 /**
@@ -113,8 +112,21 @@ public class UserController implements Controller {
     ctx.status(HttpStatus.OK);
   }
 
+  /**
+   * Construct a Bson filter document to use in the `find` method based on the
+   * query parameters from the context.
+   *
+   * This checks for the presence of the `age`, `company`, and `role` query
+   * parameters and constructs a filter document that will match users with
+   * the specified values for those fields.
+   *
+   * @param ctx a Javalin HTTP context, which contains the query parameters
+   *    used to construct the filter
+   * @return a Bson filter document that can be used in the `find` method
+   *   to filter the database collection of users
+   */
   private Bson constructFilter(Context ctx) {
-    List<Bson> filters = new ArrayList<>(); // start with a blank document
+    List<Bson> filters = new ArrayList<>(); // start with an empty list of filters
 
     if (ctx.queryParamMap().containsKey(AGE_KEY)) {
       int targetAge = ctx.queryParamAsClass(AGE_KEY, Integer.class)
@@ -140,6 +152,21 @@ public class UserController implements Controller {
     return combinedFilter;
   }
 
+  /**
+   * Construct a Bson sorting document to use in the `sort` method based on the
+   * query parameters from the context.
+   *
+   * This checks for the presence of the `sortby` and `sortorder` query
+   * parameters and constructs a sorting document that will sort users by
+   * the specified field in the specified order. If the `sortby` query
+   * parameter is not present, it defaults to "name". If the `sortorder`
+   * query parameter is not present, it defaults to "asc".
+   *
+   * @param ctx a Javalin HTTP context, which contains the query parameters
+   *   used to construct the sorting order
+   * @return a Bson sorting document that can be used in the `sort` method
+   *  to sort the database collection of users
+   */
   private Bson constructSortingOrder(Context ctx) {
     // Sort the results. Use the `sortby` query param (default "name")
     // as the field to sort by, and the query param `sortorder` (default
@@ -151,10 +178,73 @@ public class UserController implements Controller {
   }
 
   /**
+   * Set the JSON body of the response to be a list of all the user names and IDs
+   * returned from the database, grouped by company
+   *
+   * This "returns" a list of user names and IDs, grouped by company in the JSON
+   * body of the response. The user names and IDs are stored in `UserIdName` objects,
+   * and the company name, the number of users in that company, and the list of user
+   * names and IDs are stored in `UserByCompany` objects.
+   *
+   * @param ctx a Javalin HTTP context that provides the query parameters
+   *   used to sort the results. We support either sorting by company name
+   *   (in either `asc` or `desc` order) or by the number of users in the
+   *   company (`count`, also in either `asc` or `desc` order).
+   */
+  public void getUsersGroupedByCompany(Context ctx) {
+    // We'll support sorting the results either by company name (in either `asc` or `desc` order)
+    // or by the number of users in the company (`count`, also in either `asc` or `desc` order).
+    String sortBy = Objects.requireNonNullElse(ctx.queryParam("sortBy"), "_id");
+    if (sortBy.equals("company")) {
+      sortBy = "_id";
+    }
+    String sortOrder = Objects.requireNonNullElse(ctx.queryParam("sortOrder"), "asc");
+    Bson sortingOrder = sortOrder.equals("desc") ?  Sorts.descending(sortBy) : Sorts.ascending(sortBy);
+
+    // The `UserByCompany` class is a simple class that has fields for the company
+    // name, the number of users in that company, and a list of user names and IDs
+    // (using the `UserIdName` class to store the user names and IDs).
+    // We're going to use the aggregation pipeline to group users by company, and
+    // then count the number of users in each company. We'll also collect the user
+    // names and IDs for each user in each company. We'll then convert the results
+    // of the aggregation pipeline to `UserByCompany` objects.
+
+    ArrayList<UserByCompany> matchingUsers = userCollection
+      // The following aggregation pipeline groups users by company, and
+      // then counts the number of users in each company. It also collects
+      // the user names and IDs for each user in each company.
+      .aggregate(
+        List.of(
+          // Project the fields we want to use in the next step, i.e., the _id, name, and company fields
+          new Document("$project", new Document("_id", 1).append("name", 1).append("company", 1)),
+          // Group the users by company, and count the number of users in each company
+          new Document("$group", new Document("_id", "$company")
+            // Count the number of users in each company
+            .append("count", new Document("$sum", 1))
+            // Collect the user names and IDs for each user in each company
+            .append("users", new Document("$push", new Document("_id", "$_id").append("name", "$name")))),
+          // Sort the results. Use the `sortby` query param (default "company")
+          // as the field to sort by, and the query param `sortorder` (default
+          // "asc") to specify the sort order.
+          new Document("$sort", sortingOrder)
+        ),
+        // Convert the results of the aggregation pipeline to UserGroupResult objects
+        // (i.e., a list of UserGroupResult objects). It is necessary to have a Java type
+        // to convert the results to, and the JacksonMongoCollection will do this for us.
+        UserByCompany.class
+      )
+      .into(new ArrayList<>());
+
+    ctx.json(matchingUsers);
+    ctx.status(HttpStatus.OK);
+  }
+
+  /**
    * Add a new user using information from the context
    * (as long as the information gives "legal" values to User fields)
    *
-   * @param ctx a Javalin HTTP context
+   * @param ctx a Javalin HTTP context that provides the user info
+   *  in the JSON body of the request
    */
   public void addNewUser(Context ctx) {
     /*
@@ -165,8 +255,11 @@ public class UserController implements Controller {
      *    - The user name is not blank (`usr.name.length > 0`)
      *    - The provided email is valid (matches EMAIL_REGEX)
      *    - The provided age is > 0
+     *    - The provided age is < REASONABLE_AGE_LIMIT
      *    - The provided role is valid (one of "admin", "editor", or "viewer")
      *    - A non-blank company is provided
+     * If any of these checks fail, the Javalin system will throw a
+     * `BadRequestResponse` with an appropriate error message.
      */
     User newUser = ctx.bodyValidator(User.class)
       .check(usr -> usr.name != null && usr.name.length() > 0, "User must have a non-empty user name")
@@ -180,10 +273,15 @@ public class UserController implements Controller {
     // Generate a user avatar (you won't need this part for todos)
     newUser.avatar = generateAvatar(newUser.email);
 
+    // Add the new user to the database
     userCollection.insertOne(newUser);
 
+    // Set the JSON response to be the `_id` of the newly created user.
+    // This gives the client the opportunity to know the ID of the new user,
+    // which it can then use to perform further operations (e.g., a GET request
+    // to get and display the details of the new user).
     ctx.json(Map.of("id", newUser._id));
-    // 201 is the HTTP code for when we successfully
+    // 201 (`HttpStatus.CREATED`) is the HTTP code for when we successfully
     // create a new resource (a user in this case).
     // See, e.g., https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
     // for a description of the various response codes.
@@ -198,6 +296,7 @@ public class UserController implements Controller {
   public void deleteUser(Context ctx) {
     String id = ctx.pathParam("id");
     DeleteResult deleteResult = userCollection.deleteOne(eq("_id", new ObjectId(id)));
+    // We should have deleted 1 or 0 users, depending on whether `id` is a valid user ID.
     if (deleteResult.getDeletedCount() != 1) {
       ctx.status(HttpStatus.NOT_FOUND);
       throw new NotFoundResponse(
@@ -215,6 +314,8 @@ public class UserController implements Controller {
    * This uses the service provided by gravatar.com; there
    * are numerous other similar services that one could
    * use if one wished.
+   *
+   * YOU DON'T NEED TO USE THIS FUNCTION FOR THE TODOS.
    *
    * @param email the email to generate an avatar for
    * @return a URI pointing to an avatar image
@@ -251,11 +352,13 @@ public class UserController implements Controller {
    * Setup routes for the `user` collection endpoints.
    *
    * These endpoints are:
+   *   - `GET /api/users/:id`
+   *       - Get the specified user
    *   - `GET /api/users?age=NUMBER&company=STRING&name=STRING`
    *      - List users, filtered using query parameters
    *      - `age`, `company`, and `name` are optional query parameters
-   *   - `GET /api/users/:id`
-   *       - Get the specified user
+   *   - `GET /api/usersByCompany`
+   *     - Get user names and IDs, possibly filtered, grouped by company
    *   - `DELETE /api/users/:id`
    *      - Delete the specified user
    *   - `POST /api/users`
@@ -273,17 +376,20 @@ public class UserController implements Controller {
    * @param userController The controller that handles the user endpoints
    */
   public void addRoutes(Javalin server) {
-    // List users, filtered using query parameters
-    server.get(API_USERS, this::getUsers);
-
     // Get the specified user
     server.get(API_USER_BY_ID, this::getUser);
 
-    // Delete the specified user
-    server.delete(API_USER_BY_ID, this::deleteUser);
+    // List users, filtered using query parameters
+    server.get(API_USERS, this::getUsers);
+
+    // Get the users, possibly filtered, grouped by company
+    server.get("/api/usersByCompany", this::getUsersGroupedByCompany);
 
     // Add new user with the user info being in the JSON body
     // of the HTTP request
     server.post(API_USERS, this::addNewUser);
+
+    // Delete the specified user
+    server.delete(API_USER_BY_ID, this::deleteUser);
   }
 }

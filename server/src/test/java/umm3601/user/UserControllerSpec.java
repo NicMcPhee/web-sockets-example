@@ -1,13 +1,16 @@
 package umm3601.user;
 
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static com.mongodb.client.model.Filters.eq;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -18,23 +21,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-
-import com.mongodb.MongoClientSettings;
-import com.mongodb.ServerAddress;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Captor;
@@ -42,14 +34,24 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import io.javalin.validation.BodyValidator;
-import io.javalin.validation.ValidationException;
-import io.javalin.validation.Validator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+
+import io.javalin.Javalin;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
 import io.javalin.json.JavalinJackson;
+import io.javalin.validation.BodyValidator;
+import io.javalin.validation.ValidationException;
+import io.javalin.validation.Validator;
 
 /**
  * Tests the logic of the UserController
@@ -113,8 +115,7 @@ class UserControllerSpec {
     mongoClient = MongoClients.create(
         MongoClientSettings.builder()
             .applyToClusterSettings(builder -> builder.hosts(Arrays.asList(new ServerAddress(mongoAddr))))
-            .build()
-    );
+            .build());
     db = mongoClient.getDatabase("test");
   }
 
@@ -126,7 +127,8 @@ class UserControllerSpec {
 
   @BeforeEach
   void setupEach() throws IOException {
-    // Reset our mock context and argument captor (declared with Mockito annotations @Mock and @Captor)
+    // Reset our mock context and argument captor (declared with Mockito
+    // annotations @Mock and @Captor)
     MockitoAnnotations.openMocks(this);
 
     // Setup database
@@ -175,17 +177,28 @@ class UserControllerSpec {
   }
 
   @Test
+  void addsRoutes() {
+    Javalin mockServer = mock(Javalin.class);
+    userController.addRoutes(mockServer);
+    verify(mockServer, Mockito.atLeast(3)).get(any(), any());
+    verify(mockServer, Mockito.atLeastOnce()).post(any(), any());
+    verify(mockServer, Mockito.atLeastOnce()).delete(any(), any());
+  }
+
+  @Test
   void canGetAllUsers() throws IOException {
     // When something asks the (mocked) context for the queryParamMap,
-    // it will return an empty map (since there are no query params in this case where we want all users)
+    // it will return an empty map (since there are no query params in
+    // this case where we want all users).
     when(ctx.queryParamMap()).thenReturn(Collections.emptyMap());
 
     // Now, go ahead and ask the userController to getUsers
     // (which will, indeed, ask the context for its queryParamMap)
     userController.getUsers(ctx);
 
-    // We are going to capture an argument to a function, and the type of that argument will be
-    // of type ArrayList<User> (we said so earlier using a Mockito annotation like this):
+    // We are going to capture an argument to a function, and the type of
+    // that argument will be of type ArrayList<User> (we said so earlier
+    // using a Mockito annotation like this):
     // @Captor
     // private ArgumentCaptor<ArrayList<User>> userArrayListCaptor;
     // We only want to declare that captor once and let the annotation
@@ -193,13 +206,17 @@ class UserControllerSpec {
     // We reset the values of our annotated declarations using the command
     // `MockitoAnnotations.openMocks(this);` in our @BeforeEach
 
-    // Specifically, we want to pay attention to the ArrayList<User> that is passed as input
-    // when ctx.json is called --- what is the argument that was passed? We capture it and can refer to it later
+    // Specifically, we want to pay attention to the ArrayList<User> that
+    // is passed as input when ctx.json is called --- what is the argument
+    // that was passed? We capture it and can refer to it later.
     verify(ctx).json(userArrayListCaptor.capture());
     verify(ctx).status(HttpStatus.OK);
 
-    // Check that the database collection holds the same number of documents as the size of the captured List<User>
-    assertEquals(db.getCollection("users").countDocuments(), userArrayListCaptor.getValue().size());
+    // Check that the database collection holds the same number of documents
+    // as the size of the captured List<User>
+    assertEquals(
+        db.getCollection("users").countDocuments(),
+        userArrayListCaptor.getValue().size());
   }
 
   @Test
@@ -209,7 +226,7 @@ class UserControllerSpec {
     queryParams.put(UserController.AGE_KEY, Arrays.asList(new String[] {"37"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
     when(ctx.queryParamAsClass(UserController.AGE_KEY, Integer.class))
-      .thenReturn(Validator.create(Integer.class, "37", UserController.AGE_KEY));
+        .thenReturn(Validator.create(Integer.class, "37", UserController.AGE_KEY));
 
     userController.getUsers(ctx);
 
@@ -221,24 +238,28 @@ class UserControllerSpec {
     }
   }
 
-  // We've included another approach for testing if everything behaves when we ask for users that are 37
+  // We've included another approach for testing if everything behaves when we ask
+  // for users that are 37
   @Test
   void canGetUsersWithAge37Redux() throws JsonMappingException, JsonProcessingException {
     // When the controller calls `ctx.queryParamMap`, return the expected map for an
     // "?age=37" query.
     when(ctx.queryParamMap()).thenReturn(Map.of(UserController.AGE_KEY, List.of("37")));
-    // When the controller calls `ctx.queryParamAsClass() to get the value associated with
-    // the "age" key, return an appropriate Validator.
+    // When the controller calls `ctx.queryParamAsClass() to get the value
+    // associated with the "age" key, return an appropriate Validator.
     Validator<Integer> validator = Validator.create(Integer.class, "37", UserController.AGE_KEY);
     when(ctx.queryParamAsClass(UserController.AGE_KEY, Integer.class)).thenReturn(validator);
 
     // Call the method under test.
     userController.getUsers(ctx);
 
-    // Verify that `getUsers` included a call to `ctx.status(HttpStatus.OK)` at some point.
+    // Verify that `getUsers` included a call to `ctx.status(HttpStatus.OK)` at some
+    // point.
     verify(ctx).status(HttpStatus.OK);
 
-    // Instead of using the Captor like in many other tests, we will use an ArgumentMatcher
+    // Instead of using the Captor like in many other tests, we will use an
+    // ArgumentMatcher just to show that it can be done and illustrate
+    // another way to test the same thing.
     // Verify that `ctx.json()` is called with a `List` of `User`s.
     // Each of those `User`s should have age 37.
     verify(ctx).json(argThat(new ArgumentMatcher<List<User>>() {
@@ -263,7 +284,7 @@ class UserControllerSpec {
     queryParams.put(UserController.AGE_KEY, Arrays.asList(new String[] {"bad"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
     when(ctx.queryParamAsClass(UserController.AGE_KEY, Integer.class))
-      .thenReturn(Validator.create(Integer.class, "bad", UserController.AGE_KEY));
+        .thenReturn(Validator.create(Integer.class, "bad", UserController.AGE_KEY));
 
     // This should now throw a `ValidationException` because
     // our request has an age that can't be parsed to a number,
@@ -284,7 +305,7 @@ class UserControllerSpec {
     queryParams.put(UserController.AGE_KEY, Arrays.asList(new String[] {"151"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
     when(ctx.queryParamAsClass(UserController.AGE_KEY, Integer.class))
-      .thenReturn(Validator.create(Integer.class, "151", UserController.AGE_KEY));
+        .thenReturn(Validator.create(Integer.class, "151", UserController.AGE_KEY));
 
     // This should now throw a `ValidationException` because
     // our request has an age that is larger than 150, which isn't allowed,
@@ -294,7 +315,7 @@ class UserControllerSpec {
     });
   }
 
-/**
+  /**
    * Test that if the user sends a request with an illegal value in
    * the age field (i.e., too small of a number)
    * we get a reasonable error code back.
@@ -305,7 +326,7 @@ class UserControllerSpec {
     queryParams.put(UserController.AGE_KEY, Arrays.asList(new String[] {"-1"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
     when(ctx.queryParamAsClass(UserController.AGE_KEY, Integer.class))
-      .thenReturn(Validator.create(Integer.class, "-1", UserController.AGE_KEY));
+        .thenReturn(Validator.create(Integer.class, "-1", UserController.AGE_KEY));
 
     // This should now throw a `ValidationException` because
     // our request has an age that is smaller than 0, which isn't allowed,
@@ -359,7 +380,7 @@ class UserControllerSpec {
     queryParams.put(UserController.ROLE_KEY, Arrays.asList(new String[] {"viewer"}));
     when(ctx.queryParamMap()).thenReturn(queryParams);
     when(ctx.queryParamAsClass(UserController.ROLE_KEY, String.class))
-      .thenReturn(Validator.create(String.class, "viewer", UserController.ROLE_KEY));
+        .thenReturn(Validator.create(String.class, "viewer", UserController.ROLE_KEY));
 
     userController.getUsers(ctx);
 
@@ -376,7 +397,7 @@ class UserControllerSpec {
     when(ctx.queryParamMap()).thenReturn(queryParams);
     when(ctx.queryParam(UserController.COMPANY_KEY)).thenReturn("OHMNET");
     when(ctx.queryParamAsClass(UserController.AGE_KEY, Integer.class))
-      .thenReturn(Validator.create(Integer.class, "37", UserController.AGE_KEY));
+        .thenReturn(Validator.create(Integer.class, "37", UserController.AGE_KEY));
 
     userController.getUsers(ctx);
 
@@ -425,6 +446,112 @@ class UserControllerSpec {
     assertEquals("The requested user was not found", exception.getMessage());
   }
 
+  @Captor
+  private ArgumentCaptor<ArrayList<UserByCompany>> userByCompanyListCaptor;
+
+  @Test
+  public void testGetUsersGroupedByCompany() {
+    when(ctx.queryParam("sortBy")).thenReturn("company");
+    when(ctx.queryParam("sortOrder")).thenReturn("asc");
+    userController.getUsersGroupedByCompany(ctx);
+
+    // Capture the argument to `ctx.json()`
+    verify(ctx).json(userByCompanyListCaptor.capture());
+
+    // Get the value that was passed to `ctx.json()`
+    ArrayList<UserByCompany> result = userByCompanyListCaptor.getValue();
+
+    // There are 3 companies in the test data, so we should have 3 entries in the
+    // result.
+    assertEquals(3, result.size());
+
+    // The companies should be in alphabetical order by company name,
+    // and with user counts of 1, 2, and 1, respectively.
+    UserByCompany ibm = result.get(0);
+    assertEquals("IBM", ibm._id);
+    assertEquals(1, ibm.count);
+    UserByCompany ohmnet = result.get(1);
+    assertEquals("OHMNET", ohmnet._id);
+    assertEquals(2, ohmnet.count);
+    UserByCompany umm = result.get(2);
+    assertEquals("UMM", umm._id);
+    assertEquals(1, umm.count);
+
+    // The users for OHMNET should be Jamie and Sam, although we don't
+    // know what order they'll be in.
+    assertEquals(2, ohmnet.users.size());
+    assertTrue(ohmnet.users.get(0).name.equals("Jamie") || ohmnet.users.get(0).name.equals("Sam"),
+        "First user should have name 'Jamie' or 'Sam'");
+    assertTrue(ohmnet.users.get(1).name.equals("Jamie") || ohmnet.users.get(1).name.equals("Sam"),
+        "Second user should have name 'Jamie' or 'Sam'");
+  }
+
+  @Test
+  public void testGetUsersGroupedByCompanyDescending() {
+    when(ctx.queryParam("sortBy")).thenReturn("company");
+    when(ctx.queryParam("sortOrder")).thenReturn("desc");
+    userController.getUsersGroupedByCompany(ctx);
+
+    // Capture the argument to `ctx.json()`
+    verify(ctx).json(userByCompanyListCaptor.capture());
+
+    // Get the value that was passed to `ctx.json()`
+    ArrayList<UserByCompany> result = userByCompanyListCaptor.getValue();
+
+    // There are 3 companies in the test data, so we should have 3 entries in the
+    // result.
+    assertEquals(3, result.size());
+
+    // The companies should be in reverse alphabetical order by company name,
+    // and with user counts of 1, 2, and 1, respectively.
+    UserByCompany umm = result.get(0);
+    assertEquals("UMM", umm._id);
+    assertEquals(1, umm.count);
+    UserByCompany ohmnet = result.get(1);
+    assertEquals("OHMNET", ohmnet._id);
+    assertEquals(2, ohmnet.count);
+    UserByCompany ibm = result.get(2);
+    assertEquals("IBM", ibm._id);
+    assertEquals(1, ibm.count);
+  }
+
+  @Test
+  public void testGetUsersGroupedByCompanyOrderedByCount() {
+    when(ctx.queryParam("sortBy")).thenReturn("count");
+    when(ctx.queryParam("sortOrder")).thenReturn("asc");
+    userController.getUsersGroupedByCompany(ctx);
+
+    // Capture the argument to `ctx.json()`
+    verify(ctx).json(userByCompanyListCaptor.capture());
+
+    // Get the value that was passed to `ctx.json()`
+    ArrayList<UserByCompany> result = userByCompanyListCaptor.getValue();
+
+    // There are 3 companies in the test data, so we should have 3 entries in the
+    // result.
+    assertEquals(3, result.size());
+
+    // The companies should be in order by user count, and with counts of 1, 1, and
+    // 2,
+    // respectively. We don't know which order "IBM" and "UMM" will be in, since
+    // they
+    // both have a count of 1. So we'll get them both and then swap them if
+    // necessary.
+    UserByCompany ibm = result.get(0);
+    UserByCompany umm = result.get(1);
+    if (ibm._id.equals("UMM")) {
+      umm = result.get(0);
+      ibm = result.get(1);
+    }
+    UserByCompany ohmnet = result.get(2);
+    assertEquals("IBM", ibm._id);
+    assertEquals(1, ibm.count);
+    assertEquals("UMM", umm._id);
+    assertEquals(1, umm.count);
+    assertEquals("OHMNET", ohmnet._id);
+    assertEquals(2, ohmnet.count);
+  }
+
   @Test
   void addUser() throws IOException {
     String testNewUser = """
@@ -437,7 +564,7 @@ class UserControllerSpec {
         }
         """;
     when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
+        .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
     userController.addNewUser(ctx);
     verify(ctx).json(mapCaptor.capture());
@@ -445,11 +572,12 @@ class UserControllerSpec {
     // Our status should be 201, i.e., our new user was successfully created.
     verify(ctx).status(HttpStatus.CREATED);
 
-    //Verify that the user was added to the database with the correct ID
+    // Verify that the user was added to the database with the correct ID
     Document addedUser = db.getCollection("users")
-      .find(eq("_id", new ObjectId(mapCaptor.getValue().get("id")))).first();
+        .find(eq("_id", new ObjectId(mapCaptor.getValue().get("id")))).first();
 
-    // Successfully adding the user should return the newly generated, non-empty MongoDB ID for that user.
+    // Successfully adding the user should return the newly generated, non-empty
+    // MongoDB ID for that user.
     assertNotEquals("", addedUser.get("_id"));
     assertEquals("Test User", addedUser.get("name"));
     assertEquals(25, addedUser.get(UserController.AGE_KEY));
@@ -471,14 +599,16 @@ class UserControllerSpec {
         }
         """;
     when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
+        .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
     assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
     });
 
-    // Our status should be 400, because our request contained information that didn't validate.
-    // However, I'm not yet sure how to test the specifics about validation problems encountered.
+    // Our status should be 400, because our request contained information that
+    // didn't validate.
+    // However, I'm not yet sure how to test the specifics about validation problems
+    // encountered.
     // verify(ctx).status(HttpStatus.BAD_REQUEST);
   }
 
@@ -494,7 +624,7 @@ class UserControllerSpec {
         }
         """;
     when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
+        .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
     assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
@@ -513,7 +643,7 @@ class UserControllerSpec {
         }
         """;
     when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
+        .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
     assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
@@ -532,7 +662,7 @@ class UserControllerSpec {
         }
         """;
     when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
+        .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
     assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
@@ -550,7 +680,7 @@ class UserControllerSpec {
         }
         """;
     when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
+        .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
     assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
@@ -569,7 +699,7 @@ class UserControllerSpec {
         }
         """;
     when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
+        .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
     assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
@@ -588,7 +718,7 @@ class UserControllerSpec {
         }
         """;
     when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
+        .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
     assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
@@ -606,7 +736,7 @@ class UserControllerSpec {
         }
         """;
     when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
+        .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
     assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
@@ -625,7 +755,7 @@ class UserControllerSpec {
         }
         """;
     when(ctx.bodyValidator(User.class))
-      .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
+        .then(value -> new BodyValidator<User>(testNewUser, User.class, javalinJackson));
 
     assertThrows(ValidationException.class, () -> {
       userController.addNewUser(ctx);
