@@ -18,9 +18,6 @@ to be used as a tool for deploying simple web applications. This is by no means 
 comprehensive guide, and you are encouraged to reach out to classmates, faculty, and
 TAs (through Slack, for example) with questions.
 
-The majority of the information here will be presented in the form of bulleted lists,
-because we all know none of us actually read walls of text.
-
 Most of this will happen in a terminal window, which is yet another reason to take
 some time to learn how to use the Unix shell.
 
@@ -51,15 +48,18 @@ One for the Java server, one for hosting the client files, and one for the datab
 - Go to [Digital Ocean](https://www.digitalocean.com).
 - You _can_ create an account without adding billing information.
 - You _cannot_ create any droplets without "activating" your account (by adding billing info).
-- You _do_ get $100 of free credit for D.O. through [the Github StudentPack](https://education.github.com/pack). Be sure to redeem it.
+- You _do_ get $100 of free credit for Digital Ocean through [the Github StudentPack](https://education.github.com/pack). Be sure to redeem it. That should easily get
+  you through the semester with room to spare.
 
 ## Step 2: Creating a droplet
 
 - Go to
   [this link](https://cloud.digitalocean.com/droplets/new?image=docker-20-04&app=docker&size=s-1vcpu-1gb&options=install_agent).
   It should bring you to the Create Droplets page with the Docker
-  marketplace image selected and the $5/month basic plan selected.
+  marketplace image selected and the $6/month basic plan selected.
   If those are not selected, please select them.
+  - You may find that the next size of ($12/month) provides better performance,
+    especially as your project grows more complex.
 - Stick with the default datacenter / region (probably one of the U.S. options).
 - Scroll down and choose "Password" under Authentication. Enter a password here,
   this will be the password for the `root` user.
@@ -75,7 +75,7 @@ One for the Java server, one for hosting the client files, and one for the datab
 
 ## Step 3: Setting up your droplet and running your project
 
-- SSH to your droplet by running ``ssh root@[my ip here]`` (using the IP of your droplet) and enter the password you set.
+- SSH to your droplet by running ``ssh root@[droplet ip here]`` (using the IP of your droplet) and enter the password you set.
 - When you first log in it'll tell you if there are any updates available. If there are, you can run `apt update` and then `apt upgrade` to apply the updates.
 - `git clone` your repository
 - `cd` into the newly created directory
@@ -121,4 +121,5 @@ There are many more commands and options for `docker-compose`. They are all docu
 
 ## Using a custom domain
 
-If you have purchased a domain for your project and would like to use it, set its DNS A record to the IP of your droplet. Stop and remove your containers with `docker-compose down` and then you can use `nano` or similar to edit the `.env` file and change `APP_HOST` to the domain you wish to use. After that use `docker-compose up -d` to start it up again.
+If you have purchased a domain for your project and would like to use it, set its
+DNS `A record` to the IP of your droplet. Stop and remove your containers with `docker-compose down` and then you can use `nano` or similar to edit the `.env` file and change `APP_HOST` to the domain you wish to use. After that use `docker-compose up -d` to start it up again.
