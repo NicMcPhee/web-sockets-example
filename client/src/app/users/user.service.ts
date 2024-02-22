@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { User, UserRole } from './user';
-import { map } from 'rxjs/operators';
 
 /**
  * Service that provides the interface for getting information

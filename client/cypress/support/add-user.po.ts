@@ -1,4 +1,4 @@
-import {User} from 'src/app/users/user';
+import { User } from 'src/app/users/user';
 
 export class AddUserPage {
 

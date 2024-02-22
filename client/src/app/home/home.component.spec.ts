@@ -1,8 +1,8 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {HomeComponent} from './home.component';
-import {DebugElement} from '@angular/core';
-import {By} from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
+import { By } from '@angular/platform-browser';
+import { HomeComponent } from './home.component';
 
 describe('Home', () => {
 
