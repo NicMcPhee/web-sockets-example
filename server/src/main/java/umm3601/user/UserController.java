@@ -52,9 +52,20 @@ public class UserController implements Controller {
 
   private HashSet<WsContext> connectedContexts = new HashSet<>();
 
-  private void updateListeners() {
+  /**
+   * Update all connected clients with the new user count.
+   *
+   * We also send the event that triggered the update, so that the client
+   * can update its own state accordingly.
+   *
+   * @param event the kind of event that triggered the update, e.g., "added-user"
+   *  or "deleted-user"
+   * @param data the data associated with the event, e.g., the name of the user
+   */
+  private void updateListeners(String event, String data) {
+    Map<String, String> events = Map.of(event, data, "user-count", Long.toString(userCollection.countDocuments()));
     for (WsContext ws : connectedContexts) {
-      ws.sendAsClass(new UserCount(userCollection.countDocuments()), UserCount.class);
+      ws.send(events);
     }
   }
 
@@ -297,7 +308,7 @@ public class UserController implements Controller {
     // for a description of the various response codes.
     ctx.status(HttpStatus.CREATED);
 
-    updateListeners();
+    updateListeners("added-user", newUser.name);
   }
 
   /**
@@ -307,6 +318,7 @@ public class UserController implements Controller {
    */
   public void deleteUser(Context ctx) {
     String id = ctx.pathParam("id");
+    User deletedUser = userCollection.find(eq("_id", new ObjectId(id))).first();
     DeleteResult deleteResult = userCollection.deleteOne(eq("_id", new ObjectId(id)));
     // We should have deleted 1 or 0 users, depending on whether `id` is a valid user ID.
     if (deleteResult.getDeletedCount() != 1) {
@@ -318,7 +330,12 @@ public class UserController implements Controller {
     }
     ctx.status(HttpStatus.OK);
 
-    updateListeners();
+    // I think that `deletedUser` should be non-null here. If it was
+    // null, that would mean this `id` wasn't in the DB, which should
+    // have been caught by the `deleteOne` call and `deleteResult`
+    // check above. We should write some tests to check that, however.
+    // Nic – 2024-04-17
+    updateListeners("deleted-user", deletedUser.name);
   }
 
   /**
@@ -411,6 +428,7 @@ public class UserController implements Controller {
       ws.onConnect(ctx -> {
         System.out.println("A client connected");
         connectedContexts.add(ctx);
+        ctx.enableAutomaticPings();
       });
     });
   }
