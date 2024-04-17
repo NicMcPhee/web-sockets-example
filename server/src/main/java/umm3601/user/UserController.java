@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -28,6 +29,7 @@ import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
+import io.javalin.websocket.WsContext;
 import umm3601.Controller;
 
 /**
@@ -47,6 +49,14 @@ public class UserController implements Controller {
   public static final String EMAIL_REGEX = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 
   private final JacksonMongoCollection<User> userCollection;
+
+  private HashSet<WsContext> connectedContexts = new HashSet<>();
+
+  private void updateListeners() {
+    for (WsContext ws : connectedContexts) {
+      ws.sendAsClass(new UserCount(userCollection.countDocuments()), UserCount.class);
+    }
+  }
 
   /**
    * Construct a controller for users.
@@ -286,6 +296,8 @@ public class UserController implements Controller {
     // See, e.g., https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
     // for a description of the various response codes.
     ctx.status(HttpStatus.CREATED);
+
+    updateListeners();
   }
 
   /**
@@ -305,6 +317,8 @@ public class UserController implements Controller {
           + "; perhaps illegal ID or an ID for an item not in the system?");
     }
     ctx.status(HttpStatus.OK);
+
+    updateListeners();
   }
 
   /**
@@ -391,5 +405,13 @@ public class UserController implements Controller {
 
     // Delete the specified user
     server.delete(API_USER_BY_ID, this::deleteUser);
+
+    // Get "live" updates of the user count
+    server.ws("/ws/usercount", ws -> {
+      ws.onConnect(ctx -> {
+        System.out.println("A client connected");
+        connectedContexts.add(ctx);
+      });
+    });
   }
 }
