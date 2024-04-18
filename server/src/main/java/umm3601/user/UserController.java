@@ -9,6 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -65,15 +66,27 @@ public class UserController implements Controller {
   private void updateListeners(String event, String data) {
     Map<String, String> events = Map.of(event, data, "user-count", Long.toString(userCollection.countDocuments()));
     System.err.println("Updating listeners with " + events);
-    for (WsContext ws : connectedContexts) {
+    Iterator<WsContext> iterator = connectedContexts.iterator();
+    while (iterator.hasNext()) {
+      WsContext ws = iterator.next();
       if (ws.session.isOpen()) {
         System.err.println("Sending events to client" + ws);
         ws.send(events);
       } else {
         System.err.println("Removing closed context" + ws);
-        connectedContexts.remove(ws);
+        iterator.remove();
       }
     }
+    // for (WsContext ws : connectedContexts) {
+    //   if (ws.session.isOpen()) {
+    //     System.err.println("Sending events to client" + ws);
+    //     ws.send(events);
+    //   } else {
+    //     // I think the remove fails because we're iterating over the set.
+    //     System.err.println("Removing closed context" + ws);
+    //     connectedContexts.remove(ws);
+    //   }
+    // }
   }
 
   /**

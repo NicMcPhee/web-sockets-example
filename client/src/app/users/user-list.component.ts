@@ -129,8 +129,9 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.getUsersFromServer();
     this.userCountSubscription = this.webSocketService.onMessage()
       .subscribe((message: UserCount) => {
-        this.userCount.set(message.userCount);
-        this.snackBar.open(message.event + ' event', 'OK', { duration: 3000 });
+        console.log('Received message from websocket: ' + JSON.stringify(message));
+        this.userCount.set(message['user-count']);
+        this.snackBar.open(message['added-user'] + ' event', 'OK', { duration: 3000 });
       });
   }
 
