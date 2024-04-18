@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import org.bson.Document;
@@ -455,7 +456,10 @@ public class UserController implements Controller {
         System.out.println("A client connected");
         System.err.println("Adding context to connected contexts" + ctx);
         connectedContexts.add(ctx);
-        ctx.enableAutomaticPings();
+        // I think we may want the simpler one, and just have the service
+        // reconnect when it gets disconnected.
+        ctx.enableAutomaticPings(5, TimeUnit.SECONDS);
+        // ctx.enableAutomaticPings();
       });
     });
   }
