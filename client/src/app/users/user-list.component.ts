@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -12,9 +12,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
+import { WebSocketService } from '../web-socket.service';
 import { User, UserRole } from './user';
 import { UserCardComponent } from './user-card.component';
+import { UserCount } from './user-count';
 import { UserService } from './user.service';
 
 /**
@@ -28,15 +30,15 @@ import { UserService } from './user.service';
  * makes the most sense to do the filtering.
  */
 @Component({
-    selector: 'app-user-list-component',
-    templateUrl: 'user-list.component.html',
-    styleUrls: ['./user-list.component.scss'],
-    providers: [],
-    standalone: true,
-    imports: [MatCardModule, MatFormFieldModule, MatInputModule, FormsModule, MatSelectModule, MatOptionModule, MatRadioModule, UserCardComponent, MatListModule, RouterLink, MatButtonModule, MatTooltipModule, MatIconModule]
+  selector: 'app-user-list-component',
+  templateUrl: 'user-list.component.html',
+  styleUrls: ['./user-list.component.scss'],
+  providers: [],
+  standalone: true,
+  imports: [MatCardModule, MatFormFieldModule, MatInputModule, FormsModule, MatSelectModule, MatOptionModule, MatRadioModule, UserCardComponent, MatListModule, RouterLink, MatButtonModule, MatTooltipModule, MatIconModule]
 })
 
-export class UserListComponent implements OnInit, OnDestroy  {
+export class UserListComponent implements OnInit, OnDestroy {
   // These are public so that tests can reference them (.spec.ts)
   public serverFilteredUsers: User[];
   public filteredUsers: User[];
@@ -50,6 +52,8 @@ export class UserListComponent implements OnInit, OnDestroy  {
   errMsg = '';
   private ngUnsubscribe = new Subject<void>();
 
+  private userCountSubscription: Subscription;
+  public userCount = signal<number>(0);
 
   /**
    * This constructor injects both an instance of `UserService`
@@ -59,7 +63,10 @@ export class UserListComponent implements OnInit, OnDestroy  {
    * @param userService the `UserService` used to get users from the server
    * @param snackBar the `MatSnackBar` used to display feedback
    */
-  constructor(private userService: UserService, private snackBar: MatSnackBar) {
+  constructor(
+    private userService: UserService,
+    private webSocketService: WebSocketService,
+    private snackBar: MatSnackBar) {
     // Nothing here – everything is in the injection parameters.
   }
 
@@ -83,6 +90,7 @@ export class UserListComponent implements OnInit, OnDestroy  {
       next: (returnedUsers) => {
         // First, update the array of serverFilteredUsers to be the User[] in the observable
         this.serverFilteredUsers = returnedUsers;
+        this.userCount.set(returnedUsers.length);
         // Then update the filters for our client-side filtering as described in this method
         this.updateFilter();
       },
@@ -119,6 +127,11 @@ export class UserListComponent implements OnInit, OnDestroy  {
    */
   ngOnInit(): void {
     this.getUsersFromServer();
+    this.userCountSubscription = this.webSocketService.onMessage()
+      .subscribe((message: UserCount) => {
+        this.userCount.set(message.userCount);
+        this.snackBar.open(message.event + ' event', 'OK', { duration: 3000 });
+      });
   }
 
   /**

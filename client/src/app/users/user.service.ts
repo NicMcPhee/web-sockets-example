@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { User, UserRole } from './user';
 import { Company } from '../company-list/company';
+import { User, UserRole } from './user';
 
 /**
  * Service that provides the interface for getting information

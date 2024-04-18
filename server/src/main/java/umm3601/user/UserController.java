@@ -64,8 +64,15 @@ public class UserController implements Controller {
    */
   private void updateListeners(String event, String data) {
     Map<String, String> events = Map.of(event, data, "user-count", Long.toString(userCollection.countDocuments()));
+    System.err.println("Updating listeners with " + events);
     for (WsContext ws : connectedContexts) {
-      ws.send(events);
+      if (ws.session.isOpen()) {
+        System.err.println("Sending events to client" + ws);
+        ws.send(events);
+      } else {
+        System.err.println("Removing closed context" + ws);
+        connectedContexts.remove(ws);
+      }
     }
   }
 
@@ -297,6 +304,8 @@ public class UserController implements Controller {
     // Add the new user to the database
     userCollection.insertOne(newUser);
 
+    System.err.println("Successfully added new user " + newUser.name + " with ID " + newUser._id);
+
     // Set the JSON response to be the `_id` of the newly created user.
     // This gives the client the opportunity to know the ID of the new user,
     // which it can then use to perform further operations (e.g., a GET request
@@ -308,7 +317,11 @@ public class UserController implements Controller {
     // for a description of the various response codes.
     ctx.status(HttpStatus.CREATED);
 
+    System.err.println("Successfully updated the Javalin context");
+
     updateListeners("added-user", newUser.name);
+
+    System.err.println("Successfully updated listeners");
   }
 
   /**
@@ -427,6 +440,7 @@ public class UserController implements Controller {
     server.ws("/ws/usercount", ws -> {
       ws.onConnect(ctx -> {
         System.out.println("A client connected");
+        System.err.println("Adding context to connected contexts" + ctx);
         connectedContexts.add(ctx);
         ctx.enableAutomaticPings();
       });
