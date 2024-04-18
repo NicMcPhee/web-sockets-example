@@ -127,6 +127,14 @@ export class UserListComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     this.getUsersFromServer();
+    // The `message: UserCount` typing below is actually ignored at
+    // runtime (which is when we receive the message from the server).
+    // At the moment my definition of `UserCount` doesn't match the
+    // form of the message we receive from the server because I was
+    // still trying to figure out how all this worked. What we'd want
+    // to do is fix `UserCount` to match the form of the message we
+    // receive from the server, and then we'd want to update this
+    // code to use the correct form of `UserCount`.
     this.userCountSubscription = this.webSocketService.onMessage()
       .subscribe((message: UserCount) => {
         console.log('Received message from websocket: ' + JSON.stringify(message));
